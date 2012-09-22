@@ -1,0 +1,29 @@
+# Extracted from https://github.com/ulrich/macaron-factory/blob/master/.gitignore
+# Ignore all dotfiles...
+.*
+# except for .gitignore
+!.gitignore
+
+# exclude SVN files
+\.svn
+\_svn
+
+# Ignore Play! working directory #
+
+webservice/logs
+webservice/target
+webservice/project/project
+webservice/project/target
+webservice/bin
+websevice/dist
+webservice/RUNNING_PID
+
+# Ignore openshift deployment folder
+openshift
+
+# Ignore tmp folder
+/tmp
+
+# Ignore sublime project
+*.sublime-project
+*.sublime-workspace
