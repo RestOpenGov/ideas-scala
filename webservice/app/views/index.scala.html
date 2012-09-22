@@ -1,18 +1,30 @@
 @main("Welcome to BackboneBootstrap") {
 
-  <h1>Welcome to BackboneBootstrap backend!</h1>
+  <h1>Welcome to Ideas-ba backend!</h1>
 
-  <h2>@Wine.count() Wines</h2>
-
+  <h2>@User.count() Users</h2>
   <ul>
-    <li><a href="@routes.Wines.list()">
-      Wines.list() (@routes.Wines.list())
+    <li><a href="@routes.Users.list()">
+      Users.list() (@routes.Users.list())
     </a></li>
-    <li><a href="@routes.Wines.show(1)">
-      Wines.show(1) (@routes.Wines.show(1))
+    <li><a href="@routes.Users.show(1)">
+      Users.show(1) (@routes.Users.show(1))
     </a></li>
-    <li><a href="@routes.Wines.show(999)">
-      Wines.show(999) (@routes.Wines.show(999) - not found)
+    <li><a href="@routes.Users.show(999)">
+      Users.show(999) (@routes.Users.show(999) - not found)
+    </a></li>
+  </ul>
+
+  <h2>@IdeaType.count() IdeaTypes</h2>
+  <ul>
+    <li><a href="@routes.IdeaTypes.list()">
+      IdeaTypes.list() (@routes.IdeaTypes.list())
+    </a></li>
+    <li><a href="@routes.IdeaTypes.show(1)">
+      IdeaTypes.show(1) (@routes.IdeaTypes.show(1))
+    </a></li>
+    <li><a href="@routes.IdeaTypes.show(999)">
+      IdeaTypes.show(999) (@routes.IdeaTypes.show(999) - not found)
     </a></li>
   </ul>
 

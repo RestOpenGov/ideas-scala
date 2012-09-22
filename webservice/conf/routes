@@ -4,27 +4,53 @@
 
 OPTIONS /api/*url                          controllers.Application.options(url: String)
 
-GET     /                                   controllers.Application.frontend
+GET     /                                  controllers.Application.index
+# GET     /                                   controllers.Application.frontend
+GET     /frontend                           controllers.Application.frontend
+GET     /index                              controllers.Application.index
 
 # Home page
 GET     /api                               controllers.Application.index
 GET     /api/                              controllers.Application.index
 
-GET     /api/wines                         controllers.Wines.list
-GET     /api/wines/count                   controllers.Wines.count
-PUT     /api/wines/:id                     controllers.Wines.update(id: Long)
-POST    /api/wines/                        controllers.Wines.save
-POST    /api/wines                         controllers.Wines.save
-GET     /api/wines/:id                     controllers.Wines.show(id: Long)
-DELETE  /api/wines/:id                     controllers.Wines.delete(id: Long)
+GET     /api/users                         controllers.Users.list
+GET     /api/users/count                   controllers.Users.count
+PUT     /api/users/:id                     controllers.Users.update(id: Long)
+POST    /api/users/                        controllers.Users.save
+POST    /api/users                         controllers.Users.save
+GET     /api/users/:id                     controllers.Users.show(id: Long)
+DELETE  /api/users/:id                     controllers.Users.delete(id: Long)
 
-GET     /api/countries                     controllers.Countries.list
-GET     /api/countries/count               controllers.Countries.count
-PUT     /api/countries/:id                 controllers.Countries.update(id: Long)
-POST    /api/countries/                    controllers.Countries.save
-POST    /api/countries                     controllers.Countries.save
-GET     /api/countries/:id                 controllers.Countries.show(id: Long)
-DELETE  /api/countries/:id                 controllers.Countries.delete(id: Long)
+GET     /api/users/:id/stats               controllers.Users.stats(id: Long)
+GET     /api/users/:id/votes               controllers.Users.votes(id: Long)
+
+# GET     /api/ideas                         controllers.Ideas.list
+# GET     /api/ideas/count                   controllers.Ideas.count
+# PUT     /api/ideas/:id                     controllers.Ideas.update(id: Long)
+# POST    /api/ideas/                        controllers.Ideas.save
+# POST    /api/ideas                         controllers.Ideas.save
+# GET     /api/ideas/:id                     controllers.Ideas.show(id: Long)
+# DELETE  /api/ideas/:id                     controllers.Ideas.delete(id: Long)
+# PUT     /api/ideas/:id/up                  controllers.Ideas.vote(id: Long, true)
+# PUT     /api/ideas/:id/down                controllers.Ideas.vote(id: Long, false)
+# 
+# GET     /api/ideas/:idea/comments            controllers.Comments.list(idea: Long)
+# GET     /api/ideas/:idea/comments/count      controllers.Comments.count(idea: Long)
+# PUT     /api/ideas/:idea/comments/:id        controllers.Comments.update(idea: Long, id: Long)
+# POST    /api/ideas/idea/comments/            controllers.Comments.save(idea: Long)
+# POST    /api/ideas/idea/comments             controllers.Comments.save(idea: Long)
+# GET     /api/ideas/:idea/comments/:id        controllers.Comments.show(idea:Long, id: Long)
+# DELETE  /api/ideas/:idea/comments/:id        controllers.Comments.delete(idea: Long, id: Long)
+# PUT     /api/ideas/:id/comments/:id/up       controllers.Comments.vote(idea: Long, id: Long, true)
+# PUT     /api/ideas/:id/comments/:id/down     controllers.Comments.vote(idea: Long, id: Long, false)
+ 
+GET     /api/types                         controllers.IdeaTypes.list
+GET     /api/types/count                   controllers.IdeaTypes.count
+PUT     /api/types/:id                     controllers.IdeaTypes.update(id: Long)
+POST    /api/types/                        controllers.IdeaTypes.save
+POST    /api/types                         controllers.IdeaTypes.save
+GET     /api/types/:id                     controllers.IdeaTypes.show(id: Long)
+DELETE  /api/types/:id                     controllers.IdeaTypes.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)
