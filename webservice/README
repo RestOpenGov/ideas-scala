@@ -10,16 +10,16 @@ Then just clone the repo with
 
 git clone git@github.com:RestOpenGov/ideas-ba.git
 
-cd webservice
+cd ideas-ba/webservice/
 
 and then start the web service with
 
 play "run -DapplyEvolutions.default=true"
 
- or just
+or just
 
 ./run
 
 To see the web service in action, open a browser and go to:
 
- play "run -DapplyEvolutions.default=true"
+http://localhost:9000/api/wines
