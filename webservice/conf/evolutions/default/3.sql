@@ -2,16 +2,17 @@
 
 # --- !Ups
 
-DROP TABLE IF EXISTS `country`;
+DROP TABLE IF EXISTS idea_type;
 
-CREATE TABLE `country` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(2) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `country_uk_code` (`code`),
-  UNIQUE KEY `country_uk_name` (`name`)
-)
+CREATE TABLE idea_type (
+  id             int(11) NOT NULL AUTO_INCREMENT,
+  name           varchar(100)  DEFAULT NULL,
+  description    varchar(1000)  DEFAULT NULL,
+
+  PRIMARY KEY (id),
+  UNIQUE KEY idea_type_uk_name (name)
+);
+
 # --- !Downs
 
-DROP TABLE IF EXISTS `country`;
+DROP TABLE IF EXISTS idea_type;

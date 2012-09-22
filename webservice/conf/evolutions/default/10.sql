@@ -2,22 +2,20 @@
 
 # --- !Ups
 
-DROP TABLE IF EXISTS `user`;
-
-CREATE TABLE `user` (
-  id             int(11) NOT NULL AUTO_INCREMENT,
-  nickname       varchar(100)  DEFAULT NULL,
-  name           varchar(100)  DEFAULT NULL,
-  email          varchar(100)  DEFAULT NULL,
-  avatar         varchar(100)  DEFAULT NULL,
-  created        timestamp     DEFAULT NULL,
-
-  PRIMARY KEY (id),
-  UNIQUE KEY user_uk_nickname (nickname),
-  UNIQUE KEY user_uk_name (name),
-  UNIQUE KEY user_uk_email (email)
-);
+INSERT INTO vote VALUES
+  (1, 'idea', 1, null, 1, true),
+  (2, 'idea', 1, null, 2, true),
+  (3, 'idea', 1, null, 3, true),
+  (4, 'idea', 1, null, 4, false),
+  (5, 'idea', 2, null, 2, true),
+  (6, 'idea', 3, null, 1, true),
+  (7, 'comment', null, 1, 1, true),
+  (8, 'comment', null, 1, 2, true),
+  (9, 'comment', null, 2, 4, true),
+  (10, 'comment', null, 2, 3, false),
+  (11, 'comment', null, 2, 1, false)
+;
 
 # --- !Downs
 
-DROP TABLE IF EXISTS `user`;
+delete from vote;
