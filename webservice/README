@@ -1,4 +1,25 @@
-This is your new Play 2.0 application
-=====================================
+This is the backend web service for ideas-ba
+============================================
 
-This file will be packaged with your application, when using `play dist`.
+To start playing with it you need the following prerequisites:
+
+- JDK 1.7 (http://www.oracle.com/technetwork/java/javase/downloads/jdk7u7-downloads-1836413.html)
+- Play framework 2.0.3 (http://download.playframework.org/releases/play-2.0.3.zip)
+
+Then just clone the repo with
+
+git clone git@github.com:RestOpenGov/ideas-ba.git
+
+cd webservice
+
+and then start the web service with
+
+play "run -DapplyEvolutions.default=true"
+
+ or just
+
+./run
+
+To see the web service in action, open a browser and go to:
+
+ play "run -DapplyEvolutions.default=true"
