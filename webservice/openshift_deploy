@@ -1,7 +1,7 @@
 # debug
 set -x 
 
-pushd ../openshift/bb
+pushd ../openshift/ideas
 
 # remove previous copy of the project
 rm -fr app project public dist target windows start README*
@@ -23,11 +23,6 @@ rm -fr dist target RUNNING_PID
 
 # remove public folder of the web service
 rm -fr public/*
-
-# generate the optimized js file
-pushd ../../webapp/js
-./optimize-node
-popd
 
 # copy the webapp to public
 cp -r ../../webapp/* ./public/
