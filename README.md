@@ -20,7 +20,7 @@ It aims to be a [RestFul](http://en.wikipedia.org/wiki/Representational_state_tr
 
 The api will allow you to access all the functionality of Ideas-ba application, like submitting and updating, adding comments, voting, etc.
 
-The web service is up and running on [OpenShift](https://openshift.redhat.com), so that you can start playing with it right from the cloud, without installing it locally. You can find it at http://ideas-jugar.rhcloud.com/
+The web service is up and running on [OpenShift](https://openshift.redhat.com), so that you can start playing with it right from the cloud, without installing it locally. You can find it at http://ideas-jugar.rhcloud.com/api
 
 If you want to have a look at the code and get your hands dirty, be sure to read the [README file](https://github.com/RestOpenGov/ideas-ba/blob/master/webservice/README.md)
 
