@@ -24,16 +24,16 @@ DELETE  /api/users/:id                     controllers.Users.delete(id: Long)
 GET     /api/users/:id/stats               controllers.Users.stats(id: Long)
 GET     /api/users/:id/votes               controllers.Users.votes(id: Long)
 
-# GET     /api/ideas                         controllers.Ideas.list
-# GET     /api/ideas/count                   controllers.Ideas.count
-# PUT     /api/ideas/:id                     controllers.Ideas.update(id: Long)
-# POST    /api/ideas/                        controllers.Ideas.save
-# POST    /api/ideas                         controllers.Ideas.save
-# GET     /api/ideas/:id                     controllers.Ideas.show(id: Long)
-# DELETE  /api/ideas/:id                     controllers.Ideas.delete(id: Long)
-# PUT     /api/ideas/:id/up                  controllers.Ideas.vote(id: Long, true)
-# PUT     /api/ideas/:id/down                controllers.Ideas.vote(id: Long, false)
-# 
+GET     /api/ideas                         controllers.Ideas.list
+GET     /api/ideas/count                   controllers.Ideas.count
+PUT     /api/ideas/:id                     controllers.Ideas.update(id: Long)
+POST    /api/ideas/                        controllers.Ideas.save
+POST    /api/ideas                         controllers.Ideas.save
+GET     /api/ideas/:id                     controllers.Ideas.show(id: Long)
+DELETE  /api/ideas/:id                     controllers.Ideas.delete(id: Long)
+PUT     /api/ideas/:id/up                  controllers.Ideas.up(id: Long)
+PUT     /api/ideas/:id/down                controllers.Ideas.down(id: Long)
+
 # GET     /api/ideas/:idea/comments            controllers.Comments.list(idea: Long)
 # GET     /api/ideas/:idea/comments/count      controllers.Comments.count(idea: Long)
 # PUT     /api/ideas/:idea/comments/:id        controllers.Comments.update(idea: Long, id: Long)
