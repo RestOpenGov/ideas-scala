@@ -68,17 +68,19 @@ object Idea extends EntityCompanion[Idea] {
       idea_type_id, name, description, user_id, views, created
     ) values (
       {ideaTypeId}, {name}, {description}, {userId}, {views}, {created}
-    )"""
+    )
+  """
 
-    val updateCommand = """
-      update idea set
-        idea_type_id  = {ideaTypeId},
-        name          = {name},
-        description   = {description},
-        user_id       = {userId},
-        views         = {views}
-      where 
-        id        = {id}"""
+  val updateCommand = """
+    update idea set
+      idea_type_id  = {ideaTypeId},
+      name          = {name},
+      description   = {description},
+      user_id       = {userId},
+      views         = {views}
+    where 
+      id        = {id}
+  """
 
   val simpleParser: RowParser[Idea] = {
     get[Pk[Long]]("id") ~

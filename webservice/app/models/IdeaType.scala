@@ -49,14 +49,16 @@ object IdeaType extends EntityCompanion[IdeaType] {
       name, description
     ) values (
       {name}, {description}
-    )"""
+    )
+  """
 
   val updateCommand = """
     update idea_type set
       name        = {name}
       description = {description},
     where 
-      id          = {id}"""
+      id          = {id}
+  """
 
   val simpleParser = {
     get[Pk[Long]]("id") ~

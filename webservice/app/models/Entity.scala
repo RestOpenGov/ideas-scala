@@ -164,7 +164,7 @@ trait EntityCompanion[A<:Entity] {
         val newId = SQL(saveCommand)
           .on(toParamsValue(entity.asSeq): _*)
           .executeInsert()
-        
+
         val savedEntity = for (
           id <- newId;
           entity <- findById(id)

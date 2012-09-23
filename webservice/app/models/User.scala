@@ -51,16 +51,18 @@ object User extends EntityCompanion[User] {
       nickname, name, email, avatar, created
     ) values (
       {nickname}, {name}, {email}, {avatar}, {created}
-    )"""
+    )
+  """
 
-    val updateCommand = """
-      update user set
-        nickname    = {nickname},
-        name        = {name},
-        email       = {email},
-        avatar      = {avatar}
-      where 
-        id        = {id}"""
+  val updateCommand = """
+    update user set
+      nickname    = {nickname},
+      name        = {name},
+      email       = {email},
+      avatar      = {avatar}
+    where 
+      id        = {id}
+  """
 
   val simpleParser: RowParser[User] = {
     get[Pk[Long]]("id") ~
