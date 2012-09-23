@@ -4,14 +4,13 @@
 
 OPTIONS /api/*url                          controllers.Application.options(url: String)
 
-GET     /                                  controllers.Application.index
-# GET     /                                   controllers.Application.frontend
-GET     /frontend                           controllers.Application.frontend
-GET     /index                              controllers.Application.index
+GET     /                                  controllers.Application.api
+# GET     /                                  controllers.Application.app
+GET     /app                               controllers.Application.app
 
 # Home page
-GET     /api                               controllers.Application.index
-GET     /api/                              controllers.Application.index
+GET     /api                               controllers.Application.api
+GET     /api/                              controllers.Application.api
 
 GET     /api/users                         controllers.Users.list
 GET     /api/users/count                   controllers.Users.count
