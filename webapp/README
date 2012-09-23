@@ -3,7 +3,7 @@ This is the backend web service for ideas-ba
 
 ## See it in action
 
-Ideas-ba backend is up and running in openshift on http://ideas-jugar.rhcloud.com/api.
+Ideas-ba backend is up and running in openshift on http://ideas-jugar.rhcloud.com/.
 
 You can play with it without installing anything on you computer using any http client, like [curl](http://en.wikipedia.org/wiki/CURL), [poster](https://addons.mozilla.org/es/firefox/addon/poster/) for firefox or [Dev HTTP Client](https://chrome.google.com/webstore/detail/aejoelaoggembcahagimdiliamlcdmfm) for chrome.
 
