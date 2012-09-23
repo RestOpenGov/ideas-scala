@@ -46,21 +46,29 @@ Check the [install documentation](http://www.playframework.org/documentation/lat
 
 Then just clone the repo with
 
+```
 git clone git@github.com:RestOpenGov/ideas-ba.git
 
 cd ideas-ba/webservice/
+```
 
 and then start the web service with
 
+```
 play "run -DapplyEvolutions.default=true"
+```
 
 or just
 
+```
 ./run
+```
 
 To see the web service in action, open a browser and go to:
 
+```
 http://localhost:9000/api/wines
+```
 
 ## Running the automated tests
 
