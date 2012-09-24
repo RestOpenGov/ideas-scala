@@ -57,7 +57,7 @@ object Idea extends EntityCompanion[Idea] {
 
   val defaultOrder = "name"
 
-  val filterFields = List("nane", "description")
+  val filterFields = List("name", "description")
 
   val saveCommand = """
     insert into idea (
