@@ -3,11 +3,14 @@ package formatters.json
 import play.api.libs.json.Json.toJson
 import play.api.libs.json.JsValue
 import play.api.libs.json.Format
+import play.api.libs.json.JsUndefined
 
 import java.util.Date
 import java.text.SimpleDateFormat
 
 import utils.Conversion.toDate
+import play._
+
 
 object DateFormatter {
 
@@ -25,8 +28,12 @@ object DateFormatter {
       )
     }
 
-    def reads(j: JsValue): Option[Date] = toDate(j.as[String], "yyyy-MM-dd'T'hh:mm:ss'Z'")
-
+    def reads(j: JsValue): Option[Date] = {
+      if (j.isInstanceOf[JsUndefined]) { 
+        return None 
+      }
+      toDate(j.as[String], "yyyy-MM-dd'T'hh:mm:ss'Z'")
+    }
   }
 
 }
