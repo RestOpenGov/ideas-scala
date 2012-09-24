@@ -42,7 +42,6 @@ object Comments extends Controller {
   }
 
   def save(idea : Long) = CORSAction { request =>
-    Logger.info("SAVE" + idea.toString)
     request.body.asJson.map { json =>
       json.asOpt[Comment].map { comment =>
         comment.save.fold(

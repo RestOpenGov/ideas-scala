@@ -81,7 +81,6 @@ object Comment extends EntityCompanion[Comment] {
 
   def validate(comment: Comment): List[Error] = {
 
-    Logger.info("validating errores")
     var errors = List[Error]()
 
     // Validate author foreing key.
