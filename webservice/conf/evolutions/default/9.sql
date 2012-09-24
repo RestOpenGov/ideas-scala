@@ -15,6 +15,10 @@ CREATE TABLE vote (
   PRIMARY KEY (id)
 );
 
+CREATE INDEX vote_ix_idea     ON vote(idea_id, pos);
+CREATE INDEX vote_ix_comment  ON vote(comment_id, pos);
+CREATE INDEX vote_ix_user     ON vote(user_id);
+
 ALTER TABLE vote 
 ADD FOREIGN KEY (idea_id) 
 REFERENCES idea(id);

@@ -17,6 +17,11 @@ CREATE TABLE idea (
   UNIQUE KEY idea_uk_name (name),
 );
 
+CREATE INDEX idea_ix_type ON idea(idea_type_id);
+CREATE INDEX idea_ix_user ON idea(user_id);
+CREATE INDEX idea_ix_views ON idea(views);
+CREATE INDEX idea_ix_created ON idea(created);
+
 ALTER TABLE idea 
 ADD FOREIGN KEY (idea_type_id) 
 REFERENCES idea_type(id);

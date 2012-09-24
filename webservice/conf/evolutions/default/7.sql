@@ -14,6 +14,8 @@ CREATE TABLE comment (
   PRIMARY KEY (id)
 );
 
+CREATE INDEX comment_ix_idea ON comment(idea_id, created);
+
 ALTER TABLE comment 
 ADD FOREIGN KEY (idea_id) 
 REFERENCES idea(id);
