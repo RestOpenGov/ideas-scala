@@ -44,24 +44,20 @@ case class Idea (
 
 object Idea extends EntityCompanion[Idea] {
 
-  // override def findById(id: Long): Option[Idea] = {
-  //   // val idea: Option[Idea] = super.findById(id).map { idea => 
-  //   super.findById(id).map { idea => 
-  //     val idea2 = idea.copy(views = idea.views+1)
-  //     play.Logger.info(idea2.toString)
-
-  //     // problem: update calls findById to check that the entity has been correctly updated
-  //     // we get into a recursive call
-  //     update(idea2)
-  //   }
-  //   super.findById(id)
-  // }
+  override def findById(id: Long): Option[Idea] = {
+    super.findById(id).map { idea => 
+      idea.copy(views = idea.views+1).update.fold(
+        errors => None,
+        idea => Option(idea)
+      )
+    }.getOrElse(None)
+  }
 
   val tableName = "idea"
 
-  val defaultOrder = "nickname"
+  val defaultOrder = "name"
 
-  val filterFields = List("nickname", "name")
+  val filterFields = List("nane", "description")
 
   val saveCommand = """
     insert into idea (

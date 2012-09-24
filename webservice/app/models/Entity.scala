@@ -73,7 +73,13 @@ trait EntityCompanion[A<:Entity] {
   }
 
   def findById(id: Long): Option[A] = {
-    Logger.info(entityName)
+    _findById(id)
+  }
+
+  // private _findById called by save and update methods
+  // allows child classes to override findById
+  // TODO: add an overridable onFindById handler to avoid conflicts
+  protected def _findById(id: Long): Option[A] = {
     DB.withConnection { implicit connection =>
       SQL(
         "select * from %s where id = {id}".format(tableName)
@@ -167,7 +173,7 @@ trait EntityCompanion[A<:Entity] {
 
         val savedEntity = for (
           id <- newId;
-          entity <- findById(id)
+          entity <- _findById(id)
         ) yield entity
 
         savedEntity.map { entity =>
@@ -196,7 +202,7 @@ trait EntityCompanion[A<:Entity] {
         
         val updatedEntity = for (
           id <- entity.id;
-          entity <- findById(id)
+          entity <- _findById(id)
         ) yield entity
 
         updatedEntity.map { entity =>
