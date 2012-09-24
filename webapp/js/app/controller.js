@@ -10,7 +10,6 @@ function Controller($scope, $http) {
   });
 
   $scope.search = function(){
-    console.log('searching');
     // Just in case the web service doesn't support X-Requested-With header
     // delete $http.defaults.headers.common['X-Requested-With']
     $http.get($scope.ideas_endpoint).success(function(json) {
@@ -20,7 +19,6 @@ function Controller($scope, $http) {
       angular.forEach($scope.ideas, function(value, key) {
         value.votes = $scope.votes();
       })
-      console.log($scope.ideas);
     });
   };
 
@@ -35,5 +33,7 @@ function Controller($scope, $http) {
     top = top || 100;
     return Math.floor(Math.random() * top+1);
   };
+
+  $scope.search();
 
 };
