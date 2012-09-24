@@ -114,6 +114,10 @@ trait EntityCompanion[A<:Entity] {
     )
   }
 
+  def exists(filter: String = "", q: String = "", condition: String = ""): Boolean = {
+    count(filter = filter, q = q, condition = condition) > 0
+  }
+
   protected def findWithParser[A](
     page: Int = 1, len: Int = Http.DEFAULT_PAGE_LEN, order: String = "name",
     filter: String = "", q: String = "", condition: String = "", fields: String = "*",
