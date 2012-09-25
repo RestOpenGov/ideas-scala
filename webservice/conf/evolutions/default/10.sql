@@ -16,9 +16,10 @@ INSERT INTO vote VALUES
 
   (11, 'comment', null, 1, 1, true,  '2012-09-20 07:03:00'),
   (12, 'comment', null, 1, 2, true,  '2012-09-20 11:34:00'),
-  (13, 'comment', null, 2, 4, true,  '2012-09-22 13:43:00'),
-  (14, 'comment', null, 2, 3, false, '2012-09-23 12:56:00'),
-  (15, 'comment', null, 2, 1, false, '2012-09-24 13:02:00')
+  (13, 'comment', null, 1, 3, false, '2012-09-20 11:34:00'),
+  (14, 'comment', null, 2, 4, true,  '2012-09-22 13:43:00'),
+  (15, 'comment', null, 2, 3, false, '2012-09-23 12:56:00'),
+  (16, 'comment', null, 2, 1, false, '2012-09-24 13:02:00')
 ;
 
 # --- !Downs
