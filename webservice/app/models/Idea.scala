@@ -27,6 +27,9 @@ case class Idea (
 )
   extends Entity
 {
+
+  lazy val votes: VoteCounter = VoteCounter.forIdea(this)
+
   def update()  = Idea.update(this)
   def save()    = Idea.save(this)
   def delete()  = Idea.delete(this)

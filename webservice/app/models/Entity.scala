@@ -25,6 +25,7 @@ trait Entity {
   val id: Pk[Long]
 
   def asSeq(): Seq[(String, Any)]
+  def isNew(): Boolean = (id == NotAssigned)
 }
 
 trait EntityCompanion[A<:Entity] {
@@ -61,7 +62,7 @@ trait EntityCompanion[A<:Entity] {
     val value = fields(field).toString
     val exists = {
       // it's a new record
-      if (entity.id == NotAssigned) {
+      if (entity.isNew) {
         count(condition = "%s = '%s'".format(field, value))
       } else {
         count(condition = "id <> %s and %s = '%s'".

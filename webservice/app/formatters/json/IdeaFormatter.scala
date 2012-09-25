@@ -12,6 +12,7 @@ import anorm._
 
 import PkFormatter._
 import DateFormatter._
+import VoteCounterFormatter._
 
 object IdeaFormatter {
 
@@ -25,6 +26,7 @@ object IdeaFormatter {
         "description" -> toJson(o.description),
         "userId"      -> toJson(o.userId),
         "views"       -> toJson(o.views),
+        "votes"       -> toJson(o.votes),
         "created"     -> toJson(Option(o.created))
       ))
     }

@@ -25,6 +25,9 @@ case class Comment (
 )
   extends Entity
 {
+
+  lazy val votes: VoteCounter = VoteCounter.forComment(this)
+
   def update()  = Comment.update(this)
   def save()    = Comment.save(this)
   def delete()  = Comment.delete(this)

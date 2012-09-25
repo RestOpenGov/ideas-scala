@@ -2,7 +2,8 @@
 'use strict';
 function IdeaListCtrl($scope, $http) {
 
-  $scope.ideas_endpoint = 'http://ideas-jugar.rhcloud.com/api/ideas?order=id';
+  // $scope.ideas_endpoint = 'http://ideas-jugar.rhcloud.com/api/ideas?order=id';
+  $scope.ideas_endpoint = 'http://localhost:9000/api/ideas?order=id';
   $scope.ideas = {};
 
   $scope.$on('$viewContentLoaded', function() {
@@ -14,11 +15,6 @@ function IdeaListCtrl($scope, $http) {
     // delete $http.defaults.headers.common['X-Requested-With']
     $http.get($scope.ideas_endpoint).success(function(json) {
       $scope.ideas = json;
-
-      // generate random votes -- mock
-      angular.forEach($scope.ideas, function(value, key) {
-        value.votes = votes();
-      })
     });
   };
 
@@ -30,7 +26,8 @@ function IdeaListCtrl($scope, $http) {
 
 function IdeaDetailCtrl($scope, $routeParams, $http) {
   $scope.ideaId = $routeParams.ideaId;
-  $scope.idea_endpoint = 'http://ideas-jugar.rhcloud.com/api/ideas/';
+  // $scope.idea_endpoint = 'http://ideas-jugar.rhcloud.com/api/ideas/';
+  $scope.ideas_endpoint = 'http://localhost:9000/api/ideas?order=id';
   $scope.idea = {};
   $scope.comments = [];
   
@@ -72,17 +69,4 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
 
   $scope.search();
 
-};
-
-
-function votes() {
-  return {
-    pos: random(100),
-    neg: random(20)
-  }
-};
-
-function random (top) {
-  top = top || 100;
-  return Math.floor(Math.random() * top+1);
 };

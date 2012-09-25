@@ -12,6 +12,7 @@ import anorm._
 
 import PkFormatter._
 import DateFormatter._
+import VoteCounterFormatter._
 
 object CommentFormatter {
 
@@ -23,6 +24,7 @@ object CommentFormatter {
         "created"       -> toJson(Option(o.created)),
         "comment"       -> toJson(o.comment),
         "author"        -> toJson(o.author),
+        "votes"       -> toJson(o.votes),
         "idea"          -> toJson(o.idea)
       ))
     }
