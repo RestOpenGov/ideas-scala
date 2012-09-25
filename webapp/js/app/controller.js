@@ -53,7 +53,7 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
     var $commentBox = $('#comment-box').slideUp(),data = {
         "author": 1,
         "comment": $scope.msg
-    };;
+    };
 
     $commentBox.slideUp();
 
@@ -61,9 +61,10 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
       url:$scope.idea_endpoint+$scope.ideaId+'/comment',
       data : data,
       method : 'POST',
-      headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'},
-    }).success(function(){
+      headers : {'Content-Type':'application/json; charset=UTF-8'},
+    }).success(function(json){
       $commentBox.find('textarea').val('');
+      $scope.comments.push(json);
       $commentBox.slideDown();
     });
 
