@@ -6,8 +6,6 @@ import play.api.Play.current
 import anorm._
 import anorm.SqlParser._
 
-import exceptions.VoteException
-
 import utils.Validate
 
 import utils.Conversion.pkToLong
@@ -20,7 +18,7 @@ case class Vote (
 
   val id: Pk[Long] = NotAssigned,
 
-  val voteTypeId:   Int = 0,
+  val voteType:     String = "idea",
   val ideaId:       Int = 0,
   val commentId:    Int = 0,
   val userId:       Int = 0,
@@ -35,7 +33,7 @@ case class Vote (
 
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"            -> pkToLong(id),
-    "voteTypeId"    -> voteTypeId,
+    "voteType"      -> voteType,
     "ideaId"        -> ideaId,
     "commentId"     -> commentId,
     "userId"        -> userId,
@@ -54,15 +52,15 @@ object Vote extends EntityCompanion[Vote] {
 
   val saveCommand = """
     insert into vote (
-      vote_type_id, idea_id, comment_id, user_id, pos, created
+      vote_type, idea_id, comment_id, user_id, pos, created
     ) values (
-      {voteTypeId}, {ideaId}, {commentId}, {userId}, {pos}, {created}
+      {voteType}, {ideaId}, {commentId}, {userId}, {pos}, {created}
     )
   """
 
   val updateCommand = """
     update vote set
-      vote_type_id  = {voteTypeId},
+      vote_typed    = {voteType},
       idea_id       = {ideaId},
       comment_id    = {commentId},
       user_id       = {userId},
@@ -73,25 +71,31 @@ object Vote extends EntityCompanion[Vote] {
 
   val simpleParser: RowParser[Vote] = {
     get[Pk[Long]]("id") ~
-    get[Int]("vote_type_id") ~
+    get[String]("vote_type") ~
     get[Int]("idea_id") ~
     get[Int]("comment_id") ~
     get[Int]("user_id") ~
     get[Boolean]("pos") ~
     get[Date]("created") map {
-      case id~voteTypeId~ideaId~commentId~userId~pos~created => Vote(
-        id, voteTypeId, ideaId, commentId, userId, pos, created
+      case id~voteType~ideaId~commentId~userId~pos~created => Vote(
+        id, voteType, ideaId, commentId, userId, pos, created
       )
     }
   }
 
   def validate(vote: Vote): List[Error] = {
 
+    import utils.Comparison.implicits._
+
     var errors = List[Error]()
 
     // vote type, should also validate foreign key!
-    if (vote.voteTypeId == 0) {
+    if (Validate.isEmptyWord(vote.voteType)) {
       errors ::= ValidationError("type", "Vote type not specified")
+    } else {
+      if (!vote.voteType.toLowerCase.isOneOf("idea", "comment")) {
+        errors ::= ValidationError("type", "Invalid vote type specified. Valid values: idea, comment")
+      }
     }
 
     // user, should also validate foreign key!
@@ -122,47 +126,6 @@ object Vote extends EntityCompanion[Vote] {
     }
 
     errors.reverse
-  }
-
-}
-
-case class Votes (
-  val pos: Int = 0,
-  val neg: Int = 0
-)
-
-object Votes {
-
-  def forIdea(ideaId: Int): Votes = {
-    if (!Idea.findById(ideaId).isDefined) 
-      throw new VoteException("Could not find idea with id '%s'.".format(ideaId))
-
-    Votes(forIdea(ideaId, true), forIdea(ideaId, false))
-  }
-
-  def forIdea(ideaId: Int, pos: Boolean): Int = {
-    Vote.count(
-      condition="ideaId = %s and pos = %s".
-      format(ideaId, if (pos) "true" else "false")
-    ).toInt
-  }
-
-  def forComment(commentId: Int): Votes = {
-    if (!Comment.findById(commentId).isDefined) 
-      throw new VoteException("Could not find comment with id '%s'.".format(commentId))
-
-    Votes(forComment(commentId, true), forComment(commentId, false))
-  }
-
-  def forComment(commentId: Int, pos: Boolean): Int = {
-    Vote.count(
-      condition="commentId = %s and pos = %s".
-      format(commentId, if (pos) "true" else "false")
-    ).toInt
-  }
-
-  def forUser(userId: Int): Votes = {
-    Votes(0,0)
   }
 
 }

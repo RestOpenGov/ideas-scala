@@ -6,23 +6,23 @@ import play.api.libs.json.Json.toJson
 
 import java.util.Date
 
-import models.Votes
+import models.VoteCounter
 
 import anorm._
 
-object VotesFormatter {
+object VoteCounterFormatter {
 
-  implicit object JsonVotesFormatter extends Format[Votes] {
+  implicit object JsonVoteCounterFormatter extends Format[VoteCounter] {
 
-    def writes(o: Votes): JsValue = {
+    def writes(o: VoteCounter): JsValue = {
       toJson( Map(
         "pos"         -> toJson(o.pos),
         "neg"         -> toJson(o.neg)
       ))
     }
 
-    def reads(j: JsValue): Votes = {
-      Votes(
+    def reads(j: JsValue): VoteCounter = {
+      VoteCounter(
         pos = (j \ "pos").as[Option[Int]]   .getOrElse(0),
         neg = (j \ "neg").as[Option[Int]]   .getOrElse(0)
       )

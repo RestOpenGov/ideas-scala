@@ -20,7 +20,7 @@ object VoteFormatter {
     def writes(o: Vote): JsValue = {
       toJson( Map(
         "id"          -> toJson(o.id),
-        "voteTypeId"  -> toJson(o.voteTypeId),
+        "voteType"    -> toJson(o.voteType),
         "ideaId"      -> toJson(o.ideaId),
         "commentId"   -> toJson(o.commentId),
         "userId"      -> toJson(o.userId),
@@ -32,7 +32,7 @@ object VoteFormatter {
     def reads(j: JsValue): Vote = {
       Vote(
         id          = (j \ "id").as[Option[Pk[Long]]]           .getOrElse(NotAssigned),
-        voteTypeId  = (j \ "voteTypeId").as[Option[Int]]        .getOrElse(0),
+        voteType    = (j \ "voteType").as[Option[String]]       .getOrElse("idea"),
         ideaId      = (j \ "ideaId").as[Option[Int]]            .getOrElse(0),
         commentId   = (j \ "commentId").as[Option[Int]]         .getOrElse(0),
         userId      = (j \ "userId").as[Option[Int]]            .getOrElse(0),
