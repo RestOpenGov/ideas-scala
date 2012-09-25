@@ -36,13 +36,12 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
     //IDEA
     $http.get($scope.idea_endpoint+$scope.ideaId).success(function(json) {
       $scope.idea = json;
-      $scope.idea.votes = votes();
-      });
+    });
 
     //COMMENTS
     $http.get($scope.idea_endpoint+$scope.ideaId+'/comments').success(function(json) {
       $scope.comments = json;
-      });
+    });
 
   };
 
