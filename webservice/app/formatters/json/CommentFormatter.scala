@@ -29,10 +29,10 @@ object CommentFormatter {
 
     def reads(j: JsValue): Comment = {
       Comment(
-        id = (j \ "id").as[Option[Pk[Long]]]                  .getOrElse(NotAssigned),
-        comment = (j \ "comment").as[Option[String]]          .getOrElse("No Comment"),
-        author = (j \ "author").as[Option[Int]]               .getOrElse(0),
-        created = (j \ "created").as[Option[Date]]            .getOrElse(new Date())
+        id        = (j \ "id").as[Option[Pk[Long]]]           .getOrElse(NotAssigned),
+        comment   = (j \ "comment").as[Option[String]]        .getOrElse("No Comment"),
+        author    = (j \ "author").as[Option[Int]]            .getOrElse(0),
+        created   = (j \ "created").as[Option[Date]]          .getOrElse(new Date())
       )
     }
 

@@ -31,13 +31,13 @@ object IdeaFormatter {
 
     def reads(j: JsValue): Idea = {
       Idea(
-        id = (j \ "id").as[Option[Pk[Long]]]                  .getOrElse(NotAssigned),
-        ideaTypeId = (j \ "ideaTypeId").as[Option[Int]]       .getOrElse(0),
-        name = (j \ "name").as[Option[String]]                .getOrElse("unknown idea"),
-        description = (j \ "description").as[Option[String]]  .getOrElse("no description"),
-        userId = (j \ "userId").as[Option[Int]]               .getOrElse(0),
-        views = (j \ "views").as[Option[Int]]                 .getOrElse(0),
-        created = (j \ "created").as[Option[Date]]            .getOrElse(new Date())
+        id            = (j \ "id").as[Option[Pk[Long]]]         .getOrElse(NotAssigned),
+        ideaTypeId    = (j \ "ideaTypeId").as[Option[Int]]      .getOrElse(0),
+        name          = (j \ "name").as[Option[String]]         .getOrElse("unknown idea"),
+        description   = (j \ "description").as[Option[String]]  .getOrElse("no description"),
+        userId        = (j \ "userId").as[Option[Int]]          .getOrElse(0),
+        views         = (j \ "views").as[Option[Int]]           .getOrElse(0),
+        created       = (j \ "created").as[Option[Date]]        .getOrElse(new Date())
       )
     }
 

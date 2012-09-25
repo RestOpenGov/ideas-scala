@@ -27,9 +27,9 @@ object IdeaTypeFormatter {
 
     def reads(j: JsValue): IdeaType = {
       IdeaType(
-        id = (j \ "id").as[Option[Pk[Long]]]                  .getOrElse(NotAssigned),
-        name = (j \ "name").as[Option[String]]                .getOrElse("unknown idea type"),
-        description = (j \ "description").as[Option[String]]  .getOrElse("no description")
+        id            = (j \ "id").as[Option[Pk[Long]]]           .getOrElse(NotAssigned),
+        name          = (j \ "name").as[Option[String]]           .getOrElse("unknown idea type"),
+        description   = (j \ "description").as[Option[String]]    .getOrElse("no description")
       )
     }
 

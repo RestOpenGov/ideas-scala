@@ -20,7 +20,7 @@ object PkFormatter {
 
     def reads(j: JsValue): Pk[Long] = {
       j.as[Long] match {
-        case 0 => NotAssigned
+        case 0  => NotAssigned
         case id => Id[Long](id)
       }
     }

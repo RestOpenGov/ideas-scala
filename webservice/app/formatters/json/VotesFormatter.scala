@@ -23,8 +23,8 @@ object VotesFormatter {
 
     def reads(j: JsValue): Votes = {
       Votes(
-        pos = (j \ "pos").as[Option[Int]]                  .getOrElse(0),
-        neg = (j \ "neg").as[Option[Int]]                  .getOrElse(0)
+        pos = (j \ "pos").as[Option[Int]]   .getOrElse(0),
+        neg = (j \ "neg").as[Option[Int]]   .getOrElse(0)
       )
     }
 
