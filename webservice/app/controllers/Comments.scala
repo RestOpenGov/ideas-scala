@@ -27,12 +27,10 @@ import views._
 object Comments extends Controller {
   
   def list(id: Long) = CORSAction { request =>
-    Logger.info("request de list: " + request.queryString.toString)
     Ok(toJson(Comment.find(request.queryString)))
   }
 
   def listAll() = CORSAction { request =>
-    Logger.info("request de list: " + request.queryString.toString)
     Ok(toJson(Comment.find(request.queryString)))
   }
 
@@ -49,6 +47,7 @@ object Comments extends Controller {
   def save(idea : Long) = CORSAction { request =>
     request.body.asJson.map { json =>
       json.asOpt[Comment].map { comment =>
+        comment.idea = idea
         comment.save.fold(
           errors => JsonBadRequest(errors),
           comment => Ok(toJson(comment).toString)
