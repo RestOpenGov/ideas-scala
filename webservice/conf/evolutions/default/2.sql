@@ -11,4 +11,4 @@ INSERT INTO `user` VALUES
 
 # --- !Downs
 
-delete from `user`;
+delete from `user` where id > 0;

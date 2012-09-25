@@ -11,4 +11,4 @@ INSERT INTO idea VALUES
 
 # --- !Downs
 
-delete from idea;
+delete from idea where id > 0;

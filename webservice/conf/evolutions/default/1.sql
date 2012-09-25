@@ -10,7 +10,7 @@ CREATE TABLE `user` (
   name           varchar(100)  DEFAULT NULL,
   email          varchar(100)  DEFAULT NULL,
   avatar         varchar(100)  DEFAULT NULL,
-  created        timestamp     DEFAULT NULL,
+  created        timestamp     NULL DEFAULT NULL,
 
   PRIMARY KEY (id),
   UNIQUE KEY user_uk_nickname (nickname),

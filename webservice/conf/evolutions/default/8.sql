@@ -12,4 +12,4 @@ INSERT INTO comment VALUES
 
 # --- !Downs
 
-delete from comment;
+delete from comment where id > 0;

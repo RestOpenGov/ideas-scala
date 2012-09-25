@@ -11,4 +11,4 @@ INSERT INTO idea_type VALUES
 
 # --- !Downs
 
-delete from idea_type;
+delete from idea_type where id > 0;
