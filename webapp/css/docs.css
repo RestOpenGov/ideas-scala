@@ -66,3 +66,23 @@ hr.soften {
   margin-bottom: 0;
   color: #555;
 }
+
+/* Main Styles 
+-------------------------- */
+
+body {
+  color: #333;
+  background: url('../img/bg.png');
+  background-color: #EBEBEB;
+  background-repeat: repeat;
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+#logo-container {
+  text-align: center;
+}
+
+textarea {
+  resize:none;
+}
