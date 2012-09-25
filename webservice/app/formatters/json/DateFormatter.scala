@@ -30,9 +30,10 @@ object DateFormatter {
 
     def reads(j: JsValue): Option[Date] = {
       if (j.isInstanceOf[JsUndefined]) { 
-        return None 
+        None
+      } else {
+        toDate(j.as[String], "yyyy-MM-dd'T'hh:mm:ss'Z'")
       }
-      toDate(j.as[String], "yyyy-MM-dd'T'hh:mm:ss'Z'")
     }
   }
 
