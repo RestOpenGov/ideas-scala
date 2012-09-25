@@ -1,5 +1,6 @@
 <a href="#/ideas">ver todas las ideas</a>
- <div class="row-fluid" ng-controller="IdeaDetailCtrl" ng-model="idea">
+ <div ng-controller="IdeaDetailCtrl">
+ <div class="row-fluid">
     <h3>
       <a>{{idea.name}}</a>
       <div class="btn-group pull-right">
@@ -36,3 +37,18 @@
       </tbody>
     </table>
   </div>
+  <div id="comment-box" class="well">
+    <form ng-submit="addComment()">
+      <legend>Comment!</legend>
+      <textarea type="text" class="span12" ng-model="msg" placeholder="Type something…"></textarea>
+      <span class="help-block">Please be polite. Think twice about your words. Respect the others and their opinions.</span>
+      <button class="comment-btn btn-large btn-primary" type="submit" class="btn">Send</button>
+    </form>
+  </div>
+  <div class="well" ng-repeat="comment in comments">
+    <p>{{comment.created}}</p>
+    <p>{{comment.comment}}</p>
+    <p>Positivo:{{comment.positiveVote}} - Negativo:{{comment.negativeVote}}</p>
+    <p>{{comment.id}} - {{comment.author}}</p>
+  </div>
+</div>

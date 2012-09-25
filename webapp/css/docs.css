@@ -82,3 +82,7 @@ body {
 #logo-container {
   text-align: center;
 }
+
+textarea {
+  resize:none;
+}
