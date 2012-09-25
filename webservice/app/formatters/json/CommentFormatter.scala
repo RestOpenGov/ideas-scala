@@ -12,7 +12,6 @@ import anorm._
 
 import PkFormatter._
 import DateFormatter._
-import play._
 
 object CommentFormatter {
 

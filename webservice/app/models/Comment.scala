@@ -18,10 +18,10 @@ case class Comment (
 
   val id: Pk[Long] = NotAssigned,
 
-  val created:    Date = new Date(),
-  val comment:    String = "No Comment",
+  val idea:       Long = 0,
   val author:     Int = 0,
-  var idea:       Long = 0
+  val comment:    String = "No Comment",
+  val created:    Date = new Date()
 )
   extends Entity
 {
@@ -31,10 +31,10 @@ case class Comment (
 
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"        -> pkToLong(id),
-    "created"   -> created,
-    "comment"   -> comment,
+    "idea"      -> idea,
     "author"    -> author,
-    "idea"      -> idea
+    "comment"   -> comment,
+    "created"   -> created
   )
 }
 
@@ -42,35 +42,35 @@ object Comment extends EntityCompanion[Comment] {
 
   val tableName = "comment"
 
-  val defaultOrder = "author"
+  val defaultOrder = "created"
 
-  val filterFields = List("author")
+  val filterFields = List("comment")
 
   val saveCommand = """
     insert into comment (
-      created, comment, user_id, idea_id
+      idea_id, user_id, comment, created
     ) values (
-      {created}, {comment}, {author}, {idea}
+      {idea}, {author}, {comment}, {created}
     )
   """
 
   val updateCommand = """
     update comment set
-      comment  = {comment},
-      user_id = {author},
-      idea_id = {idea}
+      idea_id   = {idea},
+      user_id   = {author},
+      comment   = {comment}
     where 
       id        = {id}
   """
 
   val simpleParser: RowParser[Comment] = {
     get[Pk[Long]]("id") ~
-    get[Date]("created") ~
-    get[String]("comment") ~
+    get[Int]("idea_id") ~
     get[Int]("user_id") ~
-    get[Int]("idea_id") map {
-      case id~created~comment~author~idea => Comment(
-        id, created, comment, author, idea
+    get[String]("comment") ~
+    get[Date]("created") map {
+      case id~idea~author~comment~created => Comment(
+        id, idea, author, comment, created
       )
     }
   }
@@ -84,12 +84,18 @@ object Comment extends EntityCompanion[Comment] {
       errors ::= ValidationError("author", "Comment author not specified")
     }
 
+    // Validate idea foreing key.
+    if (comment.idea == 0) {
+      errors ::= ValidationError("idea", "Comment idea not specified")
+    }
+
     // comment
     if (Validate.isEmptyWord(comment.comment)) {
       errors ::= ValidationError("comment", "Comment not specified")
     }
 
     // TODO: negative  values for votes.
+    // TODO: spam validation, have to wait 15 seconds before commenting again
 
     errors.reverse
   }

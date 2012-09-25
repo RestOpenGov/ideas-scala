@@ -16,14 +16,6 @@ import utils.CORSAction
 import utils.{JsonBadRequest, JsonNotFound, JsonOk}
 import utils.Http
 
-
-import play.api._
-import play.api.mvc._
-import play.api.data._
-import play.api.data.Forms._
-
-import views._
-
 object Comments extends Controller {
   
   def list(id: Long) = CORSAction { request =>
@@ -47,16 +39,13 @@ object Comments extends Controller {
   def save(idea : Long) = CORSAction { request =>
     request.body.asJson.map { json =>
       json.asOpt[Comment].map { comment =>
-        comment.idea = idea
-        comment.save.fold(
+        comment.copy(idea = idea).save.fold(
           errors => JsonBadRequest(errors),
           comment => Ok(toJson(comment).toString)
         )
       }.getOrElse     (JsonBadRequest("Invalid Comment entity"))
     }.getOrElse       (JsonBadRequest("Expecting JSON data"))
   }
-
-
 
   def update(id: Long) = CORSAction { implicit request =>
     request.body.asJson.map { json =>
