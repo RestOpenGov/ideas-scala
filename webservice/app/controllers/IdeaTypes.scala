@@ -17,7 +17,7 @@ import utils.{JsonBadRequest, JsonNotFound, JsonOk}
 import utils.Http
 
 object IdeaTypes extends Controller {
-  
+
   def list = CORSAction { request =>
     Ok(toJson(IdeaType.find(request.queryString)))
   }
