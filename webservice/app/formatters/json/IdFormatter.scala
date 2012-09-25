@@ -20,7 +20,7 @@ object IdFormatter {
 
     def reads(j: JsValue): Option[Long] = {
       j.as[Long] match {
-        case 0 => None
+        case 0  => None
         case id => Option[Long](id)
       }
     }
