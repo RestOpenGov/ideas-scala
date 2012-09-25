@@ -2,8 +2,8 @@
 'use strict';
 function IdeaListCtrl($scope, $http) {
 
-  // $scope.ideas_endpoint = 'http://ideas-jugar.rhcloud.com/api/ideas?order=id';
-  $scope.ideas_endpoint = 'http://localhost:9000/api/ideas?order=id';
+  $scope.ideas_endpoint = 'http://ideas-jugar.rhcloud.com/api/ideas?order=id';
+  // $scope.ideas_endpoint = 'http://localhost:9000/api/ideas?order=id';
   $scope.ideas = {};
 
   $scope.$on('$viewContentLoaded', function() {
@@ -26,8 +26,8 @@ function IdeaListCtrl($scope, $http) {
 
 function IdeaDetailCtrl($scope, $routeParams, $http) {
   $scope.ideaId = $routeParams.ideaId;
-  // $scope.idea_endpoint = 'http://ideas-jugar.rhcloud.com/api/ideas/';
-  $scope.ideas_endpoint = 'http://localhost:9000/api/ideas?order=id';
+  $scope.idea_endpoint = 'http://ideas-jugar.rhcloud.com/api/ideas/';
+  // $scope.ideas_endpoint = 'http://localhost:9000/api/ideas?order=id';
   $scope.idea = {};
   $scope.comments = [];
   
