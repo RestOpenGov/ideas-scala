@@ -31,6 +31,11 @@ object Comments extends Controller {
     Ok(toJson(Comment.find(request.queryString)))
   }
 
+  def listAll() = CORSAction { request =>
+    Logger.info("request de list: " + request.queryString.toString)
+    Ok(toJson(Comment.find(request.queryString)))
+  }
+
   def count = CORSAction { request =>
     Ok(toJson(Comment.count(request.queryString)))
   }

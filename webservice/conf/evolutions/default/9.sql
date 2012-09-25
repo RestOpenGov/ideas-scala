@@ -11,7 +11,7 @@ CREATE TABLE vote (
   comment_id      int(11)        NULL,
   user_id         int(11)        NOT NULL,
   pos             boolean        NOT NULL,
-
+  created         timestamp      DEFAULT NULL,
   PRIMARY KEY (id)
 );
 

@@ -27,7 +27,23 @@
       Ideas.show(999) (@routes.Ideas.show(999) - not found)
     </a></li>
   </ul>
-  
+
+  <h2>@Comment.count() Comments</h2>
+  <ul>
+    <li><a href="@routes.Comments.listAll()">
+      Comments.listAll() (@routes.Comments.listAll())
+    </a></li>
+    <li><a href="@routes.Comments.list(1)">
+      Comments.list(1) (@routes.Comments.list(1))
+    </a></li>
+    <li><a href="@routes.Comments.show(1)">
+      Comments.show(1) (@routes.Comments.show(1))
+    </a></li>
+    <li><a href="@routes.Comments.show(999)">
+      Comments.show(999) (@routes.Comments.show(999) - not found)
+    </a></li>
+  </ul>
+
   <h2>@IdeaType.count() IdeaTypes</h2>
   <ul>
     <li><a href="@routes.IdeaTypes.list()">

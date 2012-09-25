@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS comment;
 
 CREATE TABLE comment (
   id             int(11)        NOT NULL AUTO_INCREMENT,
-  comment        TEXT           NOT NULL,
+  comment        varchar(1000)  NOT NULL,
   positiveVote   int(11)        DEFAULT NULL,
   negativeVote   int(11)        DEFAULT NULL,
   author         int(11)        NOT NULL,
@@ -14,8 +14,6 @@ CREATE TABLE comment (
 
   PRIMARY KEY (id),
 );
-
-
 
 ALTER TABLE comment 
 ADD FOREIGN KEY (author) 
