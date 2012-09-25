@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 
-<html lang="en" ng-app>
+<html lang="en" ng-app="ideas-ba">
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>Ideas-ba demo application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/docs.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script> -->
 
@@ -24,6 +25,42 @@
 
   <body>
 
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Ideas-ba</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="#">Submmit Idea!</a></li>
+              <li><a href="#">My ideas</a></li>
+              <li><a href="#">Best rated</a></li>
+              <li><a href="#">Latest</a></li>
+              <li><a href="#">Map of ideas</a></li>
+            </ul>
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="http://a0.twimg.com/profile_images/1557699557/penguin_armed_normal.jpg" style="width:20px;height:20px">&nbsp; Hello opensas 
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">My profile</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+<!--
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -51,75 +88,37 @@
         </div>
       </div>
     </div>
+-->
+     <div class="container-fluid master-container">
+          <div class="row-fluid">
+            <div class="span3">
+              <div id="logo-container" class="well sidebar-nav">
+                <img src="img/ideas-ba-logo.png" />
+                <p>Social brainstorming for improving our city!</p>
+                <p class="small" style="text-align:center">
+                  Ideas-ba aims to be a social website that allows citizens to share ideas, complaints, questions and proposal to improve our cities. It is inspired in sites like <a href="http://www.stackoverflow.com">StackOverflow</a>, that allows collective knowledge to help us solve the problems that as developers we face everyday.
+                </p>
+                <a href="https://github.com/RestOpenGov/ideas-ba" class="btn btn-large btn-danger">View project on github</a>
+              </div><!--/.well -->
+            </div><!--/span-->
+            <div class="span9">
+              <div class="well">
+                <form class="form-search">
+                  <div class="input-append">
+                    <input type="text" class="input-large search-query">
+                    <button type="submit" class="btn btn-medium">Search</button>
+                  </div>
+                </form>
+              </div>
 
-    <div class="container master-container">
-      <div class="container">
-        <header class="masthead">
-          <div class="inner">
-            <h1>Ideas-ba</h1>
-            <p>
-              Social brainstorming for improving our city!
-            </p>
-            <p class="small" style="text-align:center">
-              Ideas-ba aims to be a social website that allows citizens to share ideas, complaints, questions and proposal to improve our cities. It is inspired in sites like <a href="http://www.stackoverflow.com">StackOverflow</a>, that allows collective knowledge to help us solve the problems that as developers we face everyday.
-            </p>
-            <p class="download-info">
-              <a href="#" class="btn btn-primary btn-large">Submmit idea</a>
-              <a href="#" class="btn btn-large">Check my ideas</a>
-              <a href="#" class="btn btn-large">Map of ideas</a>
-              <a href="https://github.com/RestOpenGov/ideas-ba" class="btn btn-large">View project on github</a>
-            </p>
+              <div ng-view></div>
+
+            </div><!--/span-->
           </div>
-        </header>
-        <hr class="soften">
-      </div>
+     
+     </div>
 
-      <div class="clearfix" ng-controller="Controller">
-        
-        <h1>Active Ideas <button id="search-button" type="button" class="btn" ng-click="search()">get Ideas</button></h1>
-        <hr>
-
-        <div ng-repeat="idea in ideas">
-          <h3>
-            {{idea.name}}
-            <a href="" class="btn btn-mini btn-info btn-primary">
-              <i class="icon-thumbs-up icon-white"></i>&nbsp;I like it!</a>
-            <a href="" class="btn btn-mini btn-danger btn-primary">
-              <i class="icon-thumbs-down icon-white"></i>&nbsp;Mmm, I don't like it</a>
-          </h3>
-          <p>{{idea.description}}</p>
-          <table class="table table-striped table-bordered">
-            <tbody>
-              <tr>
-                <td>positive votes</td>
-                <td class="progress progress-success progress" style="margin-bottom: 9px;">
-                  <div class="bar" style="width: {{idea.votes.pos}}%"></div>
-                </td>
-                <td>{{idea.votes.pos}} votes</td>
-              </tr>
-
-              <tr>
-                <td>negative</td>
-                <td class="progress progress-danger progress" style="margin-bottom: 9px;">
-                  <div class="bar" style="width: {{idea.votes.neg}}%"></div>
-                </td>
-                <td>{{idea.votes.neg}} votes</td>
-              </tr>
-
-              <tr>
-                <th>Total votes</th>
-                <th>100 %</th>
-                <th>{{idea.votes.pos + idea.votes.neg}} votes</th>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-
-      </div>
-
-    </div>
-
+    <script src="js/app/app.js"></script>
     <script src="js/app/controller.js"></script>
 
   </body>
