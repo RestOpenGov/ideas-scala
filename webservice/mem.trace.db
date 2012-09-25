@@ -1,0 +1,37 @@
+09-25 00:38:45 jdbc[3]: java.lang.Exception: Open Stack Trace
+	at org.h2.util.CloseWatcher.register(CloseWatcher.java:93)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:94)
+	at org.h2.Driver.connect(Driver.java:72)
+	at org.h2.server.web.WebServer.getConnection(WebServer.java:643)
+	at org.h2.server.web.WebApp.login(WebApp.java:899)
+	at org.h2.server.web.WebApp.process(WebApp.java:205)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:164)
+	at org.h2.server.web.WebThread.process(WebThread.java:137)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Thread.java:680)
+
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-158]
+	at org.h2.message.DbException.get(DbException.java:169)
+	at org.h2.message.DbException.get(DbException.java:146)
+	at org.h2.message.DbException.get(DbException.java:135)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:174)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:121)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:94)
+	at org.h2.Driver.connect(Driver.java:72)
+	at org.h2.server.web.WebServer.getConnection(WebServer.java:643)
+	at org.h2.server.web.WebApp.test(WebApp.java:839)
+	at org.h2.server.web.WebApp.process(WebApp.java:215)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:164)
+	at org.h2.server.web.WebThread.process(WebThread.java:137)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Thread.java:680)
+Caused by: org.h2.jdbc.JdbcSQLException: The connection was not closed by the application and is garbage collected [90018-158]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	... 14 more
+09-25 00:38:59 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "INFORMATION_SCHEMA[*].COLUMNS SELECT * FROM INFORMATION_SCHEMA.CATALOGS"; expected "INSERT, {"; SQL statement:
+INFORMATION_SCHEMA.COLUMNS SELECT * FROM INFORMATION_SCHEMA.CATALOGS [42001-158]
+09-25 00:39:04 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "INFORMATION_SCHEMA[*].COLUMNS INFORMATION_SCHEMA.TABLES SELECT * FROM INFORMATION_SCHEMA.CATALOGS"; expected "INSERT, {"; SQL statement:
+INFORMATION_SCHEMA.COLUMNS INFORMATION_SCHEMA.TABLES SELECT * FROM INFORMATION_SCHEMA.CATALOGS [42001-158]

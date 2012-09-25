@@ -8,7 +8,7 @@ CREATE TABLE comment (
   id             int(11)        NOT NULL AUTO_INCREMENT,
   idea_id        int(11)        NOT NULL,
   user_id        int(11)        NOT NULL,
-  description    varchar(1000)  DEFAULT NULL,
+  comment        varchar(1000)  DEFAULT NULL,
   created        timestamp      DEFAULT NULL,
 
   PRIMARY KEY (id)

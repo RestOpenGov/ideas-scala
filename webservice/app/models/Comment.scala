@@ -20,9 +20,8 @@ case class Comment (
 
   val created:            Date = new Date(),
   val comment:            String = "No Comment",
-  val positiveVote:       Int = 0,
-  val negativeVote:       Int = 0,
-  val author:             Int = 0
+  val author:             Int = 0,
+  var idea:               Long = 0
 )
   extends Entity
 {
@@ -34,9 +33,8 @@ case class Comment (
     "id"                -> pkToLong(id),
     "created"           -> created,
     "comment"           -> comment,
-    "positiveVote"      -> positiveVote,
-    "negativeVote"      -> negativeVote,
-    "author"            -> author
+    "author"           -> author,
+    "idea"           -> idea
   )
 }
 
@@ -50,18 +48,17 @@ object Comment extends EntityCompanion[Comment] {
 
   val saveCommand = """
     insert into comment (
-      created, comment, positiveVote, negativeVote, author
+      created, comment, user_id, idea_id
     ) values (
-      {created}, {comment}, {positiveVote}, {negativeVote}, {author}
+      {created}, {comment}, {author}, {idea}
     )
   """
 
   val updateCommand = """
     update comment set
       comment  = {comment},
-      positiveVote          = {positiveVote},
-      negativeVote   = {negativeVote},
-      author = {author}
+      user_id = {author},
+      idea_id = {idea}
     where 
       id        = {id}
   """
@@ -70,11 +67,10 @@ object Comment extends EntityCompanion[Comment] {
     get[Pk[Long]]("id") ~
     get[Date]("created") ~
     get[String]("comment") ~
-    get[Int]("positiveVote") ~
-    get[Int]("negativeVote") ~ 
-    get[Int]("author") map {
-      case id~created~comment~positiveVote~negativeVote~author => Comment(
-        id, created, comment, positiveVote, negativeVote, author
+    get[Int]("user_id") ~
+    get[Int]("idea_id") map {
+      case id~created~comment~author~idea => Comment(
+        id, created, comment, author, idea
       )
     }
   }
