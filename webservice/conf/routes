@@ -53,5 +53,13 @@ POST    /api/types                         controllers.IdeaTypes.save
 GET     /api/types/:id                     controllers.IdeaTypes.show(id: Long)
 DELETE  /api/types/:id                     controllers.IdeaTypes.delete(id: Long)
 
+GET     /api/votes                         controllers.Votes.list
+GET     /api/votes/count                   controllers.Votes.count
+PUT     /api/votes/:id                     controllers.Votes.update(id: Long)
+POST    /api/votes/                        controllers.Votes.save
+POST    /api/votes                         controllers.Votes.save
+GET     /api/votes/:id                     controllers.Votes.show(id: Long)
+DELETE  /api/votes/:id                     controllers.Votes.delete(id: Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)

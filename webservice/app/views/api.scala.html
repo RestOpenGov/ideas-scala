@@ -44,6 +44,19 @@
     </a></li>
   </ul>
 
+  <h2>@Vote.count() Votes</h2>
+  <ul>
+    <li><a href="@routes.Votes.list()">
+      Votes.list() (@routes.Votes.list())
+    </a></li>
+    <li><a href="@routes.Votes.show(1)">
+      Votes.show(1) (@routes.Votes.show(1))
+    </a></li>
+    <li><a href="@routes.Votes.show(999)">
+      Votes.show(999) (@routes.Votes.show(999) - not found)
+    </a></li>
+  </ul>
+  
   <h2>@IdeaType.count() IdeaTypes</h2>
   <ul>
     <li><a href="@routes.IdeaTypes.list()">
