@@ -44,6 +44,22 @@ case class Vote (
 
 object Vote extends EntityCompanion[Vote] {
 
+  def countForIdea(ideaId: Long): Tuple2[Int, Int] = {
+    val cond = "idea_id = %s and pos = ".format(ideaId)
+    (
+      Vote.count(condition=cond + "true").toInt,
+      Vote.count(condition=cond + "false").toInt
+    )
+  }
+
+  def countForComment(commentId: Long): Tuple2[Int, Int] = {
+    val cond = "comment_id = %s and pos = ".format(commentId)
+    (
+      Vote.count(condition=cond + "true").toInt,
+      Vote.count(condition=cond + "false").toInt
+    )
+  }
+
   val tableName = "vote"
 
   val defaultOrder = "created desc"
