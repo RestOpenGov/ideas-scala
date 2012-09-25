@@ -44,7 +44,6 @@ case class Vote (
   )
 }
 
-
 object Vote extends EntityCompanion[Vote] {
 
   val tableName = "vote"
