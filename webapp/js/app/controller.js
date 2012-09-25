@@ -50,12 +50,12 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
   };
 
   $scope.addComment = function(){
-    $commentBox = $('#comment-box').slideUp();
-    $commentBox.slideUp();
-    var data = {
+    var $commentBox = $('#comment-box').slideUp(),data = {
         "author": 1,
         "comment": $scope.msg
-    };
+    };;
+
+    $commentBox.slideUp();
 
     $http({
       url:$scope.idea_endpoint+$scope.ideaId+'/comment',
