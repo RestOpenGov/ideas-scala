@@ -2,6 +2,8 @@ package models
 
 import play.api.http.Status
 
+import play.api.i18n.{Messages, Lang}
+
 case class Error(
   val status: Int = Status.INTERNAL_SERVER_ERROR,
   val errorCode: Int = 10000,
@@ -15,15 +17,15 @@ object ValidationError {
     Error(status = Status.BAD_REQUEST, message = message)
   }
 
-  def apply(field: String, message: String) = {
-    Error(status = Status.BAD_REQUEST, field = field, message = message)
+  def apply(field: String, message: String, args: Any*)(implicit lang: Lang) = {
+    Error(status = Status.BAD_REQUEST, field = field, message = Messages(message, args: _*))
   }
 
-  def apply(field: String, message: String, developerMessage: String) = {
-    Error(status = Status.BAD_REQUEST, field = field, message = message, 
-      developerMessage = developerMessage
-    )
-  }
+  // def apply(field: String, message: String, developerMessage: String) = {
+  //   Error(status = Status.BAD_REQUEST, field = field, message = message, 
+  //     developerMessage = developerMessage
+  //   )
+  // }
 
 }
 

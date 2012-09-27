@@ -1,12 +1,12 @@
 package models
 
-import play.api.db._
 import play.api.Play.current
-
+import play.api.db._
 import anorm._
 import anorm.SqlParser._
 
-import utils.Validate
+import utils.Validate._
+import play.api.i18n.{Messages, Lang}
 
 import utils.Conversion.pkToLong
 
@@ -24,9 +24,9 @@ case class User (
 )
   extends Entity
 {
-  def update()  = User.update(this)
-  def save()    = User.save(this)
-  def delete()  = User.delete(this)
+  def update()  (implicit lang: Lang) = User.update(this)
+  def save()    (implicit lang: Lang) = User.save(this)
+  def delete()  (implicit lang: Lang) = User.delete(this)
 
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"            -> pkToLong(id),
@@ -77,31 +77,38 @@ object User extends EntityCompanion[User] {
     }
   }
 
-  def validate(user: User): List[Error] = {
+  def validate(user: User)(implicit lang: Lang): List[Error] = {
 
     var errors = List[Error]()
 
     // nickname
-    if (Validate.isEmptyWord(user.nickname)) {
-      errors ::= ValidationError("nickname", "Nickname not specified")
+    if (isEmptyWord(user.nickname)) {
+      errors ::= ValidationError("nickname", "validate.empty", &("models.user.nickname"))
     } else {
       if (isDuplicate(user, "nickname")) {
-        errors ::= ValidationError("nickname", "There already exists a user with the nickname '%s'".format(user.name))
+        errors ::= ValidationError("nickname", 
+          "validate.duplicate", &("user"), &("user.nickname"), user.nickname)
       }
     }
 
     // name
-    if (Validate.isEmptyWord(user.name)) {
-      errors ::= ValidationError("name", "Name not specified")
+    if (isEmptyWord(user.name)) {
+      errors ::= ValidationError("name", "validate.empty", &("models.user.name"))
     } else {
       if (isDuplicate(user, "name")) {
-        errors ::= ValidationError("name", "There already exists a user with the name '%s'".format(user.name))
+        errors ::= ValidationError("name", 
+          "validate.duplicate", &("user"), &("user.name"), user.name)
       }
     }
 
     // email
-    if (Validate.isEmptyWord(user.email)) {
-      errors ::= ValidationError("email", "User's email not specified")
+    if (isEmptyWord(user.email)) {
+      errors ::= ValidationError("email", "validate.empty", &("models.user.email"))
+    } else {
+      if (isDuplicate(user, "email")) {
+        errors ::= ValidationError("name", 
+          "validate.duplicate", &("user"), &("user.email"), user.email)
+      }
     }
 
     errors.reverse

@@ -31,10 +31,10 @@ object UserFormatter {
     def reads(j: JsValue): User = {
       User(
         id          = (j \ "id").as[Option[Pk[Long]]]       .getOrElse(NotAssigned),
-        nickname    = (j \ "nickname").as[Option[String]]   .getOrElse("unknown"),
-        name        = (j \ "name").as[Option[String]]       .getOrElse("unknown user"),
-        email       = (j \ "email").as[Option[String]]      .getOrElse("unknown email"),
-        avatar      = (j \ "avatar").as[Option[String]]     .getOrElse("avatar"),
+        nickname    = (j \ "nickname").as[Option[String]]   .getOrElse(""),
+        name        = (j \ "name").as[Option[String]]       .getOrElse(""),
+        email       = (j \ "email").as[Option[String]]      .getOrElse(""),
+        avatar      = (j \ "avatar").as[Option[String]]     .getOrElse(""),
         created     = (j \ "created").as[Option[Date]]      .getOrElse(new Date())
       )
     }

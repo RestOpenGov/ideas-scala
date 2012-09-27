@@ -1,11 +1,12 @@
 package models
 
-import play.api.db._
 import play.api.Play.current
+import play.api.db._
 
 import anorm._
 import anorm.SqlParser._
 import play.api.Play
+import play.api.i18n.Lang
 
 import utils.Http
 import utils.Validate
@@ -25,9 +26,9 @@ case class IdeaType (
 )
   extends Entity
 {
-  def update()  = IdeaType.update(this)
-  def save()    = IdeaType.save(this)
-  def delete()  = IdeaType.delete(this)
+  def update()  (implicit lang: Lang) = IdeaType.update(this)
+  def save()    (implicit lang: Lang) = IdeaType.save(this)
+  def delete()  (implicit lang: Lang) = IdeaType.delete(this)
   
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"            -> pkToLong(id),
@@ -70,7 +71,7 @@ object IdeaType extends EntityCompanion[IdeaType] {
     }
   }
 
-  def validate(ideaType: IdeaType): List[Error] = {
+  def validate(ideaType: IdeaType)(implicit lang: Lang): List[Error] = {
 
     var errors = List[Error]()
     

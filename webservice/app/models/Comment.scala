@@ -1,10 +1,10 @@
 package models
 
-import play.api.db._
 import play.api.Play.current
-
+import play.api.db._
 import anorm._
 import anorm.SqlParser._
+import play.api.i18n.Lang
 
 import utils.Validate
 
@@ -28,9 +28,9 @@ case class Comment (
 
   lazy val votes: VoteCounter = VoteCounter.forComment(this)
 
-  def update()  = Comment.update(this)
-  def save()    = Comment.save(this)
-  def delete()  = Comment.delete(this)
+  def update()  (implicit lang: Lang) = Comment.update(this)
+  def save()    (implicit lang: Lang) = Comment.save(this)
+  def delete()  (implicit lang: Lang) = Comment.delete(this)
 
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"        -> pkToLong(id),
@@ -78,7 +78,7 @@ object Comment extends EntityCompanion[Comment] {
     }
   }
 
-  def validate(comment: Comment): List[Error] = {
+  def validate(comment: Comment)(implicit lang: Lang): List[Error] = {
 
     var errors = List[Error]()
 

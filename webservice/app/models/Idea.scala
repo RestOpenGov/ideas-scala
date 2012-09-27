@@ -1,12 +1,13 @@
 package models
 
-import play.api.db._
 import play.api.Play.current
+import play.api.db._
 
 import anorm._
 import anorm.SqlParser._
 
 import utils.Validate
+import play.api.i18n.Lang
 
 import utils.Conversion.pkToLong
 
@@ -30,9 +31,9 @@ case class Idea (
 
   lazy val votes: VoteCounter = VoteCounter.forIdea(this)
 
-  def update()  = Idea.update(this)
-  def save()    = Idea.save(this)
-  def delete()  = Idea.delete(this)
+  def update()  (implicit lang: Lang) = Idea.update(this)
+  def save()    (implicit lang: Lang) = Idea.save(this)
+  def delete()  (implicit lang: Lang) = Idea.delete(this)
 
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"            -> pkToLong(id),
@@ -95,7 +96,7 @@ object Idea extends EntityCompanion[Idea] {
     }
   }
 
-  def validate(idea: Idea): List[Error] = {
+  def validate(idea: Idea)(implicit lang: Lang): List[Error] = {
 
     var errors = List[Error]()
 

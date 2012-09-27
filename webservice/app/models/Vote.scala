@@ -12,6 +12,8 @@ import utils.Conversion.pkToLong
 
 import java.util.Date
 
+import play.api.i18n.Lang
+
 import play.Logger
 
 case class Vote (
@@ -27,9 +29,9 @@ case class Vote (
 )
   extends Entity
 {
-  def update()  = Vote.update(this)
-  def save()    = Vote.save(this)
-  def delete()  = Vote.delete(this)
+  def update()  (implicit lang: Lang) = Vote.update(this)
+  def save()    (implicit lang: Lang) = Vote.save(this)
+  def delete()  (implicit lang: Lang) = Vote.delete(this)
 
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"            -> pkToLong(id),
@@ -99,7 +101,7 @@ object Vote extends EntityCompanion[Vote] {
     }
   }
 
-  def validate(vote: Vote): List[Error] = {
+  def validate(vote: Vote)(implicit lang: Lang): List[Error] = {
 
     import utils.Comparison.implicits._
 
@@ -139,6 +141,26 @@ object Vote extends EntityCompanion[Vote] {
     )
     if (count(condition=duplicateVoteCondition) > 0) {
       errors ::= ValidationError("", "You've already voted for that!")
+    }
+
+    // user cannot vote for his own idea!
+    if (vote.ideaId!=0) {
+      Idea.findById(vote.ideaId).map { idea =>
+        if (idea.userId==vote.userId) {
+          if (vote.pos) errors ::= ValidationError("", "Be more humble! You can't vote your own idea")
+          else          errors ::= ValidationError("", "Don't you like your own idea? You can't vote your own idea")
+        }
+      }
+    }
+
+    // user cannot vote for his own comment!
+    if (vote.commentId!=0) {
+      Comment.findById(vote.ideaId).map { comment =>
+        if (comment.author==vote.userId) {
+          if (vote.pos) errors ::= ValidationError("", "Be more humble! You can't vote your own comment")
+          else          errors ::= ValidationError("", "Don't you like your own comment? You can't vote your own comment")
+        }
+      }
     }
 
     errors.reverse

@@ -2,6 +2,8 @@ package utils
 
 import java.util.Calendar
 
+import play.api.i18n.{Messages, Lang}
+
 object Validate {
 
   def isEmptyWord(value: String): Boolean = {
@@ -13,5 +15,10 @@ object Validate {
   }
 
   def currentYear: Int = Calendar.getInstance().get(Calendar.YEAR);
+
+  // alias for play.api.i18n.Messages
+  def &(key: String, args: Any*)(implicit lang: Lang) = {
+    Messages(key, args: _*)
+  }
 
 }

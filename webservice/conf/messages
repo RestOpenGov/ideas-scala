@@ -1,0 +1,11 @@
+hello=Hola!
+welcome=Bienvenido al {0}
+home.title=Backend de Ideas-ba
+
+user=usuario
+user.name=nombre
+user.nickname=sobrenombre
+user.email=correo electrónico
+
+validate.empty=El campo "{0}" no puede estar vacío.
+validate.duplicate=Ya existe un {0} con el {1} "{2}".

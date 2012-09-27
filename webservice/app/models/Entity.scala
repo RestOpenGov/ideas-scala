@@ -1,11 +1,11 @@
 package models
 
-import play.api.db._
 import play.api.Play.current
-
+import play.api.db._
 import anorm._
 import anorm.SqlParser._
 import play.api.Play
+import play.api.i18n.Lang
 
 import utils.Http
 import utils.Validate
@@ -26,6 +26,10 @@ trait Entity {
 
   def asSeq(): Seq[(String, Any)]
   def isNew(): Boolean = (id == NotAssigned)
+
+  def update()  (implicit lang: Lang): Either[List[Error],Entity]
+  def save()    (implicit lang: Lang): Either[List[Error],Entity]
+  def delete()  (implicit lang: Lang): Unit
 }
 
 trait EntityCompanion[A<:Entity] {
@@ -49,7 +53,7 @@ trait EntityCompanion[A<:Entity] {
 
   val simpleParser: RowParser[A]
 
-  def validate(entity: A): List[Error]
+  def validate(entity: A)(implicit lang: Lang): List[Error]
 
   def isDuplicate(entity: A, field: String): Boolean = {
     val fields = entity.asSeq.toMap
@@ -191,9 +195,11 @@ trait EntityCompanion[A<:Entity] {
     }
   }
 
-  def update(entity: A): Either[List[Error],A] = {
+  def update(entity: A)(implicit lang: Lang): Either[List[Error],A] = {
 
     import utils.sql.AnormHelper.toParamsValue
+
+    play.Logger.info("update: "+lang.toString)
 
     val errors = validate(entity)
     if (errors.length > 0) {

@@ -1,0 +1,11 @@
+hello=Hi!
+welcome=Welcome to {0}
+home.title=Ideas-ba backend
+
+user=user
+user.name=name
+user.nickname=nickname
+user.email=email
+
+validate.empty={0} not specified.
+validate.duplicate=There already exists a {0} with the {1} "{2}".

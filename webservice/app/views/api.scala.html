@@ -1,7 +1,6 @@
 @main("Welcome to Ideas-ba backend test page") {
 
-  <h1>Welcome to Ideas-ba backend!</h1>
-
+<h1>@Messages("welcome", Messages("home.title")(Lang("es")))</h1>
   <h2>@User.count() Users</h2>
   <ul>
     <li><a href="@routes.Users.list()">

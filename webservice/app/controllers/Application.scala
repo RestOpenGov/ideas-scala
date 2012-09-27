@@ -9,7 +9,7 @@ object Application extends Controller {
     Redirect(routes.Assets.at("index.html"))
   }
 
-  def api = Action {
+  def api = Action { implicit request =>
     Ok(views.html.api())
   }
 
