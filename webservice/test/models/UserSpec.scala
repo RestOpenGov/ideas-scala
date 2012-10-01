@@ -1,31 +1,94 @@
 package test.models
 
 import org.specs2.mutable._
-import org.specs2.mutable.After
 
 import play.api.test._
 import play.api.test.Helpers._
 
-class UserSpec extends org.specs2.mutable.Specification {
+import play.api.i18n.Lang
 
-  import models.User
+import test.matchers.ErrorSpec
+
+class UserSpec extends Specification with ErrorSpec {
+
+  import models.{User, Error}
 
   "User model" should {
 
     "be retrieved by id" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        val Some(user) = User.findById(1)
 
-        println("user: %s".format(user.toString))
+        User.findById(1) must beSome.which { user =>
+          user.nickname must equalTo("nardoz")
+          user.name must equalTo("Mister Nardoz")
+        }
 
-        user must not be none
-        user.nickname must equalTo("nardoz")
-        user.name must equalTo("Mister Nardoz")
+        User.findById(5000) must be none
 
-        val noneUser: Option[User] = User.findById(5000)
-        noneUser must be none //equalTo(None)
       }
     }
+
+    val user = User(
+      nickname = "new nickname",
+      name = "new name",
+      email = "email@email.com",
+      avatar = "new avatar"
+    )
+
+    "return error if nickname is empty" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        val noNickname = user.copy(nickname="")
+
+        println("user: %s".format(noNickname.toString))
+
+        implicit val lang = Lang("en")
+
+        // val saved: Either[List[Error],User] = noNickname.save()(Lang("es"))
+        user.copy(nickname="").save()(Lang("es")) must beLeft.like {
+          case errors => {
+            println("errors: %s".format(errors.toString))
+            val fieldErrors = errors.filter(_.field == "nickname")
+            fieldErrors.size must equalTo(1)
+            val error = fieldErrors(0)
+            error.errorCode must equalTo(Error.REQUIRED)
+            error.field must equalTo("nickname")
+          }
+        }
+
+        user.copy(nickname="").save must beLeft.like {
+          case errors => atLeastOnceWhen(errors) {
+            case error => {
+              error.errorCode must equalTo(Error.REQUIRED)
+              error.field must equalTo("nickname")
+            }
+          }
+        }
+
+        user.copy(nickname="").save must beLeft
+
+        user.copy(nickname="").save must beLeft { 
+          List[Error](Error(
+            400, Error.REQUIRED, "nickname","nickname not specified.","Error performing operation"
+          ))
+        }
+
+        user.copy(nickname="").save must haveError.like { 
+          case error => {
+            error.errorCode must equalTo(Error.REQUIRED)
+            error.field must equalTo("nickname")
+          }
+          // case error => error.field must equalTo("nickname")
+        }
+
+        user.copy(nickname="").save must haveError.containing { 
+          Error(400, Error.REQUIRED, "nickname","nickname not specified.","Error performing operation")
+        }
+
+      }
+    }
+
+
   }
 
 }
