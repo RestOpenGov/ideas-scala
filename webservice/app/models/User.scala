@@ -83,30 +83,30 @@ object User extends EntityCompanion[User] {
 
     // nickname
     if (isEmptyWord(user.nickname)) {
-      errors ::= ValidationError("nickname", "validate.empty", &("models.user.nickname"))
+      errors ::= ValidationError(Error.REQUIRED, "nickname", "validate.empty", &("user.nickname"))
     } else {
       if (isDuplicate(user, "nickname")) {
-        errors ::= ValidationError("nickname", 
+        errors ::= ValidationError(Error.DUPLICATE, "nickname", 
           "validate.duplicate", &("user"), &("user.nickname"), user.nickname)
       }
     }
 
     // name
     if (isEmptyWord(user.name)) {
-      errors ::= ValidationError("name", "validate.empty", &("models.user.name"))
+      errors ::= ValidationError(Error.REQUIRED, "name", "validate.empty", &("user.name"))
     } else {
       if (isDuplicate(user, "name")) {
-        errors ::= ValidationError("name", 
+        errors ::= ValidationError(Error.DUPLICATE, "name", 
           "validate.duplicate", &("user"), &("user.name"), user.name)
       }
     }
 
     // email
     if (isEmptyWord(user.email)) {
-      errors ::= ValidationError("email", "validate.empty", &("models.user.email"))
+      errors ::= ValidationError(Error.REQUIRED, "email", "validate.empty", &("user.email"))
     } else {
       if (isDuplicate(user, "email")) {
-        errors ::= ValidationError("name", 
+        errors ::= ValidationError(Error.DUPLICATE, "name", 
           "validate.duplicate", &("user"), &("user.email"), user.email)
       }
     }
