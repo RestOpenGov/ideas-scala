@@ -166,7 +166,7 @@ trait EntityCompanion[A<:Entity] {
 
   }
 
-  def save(entity: A): Either[List[Error],A] = {
+  def save(entity: A)(implicit lang: Lang): Either[List[Error],A] = {
 
     import utils.sql.AnormHelper.toParamsValue
 
@@ -176,11 +176,11 @@ trait EntityCompanion[A<:Entity] {
     } else {
 
       DB.withConnection { implicit connection =>
-        val newId = SQL(saveCommand)
+        val newId: Option[Long] = SQL(saveCommand)
           .on(toParamsValue(entity.asSeq): _*)
           .executeInsert()
 
-        val savedEntity = for (
+        val savedEntity: Option[A] = for (
           id <- newId;
           entity <- _findById(id)
         ) yield entity
@@ -211,7 +211,7 @@ trait EntityCompanion[A<:Entity] {
           .on(toParamsValue(entity.asSeq): _*)
           .executeUpdate()
         
-        val updatedEntity = for (
+        val updatedEntity: Option[A] = for (
           id <- entity.id;
           entity <- _findById(id)
         ) yield entity
