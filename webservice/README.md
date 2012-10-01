@@ -40,7 +40,7 @@ To start playing locally with the web service you need the following prerequisit
 
 - JDK 1.7 (http://www.oracle.com/technetwork/java/javase/downloads/jdk7u7-downloads-1836413.html)
 
-- Play framework 2.0.3 (http://download.playframework.org/releases/play-2.0.3.zip)
+- Play framework 2.0.4 (http://download.playframework.org/releases/play-2.0.4.zip)
 
 Check the [install documentation](http://www.playframework.org/documentation/latest/Installing) for play framework.
 
