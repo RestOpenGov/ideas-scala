@@ -5,13 +5,13 @@
 DROP TABLE IF EXISTS vote;
 
 CREATE TABLE vote (
-  id              int(11)        NOT NULL AUTO_INCREMENT,
-  vote_type       varchar(10)    NOT NULL,          -- idea | comment
-  idea_id         int(11)        NULL,              -- should be null if vote.vote_type = comment
-  comment_id      int(11)        NULL,              -- should be null if vote.vote_type = idea
-  user_id         int(11)        NOT NULL,
-  pos             boolean        NOT NULL,          -- positive = true, negative = false
-  created         timestamp      NULL DEFAULT NULL,
+  id              int(11)       NOT NULL AUTO_INCREMENT,
+  vote_type       varchar(10)   NOT NULL,          -- idea | comment
+  idea_id         int(11)       NULL,              -- should be null if vote.vote_type = comment
+  comment_id      int(11)       NULL,              -- should be null if vote.vote_type = idea
+  user_id         int(11)       NOT NULL,
+  pos             boolean       NOT NULL,          -- positive = true, negative = false
+  created         timestamp     NULL DEFAULT NULL,
   PRIMARY KEY (id)
 );
 

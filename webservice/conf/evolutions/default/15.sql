@@ -5,9 +5,9 @@
 DROP TABLE IF EXISTS subscription;
 
 CREATE TABLE subscription (
-  id             int(11) NOT NULL AUTO_INCREMENT,
-  idea_id        int(11)        NOT NULL,
-  user_id        int(11)        NOT NULL,
+  id        int(11)   NOT NULL AUTO_INCREMENT,
+  idea_id   int(11)   NOT NULL,
+  user_id   int(11)   NOT NULL,
 
   PRIMARY KEY (id),
   UNIQUE KEY subscription_uk (idea_id, user_id)

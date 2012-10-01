@@ -5,11 +5,11 @@
 DROP TABLE IF EXISTS comment;
 
 CREATE TABLE comment (
-  id             int(11)        NOT NULL AUTO_INCREMENT,
-  idea_id        int(11)        NOT NULL,
-  user_id        int(11)        NOT NULL,
-  comment        varchar(1000)  DEFAULT NULL,
-  created        timestamp      NULL DEFAULT NULL,
+  id        int(11)         NOT NULL AUTO_INCREMENT,
+  idea_id   int(11)         NOT NULL,
+  user_id   int(11)         NOT NULL,
+  comment   varchar(1000)   DEFAULT NULL,
+  created   timestamp       NULL DEFAULT NULL,
 
   PRIMARY KEY (id)
 );

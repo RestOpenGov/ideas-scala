@@ -5,9 +5,9 @@
 DROP TABLE IF EXISTS idea_tag;
 
 CREATE TABLE idea_tag (
-  id             int(11) NOT NULL AUTO_INCREMENT,
-  idea_id        int(11)        NOT NULL,
-  tag_id         int(11)        NOT NULL,
+  id        int(11)   NOT NULL AUTO_INCREMENT,
+  idea_id   int(11)   NOT NULL,
+  tag_id    int(11)   NOT NULL,
 
   PRIMARY KEY (id),
   UNIQUE KEY idea_tag_uk (idea_id, tag_id)
