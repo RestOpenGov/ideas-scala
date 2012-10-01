@@ -24,4 +24,4 @@ INSERT INTO vote VALUES
 
 # --- !Downs
 
-delete from vote;
+delete from vote where id > 0;;
