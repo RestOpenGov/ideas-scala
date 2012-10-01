@@ -67,7 +67,7 @@ or just
 To see the web service in action, open a browser and go to:
 
 ```
-http://localhost:9000/api/wines
+http://localhost:9000/api
 ```
 
 ## Running the automated tests
