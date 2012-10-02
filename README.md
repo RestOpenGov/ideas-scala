@@ -1,7 +1,7 @@
 Ideas-ba
 ========
 
-Ideas-ba aims to be a social website that allows citizens to share ideas, complaints, questions and proposal to improve their cities.
+Ideas-ba aims to be a social website that allows citizens to share ideas, complaints, questions and proposals to improve their cities.
 
 It is inspired in sites like [stackoverflow](http://stackoverflow.com/), that allows collective knowledge to help us solve the problems that as developers we face everyday.
 
