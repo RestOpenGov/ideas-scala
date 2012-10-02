@@ -55,8 +55,8 @@ object IdeaType extends EntityCompanion[IdeaType] {
 
   val updateCommand = """
     update idea_type set
-      name        = {name}
-      description = {description},
+      name        = {name},
+      description = {description}
     where 
       id          = {id}
   """
