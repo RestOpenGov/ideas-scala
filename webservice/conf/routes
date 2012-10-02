@@ -20,6 +20,11 @@ POST    /api/users                         controllers.Users.save
 GET     /api/users/:id                     controllers.Users.show(id: Long)
 DELETE  /api/users/:id                     controllers.Users.delete(id: Long)
 
+GET     /api/users/:id/subscriptions            controllers.Subscriptions.list(id: Long)
+GET     /api/users/:id/subscriptions/count      controllers.Subscriptions.count(id: Long)
+POST    /api/users/:id/subscriptions            controllers.Subscriptions.save(id: Long)
+DELETE  /api/users/:id/subscriptions/:ideaId    controllers.Subscriptions.delete(id: Long, ideaId: Long)
+
 GET     /api/users/:id/stats               controllers.Users.stats(id: Long)
 GET     /api/users/:id/votes               controllers.Users.votes(id: Long)
 
@@ -32,6 +37,11 @@ GET     /api/ideas/:id                     controllers.Ideas.show(id: Long)
 DELETE  /api/ideas/:id                     controllers.Ideas.delete(id: Long)
 PUT     /api/ideas/:id/up                  controllers.Ideas.up(id: Long)
 PUT     /api/ideas/:id/down                controllers.Ideas.down(id: Long)
+
+GET     /api/ideas/:id/subscribers            controllers.Subscribers.list(id: Long)
+GET     /api/ideas/:id/subscribers/count      controllers.Subscribers.count(id: Long)
+POST    /api/ideas/:id/subscribers            controllers.Subscribers.save(id: Long)
+DELETE  /api/ideas/:id/subscribers/:userId    controllers.Subscribers.delete(id: Long, userId: Long)
 
 GET     /api/comments                  controllers.Comments.listAll()
 GET     /api/ideas/:idea/comments            controllers.Comments.list(idea: Long)
