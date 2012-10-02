@@ -52,7 +52,7 @@ object IdeaType extends EntityCompanion[IdeaType] {
       {name}, {description}
     )
   """
- 
+
   val updateCommand = """
     update idea_type set
       name        = {name},
