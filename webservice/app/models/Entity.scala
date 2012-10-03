@@ -11,6 +11,7 @@ import utils.Http
 import utils.Validate
 import utils.query.ConditionBuilder
 import utils.sql.ColumnInfo
+import utils.Sql
 
 import utils.Conversion.toUpperFirst
 import utils.Conversion.pkToLong
@@ -67,10 +68,10 @@ trait EntityCompanion[A<:Entity] {
     val exists = {
       // it's a new record
       if (entity.isNew) {
-        count(condition = "%s = '%s'".format(field, value))
+        count(condition = "%s = '%s'".format(field, Sql.sanitize(value)))
       } else {
         count(condition = "id <> %s and %s = '%s'".
-          format(pkToLong(entity.id), field, value)
+          format(pkToLong(entity.id), field, Sql.sanitize(value))
         )
       }
     }
