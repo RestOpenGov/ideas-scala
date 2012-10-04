@@ -29,7 +29,10 @@ object Sql {
 
   def replaceFields(sql: String, fields: String): String = {
     val parseSql = """(?imx)                #insensitive case, multiline, whitespaces and comments
-      (^ select \s+ (?:top \s+ \d+ \s+)?)   #m1: select clause and optional top x clause (ignored match)
+      (^ select \s+ #(?:top \s+ \d+ \s+)?)  #m1: select clause and optional clauses
+        (?:top \s+ \d+ \s+)?                #  top x clause (ignored match)
+        (?:(?:distinct|all) \s+)?           #  distinct | all clause (ignored match)
+      )
       (.+?)                                 #m2: the field clause I'm looking for, non greedy to leave spaces to match3
       (\s+ from \s+ .* $)                   #m3: the rest of the sql sentence, greedy spaces
     """.r
