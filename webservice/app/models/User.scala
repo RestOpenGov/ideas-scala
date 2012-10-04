@@ -40,7 +40,7 @@ case class User (
 
 object User extends EntityCompanion[User] {
 
-  val tableName = "user"
+  val table = "user"
 
   val defaultOrder = "nickname"
 

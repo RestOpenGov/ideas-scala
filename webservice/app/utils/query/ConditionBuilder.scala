@@ -34,7 +34,7 @@ object ConditionBuilder {
   ): String = {
     columnsInfo.find(_.name.toLowerCase == condition.field.toLowerCase).map { columnInfo =>
       buildSingleCondition(
-        condition, FieldType.toFieldType(columnInfo.fieldType)
+        condition, FieldType.toFieldType(columnInfo.fieldType), columnInfo.table
       )
     }.getOrElse {
       throw new InvalidQueryConditionException(
@@ -45,7 +45,7 @@ object ConditionBuilder {
   }
 
   def buildSingleCondition(
-    condition: Condition, fieldType: FieldType.Value
+    condition: Condition, fieldType: FieldType.Value, table: String
   ): String = {
 
     import ConditionOperator._
@@ -99,8 +99,10 @@ object ConditionBuilder {
       if (fieldType == String && !CASE_SENSITIVE) value.toLowerCase else value
     }
 
-    val field = (if (fieldType == String && !CASE_SENSITIVE)
-      "lower(%s)".format(condition.field) else condition.field
+    val field = (
+      ( if (fieldType == String && !CASE_SENSITIVE)
+        "lower(%s.%s)" else "%s.%s"
+      ).format(table, condition.field)
     )
 
     val formattedValues = values.map { formatValue(_) }
@@ -133,7 +135,7 @@ object ConditionBuilder {
         } else {
           val operator = if (fieldType == String) Contains else Equal
           return "( " + values.map( value =>
-            buildSingleCondition( Condition(condition.original, condition.field, condition.negated, operator, value), fieldType)
+            buildSingleCondition( Condition(condition.original, condition.field, condition.negated, operator, value), fieldType, table)
           ).mkString(if (condition.negated) " and " else " or ") + " )"
         }
       }
@@ -149,4 +151,3 @@ object ConditionBuilder {
   }
 
 }
-

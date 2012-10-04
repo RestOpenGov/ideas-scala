@@ -62,7 +62,7 @@ object Vote extends EntityCompanion[Vote] {
     )
   }
 
-  val tableName = "vote"
+  val table = "vote"
 
   val defaultOrder = "created desc"
 
@@ -146,7 +146,7 @@ object Vote extends EntityCompanion[Vote] {
     // user cannot vote for his own idea!
     if (vote.ideaId!=0) {
       Idea.findById(vote.ideaId).map { idea =>
-        if (idea.userId==vote.userId) {
+        if (idea.author.id.get == vote.userId) {
           if (vote.pos) errors ::= ValidationError("", "Be more humble! You can't vote your own idea")
           else          errors ::= ValidationError("", "Don't you like your own idea? You can't vote your own idea")
         }
