@@ -26,4 +26,14 @@ object Sql {
       case Unknown  => value
     }
   }
+
+  def replaceFields(sql: String, fields: String): String = {
+    val parseSql = """(?imx)                #insensitive case, multiline, whitespaces and comments
+      (^ select \s+ (?:top \s+ \d+ \s+)?)   #m1: select clause and optional top x clause (ignored match)
+      (.+?)                                 #m2: the field clause I'm looking for, non greedy to leave spaces to match3
+      (\s+ from \s+ .* $)                   #m3: the rest of the sql sentence, greedy spaces
+    """.r
+    val replace = "$1%s$3".format(fields)   // replace match2 with new fields
+    parseSql.replaceFirstIn(sql, replace)
+  }
 }
