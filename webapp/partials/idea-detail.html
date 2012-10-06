@@ -1,13 +1,13 @@
-<a href="#/ideas">ver todas las ideas</a>
  <div ng-controller="IdeaDetailCtrl">
+ <a href="/#/ideas/lista?filter=id:{{idea.type.id}}">ver todas las ideas de la categoría {{idea.type.name}}</a>
+ <br/>
+ <a href="/#/ideas/lista">ver todas las ideas</a>
  <div class="row-fluid">
     <h3>
       <a>{{idea.name}}</a>
       <div class="btn-group pull-right">
-        <a href="" class="btn btn-large btn-success btn-primary">
-        <i class="icon-thumbs-up icon-white"></i>&nbsp;I like it!</a>
-        <a href="" class="btn btn-large btn-danger btn-primary">
-        <i class="icon-thumbs-down icon-white"></i>&nbsp;Mmm, I don't like it</a>
+          <a class="btn" href="#"><i class="icon-thumbs-up"></i>{{idea.votes.pos}}</a>
+          <a class="btn" href="#"><i class="icon-thumbs-down"></i>{{idea.votes.neg}}</a>
       </div>
     </h3>
     <p>{{idea.description}}</p>
