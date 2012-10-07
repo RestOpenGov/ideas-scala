@@ -6,13 +6,15 @@ import play.api.libs.json.Json.toJson
 
 import java.util.Date
 
-import models.Comment
+import models.{Comment, User}
 
 import anorm._
 
 import PkFormatter._
 import DateFormatter._
 import VoteCounterFormatter._
+import UserFormatter._
+import IdeaMinFormatter._
 
 object CommentFormatter {
 
@@ -24,7 +26,7 @@ object CommentFormatter {
         "created"       -> toJson(Option(o.created)),
         "comment"       -> toJson(o.comment),
         "author"        -> toJson(o.author),
-        "votes"       -> toJson(o.votes),
+        "votes"         -> toJson(o.votes),
         "idea"          -> toJson(o.idea)
       ))
     }
@@ -33,7 +35,7 @@ object CommentFormatter {
       Comment(
         id        = (j \ "id").as[Option[Pk[Long]]]           .getOrElse(NotAssigned),
         comment   = (j \ "comment").as[Option[String]]        .getOrElse("No Comment"),
-        author    = (j \ "author").as[Option[Int]]            .getOrElse(0),
+        author    = (j \ "author").as[Option[User]]           .getOrElse(User()),
         created   = (j \ "created").as[Option[Date]]          .getOrElse(new Date())
       )
     }

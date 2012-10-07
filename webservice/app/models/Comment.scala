@@ -18,8 +18,8 @@ case class Comment (
 
   val id: Pk[Long] = NotAssigned,
 
-  val idea:       Long = 0,
-  val author:     Int = 0,
+  val idea:       Idea = Idea(),
+  val author:     User = User(),
   val comment:    String = "No Comment",
   val created:    Date = new Date()
 )
@@ -34,8 +34,8 @@ case class Comment (
 
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"        -> pkToLong(id),
-    "idea"      -> idea,
-    "author"    -> author,
+    "idea_id"   -> idea.id.getOrElse(0L),
+    "user_id"   -> author.id.getOrElse(0L),
     "comment"   -> comment,
     "created"   -> created
   )
@@ -43,7 +43,12 @@ case class Comment (
 
 object Comment extends EntityCompanion[Comment] {
 
-  val tableName = "comment"
+  val table = "comment"
+
+  override lazy val view = """
+    |comment                                    inner join 
+    |idea     on comment.idea_id = idea.id      inner join 
+    |user     on comment.user_id = user.id""".stripMargin
 
   val defaultOrder = "created"
 
@@ -53,25 +58,25 @@ object Comment extends EntityCompanion[Comment] {
     insert into comment (
       idea_id, user_id, comment, created
     ) values (
-      {idea}, {author}, {comment}, {created}
+      {idea_id}, {user_id}, {comment}, {created}
     )
   """
 
   val updateCommand = """
     update comment set
-      idea_id   = {idea},
-      user_id   = {author},
+      idea_id   = {idea_id},
+      user_id   = {user_id},
       comment   = {comment}
     where 
       id        = {id}
   """
 
   val simpleParser: RowParser[Comment] = {
-    get[Pk[Long]]("id") ~
-    get[Int]("idea_id") ~
-    get[Int]("user_id") ~
-    get[String]("comment") ~
-    get[Date]("created") map {
+    get[Pk[Long]]("comment.id") ~
+    Idea.minParser ~
+    User.simpleParser ~
+    get[String]("comment.comment") ~
+    get[Date]("comment.created") map {
       case id~idea~author~comment~created => Comment(
         id, idea, author, comment, created
       )
@@ -83,12 +88,12 @@ object Comment extends EntityCompanion[Comment] {
     var errors = List[Error]()
 
     // Validate author foreing key.
-    if (comment.author == 0) {
+    if (comment.author.id == NotAssigned) {
       errors ::= ValidationError("author", "Comment author not specified")
     }
 
     // Validate idea foreing key.
-    if (comment.idea == 0) {
+    if (comment.idea.id == NotAssigned) {
       errors ::= ValidationError("idea", "Comment idea not specified")
     }
 

@@ -11,6 +11,7 @@ import utils.Http
 import utils.Validate
 import utils.query.ConditionBuilder
 import utils.sql.ColumnInfo
+import utils.Sql
 
 import utils.Conversion.toUpperFirst
 import utils.Conversion.pkToLong
@@ -34,12 +35,15 @@ trait Entity {
 
 trait EntityCompanion[A<:Entity] {
 
-  val tableName: String
+  val table: String
+  lazy val view: String = table
 
-  def entityName: String = toUpperFirst(tableName)
+  def entityName: String = toUpperFirst(table)
 
   val defaultOrder: String
 
+  lazy val readCommand: String = "select * from %s".format(view)
+  lazy val readByIdCommand: String = readCommand + " where %s.id = {id} limit 1".format(table)
   val saveCommand: String
   val updateCommand: String
 
@@ -47,7 +51,7 @@ trait EntityCompanion[A<:Entity] {
 
   lazy val columnsInfo: List[ColumnInfo] = {
     DB.withConnection { implicit conn =>
-      ColumnInfo(tableName)
+      ColumnInfo(view)
     }
   }
 
@@ -60,17 +64,17 @@ trait EntityCompanion[A<:Entity] {
     if (!fields.contains(field)) {
       throw new ValidationException(
         "Cannot check for duplicate record. There's no field '%s' in table '%s'.".
-        format(field, tableName)
+        format(field, table)
       )
     }
     val value = fields(field).toString
     val exists = {
       // it's a new record
       if (entity.isNew) {
-        count(condition = "%s = '%s'".format(field, value))
+        count(condition = "%s.%s = '%s'".format(table, field, Sql.sanitize(value)))
       } else {
-        count(condition = "id <> %s and %s = '%s'".
-          format(pkToLong(entity.id), field, value)
+        count(condition = "%s.id <> %s and %s.%s = '%s'".
+          format(table, pkToLong(entity.id), table, field, Sql.sanitize(value))
         )
       }
     }
@@ -86,11 +90,9 @@ trait EntityCompanion[A<:Entity] {
   // TODO: add an overridable onFindById handler to avoid conflicts
   protected def _findById(id: Long): Option[A] = {
     DB.withConnection { implicit connection =>
-      SQL(
-        "select * from %s where id = {id}".format(tableName)
-      ).on(
-        'id   -> id
-      ).as(simpleParser.singleOpt)
+      SQL(readByIdCommand).
+        on('id   -> id).
+        as(simpleParser.singleOpt)
     }
   }
 
@@ -140,8 +142,8 @@ trait EntityCompanion[A<:Entity] {
         }
         if (q != "") {
           val query = ConditionBuilder.build(q, columnsInfo)
-          Logger.info("q: %s".format(q))
-          Logger.info("query: %s".format(query))
+          // Logger.info("q: %s".format(q))
+          // Logger.info("query: %s".format(query))
           if (query != "") conditions ::= query
         }
         if (condition != "") conditions ::= condition
@@ -156,7 +158,7 @@ trait EntityCompanion[A<:Entity] {
       val sql = "select %s from %s %s %s limit {offset}, {len}"
 
       SQL(
-        sql.format(fields, tableName, where, orderBy)
+        sql.format(fields, view, where, orderBy)
       ).on(
         'offset     -> (page-1) * len,
         'len        -> len,
@@ -237,7 +239,7 @@ trait EntityCompanion[A<:Entity] {
   def delete(id: Long): Unit = {
     DB.withConnection { implicit connection =>
       SQL("delete from %s where id = {id}"
-        .format(tableName))
+        .format(table))
         .on('id -> id)
       .executeUpdate()
     }

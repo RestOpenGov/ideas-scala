@@ -3,7 +3,7 @@ package controllers
 import play.api._
 import play.api.mvc._
 
-import models.{Comment, Error}
+import models.{Comment, Idea, Error}
 import anorm.Id
 
 import play.api.libs.json.Json.toJson
@@ -36,15 +36,17 @@ object Comments extends Controller {
     }.getOrElse(JsonNotFound("Comment with id %s not found".format(id)))
   }
 
-  def save(idea : Long) = CORSAction { request =>
-    request.body.asJson.map { json =>
-      json.asOpt[Comment].map { comment =>
-        comment.copy(idea = idea).save.fold(
-          errors => JsonBadRequest(errors),
-          comment => Ok(toJson(comment).toString)
-        )
-      }.getOrElse     (JsonBadRequest("Invalid Comment entity"))
-    }.getOrElse       (JsonBadRequest("Expecting JSON data"))
+  def save(ideaId : Long) = CORSAction { request =>
+    Idea.findById(ideaId).map { idea =>
+      request.body.asJson.map { json =>
+        json.asOpt[Comment].map { comment =>
+          comment.copy(idea = idea).save.fold(
+            errors => JsonBadRequest(errors),
+            comment => Ok(toJson(comment).toString)
+          )
+        }.getOrElse     (JsonBadRequest("Invalid Comment entity"))
+      }.getOrElse       (JsonBadRequest("Expecting JSON data"))
+    }.getOrElse         (JsonBadRequest("Could not find idea with id '%s'".format(ideaId)))
   }
 
   def update(id: Long) = CORSAction { implicit request =>

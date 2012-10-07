@@ -31,20 +31,20 @@ class ConditionBuilderSpec extends Specification {
 
     "build the sql condition when dealing with numbers in" in {
 
-      build("finteger=1", columnsInfo) must equalTo("finteger = 1")
-      build("finteger:1", columnsInfo) must equalTo("finteger = 1")
-      build("finteger>1", columnsInfo) must equalTo("finteger > 1")
-      build("finteger:>1", columnsInfo) must equalTo("finteger > 1")
-      build("finteger>=1", columnsInfo) must equalTo("finteger >= 1")
-      build("finteger:>=1", columnsInfo) must equalTo("finteger >= 1")
-      build("finteger<1", columnsInfo) must equalTo("finteger < 1")
-      build("finteger:<1", columnsInfo) must equalTo("finteger < 1")
-      build("finteger<=1", columnsInfo) must equalTo("finteger <= 1")
-      build("finteger:<=1", columnsInfo) must equalTo("finteger <= 1")
-      build("finteger<>1", columnsInfo) must equalTo("finteger <> 1")
-      build("finteger:<>1", columnsInfo) must equalTo("finteger <> 1")
-      build("finteger=1..2", columnsInfo) must equalTo("finteger between 1 and 2")
-      build("finteger:1..2", columnsInfo) must equalTo("finteger between 1 and 2")
+      build("finteger=1", columnsInfo) must equalTo("test.finteger = 1")
+      build("finteger:1", columnsInfo) must equalTo("test.finteger = 1")
+      build("finteger>1", columnsInfo) must equalTo("test.finteger > 1")
+      build("finteger:>1", columnsInfo) must equalTo("test.finteger > 1")
+      build("finteger>=1", columnsInfo) must equalTo("test.finteger >= 1")
+      build("finteger:>=1", columnsInfo) must equalTo("test.finteger >= 1")
+      build("finteger<1", columnsInfo) must equalTo("test.finteger < 1")
+      build("finteger:<1", columnsInfo) must equalTo("test.finteger < 1")
+      build("finteger<=1", columnsInfo) must equalTo("test.finteger <= 1")
+      build("finteger:<=1", columnsInfo) must equalTo("test.finteger <= 1")
+      build("finteger<>1", columnsInfo) must equalTo("test.finteger <> 1")
+      build("finteger:<>1", columnsInfo) must equalTo("test.finteger <> 1")
+      build("finteger=1..2", columnsInfo) must equalTo("test.finteger between 1 and 2")
+      build("finteger:1..2", columnsInfo) must equalTo("test.finteger between 1 and 2")
 
       build("finteger=*1*", columnsInfo
       ) must throwA[InvalidQueryConditionException].like {
@@ -90,9 +90,9 @@ class ConditionBuilderSpec extends Specification {
 
     "build the sql condition when dealing with string in" in {
 
-      build("fstring=text", columnsInfo) must equalTo("lower(fstring) = 'text'")
-      build("fstring:=text", columnsInfo) must equalTo("lower(fstring) = 'text'")
-      build("fstring:text", columnsInfo) must equalTo("lower(fstring) like '%text%'")
+      build("fstring=text", columnsInfo) must equalTo("lower(test.fstring) = 'text'")
+      build("fstring:=text", columnsInfo) must equalTo("lower(test.fstring) = 'text'")
+      build("fstring:text", columnsInfo) must equalTo("lower(test.fstring) like '%text%'")
     }
 
     "accept ':' char as separator" in {
@@ -133,21 +133,21 @@ class ConditionBuilderSpec extends Specification {
 
     "assume contains as operator when no operator is passed and field is a string" in {
 
-      build("fstring=text", columnsInfo) must equalTo("lower(fstring) = 'text'")
-      build("fstring:text", columnsInfo) must equalTo("lower(fstring) like '%text%'")
+      build("fstring=text", columnsInfo) must equalTo("lower(test.fstring) = 'text'")
+      build("fstring:text", columnsInfo) must equalTo("lower(test.fstring) like '%text%'")
 
-      build("fstring!=text", columnsInfo) must equalTo("(not lower(fstring) = 'text')")
-      build("fstring!text", columnsInfo) must equalTo("lower(fstring) not like '%text%'")
-      build("fstring:!text", columnsInfo) must equalTo("lower(fstring) not like '%text%'")
+      build("fstring!=text", columnsInfo) must equalTo("(not lower(test.fstring) = 'text')")
+      build("fstring!text", columnsInfo) must equalTo("lower(test.fstring) not like '%text%'")
+      build("fstring:!text", columnsInfo) must equalTo("lower(test.fstring) not like '%text%'")
     }
 
     "assume Equal as operator when no operator is passed and field is not a string" in {
-      build("finteger=10", columnsInfo) must equalTo("finteger = 10")
-      build("finteger:10", columnsInfo) must equalTo("finteger = 10")
+      build("finteger=10", columnsInfo) must equalTo("test.finteger = 10")
+      build("finteger:10", columnsInfo) must equalTo("test.finteger = 10")
 
-      build("finteger!=10", columnsInfo) must equalTo("(not finteger = 10)")
-      build("finteger!10", columnsInfo) must equalTo("(not finteger = 10)")
-      build("finteger:!10", columnsInfo) must equalTo("(not finteger = 10)")
+      build("finteger!=10", columnsInfo) must equalTo("(not test.finteger = 10)")
+      build("finteger!10", columnsInfo) must equalTo("(not test.finteger = 10)")
+      build("finteger:!10", columnsInfo) must equalTo("(not test.finteger = 10)")
     }
 
   }
@@ -157,124 +157,124 @@ class ConditionBuilderSpec extends Specification {
     import utils.query.ConditionBuilder.buildSingleCondition
 
     "build the sql condition" in {
-      buildSingleCondition(Condition("field=10", "field", false, Equal, List("10")), Numeric
-      ) must equalTo("field = 10")
+      buildSingleCondition(Condition("field=10", "field", false, Equal, List("10")), Numeric, "table"
+      ) must equalTo("table.field = 10")
     }
 
     "build the negated sql condition" in {
-      buildSingleCondition(Condition("field!=10", "field", true, Equal, List("10")), Numeric
-      ) must equalTo("(not field = 10)")
+      buildSingleCondition(Condition("field!=10", "field", true, Equal, List("10")), Numeric, "table"
+      ) must equalTo("(not table.field = 10)")
     }
 
     "build the sql condition when dealing with string operations" in {
-      buildSingleCondition(Condition("field=TexT", "field", false, Equal, List("TexT")), String
-      ) must equalTo("lower(field) = 'text'")
+      buildSingleCondition(Condition("field=TexT", "field", false, Equal, List("TexT")), String, "table"
+      ) must equalTo("lower(table.field) = 'text'")
 
-      buildSingleCondition(Condition("field=TexT*", "field", false, StartsWith, List("TexT")), String
-      ) must equalTo("lower(field) like 'text%'")
+      buildSingleCondition(Condition("field=TexT*", "field", false, StartsWith, List("TexT")), String, "table"
+      ) must equalTo("lower(table.field) like 'text%'")
 
-      buildSingleCondition(Condition("field=*TexT", "field", false, EndsWith, List("TexT")), String
-      ) must equalTo("lower(field) like '%text'")
+      buildSingleCondition(Condition("field=*TexT", "field", false, EndsWith, List("TexT")), String, "table"
+      ) must equalTo("lower(table.field) like '%text'")
 
-      buildSingleCondition(Condition("field=*TexT", "field", false, Contains, List("TexT")), String
-      ) must equalTo("lower(field) like '%text%'")
+      buildSingleCondition(Condition("field=*TexT", "field", false, Contains, List("TexT")), String, "table"
+      ) must equalTo("lower(table.field) like '%text%'")
 
-      buildSingleCondition(Condition("field=*TexT*", "field", false, Contains, List("TexT")), String
-      ) must equalTo("lower(field) like '%text%'")
+      buildSingleCondition(Condition("field=*TexT*", "field", false, Contains, List("TexT")), String, "table"
+      ) must equalTo("lower(table.field) like '%text%'")
 
-      buildSingleCondition(Condition("field$TexT", "field", false, Contains, List("TexT")), String
-      ) must equalTo("lower(field) like '%text%'")
+      buildSingleCondition(Condition("field$TexT", "field", false, Contains, List("TexT")), String, "table"
+      ) must equalTo("lower(table.field) like '%text%'")
     }
 
     "build the sql condition when dealing with string operations, with case unsensitive" in {
-      buildSingleCondition(Condition("field$Hi Fellows!", "field", false, Contains, List("Hi Fellows!")), String
-      ) must equalTo("lower(field) like '%hi fellows!%'")
+      buildSingleCondition(Condition("field$Hi Fellows!", "field", false, Contains, List("Hi Fellows!")), String, "table"
+      ) must equalTo("lower(table.field) like '%hi fellows!%'")
     }
 
     "build the sql negated condition when dealing with string operations" in {
-      buildSingleCondition(Condition("field=10", "field", true, Equal, List("10")), String
-      ) must equalTo("(not lower(field) = '10')")
+      buildSingleCondition(Condition("field=10", "field", true, Equal, List("10")), String, "table"
+      ) must equalTo("(not lower(table.field) = '10')")
     }
 
     "build the sql condition escaping single quotes when dealing with string operations" in {
-      buildSingleCondition(Condition("field=Paul's home", "field", false, Equal, List("Paul's home")), String
-      ) must equalTo("lower(field) = 'paul''s home'")
+      buildSingleCondition(Condition("field=Paul's home", "field", false, Equal, List("Paul's home")), String, "table"
+      ) must equalTo("lower(table.field) = 'paul''s home'")
     }
 
     "build the sql condition leaving double quotes and slashes untouched, case unsensitive" in {
-      buildSingleCondition(Condition("""field=Paul"s home""", "field", false, Equal, List("""Paul"s home""")), String
-      ) must equalTo("""lower(field) = 'paul"s home'""")
+      buildSingleCondition(Condition("""field=Paul"s home""", "field", false, Equal, List("""Paul"s home""")), String, "table"
+      ) must equalTo("""lower(table.field) = 'paul"s home'""")
 
-      buildSingleCondition(Condition("""field=Paul\s home""", "field", false, Equal, List("""Paul\s home""")), String
-      ) must equalTo("""lower(field) = 'paul\s home'""")
+      buildSingleCondition(Condition("""field=Paul\s home""", "field", false, Equal, List("""Paul\s home""")), String, "table"
+      ) must equalTo("""lower(table.field) = 'paul\s home'""")
     }
 
     "build the sql condition when dealing with numeric operations" in {
-      buildSingleCondition(Condition("field=10", "field", false, Equal, List("10")), Numeric
-      ) must equalTo("field = 10")
+      buildSingleCondition(Condition("field=10", "field", false, Equal, List("10")), Numeric, "table"
+      ) must equalTo("table.field = 10")
 
-      buildSingleCondition(Condition("field:10", "field", false, Equal, List("10")), Numeric
-      ) must equalTo("field = 10")
+      buildSingleCondition(Condition("field:10", "field", false, Equal, List("10")), Numeric, "table"
+      ) must equalTo("table.field = 10")
 
-      buildSingleCondition(Condition("field>10", "field", false, Greater, List("10")), Numeric
-      ) must equalTo("field > 10")
+      buildSingleCondition(Condition("field>10", "field", false, Greater, List("10")), Numeric, "table"
+      ) must equalTo("table.field > 10")
     }
 
     "build the sql condition when dealing with boolean operations" in {
       List("1", "yes", "on", "true", "TrUE", "anything").foreach { value =>
-        buildSingleCondition(Condition("field=" + value, "field", false, Equal, List(value)), Boolean
-        ) must equalTo("field = 1")
+        buildSingleCondition(Condition("field=" + value, "field", false, Equal, List(value)), Boolean, "table"
+        ) must equalTo("table.field = 1")
       }
 
       List("0", "off", "OFF", "false", "FaLse", "null").foreach { value =>
-        buildSingleCondition(Condition("field=" + value, "field", false, Equal, List(value)), Boolean
-        ) must equalTo("field = 0")
+        buildSingleCondition(Condition("field=" + value, "field", false, Equal, List(value)), Boolean, "table"
+        ) must equalTo("table.field = 0")
       }
 
-      buildSingleCondition(Condition("field=false", "field", false, Equal, List("false")), Boolean
-      ) must equalTo("field = 0")
+      buildSingleCondition(Condition("field=false", "field", false, Equal, List("false")), Boolean, "table"
+      ) must equalTo("table.field = 0")
     }
 
     "build the sql condition when dealing with between operator" in {
-      buildSingleCondition(Condition("field=12..15", "field", false, Between, List("12", "15")), Numeric
-      ) must equalTo("field between 12 and 15")
+      buildSingleCondition(Condition("field=12..15", "field", false, Between, List("12", "15")), Numeric, "table"
+      ) must equalTo("table.field between 12 and 15")
 
-      buildSingleCondition(Condition("field=12..15", "field", false, Between, List("12", "15")), String
-      ) must equalTo("lower(field) between '12' and '15'")
+      buildSingleCondition(Condition("field=12..15", "field", false, Between, List("12", "15")), String, "table"
+      ) must equalTo("lower(table.field) between '12' and '15'")
     }
 
     "build the sql negated condition when dealing with between operator" in {
-      buildSingleCondition(Condition("field=12..15", "field", true, Between, List("12", "15")), Numeric
-      ) must equalTo("field not between 12 and 15")
+      buildSingleCondition(Condition("field=12..15", "field", true, Between, List("12", "15")), Numeric, "table"
+      ) must equalTo("table.field not between 12 and 15")
 
-      buildSingleCondition(Condition("field=TextA..TextB", "field", true, Between, List("TextA", "TextB")), String
-      ) must equalTo("lower(field) not between 'texta' and 'textb'")
+      buildSingleCondition(Condition("field=TextA..TextB", "field", true, Between, List("TextA", "TextB")), String, "table"
+      ) must equalTo("lower(table.field) not between 'texta' and 'textb'")
     }
 
     "build the sql condition when dealing with in operator" in {
-      buildSingleCondition(Condition("field=12;13;14", "field", false, In, List("12", "13", "14")), Numeric
-      ) must equalTo("field in (12, 13, 14)")
+      buildSingleCondition(Condition("field=12;13;14", "field", false, In, List("12", "13", "14")), Numeric, "table"
+      ) must equalTo("table.field in (12, 13, 14)")
 
-      buildSingleCondition(Condition("field=on,true,false", "field", false, In, List("on", "true", "false")), Boolean
-      ) must equalTo("field in (1, 1, 0)")
+      buildSingleCondition(Condition("field=on,true,false", "field", false, In, List("on", "true", "false")), Boolean, "table"
+      ) must equalTo("table.field in (1, 1, 0)")
 
-      buildSingleCondition(Condition("field=TexTA;TexTB;teXTc", "field", false, In, List("TexTA", "TexTB", "teXTc")), String
-      ) must equalTo("( lower(field) like '%texta%' or lower(field) like '%textb%' or lower(field) like '%textc%' )")
+      buildSingleCondition(Condition("field=TexTA;TexTB;teXTc", "field", false, In, List("TexTA", "TexTB", "teXTc")), String, "table"
+      ) must equalTo("( lower(table.field) like '%texta%' or lower(table.field) like '%textb%' or lower(table.field) like '%textc%' )")
 
     }
 
     "build raise an error when it's expecting a number and no number is passed" in {
-      buildSingleCondition(Condition("field=10+", "field", false, Equal, List("10+")), Numeric
+      buildSingleCondition(Condition("field=10+", "field", false, Equal, List("10+")), Numeric, "table"
       ) must throwA[InvalidQueryConditionException].like {
         case e => e.getMessage must contain("Value '10+' is not a valid number.")
       }
 
-      buildSingleCondition(Condition("field=12..1a5", "field", true, Between, List("12", "1a5")), Numeric
+      buildSingleCondition(Condition("field=12..1a5", "field", true, Between, List("12", "1a5")), Numeric, "table"
       ) must throwA[InvalidQueryConditionException].like {
         case e => e.getMessage must contain("Value '1a5' is not a valid number.")
       }
 
-      buildSingleCondition(Condition("field=12 a 23..15", "field", true, Between, List("12 a 23", "15")), Numeric
+      buildSingleCondition(Condition("field=12 a 23..15", "field", true, Between, List("12 a 23", "15")), Numeric, "table"
       ) must throwA[InvalidQueryConditionException].like {
         case e => e.getMessage must contain("Value '12 a 23' is not a valid number.")
       }

@@ -72,9 +72,11 @@ hr.soften {
 
 body {
   color: #333;
-  background: url('../img/bg.png');
+  background: url('../img/bg/5440055211_a9163b7802_o.jpg');
   background-color: #EBEBEB;
   background-repeat: repeat;
+  background-position: center center;
+  background-attachment:fixed;
   padding-top: 60px;
   padding-bottom: 40px;
 }
@@ -85,4 +87,31 @@ body {
 
 textarea {
   resize:none;
+}
+
+.well{
+  /* Fallback for web browsers that doesn't support RGBa */
+  background: rgb(255, 255, 255);
+  /* RGBa with 0.6 opacity */
+  background: rgba(255, 255, 255, 0.9);
+  /* For IE 5.5 - 7*/
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+}
+
+.idea-home  {
+  border-bottom: 1px solid #CCC;
+}
+
+.idea-home:hover {
+  background-color: white;
+}
+
+.idea-home h3 {
+  text-align: center;
+}
+
+.idea-home .votes-container {
+  text-align: center;
 }

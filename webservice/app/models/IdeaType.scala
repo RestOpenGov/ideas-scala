@@ -39,7 +39,7 @@ case class IdeaType (
 
 object IdeaType extends EntityCompanion[IdeaType] {
 
-  val tableName = "idea_type"
+  val table = "idea_type"
 
   val defaultOrder = "name"
 
@@ -62,9 +62,9 @@ object IdeaType extends EntityCompanion[IdeaType] {
   """
 
   val simpleParser = {
-    get[Pk[Long]]("id") ~
-    get[String]("name") ~ 
-    get[String]("description") map {
+    get[Pk[Long]]("idea_type.id") ~
+    get[String]("idea_type.name") ~ 
+    get[String]("idea_type.description") map {
       case id~description~name => IdeaType(
         id, name, description
       )
