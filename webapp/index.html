@@ -23,7 +23,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body ng:controller="MainCtrl">
 
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -91,24 +91,35 @@
 -->
      <div class="container-fluid master-container">
           <div class="row-fluid">
-            <div class="span3">
+            <div class="span2">
+              
+              <!-- logo -->
               <div id="logo-container" class="well sidebar-nav">
-                <img src="img/ideas-ba-logo.png" />
+                <a href="/#/ideas"><img src="img/ideas-ba-logo.png" /></a>
                 <p>Social brainstorming for improving our city!</p>
                 <p class="small" style="text-align:center">
                   Ideas-ba aims to be a social website that allows citizens to share ideas, complaints, questions and proposal to improve our cities. It is inspired in sites like <a href="http://www.stackoverflow.com">StackOverflow</a>, that allows collective knowledge to help us solve the problems that as developers we face everyday.
                 </p>
-                <a href="https://github.com/RestOpenGov/ideas-ba" class="btn btn-large btn-danger">View project on github</a>
               </div><!--/.well -->
+
+              <!-- information -->
+              <div class="well sidebar-nav">
+                <a id="image-reference" class="btn btn-mini popover-component" data-title="Imagen de fondo:" data-content="propiedad de Benjamin Dumas CC <a href='http://www.flickr.com/photos/b00nj/5440055211'>Flickr</a>"><i class="icon-camera"></i></a>
+                <a id="logo-rog" class="btn btn-mini popover-component" data-title="Desarrollado por:" data-content="#NARDOZ <a href='http://restopengov.org/'>RestOpenGov Team</a>"><i class="icon-edit"></i></a>
+                <a class="btn btn-mini popover-component" data-title="Código fuente:" data-content="<a href='https://github.com/RestOpenGov/ideas-ba'>github</a>"><i class="icon-share"></i></a>                
+              </div><!--/.well -->
+
             </div><!--/span-->
-            <div class="span9">
+            <div class="span10">
               <div class="well">
-                <form class="form-search">
-                  <div class="input-append">
-                    <input type="text" class="input-large search-query">
-                    <button type="submit" class="btn btn-medium">Search</button>
-                  </div>
-                </form>
+                <div>
+                  <form class="form-search" ng-submit="search()">
+                    <div class="input-append">
+                      <input type="text" ng-model="searchQuery" class="input-large search-query">
+                       <button type="submit" class="btn">Submit</button>
+                    </div>
+                  </form>
+                </div>
               </div>
 
               <div ng-view></div>
@@ -118,8 +129,14 @@
      
      </div>
 
+
+
     <script src="js/app/app.js"></script>
-    <script src="js/app/controller.js"></script>
+    <script src="js/app/controller/MainCtrl.js"></script>
+    <script src="js/app/controller/HomeCtrl.js"></script>
+    <script src="js/app/controller/IdeaDetailCtrl.js"></script>
+    <script src="js/app/controller/IdeaListCtrl.js"></script>
+    <script src="js/app/controller/IdeaFormCtrl.js"></script>
 
   </body>
 

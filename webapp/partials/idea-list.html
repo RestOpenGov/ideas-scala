@@ -1,4 +1,8 @@
- <div class="row-fluid" ng-controller="IdeaListCtrl" ng-repeat="idea in ideas">
+<div class="well">
+  <p>Viendo {{ideas.length}} ideas</p>
+</div>
+<div class="row-fluid" ng-controller="IdeaListCtrl" ng-repeat="idea in ideas">
+  <div class="well">
     <h3>
       <a href="#/ideas/{{idea.id}}">{{idea.name}}</a>
       <div class="btn-group pull-right">
@@ -34,4 +38,5 @@
         </tr>
       </tbody>
     </table>
+  </div>  
   </div>
