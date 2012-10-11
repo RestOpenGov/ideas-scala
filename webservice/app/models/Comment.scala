@@ -28,6 +28,7 @@ case class Comment (
 
   lazy val votes: VoteCounter = VoteCounter.forComment(this)
 
+  val url: String = id.map(controllers.routes.Comments.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Comment.update(this)
   def save()    (implicit lang: Lang) = Comment.save(this)
   def delete()  (implicit lang: Lang) = Comment.delete(this)

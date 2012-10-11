@@ -31,7 +31,7 @@ case class Idea (
 
   lazy val votes: VoteCounter = VoteCounter.forIdea(this)
 
-  val url: String = controllers.routes.Ideas.show(id.get).url
+  val url: String = id.map(controllers.routes.Ideas.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Idea.update(this)
   def save()    (implicit lang: Lang) = Idea.save(this)
   def delete()  (implicit lang: Lang) = Idea.delete(this)

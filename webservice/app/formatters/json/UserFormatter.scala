@@ -19,6 +19,7 @@ object UserFormatter {
 
     def writes(o: User): JsValue = {
       toJson( Map(
+        "url"         -> toJson(o.url),
         "id"          -> toJson(o.id),
         "nickname"    -> toJson(o.nickname),
         "name"        -> toJson(o.name),

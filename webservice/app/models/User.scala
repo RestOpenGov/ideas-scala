@@ -24,6 +24,7 @@ case class User (
 )
   extends Entity
 {
+  val url: String = id.map(controllers.routes.Users.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = User.update(this)
   def save()    (implicit lang: Lang) = User.save(this)
   def delete()  (implicit lang: Lang) = User.delete(this)

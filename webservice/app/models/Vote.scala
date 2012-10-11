@@ -29,6 +29,7 @@ case class Vote (
 )
   extends Entity
 {
+  val url: String = id.map(controllers.routes.Votes.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Vote.update(this)
   def save()    (implicit lang: Lang) = Vote.save(this)
   def delete()  (implicit lang: Lang) = Vote.delete(this)

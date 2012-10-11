@@ -26,6 +26,7 @@ case class IdeaType (
 )
   extends Entity
 {
+  val url: String = id.map(controllers.routes.IdeaTypes.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = IdeaType.update(this)
   def save()    (implicit lang: Lang) = IdeaType.save(this)
   def delete()  (implicit lang: Lang) = IdeaType.delete(this)

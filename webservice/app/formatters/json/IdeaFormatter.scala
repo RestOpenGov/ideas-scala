@@ -57,6 +57,7 @@ object IdeaMinFormatter {
 
     def writes(o: Idea): JsValue = {
       toJson( Map(
+        "url"         -> toJson(o.url),
         "id"          -> toJson(o.id),
         "name"        -> toJson(o.name),
         "description" -> toJson(o.description),
