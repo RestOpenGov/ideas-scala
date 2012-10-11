@@ -90,6 +90,33 @@ class ConditionParserSpec extends Specification {
         .description must equalTo("field should not contain value1")
     }
 
+    "correctly parse the table" in {
+      parseSingleCondition("table1.field!value1..value2")
+        .prefix must equalTo("table1")
+
+      parseSingleCondition("table1.field!value1..value2")
+        .description must equalTo("table1.field should not be between value1 and value2")
+
+      parseSingleCondition("field!value1..value2")
+        .prefix must equalTo("")
+    }
+
+    "correctly parse and apply mappings on the table" in {
+      val mappings = Map("table1"->"mapped1", "" -> "default")
+
+      parseSingleCondition("table1.field!value1..value2").withMapping(mappings)
+        .prefix must equalTo("mapped1")
+
+      parseSingleCondition("table1.field!value1..value2").withMapping(mappings)
+        .description must equalTo("mapped1.field should not be between value1 and value2")
+
+      parseSingleCondition("table2.field!value1..value2").withMapping(mappings)
+        .prefix must equalTo("table2")
+
+      parseSingleCondition("field!value1..value2").withMapping(mappings)
+        .prefix must equalTo("default")
+    }
+
     "throw and exception if no field is defined" in {
       parseSingleCondition("=value") must throwA[InvalidQueryConditionException].like {
         case e => e.getMessage must contain("No field specified")

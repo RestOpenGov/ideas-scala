@@ -50,6 +50,8 @@ object Comment extends EntityCompanion[Comment] {
     |idea     on comment.idea_id = idea.id      inner join 
     |user     on comment.user_id = user.id""".stripMargin
 
+  override val tableMappings = Map("idea" -> "idea", "author" -> "user")
+
   val defaultOrder = "created"
 
   val filterFields = List("comment")
@@ -71,12 +73,12 @@ object Comment extends EntityCompanion[Comment] {
       id        = {id}
   """
 
-  val simpleParser: RowParser[Comment] = {
-    get[Pk[Long]]("comment.id") ~
-    Idea.minParser ~
-    User.simpleParser ~
-    get[String]("comment.comment") ~
-    get[Date]("comment.created") map {
+  def parser(as: String = "comment."): RowParser[Comment] = {
+    get[Pk[Long]]     (as + "id") ~
+    Idea.minParser    ("idea.") ~
+    User.parser       ("user.") ~
+    get[String]       (as + "comment") ~
+    get[Date]         (as + "created") map {
       case id~idea~author~comment~created => Comment(
         id, idea, author, comment, created
       )

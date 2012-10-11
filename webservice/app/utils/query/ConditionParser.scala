@@ -6,6 +6,7 @@ import exceptions.InvalidQueryConditionException
 
 case class Condition(
   original : String, 
+  prefix   : String, 
   field    : String, 
   negated  : Boolean, 
   operator : ConditionOperator.Value, 
@@ -17,34 +18,41 @@ case class Condition(
 
     val neg = if (negated) " not" else ""
     val value = this.values(0)
+    val fieldName = if (prefix == "") field else "%s.%s".format(prefix, field)
+    
     operator match {
-      case Equal           => "%s should%s be equal to %s".format(field, neg, value)
-      case NotEqual        => "%s should%s be not equal to %s".format(field, neg, value)
-      case GreaterOrEqual  => "%s should%s be greater than or equal to %s".format(field, neg, value)
-      case Greater         => "%s should%s be greater than %s".format(field, neg, value)
-      case LessOrEqual     => "%s should%s be less than or equal to %s".format(field, neg, value)
-      case Less            => "%s should%s be less than %s".format(field, neg, value)
-      case Between         => "%s should%s be between %s and %s".format(field, neg, this.values(0), this.values(1))
-      case In              => "%s should%s be one of %s".format(field, neg, this.values.mkString(", "))
-      case StartsWith      => "%s should%s start with %s".format(field, neg, value)
-      case EndsWith        => "%s should%s end with %s".format(field, neg, value)
-      case Contains        => "%s should%s contain %s".format(field, neg, value)
-      case Missing         => "%s should%s (missing operator!) %s".format(field, neg, value)
-      case Unknown         => "%s should%s have something to do with %s".format(field, neg, value)
+      case Equal           => "%s should%s be equal to %s".format(fieldName, neg, value)
+      case NotEqual        => "%s should%s be not equal to %s".format(fieldName, neg, value)
+      case GreaterOrEqual  => "%s should%s be greater than or equal to %s".format(fieldName, neg, value)
+      case Greater         => "%s should%s be greater than %s".format(fieldName, neg, value)
+      case LessOrEqual     => "%s should%s be less than or equal to %s".format(fieldName, neg, value)
+      case Less            => "%s should%s be less than %s".format(fieldName, neg, value)
+      case Between         => "%s should%s be between %s and %s".format(fieldName, neg, this.values(0), this.values(1))
+      case In              => "%s should%s be one of %s".format(fieldName, neg, this.values.mkString(", "))
+      case StartsWith      => "%s should%s start with %s".format(fieldName, neg, value)
+      case EndsWith        => "%s should%s end with %s".format(fieldName, neg, value)
+      case Contains        => "%s should%s contain %s".format(fieldName, neg, value)
+      case Missing         => "%s should%s (missing operator!) %s".format(fieldName, neg, value)
+      case Unknown         => "%s should%s have something to do with %s".format(fieldName, neg, value)
     }
+  }
+
+  def withMapping(mappings: Map[String, String]): Condition = {
+    val newPrefix = if (mappings.contains(this.prefix)) mappings(this.prefix) else this.prefix
+    this.copy(prefix = newPrefix)
   }
 
 }
 
 object Condition {
-  def apply(original: String, field: String, negated: Boolean, operator: ConditionOperator.Value, 
-            value: String): Condition = {
-    Condition(original, field, negated, operator, List(value))
+  def apply(original: String, prefix: String, field: String, negated: Boolean, 
+    operator: ConditionOperator.Value, value: String): Condition = {
+    Condition(original, prefix, field, negated, operator, List(value))
   }
 
-  def apply(original: String, field: String, negated: Boolean, operator: ConditionOperator.Value,
-            value1: String, value2: String): Condition = {
-    Condition(original, field, negated, operator, List(value1, value2))
+  def apply(original: String, prefix: String, field: String, negated: Boolean, 
+    operator: ConditionOperator.Value, value1: String, value2: String): Condition = {
+    Condition(original, prefix, field, negated, operator, List(value1, value2))
   }
 
 }
@@ -62,19 +70,21 @@ object ConditionParser {
   def parseSingleCondition(condition: String): Condition = {
 
     if (condition == "") {
-      return Condition("", "", false, Missing, List[String]())
+      return Condition("", "", "", false, Missing, List[String]())
       throw new InvalidQueryConditionException(
         "Error parsing query condition. Condition is empty.")
     }
 
-    val conditionRegExp = """^([\w-]*)[:]?(!?)(=|:|\$|<=|>=|<>|<|>|){1}+(.*)$""".r
+    val conditionRegExp = """^(?:([\w|\.]*)\.)?([\w-]*)[:]?(!?)(=|:|\$|<=|>=|<>|<|>|){1}+(.*)$""".r
 
     if (!conditionRegExp.pattern.matcher(condition).matches) {
       throw new InvalidQueryConditionException(
         "Error parsing query condition '%s'.".format(condition))
     }
 
-    val conditionRegExp(parsedField, parsedNegated, parsedOperator, parsedValue) = condition
+    val conditionRegExp(parsedPrefix, parsedField, parsedNegated, parsedOperator, parsedValue) = condition
+
+    val prefix = if (parsedPrefix==null) "" else parsedPrefix
 
     if (parsedField == "") {
       throw new InvalidQueryConditionException(
@@ -86,6 +96,7 @@ object ConditionParser {
         "Error parsing query condition '%s' No value specified.".format(condition))
     }
 
+    val field = parsedField
     val negated = (parsedNegated == "!")
     val operator = ConditionOperator.toConditionOperator(parsedOperator)
 
@@ -106,38 +117,38 @@ object ConditionParser {
                 "Error parsing query condition '%s' You have to specify value 'from' or 'to' when using between operator.".format(condition))
             }
             if (from.isEmpty) {
-              Condition(condition, parsedField, negated, LessOrEqual, to)
+              Condition(condition, prefix, field, negated, LessOrEqual, to)
             } else if (to.isEmpty) {
-              Condition(condition, parsedField, negated, GreaterOrEqual, from)
+              Condition(condition, prefix, field, negated, GreaterOrEqual, from)
             } else {
-              Condition(condition, parsedField, negated, Between, from, to)
+              Condition(condition, prefix, field, negated, Between, from, to)
             }
           }
 
           case inRegExp(value) => {
-            Condition(condition, parsedField, negated, In, value.split(";").toList)
+            Condition(condition, prefix, field, negated, In, value.split(";").toList)
           }
 
           case containsRegExp(value) => {
-            Condition(condition, parsedField, negated, Contains, value)
+            Condition(condition, prefix, field, negated, Contains, value)
           }
 
           case startsWithRegExp(value) => {
-            Condition(condition, parsedField, negated, StartsWith, value)
+            Condition(condition, prefix, field, negated, StartsWith, value)
           }
 
           case endsWithRegExp(value) => {
-            Condition(condition, parsedField, negated, EndsWith, value)
+            Condition(condition, prefix, field, negated, EndsWith, value)
           }
 
           case _ => {
-            Condition(condition, parsedField, negated, operator, parsedValue)
+            Condition(condition, prefix, field, negated, operator, parsedValue)
           }
         }
       }
       
       case _ => {   // case Equal | Missing | Unknown
-        Condition(condition, parsedField, negated, operator, parsedValue)
+        Condition(condition, prefix, field, negated, operator, parsedValue)
       }
     }
 

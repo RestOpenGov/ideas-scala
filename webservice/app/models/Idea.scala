@@ -31,7 +31,7 @@ case class Idea (
 
   lazy val votes: VoteCounter = VoteCounter.forIdea(this)
 
-  def url():String = controllers.routes.Ideas.show(id.get).url
+  val url: String = controllers.routes.Ideas.show(id.get).url
   def update()  (implicit lang: Lang) = Idea.update(this)
   def save()    (implicit lang: Lang) = Idea.save(this)
   def delete()  (implicit lang: Lang) = Idea.delete(this)
@@ -65,6 +65,8 @@ object Idea extends EntityCompanion[Idea] {
     |idea_type  on idea.idea_type_id = idea_type.id     inner join 
     |user       on idea.user_id = user.id""".stripMargin
 
+  override val tableMappings = Map("type" -> "idea_type", "author" -> "user")
+
   val defaultOrder = "name"
 
   val filterFields = List("name", "description")
@@ -88,25 +90,25 @@ object Idea extends EntityCompanion[Idea] {
       id        = {id}
   """
 
-  val simpleParser: RowParser[Idea] = {
-    get[Pk[Long]]("idea.id") ~
-    IdeaType.simpleParser ~ 
-    get[String]("idea.name") ~
-    get[String]("idea.description") ~
-    User.simpleParser ~
-    get[Int]("idea.views") ~
-    get[Date]("idea.created") map {
+  def parser(as: String = "idea."): RowParser[Idea] = {
+    get[Pk[Long]]   (as + "id") ~
+    IdeaType.parser ("idea_type.") ~ 
+    get[String]     (as + "name") ~
+    get[String]     (as + "description") ~
+    User.parser     ("user.") ~
+    get[Int]        (as + "views") ~
+    get[Date]       (as + "created") map {
       case id~kind~name~description~author~views~created => Idea(
         id, kind, name, description, author, views, created
       )
     }
   }
 
-  val minParser: RowParser[Idea] = {
-    get[Pk[Long]]("idea.id") ~
-    get[String]("idea.name") ~
-    get[String]("idea.description") ~
-    get[Date]("idea.created") map {
+  def minParser(as: String = "idea."): RowParser[Idea] = {
+    get[Pk[Long]]   (as + "id") ~
+    get[String]     (as + "name") ~
+    get[String]     (as + "description") ~
+    get[Date]       (as + "created") map {
       case id~name~description~created => Idea(
         id = id, name = name, description = description
       )

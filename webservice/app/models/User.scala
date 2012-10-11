@@ -64,13 +64,13 @@ object User extends EntityCompanion[User] {
       id        = {id}
   """
 
-  val simpleParser: RowParser[User] = {
-    get[Pk[Long]]("id") ~
-    get[String]("nickname") ~
-    get[String]("name") ~
-    get[String]("email") ~
-    get[String]("avatar") ~
-    get[Date]("created") map {
+  def parser(as: String = "user."): RowParser[User] = {
+    get[Pk[Long]]   (as + "id") ~
+    get[String]     (as + "nickname") ~
+    get[String]     (as + "name") ~
+    get[String]     (as + "email") ~
+    get[String]     (as + "avatar") ~
+    get[Date]       (as + "created") map {
       case id~nickname~name~email~avatar~created => User(
         id, nickname, name, email, avatar, created
       )
