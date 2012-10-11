@@ -75,7 +75,14 @@ object ConditionParser {
         "Error parsing query condition. Condition is empty.")
     }
 
-    val conditionRegExp = """^(?:([\w|\.]*)\.)?([\w-]*)[:]?(!?)(=|:|\$|<=|>=|<>|<|>|){1}+(.*)$""".r
+    val conditionRegExp = """(?mx)    #multiline, whitespaces and comments
+      ^(?:([\w|\.]*)\.)?              #prefix, optionally nested table1.table2., don't capture last dot
+      ([\w-]*)                        #field, allow hyphens
+      [:]?                            #optional colon separator
+      (!?)                            #negated
+      (=|:|\$|<=|>=|<>|<|>|){1}+      #operator, mandatory, only one
+      (.*)$                           #value
+    """.r
 
     if (!conditionRegExp.pattern.matcher(condition).matches) {
       throw new InvalidQueryConditionException(
