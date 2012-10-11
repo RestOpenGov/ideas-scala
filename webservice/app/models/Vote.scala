@@ -89,15 +89,15 @@ object Vote extends EntityCompanion[Vote] {
   """
 
   def parser(as: String = "vote."): RowParser[Vote] = {
-    get[Pk[Long]]   (as + "id") ~
-    get[String]     (as + "vote_type") ~
-    get[Int]        (as + "idea_id") ~
-    get[Int]        (as + "comment_id") ~
-    get[Int]        (as + "user_id") ~
-    get[Boolean]    (as + "pos") ~
-    get[Date]       (as + "created") map {
+    get[Pk[Long]]     (as + "id") ~
+    get[String]       (as + "vote_type") ~
+    get[Option[Int]]  (as + "idea_id") ~
+    get[Option[Int]]  (as + "comment_id") ~
+    get[Int]          (as + "user_id") ~
+    get[Boolean]      (as + "pos") ~
+    get[Date]         (as + "created") map {
       case id~voteType~ideaId~commentId~userId~pos~created => Vote(
-        id, voteType, ideaId, commentId, userId, pos, created
+        id, voteType, ideaId.getOrElse(0), commentId.getOrElse(0), userId, pos, created
       )
     }
   }
