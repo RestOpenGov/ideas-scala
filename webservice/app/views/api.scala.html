@@ -25,6 +25,15 @@
     <li><a href="@routes.Ideas.show(999)">
       Ideas.show(999) (@routes.Ideas.show(999) - not found)
     </a></li>
+    
+    <li><a href="@routes.Ideas.list()?order=id">
+      Ideas.list(order="id") (@routes.Ideas.list()?order=id)
+    </a></li>
+
+    <li><a href="@routes.Ideas.list()?q=type.name:idea">
+      Nested objects queries: Ideas.list(q="type.name:idea") (@routes.Ideas.list()?q=type.name:idea)
+    </a></li>
+
   </ul>
 
   <h2>@Comment.count() Comments</h2>
