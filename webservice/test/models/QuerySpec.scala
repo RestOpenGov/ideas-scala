@@ -59,6 +59,17 @@ class QuerySpec extends org.specs2.mutable.Specification {
       }
     }
 
+    "support queries with in clause, like field:x1|x2|x3" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        val ideas1 = Idea.find(q="id:2|4", order="id")
+        ideas1.size must equalTo(2)
+        ideas1(0).id.get must equalTo(2)
+        ideas1(1).id.get must equalTo(4)
+
+      }
+    }
+
     "support nested object queries" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 

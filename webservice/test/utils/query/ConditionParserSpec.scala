@@ -49,7 +49,7 @@ class ConditionParserSpec extends Specification {
     }
 
     "handle in operator with multiples values" in {
-      parseSingleCondition("field=value1;value2;value3")
+      parseSingleCondition("field=value1|value2|value3")
         .description must equalTo("field should be one of value1, value2, value3")
     }
 
@@ -77,7 +77,7 @@ class ConditionParserSpec extends Specification {
       parseSingleCondition("field!value1..value2")
         .description must equalTo("field should not be between value1 and value2")
 
-      parseSingleCondition("field!value1;value2;value3")
+      parseSingleCondition("field!value1|value2|value3")
         .description must equalTo("field should not be one of value1, value2, value3")
 
       parseSingleCondition("field!value1*")
@@ -143,7 +143,7 @@ class ConditionParserSpec extends Specification {
         "field2 should be equal to value2"
       ))
 
-      asDescriptions(parse("f1!v1..v2,f2>=v2,f3=*v3*,f4!v4a;v4b;v4c;v4d")) must equalTo(List(
+      asDescriptions(parse("f1!v1..v2,f2>=v2,f3=*v3*,f4!v4a|v4b|v4c|v4d")) must equalTo(List(
         "f1 should not be between v1 and v2",
         "f2 should be greater than or equal to v2",
         "f3 should contain v3",

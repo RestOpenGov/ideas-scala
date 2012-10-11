@@ -111,7 +111,7 @@ object ConditionParser {
       case Equal | Missing | Unknown => {
 
         val betweenRegExp    = """^(\w*)\.\.(\w*)$""".r
-        val inRegExp         = """^(.*;.*)$""".r
+        val inRegExp         = """^(.*\|.*)$""".r
         val containsRegExp   = """^\*(.*)\*$""".r
         val startsWithRegExp = """^(.*)\*$""".r
         val endsWithRegExp   = """^\*(.*)$""".r
@@ -133,7 +133,7 @@ object ConditionParser {
           }
 
           case inRegExp(value) => {
-            Condition(condition, prefix, field, negated, In, value.split(";").toList)
+            Condition(condition, prefix, field, negated, In, value.split("""\|""").toList)
           }
 
           case containsRegExp(value) => {
