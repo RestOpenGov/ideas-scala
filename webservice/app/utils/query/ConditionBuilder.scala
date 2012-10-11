@@ -1,6 +1,6 @@
 package utils.query
 
-import play.Logger;
+import play.Logger
 
 import exceptions.InvalidQueryConditionException
 
@@ -33,6 +33,7 @@ object ConditionBuilder {
 
     // sqlConditions.map { "(" + _ + ")"}.mkString(" and ")
     sqlConditions.mkString(" and ")
+
   }
 
   def buildSingleCondition(

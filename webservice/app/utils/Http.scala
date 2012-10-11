@@ -2,7 +2,7 @@ package utils
 
 import scala.collection.immutable.Map
 
-import play.Logger;
+import play.Logger
 
 object Http {
 

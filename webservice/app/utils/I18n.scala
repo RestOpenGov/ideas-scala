@@ -16,7 +16,7 @@ trait LangRecognizer {
 
 object CategorizerLangRecognizer extends LangRecognizer {
 
-  import org.knallgrau.utils.textcat.TextCategorizer;
+  import org.knallgrau.utils.textcat.TextCategorizer
 
   private lazy val guesser = new TextCategorizer
 
@@ -45,7 +45,7 @@ object DetectorLangRecognizer extends LangRecognizer {
   val profileDirectory = "app/utils/i18n/profiles"
 
   private lazy val init: Boolean = {
-    DetectorFactory.loadProfile(profileDirectory);
+    DetectorFactory.loadProfile(profileDirectory)
     true
   }
 

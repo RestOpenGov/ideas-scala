@@ -14,7 +14,7 @@ object Validate {
     value.forall(_.isDigit)
   }
 
-  def currentYear: Int = Calendar.getInstance().get(Calendar.YEAR);
+  def currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
 
   // alias for play.api.i18n.Messages
   def &(key: String, args: Any*)(implicit lang: Lang) = {
