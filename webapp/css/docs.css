@@ -115,3 +115,8 @@ textarea {
 .idea-home .votes-container {
   text-align: center;
 }
+
+.avatar-image {
+  width: 100px;
+  height: auto;
+}

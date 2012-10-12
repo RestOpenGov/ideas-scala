@@ -39,7 +39,7 @@
               <li><a href="#">Submmit Idea!</a></li>
               <li><a href="#">My ideas</a></li>
               <li><a href="#">Best rated</a></li>
-              <li><a href="#">Latest</a></li>
+              <li><a href="/#/ideas/list?filter=created%20DESC">Latest</a></li>
               <li><a href="#">Map of ideas</a></li>
             </ul>
             <ul class="nav pull-right">
@@ -116,9 +116,10 @@
                   <form class="form-search" ng-submit="search()">
                     <div class="input-append">
                       <input type="text" ng-model="searchQuery" class="input-large search-query">
-                       <button type="submit" class="btn">Submit</button>
+                       <button type="submit" class="btn">Buscar</button>
                     </div>
                   </form>
+                  <a class="btn btn-large" href="/#/ideas/nueva">nueva idea</a>
                 </div>
               </div>
 
@@ -129,14 +130,14 @@
      
      </div>
 
-
-
     <script src="js/app/app.js"></script>
     <script src="js/app/controller/MainCtrl.js"></script>
     <script src="js/app/controller/HomeCtrl.js"></script>
     <script src="js/app/controller/IdeaDetailCtrl.js"></script>
     <script src="js/app/controller/IdeaListCtrl.js"></script>
     <script src="js/app/controller/IdeaFormCtrl.js"></script>
+    <script src="js/app/controller/UserDetailCtrl.js"></script>
+    <script src="js/app/controller/UserFormCtrl.js"></script>    
 
   </body>
 
