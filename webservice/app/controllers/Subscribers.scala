@@ -41,7 +41,7 @@ object Subscribers extends Controller {
   // }
 
   def delete(ideaId: Long, userId: Long) = TODO
-  // def delete(userId: Long, ideaId: Long) = CORSAction {
+  // def delete(userId: Long, ideaId: Long) = CORSAction { implicit request =>
   //   User.delete(id)
   //   JsonOk("User successfully deleted","User with id %s deleted".format(id))
   // }
