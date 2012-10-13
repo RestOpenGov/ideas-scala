@@ -205,8 +205,6 @@ trait EntityCompanion[A<:Entity] {
 
     import utils.sql.AnormHelper.toParamsValue
 
-    play.Logger.info("update: "+lang.toString)
-
     val errors = validate(entity)
     if (errors.length > 0) {
       Left(errors)
