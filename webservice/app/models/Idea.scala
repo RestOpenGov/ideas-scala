@@ -69,7 +69,7 @@ object Idea extends EntityCompanion[Idea] {
 
   val defaultOrder = "name"
 
-  val filterFields = List("name", "description")
+  val filterFields = List("idea.name", "idea.description")
 
   val saveCommand = """
     insert into idea (
