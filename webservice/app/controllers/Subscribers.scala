@@ -29,7 +29,7 @@ object Subscribers extends Controller {
   // }
 
   def save(ideaId: Long) = TODO
-  // def save() = CORSAction { request =>
+  // def save() = CORSAction { implicit request =>
   //   request.body.asJson.map { json =>
   //     json.asOpt[User].map { user =>
   //       user.save.fold(

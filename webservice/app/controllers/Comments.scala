@@ -36,7 +36,7 @@ object Comments extends Controller {
     }.getOrElse(JsonNotFound("Comment with id %s not found".format(id)))
   }
 
-  def save(ideaId : Long) = CORSAction { request =>
+  def save(ideaId : Long) = CORSAction { implicit request =>
     Idea.findById(ideaId).map { idea =>
       request.body.asJson.map { json =>
         json.asOpt[Comment].map { comment =>
@@ -60,7 +60,7 @@ object Comments extends Controller {
     }.getOrElse         (JsonBadRequest("Expecting JSON data"))
   }
 
-  def delete(id: Long) = CORSAction {
+  def delete(id: Long) = CORSAction { implicit request =>
     Comment.delete(id)
     JsonOk("Comment successfully deleted","Comment with id %s deleted".format(id))
   }

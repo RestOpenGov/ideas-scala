@@ -32,7 +32,7 @@ object Ideas extends Controller {
     }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
   }
 
-  def save() = CORSAction { request =>
+  def save() = CORSAction { implicit request =>
     request.body.asJson.map { json =>
       json.asOpt[Idea].map { idea =>
         idea.save.fold(
@@ -54,7 +54,7 @@ object Ideas extends Controller {
     }.getOrElse         (JsonBadRequest("Expecting JSON data"))
   }
 
-  def delete(id: Long) = CORSAction {
+  def delete(id: Long) = CORSAction { implicit request =>
     Idea.delete(id)
     JsonOk("Idea successfully deleted","Idea with id %s deleted".format(id))
   }
