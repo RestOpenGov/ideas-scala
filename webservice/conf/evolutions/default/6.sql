@@ -2,13 +2,20 @@
 
 # --- !Ups
 
-INSERT INTO idea VALUES
-  (1, 1, 'Wifi libre en ba', 'Proveer acceso wifi gratuito en toda la ciudad', 2, 320, '2012-09-22 14:20:00'),
-  (2, 1, 'Multas para los autos que no respetan las bicisendas', 'Implementar multas...', 1, 124, '2012-09-23 15:20:00'),
-  (3, 2, 'Cortar las ramas de corrientes y malabia', 'En corrientes y malabia hay ramas de arbol que impiden el paso', 3, 25, '2012-09-24 19:20:00'),
-  (4, 3, 'Como hago para sacar el registro de conducir?', 'Que tramite debo hacer para sacar el registro?', 1, 67, '2012-09-24 19:20:00')
+INSERT INTO subject VALUES
+  (1,   'Arte y cultura',     'Museos, teatros, cines, festivales'),
+  (2,   'Medioambiente',      'Protección y cuidado del medioambiente y la ecología'),
+  (3,   'Gobierno',           'Actos de gobierno y trámites'),
+  (4,   'Tecnología',         'Gobierno electrónico'),
+  (5,   'Política',           'Leyes, resoluciones, campañas políticas'),
+  (6,   'Economía',           'Subisidios, fomentos, impuestos'),
+  (7,   'Transporte',         'Normas de tránsito, infracciones, bicisendas'),
+  (8,   'Infraestrucura',     'Edificios, licitaciones, autopistas, construcciones'),
+  (9,   'Salud',              'Hostpitales, centros de atención, campañas'),
+  (10,  'Educación',          'Colegios, escuelas, campañas educativas'),
+  (11,  'Espacio público',    'Parques, paseos, edificios públicos, vía urbana')
 ;
 
 # --- !Downs
 
-delete from idea where id > 0;
+delete from subject where id > 0;

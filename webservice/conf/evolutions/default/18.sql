@@ -2,13 +2,17 @@
 
 # --- !Ups
 
-INSERT INTO notification VALUES
-  (01, 1, 'pending', 'notification report for user nardoz',     '2012-09-22 14:20:00'),
-  (02, 2, 'pending', 'notification report for user opensas',    '2012-09-22 14:20:02'),
-  (03, 3, 'pending', 'notification report for user darkipunch', '2012-09-22 14:20:04'),
-  (04, 4, 'pending', 'notification report for user pala',       '2012-09-22 14:20:08')
+INSERT INTO subscription VALUES
+  (01, 1, 2),
+  (02, 1, 1),
+  (03, 1, 3),
+  (04, 1, 4),
+  (05, 2, 1),
+  (06, 2, 2),
+  (07, 3, 3),
+  (08, 4, 1)
 ;
 
 # --- !Downs
 
-delete from notification where id > 0;
+delete from subscription where id > 0;
