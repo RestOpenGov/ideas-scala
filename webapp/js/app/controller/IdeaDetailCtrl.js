@@ -22,10 +22,11 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
   };
 
   $scope.addComment = function(){
-    var $commentBox = $('#comment-box').slideUp(),data = {
+    var $commentBox = $('#comment-box'),
+      data = {
         "author": 1,
         "comment": $scope.msg
-    };
+      };
 
     $commentBox.slideUp();
 
