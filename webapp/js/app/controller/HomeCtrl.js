@@ -20,7 +20,7 @@ function HomeCtrl($scope, $routeParams, $http) {
       	var type = t.id;
 
       	//Retrieve 3 ideas per type TODO add type filter
-      	$http.get(SERVICE_ENDPOINT+'ideas?len=3').success(function(json) {
+      	$http.get(SERVICE_ENDPOINT+'ideas?len=3&order=created DESC&q=type.id:'+type).success(function(json) {
 	      	types[i]['ideas'] = json;
 	      	loadedTypes++;
 	      	
