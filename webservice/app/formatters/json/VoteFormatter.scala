@@ -33,9 +33,9 @@ object VoteFormatter {
       Vote(
         id          = (j \ "id").as[Option[Pk[Long]]]           .getOrElse(NotAssigned),
         voteType    = (j \ "voteType").as[Option[String]]       .getOrElse("idea"),
-        ideaId      = (j \ "ideaId").as[Option[Int]]            .getOrElse(0),
-        commentId   = (j \ "commentId").as[Option[Int]]         .getOrElse(0),
-        userId      = (j \ "userId").as[Option[Int]]            .getOrElse(0),
+        ideaId      = (j \ "ideaId").as[Option[Long]]           ,
+        commentId   = (j \ "commentId").as[Option[Long]]        ,
+        userId      = (j \ "userId").as[Option[Long]]           .getOrElse(0),
         pos         = (j \ "pos").as[Option[Boolean]]           .getOrElse(true),
         created     = (j \ "created").as[Option[Date]]          .getOrElse(new Date())
       )

@@ -16,6 +16,7 @@ object Error {
   val UNSPECIFIED = 10000
   val REQUIRED = 10001
   val DUPLICATE = 10002
+  val BUSINESS_RULE = 10003
 }
 
 object ValidationError {

@@ -37,6 +37,36 @@ case class User (
     "avatar"        -> avatar,
     "created"       -> created
   )
+
+  def upIdea(id: Long) = voteIdea(id, true)
+  def downIdea(id: Long) = voteIdea(id, false)
+
+  def voteIdea(ideaId: Long, pos: Boolean = true): Either[List[Error],Idea] = {
+    Vote.idea(Some(ideaId), this, pos).save.fold(
+      errors => Left(errors),
+      vote => Idea.findById(ideaId).map { idea =>
+        Right(idea)
+      }.getOrElse(
+        Left(List(ValidationError(
+          "Could not find idea with id '%s'".format(ideaId)
+        )))
+      )
+    )
+  }
+
+  def voteComment(commentId: Long, pos: Boolean = true): Either[List[Error],Comment] = {
+    Vote.comment(Some(commentId), this, pos).save.fold(
+      errors => Left(errors),
+      vote => Comment.findById(commentId).map { comment =>
+        Right(comment)
+      }.getOrElse(
+        Left(List(ValidationError(
+          "Could not find comment with id '%s'".format(commentId)
+        )))
+      )
+    )
+  }
+
 }
 
 object User extends EntityCompanion[User] {

@@ -52,8 +52,8 @@ POST    /api/ideas/:idea/comment              controllers.Comments.save(idea: Lo
 GET     /api/ideas/comments/:id               controllers.Comments.show(id: Long)
 # GET     /api/ideas/:idea/comments/:id        controllers.Comments.show(idea:Long, id: Long)
 # DELETE  /api/ideas/:idea/comments/:id        controllers.Comments.delete(idea: Long, id: Long)
-# PUT     /api/ideas/:id/comments/:id/up       controllers.Comments.vote(idea: Long, id: Long, true)
-# PUT     /api/ideas/:id/comments/:id/down     controllers.Comments.vote(idea: Long, id: Long, false)
+PUT     /api/ideas/:idea/comments/:id/up       controllers.Comments.up(idea: Long, id: Long)
+PUT     /api/ideas/:idea/comments/:id/down     controllers.Comments.down(idea: Long, id: Long)
  
 GET     /api/types                         controllers.IdeaTypes.list
 GET     /api/types/count                   controllers.IdeaTypes.count
@@ -70,6 +70,9 @@ POST    /api/votes/                        controllers.Votes.save
 POST    /api/votes                         controllers.Votes.save
 GET     /api/votes/:id                     controllers.Votes.show(id: Long)
 DELETE  /api/votes/:id                     controllers.Votes.delete(id: Long)
+
+# Javascript routing
+GET     /assets/javascripts/routes         controllers.Application.javascriptRoutes
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)

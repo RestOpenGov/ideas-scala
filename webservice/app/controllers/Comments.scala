@@ -3,7 +3,7 @@ package controllers
 import play.api._
 import play.api.mvc._
 
-import models.{Comment, Idea, Error}
+import models.{User, Comment, Idea, Error}
 import anorm.Id
 
 import play.api.libs.json.Json.toJson
@@ -65,9 +65,16 @@ object Comments extends Controller {
     JsonOk("Comment successfully deleted","Comment with id %s deleted".format(id))
   }
 
-  def up(id: Long) = vote(id, true)
-  def down(id: Long) = vote(id, false)
+  def up(idea: Long, id: Long) = vote(idea, id, true)
+  def down(idea: Long, id: Long) = vote(idea, id, false)
 
-  def vote(id: Long, positive: Boolean) = TODO
+  def vote(idea: Long, id: Long, pos: Boolean = true) = CORSAction { implicit request =>
+    implicit val Some(user) = User.findById(2)
+    
+    Comment.vote(id, pos).fold(
+      errors => JsonBadRequest(errors),
+      idea => Ok(toJson(idea).toString)
+    )
+  }
 
 }

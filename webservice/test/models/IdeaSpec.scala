@@ -16,8 +16,6 @@ class IdeaSpec extends org.specs2.mutable.Specification {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         val Some(idea) = Idea.findById(1)
 
-        println("idea: %s".format(idea.toString))
-
         idea must not be none
         idea.name must equalTo("Wifi libre en ba")
         idea.description must equalTo("Proveer acceso wifi gratuito en toda la ciudad")

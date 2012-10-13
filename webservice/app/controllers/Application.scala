@@ -23,4 +23,14 @@ object Application extends Controller {
     )
   }
 
+  def javascriptRoutes = Action { implicit request =>
+    import routes.javascript._
+    Ok(
+      Routes.javascriptRouter("jsRoutes")(
+        Ideas.up, Ideas.down,
+        Comments.up, Comments.down
+      )
+    ).as("text/javascript") 
+  }
+
 }

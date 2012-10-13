@@ -42,14 +42,11 @@ class UserSpec extends Specification with ErrorSpec {
 
         val noNickname = user.copy(nickname="")
 
-        println("user: %s".format(noNickname.toString))
-
         implicit val lang = Lang("en")
 
         // val saved: Either[List[Error],User] = noNickname.save()(Lang("es"))
         user.copy(nickname="").save()(Lang("es")) must beLeft.like {
           case errors => {
-            println("errors: %s".format(errors.toString))
             val fieldErrors = errors.filter(_.field == "nickname")
             fieldErrors.size must equalTo(1)
             val error = fieldErrors(0)

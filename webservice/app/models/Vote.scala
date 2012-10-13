@@ -21,9 +21,9 @@ case class Vote (
   val id: Pk[Long] = NotAssigned,
 
   val voteType:     String = "idea",
-  val ideaId:       Int = 0,
-  val commentId:    Int = 0,
-  val userId:       Int = 0,
+  val ideaId:       Option[Long] = None,
+  val commentId:    Option[Long] = None,
+  val userId:       Long = 0,
   val pos:          Boolean = true,
   val created:      Date = new Date()
 )
@@ -46,6 +46,34 @@ case class Vote (
 }
 
 object Vote extends EntityCompanion[Vote] {
+
+  private def pkToOption[T](value: Pk[T]): Option[T] = {
+    value.map(v => Some(v)).getOrElse(None)
+  }
+
+  def idea(id: Option[Long], user: User, pos: Boolean) = {
+    Vote(
+      voteType = "idea", ideaId = id,
+      userId = user.id.getOrElse(0),
+      pos = pos
+    )
+  }
+
+  def apply(ideaEntity: Idea, user: User, pos: Boolean): Vote = {
+    idea(pkToOption(ideaEntity.id), user, pos)
+  }
+
+  def comment(id: Option[Long], user: User, pos: Boolean) = {
+    Vote(
+      voteType = "comment", commentId = id,
+      userId = user.id.getOrElse(0),
+      pos = pos
+    )
+  }
+
+  def apply(commentEntity: Comment, user: User, pos: Boolean): Vote = {
+    comment(pkToOption(commentEntity.id), user, pos)
+  }
 
   def countForIdea(ideaId: Long): Tuple2[Int, Int] = {
     val cond = "idea_id = %s and pos = ".format(ideaId)
@@ -79,7 +107,7 @@ object Vote extends EntityCompanion[Vote] {
 
   val updateCommand = """
     update vote set
-      vote_typed    = {voteType},
+      vote_type     = {voteType},
       idea_id       = {ideaId},
       comment_id    = {commentId},
       user_id       = {userId},
@@ -91,15 +119,60 @@ object Vote extends EntityCompanion[Vote] {
   def parser(as: String = "vote."): RowParser[Vote] = {
     get[Pk[Long]]     (as + "id") ~
     get[String]       (as + "vote_type") ~
-    get[Option[Int]]  (as + "idea_id") ~
-    get[Option[Int]]  (as + "comment_id") ~
-    get[Int]          (as + "user_id") ~
+    get[Option[Long]] (as + "idea_id") ~
+    get[Option[Long]] (as + "comment_id") ~
+    get[Long]         (as + "user_id") ~
     get[Boolean]      (as + "pos") ~
     get[Date]         (as + "created") map {
       case id~voteType~ideaId~commentId~userId~pos~created => Vote(
-        id, voteType, ideaId.getOrElse(0), commentId.getOrElse(0), userId, pos, created
+        id, voteType, ideaId, commentId, userId, pos, created
       )
     }
+  }
+
+  override def save(vote: Vote)(implicit lang: Lang): Either[List[Error],Vote] = {
+
+    val errors = validate(vote)
+    if (errors.length > 0) {
+      Left(errors)
+    } else {
+      duplicateVote(vote).map { voteToUpdate =>
+        update(voteToUpdate.copy(pos=vote.pos))
+      }.getOrElse {
+        super.save(vote)
+      }
+    }
+  }
+
+  def duplicateVote(vote: Vote): Option[Vote] = {
+    val votes = Vote.find(condition=alreadyVotedCondition(vote))
+    if (votes.size <= 0) None 
+    else Some(votes(0))
+  }
+
+  def alreadyVotedCondition(vote: Vote): String = {
+    (
+      "user_id = %s and ".format(vote.userId) +
+      ( if (vote.ideaId.isDefined) "idea_id = %s".format(vote.ideaId.get)
+        else "comment_id = %s".format(vote.commentId.get)
+      ) +
+      ( if (vote.id == NotAssigned) "" else " and id <> %s".format(vote.id) )
+    )
+  }
+
+  def alreadyVoted(vote: Vote): Boolean = {
+    (count(condition=alreadyVotedCondition(vote)) > 0)
+  }
+
+  def isChangingVoteCondition(vote: Vote): String = {
+    (
+      alreadyVotedCondition(vote) + 
+      "and pos = " + (if (vote.pos) "true" else "false")
+    )
+  }
+
+  def isChangingVote(vote: Vote): Boolean = {
+    (count(condition=isChangingVoteCondition(vote)) > 0)
   }
 
   def validate(vote: Vote)(implicit lang: Lang): List[Error] = {
@@ -118,12 +191,12 @@ object Vote extends EntityCompanion[Vote] {
     }
 
     // user, should also validate foreign key!
-    if (vote.ideaId == 0 && vote.commentId == 0) {
+    if (!vote.ideaId.isDefined && !vote.commentId.isDefined) {
       errors ::= ValidationError("", "No idea nor comment specified")
     }
 
     // user, should also validate foreign key!
-    if (vote.ideaId != 0 && vote.commentId != 0) {
+    if (vote.ideaId.isDefined && vote.commentId.isDefined) {
       errors ::= ValidationError("", "Idea and comment specified, you can only vote for one of them")
     }
 
@@ -133,33 +206,35 @@ object Vote extends EntityCompanion[Vote] {
     }
 
     // check for duplicate vote
-    val duplicateVoteCondition = (
-      "user_id = %s and ".format(vote.userId) +
-      ( if (vote.ideaId != 0) "idea_id = %s".format(vote.ideaId)
-        else "comment_id = %s".format(vote.commentId)
-      ) +
-      ( if (vote.id == NotAssigned) "" else " and id <> %s".format(vote.id) )
-    )
-    if (count(condition=duplicateVoteCondition) > 0) {
-      errors ::= ValidationError("", "You've already voted for that!")
+    // if (alreadyVoted(vote)) {
+    //   errors ::= ValidationError(Error.BUSINESS_RULE, "author", "You've already voted for that!")
+    // }
+
+    duplicateVote(vote).map { duplicated => 
+      val entity = ( if (vote.ideaId.isDefined) "idea" else "comment" )
+      if (vote.pos == duplicated.pos) {
+        val up_down = ( if (vote.pos) "up" else "down" )
+        errors ::= ValidationError(Error.BUSINESS_RULE, "author",
+          "You've already voted %s for that %s!".format(up_down, entity))
+      }
     }
 
     // user cannot vote for his own idea!
-    if (vote.ideaId!=0) {
-      Idea.findById(vote.ideaId).map { idea =>
+    vote.ideaId.map { id =>
+      Idea.findById(id).map { idea =>
         if (idea.author.id.get == vote.userId) {
-          if (vote.pos) errors ::= ValidationError("", "Be more humble! You can't vote your own idea")
-          else          errors ::= ValidationError("", "Don't you like your own idea? You can't vote your own idea")
+          if (vote.pos) errors ::= ValidationError(Error.BUSINESS_RULE, "author", "Be more humble! You can't vote your own idea")
+          else          errors ::= ValidationError(Error.BUSINESS_RULE, "author", "Don't you like your own idea? You can't vote your own idea")
         }
       }
     }
 
     // user cannot vote for his own comment!
-    if (vote.commentId!=0) {
-      Comment.findById(vote.ideaId).map { comment =>
-        if (comment.author==vote.userId) {
-          if (vote.pos) errors ::= ValidationError("", "Be more humble! You can't vote your own comment")
-          else          errors ::= ValidationError("", "Don't you like your own comment? You can't vote your own comment")
+    vote.commentId.map { id =>
+      Comment.findById(id).map { comment =>
+        if (comment.author.id.get == vote.userId) {
+          if (vote.pos) errors ::= ValidationError(Error.BUSINESS_RULE, "author", "Be more humble! You can't vote your own comment")
+          else          errors ::= ValidationError(Error.BUSINESS_RULE, "author", "Don't you like your own comment? You can't vote your own comment")
         }
       }
     }

@@ -146,4 +146,16 @@ object Idea extends EntityCompanion[Idea] {
     errors.reverse
   }
 
+  def up(id: Long)(implicit user: User) = {
+    vote(id, true)
+  }
+
+  def down(id: Long)(implicit user: User) = {
+    vote(id, false)
+  }
+
+  def vote(id: Long, pos: Boolean = true)(implicit user: User): Either[List[Error],Idea] = {
+    user.voteIdea(id, pos)
+  }
+
 }

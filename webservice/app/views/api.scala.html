@@ -34,6 +34,31 @@
       Nested objects queries: Ideas.list(q="type.name:idea") (@routes.Ideas.list()?q=type.name:idea)
     </a></li>
 
+<hr />
+
+    <li>
+      <a href="javascript:exec(jsRoutes.controllers.Ideas.up(1))">
+        jsRoutes.controllers.Ideas.up(1)
+      </a> Error: You can't vote your own idea
+    </li>
+    <li>
+      <a href="javascript:exec(jsRoutes.controllers.Ideas.up(2))">
+        jsRoutes.controllers.Ideas.up(2)
+      </a> Error: You've already voted up for that idea!
+    </li>
+    <li>
+      <a href="javascript:exec(jsRoutes.controllers.Ideas.up(3))">
+        jsRoutes.controllers.Ideas.up(3)
+      </a> Ok
+    </li>
+    <li>
+      <a href="javascript:exec(jsRoutes.controllers.Ideas.down(3))">
+        jsRoutes.controllers.Ideas.down(3)
+      </a> Ok
+    </li>
+
+    <textarea id="result" cols="100" rows="5"></textarea>
+
   </ul>
 
   <h2>@Comment.count() Comments</h2>
@@ -79,4 +104,31 @@
   </ul>
 
 <hr />
+
+<script>
+    function exec(route) {
+      route.ajax({
+        success: function(data) {
+          $("#result").val(data);
+        },
+        error: function(xhr) {
+          $("#result").val(xhr.responseText);
+        }
+      });
+    }
+  $(function() {
+
+    $('#IdeasUp').click(function() {
+      jsRoutes.controllers.Ideas.up(1).ajax({
+        success: function(data) {
+          $("#result").val(data);
+        },
+        error: function(xhr) {
+          $("#result").val(xhr.responseText);
+        }
+      });
+    });
+  });
+</script>
+
 }
