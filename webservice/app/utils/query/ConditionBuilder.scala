@@ -1,6 +1,6 @@
 package utils.query
 
-import play.Logger;
+import play.Logger
 
 import exceptions.InvalidQueryConditionException
 
@@ -18,8 +18,14 @@ object ConditionBuilder {
 
   val CASE_SENSITIVE = false
 
-  def build(conditions: String, columnsInfo: List[ColumnInfo]): String = {
-    val conds: List[query.Condition] = query.ConditionParser.parse(conditions)
+  def build(
+    conditions: String, columnsInfo: List[ColumnInfo], mappings: Map[String, String] = Map()
+  ): String = {
+
+    val conds: List[query.Condition] = 
+    (query.ConditionParser.parse(conditions)).map { cond => 
+      cond.withMapping(mappings)
+    }
 
     val sqlConditions: List[String] = conds.map { condition =>
       buildSingleCondition(condition, columnsInfo).trim
@@ -27,25 +33,32 @@ object ConditionBuilder {
 
     // sqlConditions.map { "(" + _ + ")"}.mkString(" and ")
     sqlConditions.mkString(" and ")
+
   }
 
   def buildSingleCondition(
-    condition: Condition, columnsInfo: List[ColumnInfo]
+    condition: Condition, columnsInfo: List[ColumnInfo], mappings: Map[String, String] = Map()
   ): String = {
-    columnsInfo.find(_.name.toLowerCase == condition.field.toLowerCase).map { columnInfo =>
+
+    val cond = condition.withMapping(mappings)
+
+    columnsInfo.find { info =>
+      (cond.prefix == "" || info.table.toLowerCase == cond.prefix.toLowerCase) &&
+      info.name.toLowerCase == cond.field.toLowerCase
+    }.map { columnInfo =>
       buildSingleCondition(
-        condition, FieldType.toFieldType(columnInfo.fieldType), columnInfo.table
+        cond, FieldType.toFieldType(columnInfo.fieldType)
       )
     }.getOrElse {
       throw new InvalidQueryConditionException(
-        "Error building query condition '%s'. Field '%s' not found."
-        .format(condition.original, condition.field)
+        "Error building query condition '%s'. Field '%s.%s' not found."
+        .format(cond.original, cond.prefix, cond.field)
       )
     }
   }
 
   def buildSingleCondition(
-    condition: Condition, fieldType: FieldType.Value, table: String
+    condition: Condition, fieldType: FieldType.Value
   ): String = {
 
     import ConditionOperator._
@@ -99,11 +112,15 @@ object ConditionBuilder {
       if (fieldType == String && !CASE_SENSITIVE) value.toLowerCase else value
     }
 
-    val field = (
+    val field = {
+      val fieldName = (
+        if (condition.prefix == "") condition.field 
+        else "%s.%s".format(condition.prefix, condition.field)
+      )
       ( if (fieldType == String && !CASE_SENSITIVE)
-        "lower(%s.%s)" else "%s.%s"
-      ).format(table, condition.field)
-    )
+        "lower(%s)" else "%s"
+      ).format(fieldName)
+    }
 
     val formattedValues = values.map { formatValue(_) }
     val formattedValue = formattedValues(0)
@@ -135,7 +152,7 @@ object ConditionBuilder {
         } else {
           val operator = if (fieldType == String) Contains else Equal
           return "( " + values.map( value =>
-            buildSingleCondition( Condition(condition.original, condition.field, condition.negated, operator, value), fieldType, table)
+            buildSingleCondition(Condition(condition.original, condition.prefix, condition.field, condition.negated, operator, value), fieldType)
           ).mkString(if (condition.negated) " and " else " or ") + " )"
         }
       }

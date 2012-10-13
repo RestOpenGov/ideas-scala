@@ -26,6 +26,7 @@ case class IdeaType (
 )
   extends Entity
 {
+  val url: String = id.map(controllers.routes.IdeaTypes.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = IdeaType.update(this)
   def save()    (implicit lang: Lang) = IdeaType.save(this)
   def delete()  (implicit lang: Lang) = IdeaType.delete(this)
@@ -61,11 +62,11 @@ object IdeaType extends EntityCompanion[IdeaType] {
       id          = {id}
   """
 
-  val simpleParser = {
-    get[Pk[Long]]("idea_type.id") ~
-    get[String]("idea_type.name") ~ 
-    get[String]("idea_type.description") map {
-      case id~description~name => IdeaType(
+  def parser(as: String = "idea_type.") = {
+    get[Pk[Long]]   (as + "id") ~
+    get[String]     (as + "name") ~ 
+    get[String]     (as + "description") map {
+      case id~name~description => IdeaType(
         id, name, description
       )
     }

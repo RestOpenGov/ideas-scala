@@ -1,0 +1,25 @@
+<div class="well span12">
+  
+  <div class="span9">
+    <h3><a href="/#/ideas/{{idea.id}}">{{idea.name}}</a></h3>
+    <p>{{idea.description}}</p>
+  </div>
+  <div class="span3">
+    <div class="row-fluid">
+      <div class="span12 votes-container pull-right">
+        <div class="btn-toolbar">
+          <div class="btn-group">
+            <a class="btn btn btn-success"><i class="icon-thumbs-up" ng-click="votePositive()"></i>{{idea.votes.pos}}</a>
+            <a class="btn btn percent-button" data-title="asd" data-content="Porcentaje de aceptación sobre un total de {{idea.votes.pos + idea.votes.neg}} votantes.">
+              {{((idea.votes.pos*100)/(idea.votes.pos + idea.votes.neg + 0.01)).toFixed(0)}} %</a>
+            <a class="btn btn btn-danger"><i class="icon-thumbs-down" ng-click="voteNegative()"></i>{{idea.votes.neg}}</a>
+          </div>
+        </div>
+      </div> 
+    </div>
+    <div class="row-fluid">
+      <a class="span12" href="/#/user/{{idea.author.id}}">{{idea.author.name}}</a>
+      <img class="avatar-image" ng-src="{{idea.author.avatar}}" />
+    </div> 
+  </div>
+</div>

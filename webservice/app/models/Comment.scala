@@ -28,6 +28,7 @@ case class Comment (
 
   lazy val votes: VoteCounter = VoteCounter.forComment(this)
 
+  val url: String = id.map(controllers.routes.Comments.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Comment.update(this)
   def save()    (implicit lang: Lang) = Comment.save(this)
   def delete()  (implicit lang: Lang) = Comment.delete(this)
@@ -50,6 +51,8 @@ object Comment extends EntityCompanion[Comment] {
     |idea     on comment.idea_id = idea.id      inner join 
     |user     on comment.user_id = user.id""".stripMargin
 
+  override val tableMappings = Map("idea" -> "idea", "author" -> "user")
+
   val defaultOrder = "created"
 
   val filterFields = List("comment")
@@ -71,12 +74,12 @@ object Comment extends EntityCompanion[Comment] {
       id        = {id}
   """
 
-  val simpleParser: RowParser[Comment] = {
-    get[Pk[Long]]("comment.id") ~
-    Idea.minParser ~
-    User.simpleParser ~
-    get[String]("comment.comment") ~
-    get[Date]("comment.created") map {
+  def parser(as: String = "comment."): RowParser[Comment] = {
+    get[Pk[Long]]     (as + "id") ~
+    Idea.minParser    ("idea.") ~
+    User.parser       ("user.") ~
+    get[String]       (as + "comment") ~
+    get[Date]         (as + "created") map {
       case id~idea~author~comment~created => Comment(
         id, idea, author, comment, created
       )
@@ -106,6 +109,18 @@ object Comment extends EntityCompanion[Comment] {
     // TODO: spam validation, have to wait 15 seconds before commenting again
 
     errors.reverse
+  }
+
+  def up(id: Long)(implicit user: User) = {
+    vote(id, true)
+  }
+
+  def down(id: Long)(implicit user: User) = {
+    vote(id, false)
+  }
+
+  def vote(id: Long, pos: Boolean = true)(implicit user: User): Either[List[Error],Comment] = {
+    user.voteComment(id, pos)
   }
 
 }

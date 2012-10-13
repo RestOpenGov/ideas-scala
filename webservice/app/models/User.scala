@@ -24,6 +24,7 @@ case class User (
 )
   extends Entity
 {
+  val url: String = id.map(controllers.routes.Users.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = User.update(this)
   def save()    (implicit lang: Lang) = User.save(this)
   def delete()  (implicit lang: Lang) = User.delete(this)
@@ -36,6 +37,36 @@ case class User (
     "avatar"        -> avatar,
     "created"       -> created
   )
+
+  def upIdea(id: Long) = voteIdea(id, true)
+  def downIdea(id: Long) = voteIdea(id, false)
+
+  def voteIdea(ideaId: Long, pos: Boolean = true): Either[List[Error],Idea] = {
+    Vote.idea(Some(ideaId), this, pos).save.fold(
+      errors => Left(errors),
+      vote => Idea.findById(ideaId).map { idea =>
+        Right(idea)
+      }.getOrElse(
+        Left(List(ValidationError(
+          "Could not find idea with id '%s'".format(ideaId)
+        )))
+      )
+    )
+  }
+
+  def voteComment(commentId: Long, pos: Boolean = true): Either[List[Error],Comment] = {
+    Vote.comment(Some(commentId), this, pos).save.fold(
+      errors => Left(errors),
+      vote => Comment.findById(commentId).map { comment =>
+        Right(comment)
+      }.getOrElse(
+        Left(List(ValidationError(
+          "Could not find comment with id '%s'".format(commentId)
+        )))
+      )
+    )
+  }
+
 }
 
 object User extends EntityCompanion[User] {
@@ -64,13 +95,13 @@ object User extends EntityCompanion[User] {
       id        = {id}
   """
 
-  val simpleParser: RowParser[User] = {
-    get[Pk[Long]]("id") ~
-    get[String]("nickname") ~
-    get[String]("name") ~
-    get[String]("email") ~
-    get[String]("avatar") ~
-    get[Date]("created") map {
+  def parser(as: String = "user."): RowParser[User] = {
+    get[Pk[Long]]   (as + "id") ~
+    get[String]     (as + "nickname") ~
+    get[String]     (as + "name") ~
+    get[String]     (as + "email") ~
+    get[String]     (as + "avatar") ~
+    get[Date]       (as + "created") map {
       case id~nickname~name~email~avatar~created => User(
         id, nickname, name, email, avatar, created
       )

@@ -1,0 +1,37 @@
+<div class="well">
+	<h1>Tus datos</h1>
+	<a class="btn btn-large" href="/#/user/edit">Editar perfil</a>
+	<img class="avatar-image" ng-src="{{user.avatar}}" />
+	<form class="form-horizontal">
+	  <div class="control-group">
+	    <label class="control-label">#</label>
+		<label class="control-label">{{user.id}}</label>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label">Nombre</label>
+		<label class="control-label">{{user.name}}</label>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label">Nick</label>
+		<label class="control-label">{{user.nickname}}</label>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label">Mail</label>
+		<label class="control-label">{{user.email}}</label>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label">Desde</label>
+		<label class="control-label">{{user.created}}</label>
+	  </div>
+	</form>
+ </div>
+
+<div class="well">
+	<h1>Tus últimas 3 ideas</h1>
+</div>
+<div ng-include src="'includes/idea.html'" ng-repeat="idea in ideas"></div>
+
+<div class="well">
+	<h1>Tus últimos 3 comentarios</h1>
+</div>
+<div ng-include src="'includes/comment.html'" ng-repeat="comment in comments"></div>

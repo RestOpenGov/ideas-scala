@@ -4,6 +4,7 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
   $scope.ideaId = $routeParams.ideaId;
 
   $scope.idea = {};
+  
   $scope.comments = [];
   
   $scope.search = function(){

@@ -42,6 +42,12 @@ trait EntityCompanion[A<:Entity] {
 
   val defaultOrder: String
 
+  val tableMappings = Map[String, String]()
+
+  def getTableMappings: Map[String, String] = {
+    if (!tableMappings.contains("")) tableMappings + ("" -> table) else tableMappings
+  }
+
   lazy val readCommand: String = "select * from %s".format(view)
   lazy val readByIdCommand: String = readCommand + " where %s.id = {id} limit 1".format(table)
   val saveCommand: String
@@ -55,7 +61,7 @@ trait EntityCompanion[A<:Entity] {
     }
   }
 
-  val simpleParser: RowParser[A]
+  def parser(as: String = ""): RowParser[A]
 
   def validate(entity: A)(implicit lang: Lang): List[Error]
 
@@ -92,7 +98,7 @@ trait EntityCompanion[A<:Entity] {
     DB.withConnection { implicit connection =>
       SQL(readByIdCommand).
         on('id   -> id).
-        as(simpleParser.singleOpt)
+        as(parser().singleOpt)
     }
   }
 
@@ -106,7 +112,7 @@ trait EntityCompanion[A<:Entity] {
     order: String = defaultOrder, filter: String = "", q: String = "", condition: String = ""
   ): List[A] = {
     findWithParser(fields="*", page=page, len=len, order=order, 
-      filter=filter, q=q, condition=condition, parser=simpleParser *
+      filter=filter, q=q, condition=condition, parser=parser() *
     )
   }
 
@@ -141,9 +147,7 @@ trait EntityCompanion[A<:Entity] {
             .mkString(" or ")
         }
         if (q != "") {
-          val query = ConditionBuilder.build(q, columnsInfo)
-          // Logger.info("q: %s".format(q))
-          // Logger.info("query: %s".format(query))
+          val query = ConditionBuilder.build(q, columnsInfo, getTableMappings)
           if (query != "") conditions ::= query
         }
         if (condition != "") conditions ::= condition
@@ -200,8 +204,6 @@ trait EntityCompanion[A<:Entity] {
   def update(entity: A)(implicit lang: Lang): Either[List[Error],A] = {
 
     import utils.sql.AnormHelper.toParamsValue
-
-    play.Logger.info("update: "+lang.toString)
 
     val errors = validate(entity)
     if (errors.length > 0) {

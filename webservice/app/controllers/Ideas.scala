@@ -3,7 +3,7 @@ package controllers
 import play.api._
 import play.api.mvc._
 
-import models.{Idea, Error}
+import models.{Idea, Error, User}
 import anorm.Id
 
 import play.api.libs.json.Json.toJson
@@ -62,6 +62,13 @@ object Ideas extends Controller {
   def up(id: Long) = vote(id, true)
   def down(id: Long) = vote(id, false)
 
-  def vote(id: Long, positive: Boolean) = TODO
+  def vote(id: Long, pos: Boolean = true) = CORSAction { implicit request =>
+    implicit val Some(user) = User.findById(2)
+    
+    Idea.vote(id, pos).fold(
+      errors => JsonBadRequest(errors),
+      idea => Ok(toJson(idea).toString)
+    )
+  }
 
 }
