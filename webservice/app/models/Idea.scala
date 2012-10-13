@@ -75,7 +75,7 @@ object Idea extends EntityCompanion[Idea] {
     insert into idea (
       idea_type_id, name, description, user_id, views, created
     ) values (
-      {idea_type_id}, {name}, {description}, {userId}, {views}, {created}
+      {idea_type_id}, {name}, {description}, {user_id}, {views}, {created}
     )
   """
 
