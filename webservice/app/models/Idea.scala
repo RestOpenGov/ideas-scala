@@ -31,6 +31,10 @@ case class Idea (
 
   lazy val votes: VoteCounter = VoteCounter.forIdea(this)
 
+  lazy val tags: String = {
+    Tag.findByIdea(this).map(_.name).mkString(", ")
+  }
+
   val url: String = id.map(controllers.routes.Ideas.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Idea.update(this)
   def save()    (implicit lang: Lang) = Idea.save(this)

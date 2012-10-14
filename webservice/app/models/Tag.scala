@@ -64,6 +64,10 @@ object Tag extends EntityCompanion[Tag] {
       id          = {id}
   """
 
+  val byIdeaCondition = """
+  tag.id in (select tag_id from idea_tag where idea_id = %s)
+  """
+
   def parser(as: String = "tag.") = {
     get[Pk[Long]]   (as + "id") ~
     get[String]     (as + "name") ~ 
@@ -71,6 +75,14 @@ object Tag extends EntityCompanion[Tag] {
       case id~name~description => Tag(
         id, name, description
       )
+    }
+  }
+
+  def findByIdea(idea: Idea): List[Tag] = {
+    idea.id.map { id =>
+      find(condition = byIdeaCondition.format(id), order = "name")
+    }.getOrElse {
+      List[Tag]()
     }
   }
 
