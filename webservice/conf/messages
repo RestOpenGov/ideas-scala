@@ -11,5 +11,9 @@ ideaType=tipo de idea
 ideaType.name=nombre
 ideaType.description=descripción
 
+tag=tag
+tag.name=nombre
+tag.description=descripción
+
 validate.empty=El campo "{0}" no puede estar vacío.
 validate.duplicate=Ya existe un {0} con el {1} "{2}".
