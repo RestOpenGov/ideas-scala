@@ -12,9 +12,7 @@
 	  <div class="control-group">
 	    <label class="control-label" for="selectType">Tipo</label>
 	    <div class="controls">
-	    	<select id="selectType" ng-model="idea.type.id" required>
-	    		<option value={{t.id}} ng-repeat="t in types">{{t.name}}</option>
-	    	</select>
+	    	<select ng-model="idea.type.id" ng-options="t.id as t.name for t in types" required></select>
 	    </div>
 	  </div>
 	  <div class="control-group">

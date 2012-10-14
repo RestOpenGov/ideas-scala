@@ -8,6 +8,7 @@ function IdeaFormCtrl($scope, $routeParams, $http) {
 	$scope.init = function(){
 		$http.get(SERVICE_ENDPOINT+'types').success(function(json) {
 	      $scope.types = json;
+	         	      console.log(json);
 	    });
 	};
 
