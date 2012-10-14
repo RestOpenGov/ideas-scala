@@ -39,9 +39,8 @@ class IdeaTagSpec extends org.specs2.mutable.Specification {
     "should retrieve a list of tag names for the idea" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        ( Idea.findById(1).get.tags.toString 
-          must equalTo(List[String]("internet, tecnología").toString)
-        )
+        Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
+
       }
     }
 
