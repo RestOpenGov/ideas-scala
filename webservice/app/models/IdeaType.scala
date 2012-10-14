@@ -89,7 +89,7 @@ object IdeaType extends EntityCompanion[IdeaType] {
 
     // description
     if (Validate.isEmptyWord(ideaType.name)) {
-        errors ::= ValidationError(Error.REQUIRED, "description", "validate.empty", &("ideaType.description"))
+      errors ::= ValidationError(Error.REQUIRED, "description", "validate.empty", &("ideaType.description"))
     } else {
       if (isDuplicate(ideaType, "description")) {
         errors ::= ValidationError(Error.DUPLICATE, "name", 

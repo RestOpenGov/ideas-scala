@@ -92,7 +92,7 @@ object Tag extends EntityCompanion[Tag] {
     
     // name
     if (Validate.isEmptyWord(tag.name)) {
-        errors ::= ValidationError(Error.REQUIRED, "name", "validate.empty", &("tag.name"))
+      errors ::= ValidationError(Error.REQUIRED, "name", "validate.empty", &("tag.name"))
     } else {
       if (isDuplicate(tag, "name")) {
         errors ::= ValidationError("name", "There already exists an idea type with the name '%s'".format(tag.name))
@@ -101,12 +101,7 @@ object Tag extends EntityCompanion[Tag] {
 
     // description
     if (Validate.isEmptyWord(tag.name)) {
-        errors ::= ValidationError(Error.REQUIRED, "description", "validate.empty", &("tag.description"))
-    } else {
-      if (isDuplicate(tag, "description")) {
-        errors ::= ValidationError(Error.DUPLICATE, "name", 
-          "validate.duplicate", &("tag"), &("tag.name"), tag.name)
-      }
+      errors ::= ValidationError(Error.REQUIRED, "description", "validate.empty", &("tag.description"))
     }
 
     errors.reverse
