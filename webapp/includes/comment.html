@@ -1,6 +1,6 @@
 <div class="well span12">
   <div class="span9">
-     <p>{{comment.comment}}</p>
+     <p ng-bind-html-unsafe="comment.comment"></p>
      <p>Publicado {{comment.created}} en <a href="/#/ideas/{{comment.idea.id}}">{{comment.idea.name}}</a></p>
   </div>
   <div class="span3">

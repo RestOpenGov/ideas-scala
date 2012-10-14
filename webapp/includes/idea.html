@@ -1,8 +1,7 @@
 <div class="well span12">
-  
   <div class="span9">
     <h3><a href="/#/ideas/{{idea.id}}">{{idea.name}}</a></h3>
-    <p>{{idea.description}}</p>
+    <p ng-bind-html-unsafe="idea.description"></p>
   </div>
   <div class="span3">
     <div class="row-fluid">

@@ -17,12 +17,12 @@ function UserDetailCtrl($scope, $routeParams, $http) {
     });
 
     //COMMENTS - TODO add filter per author
-    $http.get(SERVICE_ENDPOINT+'comments?len=3').success(function(json) {
+    $http.get(SERVICE_ENDPOINT+'comments?len=3&q=author.id:'+ $scope.userId).success(function(json) {
       $scope.comments = json;
     });
 
     //IDEAS - TODO add filter per author
-    $http.get(SERVICE_ENDPOINT+'ideas?len=3').success(function(json) {
+    $http.get(SERVICE_ENDPOINT+'ideas?len=3&q=author.id:'+ $scope.userId).success(function(json) {
       $scope.ideas = json;
     });
 

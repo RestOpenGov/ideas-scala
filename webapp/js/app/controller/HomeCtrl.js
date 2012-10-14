@@ -16,7 +16,7 @@ function HomeCtrl($scope, $routeParams, $http) {
       types = json;
 
       //Iterate ideas type
-      $.each(json,function(i,t){
+      angular.forEach(json, function(t, i){
       	var type = t.id;
 
       	//Retrieve 3 ideas per type TODO add type filter
@@ -26,7 +26,7 @@ function HomeCtrl($scope, $routeParams, $http) {
 	      	
 	      	//split by rows
 	      	if(types.length == loadedTypes){
-	      		$.each(types,function(i,t){
+ 				angular.forEach(types, function(t, i){
 		          	if(i%2==0){
 			     		row++;
 			      		$scope.rows[row]={};

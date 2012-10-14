@@ -14,7 +14,6 @@ function MainCtrl($scope, $routeParams, $http, $location) {
   });
       
   $scope.search=function(){
-    console.log($scope.searchQuery);
     if($scope.searchQuery){
       $location.path("/ideas/lista").search({"filter": $scope.searchQuery});      
     }else{
