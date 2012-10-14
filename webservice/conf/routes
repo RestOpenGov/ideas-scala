@@ -37,6 +37,7 @@ GET     /api/ideas/:id                     controllers.Ideas.show(id: Long)
 DELETE  /api/ideas/:id                     controllers.Ideas.delete(id: Long)
 PUT     /api/ideas/:id/up                  controllers.Ideas.up(id: Long)
 PUT     /api/ideas/:id/down                controllers.Ideas.down(id: Long)
+GET     /api/ideas/:id/tags                controllers.Ideas.tags(id: Long)
 
 GET     /api/ideas/:id/subscribers            controllers.Subscribers.list(id: Long)
 GET     /api/ideas/:id/subscribers/count      controllers.Subscribers.count(id: Long)

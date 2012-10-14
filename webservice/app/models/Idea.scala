@@ -31,8 +31,8 @@ case class Idea (
 
   lazy val votes: VoteCounter = VoteCounter.forIdea(this)
 
-  lazy val tags: String = {
-    Tag.findByIdea(this).map(_.name).mkString(", ")
+  lazy val tags: List[String] = {
+    Tag.findByIdea(this).map(_.name).toList
   }
 
   val url: String = id.map(controllers.routes.Ideas.show(_).url).getOrElse("")

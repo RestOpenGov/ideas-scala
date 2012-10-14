@@ -36,17 +36,19 @@ class IdeaTagSpec extends org.specs2.mutable.Specification {
 
   "Idea.tags" should {
 
-    "should retrieve a comma separated list of tags for the idea" in {
+    "should retrieve a list of tag names for the idea" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        Idea.findById(1).get.tags must equalTo("internet, tecnología")
+        ( Idea.findById(1).get.tags.toString 
+          must equalTo(List[String]("internet, tecnología").toString)
+        )
       }
     }
 
-    "should retrieve an empty string as the list of tags for a new idea" in {
+    "should retrieve an empty List of tag names" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        Idea().tags must equalTo("")
+        Idea().tags must equalTo(List[String]())
       }
     }
 
