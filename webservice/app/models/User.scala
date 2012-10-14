@@ -38,6 +38,9 @@ case class User (
     "created"       -> created
   )
 
+  // TODO: define a strategy to allow users to create new tags
+  def canCreateTags: Boolean = true
+
   def upIdea(id: Long) = voteIdea(id, true)
   def downIdea(id: Long) = voteIdea(id, false)
 
