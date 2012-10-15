@@ -83,7 +83,8 @@ object IdeaType extends EntityCompanion[IdeaType] {
         errors ::= ValidationError(Error.REQUIRED, "name", "validate.empty", &("ideaType.name"))
     } else {
       if (isDuplicate(ideaType, "name")) {
-        errors ::= ValidationError("name", "There already exists an idea type with the name '%s'".format(ideaType.name))
+        errors ::= ValidationError(Error.DUPLICATE, "name", 
+          "validate.duplicate", &("ideaType"), &("ideaType.name"), ideaType.name)
       }
     }
 
@@ -92,8 +93,8 @@ object IdeaType extends EntityCompanion[IdeaType] {
       errors ::= ValidationError(Error.REQUIRED, "description", "validate.empty", &("ideaType.description"))
     } else {
       if (isDuplicate(ideaType, "description")) {
-        errors ::= ValidationError(Error.DUPLICATE, "name", 
-          "validate.duplicate", &("ideaType"), &("ideaType.name"), ideaType.name)
+        errors ::= ValidationError(Error.DUPLICATE, "description", 
+          "validate.duplicate", &("ideaType"), &("ideaType.description"), ideaType.description)
       }
     }
 
