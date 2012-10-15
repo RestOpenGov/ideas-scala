@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS idea;
 CREATE TABLE idea (
   id              int(11)         NOT NULL AUTO_INCREMENT,
   idea_type_id    int(11)         NOT NULL,
-  subject_id      int(11)         NOT NULL,
+  subject_id      int(11)         NULL,     -- null so that we can work while implementing it
   name            varchar(200)    DEFAULT NULL,
   description     varchar(1000)   DEFAULT NULL,
   user_id         int(11)         NOT NULL,
