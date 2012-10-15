@@ -86,6 +86,11 @@ object Tag extends EntityCompanion[Tag] {
     }
   }
 
+  def findByName(name: String): Option[Tag] = {
+    val tags = find(q = "name=%s".format(name), len = 1)
+    if (tags.size == 1) Some(tags(0)) else None
+  }
+
   def validate(tag: Tag)(implicit lang: Lang): List[Error] = {
 
     var errors = List[Error]()
