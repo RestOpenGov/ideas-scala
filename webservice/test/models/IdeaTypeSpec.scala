@@ -6,7 +6,7 @@ import org.specs2.mutable.After
 import play.api.test._
 import play.api.test.Helpers._
 
-class IdeaTypeSpec extends org.specs2.mutable.Specification {
+class IdeaTypeSpec extends Specification {
 
   import models.IdeaType
   import models.Idea
