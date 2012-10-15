@@ -11,3 +11,4 @@ angular.module('ideas-ba', []).
 }]);
 
 var SERVICE_ENDPOINT = "http://ideas-jugar.rhcloud.com/api/";
+// var SERVICE_ENDPOINT = "http://localhost:9000/api/";
