@@ -24,8 +24,8 @@ object Global extends GlobalSettings {
   override def onBadRequest(request: RequestHeader, error: String) = {
     BadRequest(toJson(
       Error(status = Status.BAD_REQUEST, message = error)
-    ))    
+    ))
 
-  }  
-    
+  }
+
 }
