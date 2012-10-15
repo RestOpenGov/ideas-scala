@@ -5,10 +5,10 @@ import play.api.http.Status
 import play.api.i18n.{Messages, Lang}
 
 case class Error(
-  val status: Int = Status.INTERNAL_SERVER_ERROR,
-  val errorCode: Int = Error.UNSPECIFIED,
-  val field: String = "",
-  val message: String = "Error performing operation",
+  val status: Int       = Status.INTERNAL_SERVER_ERROR,
+  val errorCode: Int    = Error.UNSPECIFIED,
+  val field: String     = "",
+  val message: String   = "Error performing operation",
   val developerMessage: String = "Error performing operation"
 )
 
@@ -16,7 +16,9 @@ object Error {
   val UNSPECIFIED = 10000
   val REQUIRED = 10001
   val DUPLICATE = 10002
-  val BUSINESS_RULE = 10003
+  val NOT_FOUND = 10003
+  val BUSINESS_RULE = 10004
+  val PERMISSION = 10005
 }
 
 object ValidationError {
