@@ -37,7 +37,6 @@ GET     /api/ideas/:id                     controllers.Ideas.show(id: Long)
 DELETE  /api/ideas/:id                     controllers.Ideas.delete(id: Long)
 PUT     /api/ideas/:id/up                  controllers.Ideas.up(id: Long)
 PUT     /api/ideas/:id/down                controllers.Ideas.down(id: Long)
-GET     /api/ideas/:id/tags                controllers.Ideas.tags(id: Long)
 
 GET     /api/ideas/:id/subscribers            controllers.Subscribers.list(id: Long)
 GET     /api/ideas/:id/subscribers/count      controllers.Subscribers.count(id: Long)
@@ -55,7 +54,18 @@ GET     /api/ideas/comments/:id               controllers.Comments.show(id: Long
 # DELETE  /api/ideas/:idea/comments/:id        controllers.Comments.delete(idea: Long, id: Long)
 PUT     /api/ideas/:idea/comments/:id/up       controllers.Comments.up(idea: Long, id: Long)
 PUT     /api/ideas/:idea/comments/:id/down     controllers.Comments.down(idea: Long, id: Long)
- 
+
+# get all te tags of the idea as an array of tags
+GET     /api/ideas/:idea/tags                          controllers.Ideas.listTags(idea: Long)
+GET     /api/ideas/:idea/tags/count                    controllers.Ideas.countTags(idea: Long)
+# receives an array of tags, updates them all, adding, removing and creating tags as necessary
+PUT     /api/ideas/:idea/tags/                         controllers.Ideas.updateTags(idea: Long)
+PUT     /api/ideas/:idea/tags                          controllers.Ideas.updateTags(idea: Long)
+# receives a string with a single tag
+POST    /api/ideas/:idea/tags/                         controllers.Ideas.saveTag(idea: Long)
+POST    /api/ideas/:idea/tags                          controllers.Ideas.saveTag(idea: Long)
+DELETE  /api/ideas/:idea/tags/:tag                     controllers.Ideas.deleteTag(idea: Long, tag: String)
+
 GET     /api/types                         controllers.IdeaTypes.list
 GET     /api/types/count                   controllers.IdeaTypes.count
 PUT     /api/types/:id                     controllers.IdeaTypes.update(id: Long)

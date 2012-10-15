@@ -71,10 +71,23 @@ object Ideas extends Controller {
     )
   }
 
- def tags(id: Long) = CORSAction {
+  //Tags
+  def listTags(id: Long) = CORSAction {
     Idea.findById(id).map { idea =>
       Ok(toJson(idea.tags))
     }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
   }
+
+  def countTags(id: Long) = CORSAction {
+    Idea.findById(id).map { idea =>
+      Ok(toJson(idea.tags.size))
+    }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
+  }
+
+  def updateTags(id: Long) = TODO
+
+  def saveTag(id: Long) = TODO
+
+  def deleteTag(id: Long, tag: String) = TODO
 
 }
