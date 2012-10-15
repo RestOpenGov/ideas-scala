@@ -4,10 +4,11 @@ import play.api._
 import play.api.mvc._
 
 object Application extends Controller {
-  
-  def app = Action {
-    Redirect(routes.Assets.at("index.html"))
-  }
+
+  // no longer needed, handled at routes file
+  // def app = Action {
+  //   Redirect(routes.Assets.at("index.html"))
+  // }
 
   def api = Action { implicit request =>
     Ok(views.html.api())

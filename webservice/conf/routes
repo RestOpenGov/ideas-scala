@@ -4,9 +4,9 @@
 
 OPTIONS /api/*url                          controllers.Application.options(url: String)
 
-# GET     /                                  controllers.Application.api
-GET     /                                  controllers.Application.app
-GET     /app                               controllers.Application.app
+GET     /                                  controllers.Assets.at(path="/public", file="index.html")
+GET     /app                               controllers.Assets.at(path="/public", file="index.html")
+# GET     /                                  controllers.Application.app
 
 # Home page
 GET     /api                               controllers.Application.api
@@ -72,9 +72,8 @@ POST    /api/types/                        controllers.IdeaTypes.save
 POST    /api/types                         controllers.IdeaTypes.save
 GET     /api/types/:id                     controllers.IdeaTypes.show(id: Long)
 DELETE  /api/types/:id                     controllers.IdeaTypes.delete(id: Long)
-
 GET     /api/tags                          controllers.Tags.list
-GET     /api/tags/count                    controllers.Tags.count
+#GET     /api/tags/count                    controllers.Tags.count
 PUT     /api/tags/:id                      controllers.Tags.update(id: Long)
 POST    /api/tags/                         controllers.Tags.save
 POST    /api/tags                          controllers.Tags.save
