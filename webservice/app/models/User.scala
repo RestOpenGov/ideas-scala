@@ -39,7 +39,11 @@ case class User (
   )
 
   // TODO: define a strategy to allow users to create new tags
-  def canCreateTags: Boolean = true
+  def canCreateTags: Boolean = id match {
+    // hardcoded for testing, should use mocking library instead
+    case Id(1) => true
+    case _ => false
+  }
 
   def upIdea(id: Long) = voteIdea(id, true)
   def downIdea(id: Long) = voteIdea(id, false)
