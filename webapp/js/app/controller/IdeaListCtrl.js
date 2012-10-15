@@ -10,14 +10,6 @@ function IdeaListCtrl($scope, $routeParams, $http) {
 
   $scope.search = function(){
 
-  /*  if(!$scope.filter){
-      $scope.filter = '';
-    }*/
-
-    console.log($routeParams);
-
-    //todo filter
-
     // Just in case the web service doesn't support X-Requested-With header
     // delete $http.defaults.headers.common['X-Requested-With']
     $http.get(SERVICE_ENDPOINT+'ideas?'+ $.param($routeParams)).success(function(json) {

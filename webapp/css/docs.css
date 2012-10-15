@@ -120,3 +120,11 @@ textarea {
   width: 100px;
   height: auto;
 }
+
+#new-idea-form textarea {
+  height: 400px;
+}
+
+#new-comment-form textarea {
+  height: 100px;
+}

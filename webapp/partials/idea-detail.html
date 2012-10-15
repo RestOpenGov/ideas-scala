@@ -1,6 +1,6 @@
  <div ng-controller="IdeaDetailCtrl">
   <div class="well">
-    <a href="/#/ideas/lista?filter=id:{{idea.type.id}}">ver todas las ideas de la categoría {{idea.type.name}}</a>
+    <a href="/#/ideas/lista?q=type.id:{{idea.type.id}}">ver todas las ideas de la categoría {{idea.type.name}}</a>
      <br/>
     <a href="/#/ideas/lista">ver todas las ideas</a>
   </div>
@@ -11,9 +11,9 @@
 
   <div class="row-fluid">
     <div id="comment-box" class="well">
-      <form ng-submit="addComment()">
+      <form id="new-comment-form" ng-submit="addComment()">
         <legend>¡Comentá! ¡La verdad nos hará libres!</legend>
-        <textarea type="text" class="span12" ng-model="msg" placeholder="El comentario va aquí..."></textarea>
+        <textarea id="commentText" name="commentText" class="span12" placeholder="El comentario va aquí..."></textarea>
         <span class="help-block">Cuidá tu lenguaje. Pensá 2 minutos más tu comentario y reemplazá esa puteada por una crítica constructiva. Cualquier forma de discriminación, insulto, comentario que no aporta nada, o SPAM, va a ser borrado. Gracias por evitarlos. :)</span>
         <button class="comment-btn btn-large btn-primary" type="submit" class="btn">Enviar</button>
       </form>
