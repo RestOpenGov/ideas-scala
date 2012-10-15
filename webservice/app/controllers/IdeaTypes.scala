@@ -37,7 +37,7 @@ object IdeaTypes extends Controller {
       json.asOpt[IdeaType].map { ideatype =>
         ideatype.save.fold(
           errors => JsonBadRequest(errors),
-          ideatype => Ok(toJson(ideatype).toString)
+          ideatype => Ok(toJson(ideatype))
         )
       }.getOrElse     (JsonBadRequest("Invalid type of idea entity"))
     }.getOrElse       (JsonBadRequest("Expecting JSON data"))
@@ -48,7 +48,7 @@ object IdeaTypes extends Controller {
       json.asOpt[IdeaType].map { ideatype =>
         ideatype.copy(id=Id(id)).update.fold(
           errors => JsonBadRequest(errors),
-          ideatype => Ok(toJson(ideatype).toString)
+          ideatype => Ok(toJson(ideatype))
         )
       }.getOrElse       (JsonBadRequest("Invalid type of idea entity"))
     }.getOrElse         (JsonBadRequest("Expecting JSON data"))

@@ -34,7 +34,7 @@ object Subscribers extends Controller {
   //     json.asOpt[User].map { user =>
   //       user.save.fold(
   //         errors => JsonBadRequest(errors),
-  //         user => Ok(toJson(user).toString)
+  //         user => Ok(toJson(user))
   //       )
   //     }.getOrElse     (JsonBadRequest("Invalid User entity"))
   //   }.getOrElse       (JsonBadRequest("Expecting JSON data"))

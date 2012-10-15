@@ -37,7 +37,7 @@ object Votes extends Controller {
       json.asOpt[Vote].map { vote =>
         vote.save.fold(
           errors => JsonBadRequest(errors),
-          vote => Ok(toJson(vote).toString)
+          vote => Ok(toJson(vote))
         )
       }.getOrElse     (JsonBadRequest("Invalid Vote entity"))
     }.getOrElse       (JsonBadRequest("Expecting JSON data"))
@@ -48,7 +48,7 @@ object Votes extends Controller {
       json.asOpt[Vote].map { vote =>
         vote.copy(id=Id(id)).update.fold(
           errors => JsonBadRequest(errors),
-          vote => Ok(toJson(vote).toString)
+          vote => Ok(toJson(vote))
         )
       }.getOrElse       (JsonBadRequest("Invalid Vote entity"))
     }.getOrElse         (JsonBadRequest("Expecting JSON data"))

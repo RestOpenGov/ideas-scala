@@ -37,7 +37,7 @@ object Tags extends Controller {
       json.asOpt[Tag].map { ideatype =>
         ideatype.save.fold(
           errors => JsonBadRequest(errors),
-          ideatype => Ok(toJson(ideatype).toString)
+          ideatype => Ok(toJson(ideatype))
         )
       }.getOrElse     (JsonBadRequest("Invalid tag entity"))
     }.getOrElse       (JsonBadRequest("Expecting JSON data"))
@@ -48,7 +48,7 @@ object Tags extends Controller {
       json.asOpt[Tag].map { ideatype =>
         ideatype.copy(id=Id(id)).update.fold(
           errors => JsonBadRequest(errors),
-          ideatype => Ok(toJson(ideatype).toString)
+          ideatype => Ok(toJson(ideatype))
         )
       }.getOrElse       (JsonBadRequest("Invalid tag entity"))
     }.getOrElse         (JsonBadRequest("Expecting JSON data"))

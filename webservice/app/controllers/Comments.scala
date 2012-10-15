@@ -42,7 +42,7 @@ object Comments extends Controller {
         json.asOpt[Comment].map { comment =>
           comment.copy(idea = idea).save.fold(
             errors => JsonBadRequest(errors),
-            comment => Ok(toJson(comment).toString)
+            comment => Ok(toJson(comment))
           )
         }.getOrElse     (JsonBadRequest("Invalid Comment entity"))
       }.getOrElse       (JsonBadRequest("Expecting JSON data"))
@@ -54,7 +54,7 @@ object Comments extends Controller {
       json.asOpt[Comment].map { idea =>
         idea.copy(id=Id(id)).update.fold(
           errors => JsonBadRequest(errors),
-          comment => Ok(toJson(comment).toString)
+          comment => Ok(toJson(comment))
         )
       }.getOrElse       (JsonBadRequest("Invalid Comment entity"))
     }.getOrElse         (JsonBadRequest("Expecting JSON data"))
@@ -73,7 +73,7 @@ object Comments extends Controller {
     
     Comment.vote(id, pos).fold(
       errors => JsonBadRequest(errors),
-      idea => Ok(toJson(idea).toString)
+      idea => Ok(toJson(idea))
     )
   }
 
