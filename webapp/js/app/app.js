@@ -1,4 +1,4 @@
-angular.module('ideas-ba', []).
+var ideasModule = angular.module('ideas-ba', []).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
       when('/ideas', {templateUrl: 'partials/home.html',   controller: HomeCtrl}).
