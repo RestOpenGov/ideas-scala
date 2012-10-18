@@ -16,17 +16,17 @@ function HomeCtrl($scope, $routeParams, $http) {
       types = json;
 
       //Iterate ideas type
-      $.each(json,function(i,t){
+      angular.forEach(json, function(t, i){
       	var type = t.id;
 
       	//Retrieve 3 ideas per type TODO add type filter
-      	$http.get(SERVICE_ENDPOINT+'ideas?len=3').success(function(json) {
+      	$http.get(SERVICE_ENDPOINT+'ideas?len=3&order=created DESC&q=type.id:'+type).success(function(json) {
 	      	types[i]['ideas'] = json;
 	      	loadedTypes++;
 	      	
 	      	//split by rows
 	      	if(types.length == loadedTypes){
-	      		$.each(types,function(i,t){
+ 				angular.forEach(types, function(t, i){
 		          	if(i%2==0){
 			     		row++;
 			      		$scope.rows[row]={};

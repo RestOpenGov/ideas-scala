@@ -14,11 +14,9 @@ function MainCtrl($scope, $routeParams, $http, $location) {
   });
       
   $scope.search=function(){
-    console.log($scope.searchQuery);
     if($scope.searchQuery){
-      $location.path("/ideas/lista").search({"filter": "description:"+$scope.searchQuery});      
+      $location.path("/ideas/lista").search({"filter": $scope.searchQuery});      
     }else{
-      console.log('else');
       $location.path("/ideas/lista").search();
     }
     $scope.searchQuery = '';

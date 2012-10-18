@@ -32,12 +32,12 @@ object IdeaTypes extends Controller {
     }.getOrElse(JsonNotFound("Type of idea with id %s not found".format(id)))
   }
 
-  def save() = CORSAction { request =>
+  def save() = CORSAction { implicit request =>
     request.body.asJson.map { json =>
       json.asOpt[IdeaType].map { ideatype =>
         ideatype.save.fold(
           errors => JsonBadRequest(errors),
-          ideatype => Ok(toJson(ideatype).toString)
+          ideatype => Ok(toJson(ideatype))
         )
       }.getOrElse     (JsonBadRequest("Invalid type of idea entity"))
     }.getOrElse       (JsonBadRequest("Expecting JSON data"))
@@ -48,13 +48,13 @@ object IdeaTypes extends Controller {
       json.asOpt[IdeaType].map { ideatype =>
         ideatype.copy(id=Id(id)).update.fold(
           errors => JsonBadRequest(errors),
-          ideatype => Ok(toJson(ideatype).toString)
+          ideatype => Ok(toJson(ideatype))
         )
       }.getOrElse       (JsonBadRequest("Invalid type of idea entity"))
     }.getOrElse         (JsonBadRequest("Expecting JSON data"))
   }
 
-  def delete(id: Long) = CORSAction {
+  def delete(id: Long) = CORSAction { implicit request =>
     IdeaType.delete(id)
     JsonOk("IdeaType successfully deleted","Type of idea with id %s deleted".format(id))
   }

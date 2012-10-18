@@ -36,13 +36,13 @@ object Comments extends Controller {
     }.getOrElse(JsonNotFound("Comment with id %s not found".format(id)))
   }
 
-  def save(ideaId : Long) = CORSAction { request =>
+  def save(ideaId : Long) = CORSAction { implicit request =>
     Idea.findById(ideaId).map { idea =>
       request.body.asJson.map { json =>
         json.asOpt[Comment].map { comment =>
           comment.copy(idea = idea).save.fold(
             errors => JsonBadRequest(errors),
-            comment => Ok(toJson(comment).toString)
+            comment => Ok(toJson(comment))
           )
         }.getOrElse     (JsonBadRequest("Invalid Comment entity"))
       }.getOrElse       (JsonBadRequest("Expecting JSON data"))
@@ -54,13 +54,13 @@ object Comments extends Controller {
       json.asOpt[Comment].map { idea =>
         idea.copy(id=Id(id)).update.fold(
           errors => JsonBadRequest(errors),
-          comment => Ok(toJson(comment).toString)
+          comment => Ok(toJson(comment))
         )
       }.getOrElse       (JsonBadRequest("Invalid Comment entity"))
     }.getOrElse         (JsonBadRequest("Expecting JSON data"))
   }
 
-  def delete(id: Long) = CORSAction {
+  def delete(id: Long) = CORSAction { implicit request =>
     Comment.delete(id)
     JsonOk("Comment successfully deleted","Comment with id %s deleted".format(id))
   }
@@ -73,7 +73,7 @@ object Comments extends Controller {
     
     Comment.vote(id, pos).fold(
       errors => JsonBadRequest(errors),
-      idea => Ok(toJson(idea).toString)
+      idea => Ok(toJson(idea))
     )
   }
 

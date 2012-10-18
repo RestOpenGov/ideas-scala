@@ -13,6 +13,11 @@ import utils.Conversion.pkToLong
 
 import java.util.Date
 
+import models.Error._
+import exceptions.{ErrorList, ErrorListException}
+
+import utils.Http
+
 import play.Logger
 
 case class Idea (
@@ -30,6 +35,91 @@ case class Idea (
 {
 
   lazy val votes: VoteCounter = VoteCounter.forIdea(this)
+
+  lazy val tags: List[String] = {
+    Tag.findByIdea(this).map(_.name).toList
+  }
+
+  def saveTag(tag: String)(implicit user: User, lang: Lang): Either[List[Error],List[String]] = {
+    if (tags.contains(tag)) {
+      Left(List(ValidationError(
+        Error.DUPLICATE, "tags", "Tag '%s' is already assigned to this idea".format(tag))
+      ))
+    } else {
+      updateTags(tags :+ tag)
+    }
+  }
+
+  def deleteTag(tag: String)(implicit lang: Lang): Either[List[Error],List[String]] = {
+    IdeaTag.findByIdeaAndTag(this, tag).map { ideaTag =>
+      ideaTag.delete
+      Right(this.tags)
+    }.getOrElse {
+      Left(List(ValidationError(
+        Error.NOT_FOUND, "tags", "Tag '%s' is not assigned to this idea".format(tag))
+      ))
+    }
+  }
+
+  def updateTags(newTags: List[String])(implicit user: User, lang: Lang): Either[List[Error],List[String]] = {
+    Right(List[String]())
+
+    val currentTags = tags
+    val addTags     = newTags diff currentTags
+    val removeTags  = currentTags diff newTags
+
+    // tags that first need to be created and THEN added to this idea
+    val createTags = addTags.filter { tag =>
+      !Tag.findByName(tag).isDefined
+    }
+
+    if(!createTags.isEmpty && !user.canCreateTags) {
+      Left( List(ValidationError(PERMISSION, "tags", "you don't have enough reputation to create new tags")))
+    } else {
+
+      try {
+
+        DB.withTransaction { implicit connection =>
+
+          // create tags
+          createTags.foreach { tag =>
+            Tag(name = tag).save.fold(errors => throw ErrorList(errors), _ => ())
+          }
+
+          // add tags to idea
+          addTags.foreach { tagName =>
+            Tag.findByName(tagName).map { tag =>
+              IdeaTag(idea = this, tag = tag).save.fold(errors => throw ErrorList(errors), _ => ())
+            }.getOrElse {
+              throw ErrorList(ValidationError(NOT_FOUND, "tag", "Could not find tag '%s'".format(tagName)))
+            }
+          }
+
+          // remove tags from idea
+          removeTags.foreach { tagName =>
+            Tag.findByName(tagName).map { tag =>
+              IdeaTag.findByIdeaAndTag(this, tag).map { ideaTag =>
+                ideaTag.delete
+              }.getOrElse {
+                throw ErrorList(ValidationError(NOT_FOUND, "tag", "Could not find tag '%s' in this idea".format(tagName)))
+              }
+            }.getOrElse {
+              throw ErrorList(ValidationError(NOT_FOUND, "tag", "Could not find tag '%s'".format(tagName)))
+            }
+          }
+        }
+        
+      } catch {
+        case e: ErrorListException => return Left(e.errors)
+        case e => return Left(List(ValidationError(e.getMessage)))
+      }
+
+      // need a copy because tags is a lazy VAL, so it won't be recalculated
+      Right(this.copy().tags)
+
+    }
+
+  }
 
   val url: String = id.map(controllers.routes.Ideas.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Idea.update(this)
@@ -69,13 +159,13 @@ object Idea extends EntityCompanion[Idea] {
 
   val defaultOrder = "name"
 
-  val filterFields = List("name", "description")
+  val filterFields = List("idea.name", "idea.description")
 
   val saveCommand = """
     insert into idea (
       idea_type_id, name, description, user_id, views, created
     ) values (
-      {idea_type_id}, {name}, {description}, {userId}, {views}, {created}
+      {idea_type_id}, {name}, {description}, {user_id}, {views}, {created}
     )
   """
 
@@ -156,6 +246,28 @@ object Idea extends EntityCompanion[Idea] {
 
   def vote(id: Long, pos: Boolean = true)(implicit user: User): Either[List[Error],Idea] = {
     user.voteIdea(id, pos)
+  }
+
+  private def byTagCondition(tag: Tag) = {
+    "exists (select * from idea_tag where idea_id = idea.id and tag_id = %s)".format(tag.id.get)
+  }
+
+  def findByTag(tag: String, query: Map[String, Seq[String]]): List[Idea] = {
+    val (page, len, order, filter, q) = Http.parseQuery(query)
+
+    Tag.findByName(tag).map { tag =>
+      find(page, len, order, filter, q, byTagCondition(tag))
+    }.getOrElse(List[Idea]())
+
+  }
+
+  def countByTag(tag: String, query: Map[String, Seq[String]]): Long = {
+    val (page, len, order, filter, q) = Http.parseQuery(query)
+
+    Tag.findByName(tag).map { tag =>
+      count(filter = filter, q = q, condition = byTagCondition(tag))
+    }.getOrElse(0)
+
   }
 
 }

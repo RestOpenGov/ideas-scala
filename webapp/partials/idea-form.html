@@ -1,1 +1,26 @@
-<p class="well">TODO idea-form.html</p>
+<div class="well">
+  <h1>Nueva idea</h1>
+</div>
+<div class="well">
+	<form id="new-idea-form" class="form-horizontal" ng-submit="saveIdea()">
+	  <div class="control-group">
+	    <label class="control-label" for="inputTitle">Título</label>
+	    <div class="controls">
+	      <input type="text" id="inputTitle" placeholder="Título de la idea" ng-model="idea.name" required>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="selectType">Tipo</label>
+	    <div class="controls">
+	    	<select ng-model="idea.type.id" ng-options="t.id as t.name for t in types" required></select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+		    <label class="control-label" for="areaMessage">Mensaje</label>
+		    <div class="controls">
+		    	<textarea id="areaMessage" class="span12" placeholder="La idea va aquí..." name="areaMessage"></textarea>
+		    </div>
+	  </div>
+	  <button type="submit" class="btn btn-large btn-primary">Guardar</button>
+	</form>
+</div>

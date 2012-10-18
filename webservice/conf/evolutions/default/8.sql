@@ -2,14 +2,13 @@
 
 # --- !Ups
 
-INSERT INTO comment VALUES
-  (1, 1, 1, 'Excelente idea, escuche que en mar del plata y santa fe lo estan por implementar', '2012-09-22 15:10:00'),
-  (2, 1, 3, 'Podrian empezar dando wifi en lugares publicos, y ver como funciona', '2012-09-22 15:15:00'),
-  (3, 1, 4, 'Pasa que en una plaza te robarian la laptop :-(', '2012-09-22 18:15:00'),
-  (4, 2, 4, 'Muy bien dicho, hoy casi me pisa un colectivo que se habia metido en la bicisenda', '2012-09-24 15:40:00'),
-  (5, 4, 1, 'Primero tenes que sacar turno, segui este link http://apps.buenosaires.gov.ar/apps/turnos_online/paso1.php', '2012-09-24 19:20:00')
+INSERT INTO idea VALUES
+  (1, 1, 4,   'Wifi libre en ba', 'Proveer acceso wifi gratuito en toda la ciudad', 2, 320, '2012-09-22 14:20:00'),
+  (2, 1, 7,   'Multas para los autos que no respetan las bicisendas', 'Implementar multas...', 1, 124, '2012-09-23 15:20:00'),
+  (3, 2, 11,  'Cortar las ramas de corrientes y malabia', 'En corrientes y malabia hay ramas de arbol que impiden el paso', 3, 25, '2012-09-24 19:20:00'),
+  (4, 3, 3,   'Como hago para sacar el registro de conducir?', 'Que tramite debo hacer para sacar el registro?', 1, 67, '2012-09-24 19:20:00')
 ;
 
 # --- !Downs
 
-delete from comment where id > 0;
+delete from idea where id > 0;

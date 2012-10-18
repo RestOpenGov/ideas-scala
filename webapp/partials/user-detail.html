@@ -24,14 +24,18 @@
 		<label class="control-label">{{user.created}}</label>
 	  </div>
 	</form>
- </div>
-
-<div class="well">
-	<h1>Tus últimas 3 ideas</h1>
 </div>
-<div ng-include src="'includes/idea.html'" ng-repeat="idea in ideas"></div>
 
-<div class="well">
-	<h1>Tus últimos 3 comentarios</h1>
+<div class="row-fluid">
+	<div class="well">
+		<h1>Últimas ideas de {{user.name}}</h1>
+	</div>
+	<div ng-include src="'includes/idea.html'" ng-repeat="idea in ideas"></div>
 </div>
-<div ng-include src="'includes/comment.html'" ng-repeat="comment in comments"></div>
+
+<div class="row-fluid">
+	<div class="well">
+		<h1>Últimos comentarios de {{user.name}}</h1>
+	</div>
+	<div ng-include src="'includes/comment.html'" ng-repeat="comment in comments"></div>
+</div>

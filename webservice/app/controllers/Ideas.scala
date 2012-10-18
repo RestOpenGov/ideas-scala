@@ -3,7 +3,7 @@ package controllers
 import play.api._
 import play.api.mvc._
 
-import models.{Idea, Error, User}
+import models.{Idea, IdeaTag, Error, User}
 import anorm.Id
 
 import play.api.libs.json.Json.toJson
@@ -17,6 +17,9 @@ import utils.{JsonBadRequest, JsonNotFound, JsonOk}
 import utils.Http
 
 object Ideas extends Controller {
+
+  //TODO: testing purposes
+  implicit val Some(user) = User.findById(1)
 
   def list = CORSAction { request =>
     Ok(toJson(Idea.find(request.queryString)))
@@ -32,12 +35,12 @@ object Ideas extends Controller {
     }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
   }
 
-  def save() = CORSAction { request =>
+  def save() = CORSAction { implicit request =>
     request.body.asJson.map { json =>
       json.asOpt[Idea].map { idea =>
         idea.save.fold(
           errors => JsonBadRequest(errors),
-          idea => Ok(toJson(idea).toString)
+          idea => Ok(toJson(idea))
         )
       }.getOrElse     (JsonBadRequest("Invalid Idea entity"))
     }.getOrElse       (JsonBadRequest("Expecting JSON data"))
@@ -48,13 +51,13 @@ object Ideas extends Controller {
       json.asOpt[Idea].map { idea =>
         idea.copy(id=Id(id)).update.fold(
           errors => JsonBadRequest(errors),
-          idea => Ok(toJson(idea).toString)
+          idea => Ok(toJson(idea))
         )
       }.getOrElse       (JsonBadRequest("Invalid Idea entity"))
     }.getOrElse         (JsonBadRequest("Expecting JSON data"))
   }
 
-  def delete(id: Long) = CORSAction {
+  def delete(id: Long) = CORSAction { implicit request =>
     Idea.delete(id)
     JsonOk("Idea successfully deleted","Idea with id %s deleted".format(id))
   }
@@ -63,12 +66,54 @@ object Ideas extends Controller {
   def down(id: Long) = vote(id, false)
 
   def vote(id: Long, pos: Boolean = true) = CORSAction { implicit request =>
-    implicit val Some(user) = User.findById(2)
-    
     Idea.vote(id, pos).fold(
       errors => JsonBadRequest(errors),
-      idea => Ok(toJson(idea).toString)
+      idea => Ok(toJson(idea))
     )
+  }
+
+  //Tags
+  def listTags(id: Long) = CORSAction {
+    Idea.findById(id).map { idea =>
+      Ok(toJson(idea.tags))
+    }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
+  }
+
+  def countTags(id: Long) = CORSAction {
+    Idea.findById(id).map { idea =>
+      Ok(toJson(idea.tags.size))
+    }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
+  }
+
+  def updateTags(id: Long) = CORSAction { implicit request =>
+    request.body.asJson.map { json =>
+      json.asOpt[List[String]].map { tags =>
+        Idea.findById(id).map { idea =>
+          idea.updateTags(tags).fold(
+            errors => JsonBadRequest(errors),
+            tags => Ok(toJson(tags))
+          )
+        }.getOrElse     (JsonNotFound("Idea with id %s not found".format(id)))
+      }.getOrElse       (JsonBadRequest("Invalid list of tags"))
+    }.getOrElse         (JsonBadRequest("Expecting JSON data"))
+  }
+
+  def saveTag(id: Long, tag: String) = CORSAction { implicit request =>
+    Idea.findById(id).map { idea =>
+      idea.saveTag(tag).fold(
+        errors => JsonBadRequest(errors),
+        tags => Ok(toJson(tags))
+      )
+    }.getOrElse       (JsonNotFound("Idea with id %s not found".format(id)))
+  }
+
+  def deleteTag(id: Long, tag: String) = CORSAction { implicit request =>
+    Idea.findById(id).map { idea =>
+      idea.deleteTag(tag).fold(
+        errors => JsonBadRequest(errors),
+        tags => Ok(toJson(tags))
+      )
+    }.getOrElse       (JsonNotFound("Idea with id %s not found".format(id)))
   }
 
 }

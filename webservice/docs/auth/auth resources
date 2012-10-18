@@ -1,0 +1,22 @@
+Useful resources for implementing auth
+
+Requirements
+
+1. Authenticate user using social networks (twitter, facebook, google)
+
+sample application authenticating with twitter
+
+play documentation: http://www.playframework.org/documentation/latest/ScalaOAuth
+
+app running on: http://poll-opensas.rhcloud.com/
+repo: https://github.com/opensas/twitterpoll
+
+authentication: https://github.com/opensas/twitterpoll/blob/master/app/controllers/TwitterAuthenticator.scala
+
+oauth2 sample: https://github.com/jaliss/securesocial/blob/master/module-code/app/securesocial/core/OAuth2Provider.scala
+
+secure social: https://github.com/jaliss/securesocial
+
+2. Secure web service
+
+resources: O'Reilly Restful web service cookbook, chapter 12

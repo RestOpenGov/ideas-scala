@@ -65,6 +65,15 @@ trait EntityCompanion[A<:Entity] {
 
   def validate(entity: A)(implicit lang: Lang): List[Error]
 
+  def isDuplicateCondition(entity: A, condition: String): Boolean = {
+    val sqlCondition = {
+      if (entity.isNew) condition 
+      else "%s.id <> %s and %s".format(table, pkToLong(entity.id), condition)
+    }
+    (count(condition = sqlCondition) > 0)
+  }
+
+
   def isDuplicate(entity: A, field: String): Boolean = {
     val fields = entity.asSeq.toMap
     if (!fields.contains(field)) {
@@ -74,17 +83,9 @@ trait EntityCompanion[A<:Entity] {
       )
     }
     val value = fields(field).toString
-    val exists = {
-      // it's a new record
-      if (entity.isNew) {
-        count(condition = "%s.%s = '%s'".format(table, field, Sql.sanitize(value)))
-      } else {
-        count(condition = "%s.id <> %s and %s.%s = '%s'".
-          format(table, pkToLong(entity.id), table, field, Sql.sanitize(value))
-        )
-      }
-    }
-    (exists > 0)
+    val condition = "%s.%s = '%s'".format(table, field, Sql.sanitize(value))
+
+    isDuplicateCondition(entity, condition)
   }
 
   def findById(id: Long): Option[A] = {

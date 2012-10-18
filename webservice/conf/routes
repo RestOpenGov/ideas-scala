@@ -4,9 +4,9 @@
 
 OPTIONS /api/*url                          controllers.Application.options(url: String)
 
-# GET     /                                  controllers.Application.api
-GET     /                                  controllers.Application.app
-GET     /app                               controllers.Application.app
+GET     /                                  controllers.Assets.at(path="/public", file="index.html")
+GET     /app                               controllers.Assets.at(path="/public", file="index.html")
+# GET     /                                  controllers.Application.app
 
 # Home page
 GET     /api                               controllers.Application.api
@@ -54,7 +54,17 @@ GET     /api/ideas/comments/:id               controllers.Comments.show(id: Long
 # DELETE  /api/ideas/:idea/comments/:id        controllers.Comments.delete(idea: Long, id: Long)
 PUT     /api/ideas/:idea/comments/:id/up       controllers.Comments.up(idea: Long, id: Long)
 PUT     /api/ideas/:idea/comments/:id/down     controllers.Comments.down(idea: Long, id: Long)
- 
+
+# get all te tags of the idea as an array of tags
+GET     /api/ideas/:idea/tags                          controllers.Ideas.listTags(idea: Long)
+GET     /api/ideas/:idea/tags/count                    controllers.Ideas.countTags(idea: Long)
+# receives an array of tags, updates them all, adding, removing and creating tags as necessary
+PUT     /api/ideas/:idea/tags/                         controllers.Ideas.updateTags(idea: Long)
+PUT     /api/ideas/:idea/tags                          controllers.Ideas.updateTags(idea: Long)
+# receives a string with a single tag
+POST    /api/ideas/:idea/tags/:tag                     controllers.Ideas.saveTag(idea: Long, tag: String)
+DELETE  /api/ideas/:idea/tags/:tag                     controllers.Ideas.deleteTag(idea: Long, tag: String)
+
 GET     /api/types                         controllers.IdeaTypes.list
 GET     /api/types/count                   controllers.IdeaTypes.count
 PUT     /api/types/:id                     controllers.IdeaTypes.update(id: Long)
@@ -62,6 +72,17 @@ POST    /api/types/                        controllers.IdeaTypes.save
 POST    /api/types                         controllers.IdeaTypes.save
 GET     /api/types/:id                     controllers.IdeaTypes.show(id: Long)
 DELETE  /api/types/:id                     controllers.IdeaTypes.delete(id: Long)
+GET     /api/tags                          controllers.Tags.list
+#GET     /api/tags/count                    controllers.Tags.count
+PUT     /api/tags/:id                      controllers.Tags.update(id: Long)
+POST    /api/tags/                         controllers.Tags.save
+POST    /api/tags                          controllers.Tags.save
+GET     /api/tags/:id                      controllers.Tags.show(id: Long)
+DELETE  /api/tags/:id                      controllers.Tags.delete(id: Long)
+GET     /api/tags/$id<[0-9]+>/ideas        controllers.Tags.listIdeasByTagId(id: Long)
+GET     /api/tags/:tag/ideas               controllers.Tags.listIdeas(tag: String)
+GET     /api/tags/$id<[0-9]+>/ideas/count  controllers.Tags.countIdeasByTagId(id: Long)
+GET     /api/tags/:tag/ideas/count         controllers.Tags.countIdeas(tag: String)
 
 GET     /api/votes                         controllers.Votes.list
 GET     /api/votes/count                   controllers.Votes.count
@@ -75,4 +96,4 @@ DELETE  /api/votes/:id                     controllers.Votes.delete(id: Long)
 GET     /assets/javascripts/routes         controllers.Application.javascriptRoutes
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                   controllers.Assets.at(path="/public", file)
+GET     /*file                   controllers.Assets.at(path="/public", file)

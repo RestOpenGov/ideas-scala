@@ -46,9 +46,12 @@ DROP TABLE IF EXISTS comment;
 
 /*
 ALTER TABLE idea DROP CONSTRAINT idea_fk_idea_type;
+ALTER TABLE idea DROP CONSTRAINT idea_fk_subject;
 ALTER TABLE idea DROP CONSTRAINT idea_fk_user;
 */
 DROP TABLE IF EXISTS idea;
+
+DROP TABLE IF EXISTS subject;
 
 DROP TABLE IF EXISTS idea_type;
 

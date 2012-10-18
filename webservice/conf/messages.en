@@ -7,5 +7,13 @@ user.name=name
 user.nickname=nickname
 user.email=email
 
+ideaType=idea type
+ideaType.name=name
+ideaType.description=description 
+
+tag=tag
+tag.name=name
+tag.description=description 
+
 validate.empty={0} not specified.
 validate.duplicate=There already exists a {0} with the {1} "{2}".

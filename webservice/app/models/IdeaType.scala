@@ -5,6 +5,8 @@ import play.api.db._
 
 import anorm._
 import anorm.SqlParser._
+
+import utils.Validate._
 import play.api.Play
 import play.api.i18n.Lang
 
@@ -78,19 +80,21 @@ object IdeaType extends EntityCompanion[IdeaType] {
     
     // name
     if (Validate.isEmptyWord(ideaType.name)) {
-      errors ::= ValidationError("name", "Name not specified")
+        errors ::= ValidationError(Error.REQUIRED, "name", "validate.empty", &("ideaType.name"))
     } else {
       if (isDuplicate(ideaType, "name")) {
-        errors ::= ValidationError("name", "There already exists an idea type with the name '%s'".format(ideaType.name))
+        errors ::= ValidationError(Error.DUPLICATE, "name", 
+          "validate.duplicate", &("ideaType"), &("ideaType.name"), ideaType.name)
       }
     }
 
     // description
-    if (Validate.isEmptyWord(ideaType.description)) {
-      errors ::= ValidationError("description", "Description not specified")
+    if (Validate.isEmptyWord(ideaType.name)) {
+      errors ::= ValidationError(Error.REQUIRED, "description", "validate.empty", &("ideaType.description"))
     } else {
       if (isDuplicate(ideaType, "description")) {
-        errors ::= ValidationError("description", "There already exists an idea type with the description '%s'".format(ideaType.description))
+        errors ::= ValidationError(Error.DUPLICATE, "description", 
+          "validate.duplicate", &("ideaType"), &("ideaType.description"), ideaType.description)
       }
     }
 

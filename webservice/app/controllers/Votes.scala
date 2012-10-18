@@ -32,12 +32,12 @@ object Votes extends Controller {
     }.getOrElse(JsonNotFound("Vote with id %s not found".format(id)))
   }
 
-  def save() = CORSAction { request =>
+  def save() = CORSAction { implicit request =>
     request.body.asJson.map { json =>
       json.asOpt[Vote].map { vote =>
         vote.save.fold(
           errors => JsonBadRequest(errors),
-          vote => Ok(toJson(vote).toString)
+          vote => Ok(toJson(vote))
         )
       }.getOrElse     (JsonBadRequest("Invalid Vote entity"))
     }.getOrElse       (JsonBadRequest("Expecting JSON data"))
@@ -48,13 +48,13 @@ object Votes extends Controller {
       json.asOpt[Vote].map { vote =>
         vote.copy(id=Id(id)).update.fold(
           errors => JsonBadRequest(errors),
-          vote => Ok(toJson(vote).toString)
+          vote => Ok(toJson(vote))
         )
       }.getOrElse       (JsonBadRequest("Invalid Vote entity"))
     }.getOrElse         (JsonBadRequest("Expecting JSON data"))
   }
 
-  def delete(id: Long) = CORSAction {
+  def delete(id: Long) = CORSAction { implicit request =>
     Vote.delete(id)
     JsonOk("Vote successfully deleted","Vote with id %s deleted".format(id))
   }

@@ -2,16 +2,25 @@
 
 # --- !Ups
 
-INSERT INTO tag VALUES
-  (1, 'tecnologia',     'Informatica, tecnologia y nuevas tendencias',      '2012-09-18 10:45:00'),
-  (2, 'internet',       'Sitios web',                                       '2012-09-19 15:25:00'),
-  (3, 'bicisendas',     'Senderos de la ciudad para circular en bicicleta', '2012-09-20 18:42:00'),
-  (4, 'transporte',     'Medios de transporte y circulacion por la ciudad', '2012-09-20 14:54:00'),
-  (5, 'multas',         'Infracciones, multas y demas normativas',          '2012-09-21 03:23:00'),
-  (6, 'servicios',      'Servicios que brinda el gobiernos de la ciudad',   '2012-09-22 16:28:00'),
-  (7, 'tramites',       'Tramites',                                         '2012-09-23 15:19:00')
+INSERT INTO vote VALUES
+  (01, 'idea', 1, null, 1, true,   '2012-09-20 19:20:00'),
+  (02, 'idea', 1, null, 3, true,   '2012-09-21 11:14:00'),
+  (03, 'idea', 1, null, 4, false,  '2012-09-22 16:45:00'),
+  (04, 'idea', 2, null, 2, true,   '2012-09-22 18:34:00'),
+  (05, 'idea', 2, null, 3, true,   '2012-09-22 18:34:00'),
+  (06, 'idea', 3, null, 1, true,   '2012-09-23 08:56:00'),
+  (07, 'idea', 4, null, 1, true,   '2012-09-23 08:56:00'),
+  (08, 'idea', 4, null, 2, false,  '2012-09-23 08:56:00'),
+  (09, 'idea', 4, null, 3, false,  '2012-09-23 08:56:00'),
+
+  (10, 'comment', null, 1, 1, true,  '2012-09-20 07:03:00'),
+  (11, 'comment', null, 1, 2, true,  '2012-09-20 11:34:00'),
+  (12, 'comment', null, 1, 3, false, '2012-09-20 11:34:00'),
+  (13, 'comment', null, 2, 4, true,  '2012-09-22 13:43:00'),
+  (14, 'comment', null, 2, 3, false, '2012-09-23 12:56:00'),
+  (15, 'comment', null, 2, 1, false, '2012-09-24 13:02:00')
 ;
 
 # --- !Downs
 
-delete from tag where id > 0;
+delete from vote where id > 0;;

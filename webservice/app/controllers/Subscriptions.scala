@@ -29,19 +29,19 @@ object Subscriptions extends Controller {
   // }
 
   def save(userId: Long) = TODO
-  // def save() = CORSAction { request =>
+  // def save() = CORSAction { implicit request =>
   //   request.body.asJson.map { json =>
   //     json.asOpt[User].map { user =>
   //       user.save.fold(
   //         errors => JsonBadRequest(errors),
-  //         user => Ok(toJson(user).toString)
+  //         user => Ok(toJson(user))
   //       )
   //     }.getOrElse     (JsonBadRequest("Invalid User entity"))
   //   }.getOrElse       (JsonBadRequest("Expecting JSON data"))
   // }
 
   def delete(userId: Long, ideaId: Long) = TODO
-  // def delete(userId: Long, ideaId: Long) = CORSAction {
+  // def delete(userId: Long, ideaId: Long) = CORSAction { implicit request =>
   //   User.delete(id)
   //   JsonOk("User successfully deleted","User with id %s deleted".format(id))
   // }

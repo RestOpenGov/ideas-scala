@@ -6,7 +6,7 @@ import org.specs2.mutable.After
 import play.api.test._
 import play.api.test.Helpers._
 
-class QuerySpec extends org.specs2.mutable.Specification {
+class QuerySpec extends Specification {
 
   import models.{Idea, Comment}
 
