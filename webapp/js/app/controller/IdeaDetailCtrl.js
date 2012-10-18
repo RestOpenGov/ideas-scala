@@ -42,8 +42,6 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
         "comment": $scope.editor.instanceById('commentText').getContent()
       };
 
-    console.log(data);
-
     $http.post(SERVICE_ENDPOINT+$scope.ideaId+'/comment',data).success(function(json) {
         $commentBox.find('textarea').val('');
         $scope.comments.push(json);
@@ -51,18 +49,6 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
       }).error(function(data, status, headers, config) {
         alert('ERROR AL DAR DE ALTA EL COMENTARIO');
       });
-
-
-
-   /* $http({
-      url:SERVICE_ENDPOINT+$scope.ideaId+'/comment',
-      data : data,
-      method : 'POST',
-      headers : {'Content-Type':'application/json; charset=UTF-8'},
-    }).success(function(json){
-      $commentBox.find('textarea').val('');
-      $scope.comments.push(json);
-    });*/
 
   };
 
