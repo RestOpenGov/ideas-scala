@@ -10,5 +10,6 @@ var ideasModule = angular.module('ideas-ba', []).
       otherwise({redirectTo: '/ideas'});
 }]);
 
-var SERVICE_ENDPOINT = "http://ideas-jugar.rhcloud.com/api/";
+var SERVICE_ENDPOINT = "http://ideas-ba.com.ar/api/";
+// var SERVICE_ENDPOINT = "http://ideas-jugar.rhcloud.com/api/";
 // var SERVICE_ENDPOINT = "http://localhost:9000/api/";
