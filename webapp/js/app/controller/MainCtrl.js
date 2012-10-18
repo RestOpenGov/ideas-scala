@@ -21,5 +21,7 @@ function MainCtrl($scope, $routeParams, $http, $location) {
     }
     $scope.searchQuery = '';
   };
+  
+  
 
 };

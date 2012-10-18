@@ -1,0 +1,6 @@
+<div class="btn-group"  ng-controller="VoteCtrl">
+	<a class="btn btn btn-success" ng-click="votePositive()"><i class="icon-thumbs-up" ></i>{{idea.votes.pos}}</a>
+	<a class="btn btn percent-button" data-title="asd" data-content="Porcentaje de aceptación sobre un total de {{idea.votes.pos + idea.votes.neg}} votantes.">
+	  {{((idea.votes.pos*100)/(idea.votes.pos + idea.votes.neg + 0.01)).toFixed(0)}} %</a>
+	<a class="btn btn btn-danger" ng-click="voteNegative()"><i class="icon-thumbs-down" ></i>{{idea.votes.neg}}</a>
+</div>

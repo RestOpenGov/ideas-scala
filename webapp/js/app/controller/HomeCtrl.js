@@ -39,12 +39,8 @@ function HomeCtrl($scope, $routeParams, $http) {
       });
     });
 
-    $scope.votePositive = function(){
-    	alert('votePositive');
-    };
 
-    $scope.voteNegative = function(){
-    	alert('voteNegative');
-    };
 
 }
+
+
