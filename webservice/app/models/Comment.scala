@@ -123,4 +123,15 @@ object Comment extends EntityCompanion[Comment] {
     user.voteComment(id, pos)
   }
 
+  def findCommentByIdea(idea: Long) : List[Comment] = {
+    Logger.info("nicolas")
+    DB.withConnection { implicit c => {
+         SQL("Select * from comment, idea, user where idea_id = {idea}").
+         on("idea" -> idea).as(Comment.parser() *) 
+      }  
+    } 
+  }
+
+
+
 }

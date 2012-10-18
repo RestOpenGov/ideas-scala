@@ -18,8 +18,11 @@ import utils.Http
 
 object Comments extends Controller {
 
-  def list(id: Long) = CORSAction { request =>
-    Ok(toJson(Comment.find(request.queryString)))
+  def list(id: Long) = CORSAction { request => {
+    val result = Comment.findCommentByIdea(id)
+    val json  = toJson(result)
+    Ok(json)
+    }
   }
 
   def listAll() = CORSAction { request =>
