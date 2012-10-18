@@ -26,7 +26,7 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
     });
 
     //COMMENTS
-    $http.get(SERVICE_ENDPOINT+'ideas/'+$scope.ideaId+'/comments').success(function(json) {
+    $http.get(SERVICE_ENDPOINT+'comments?q=idea.id:'+$scope.ideaId).success(function(json) {
       $scope.comments = json;
     });
 
