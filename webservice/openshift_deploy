@@ -11,12 +11,21 @@ rm -fr conf/evolutions conf/application.conf conf/routes
 
 mv openshift_deploy openshift_deploy.bak
 
+# remove webservice/public symlink
+rm -fr ../../webservice/public
+
 # copy web service
 cp -r ../../webservice/* .
+
+# restore webservice/public symlink
+ln -s ../webapp ../../webservice/public
 
 # restore deploy script
 rm openshift_deploy
 mv openshift_deploy.bak openshift_deploy
+
+# cleanup miscelaneous files
+rm mem.* run start tail
 
 # remove compiled files and RUNNING_PID file
 rm -fr dist target RUNNING_PID
@@ -25,7 +34,7 @@ rm -fr dist target RUNNING_PID
 rm -fr public/*
 
 # copy the webapp to public
-cp -r ../../webapp/* ./public/
+cp -r ../../webapp ./public
 
 # get rid of start scrips
 rm public/openshift_deploy public/start

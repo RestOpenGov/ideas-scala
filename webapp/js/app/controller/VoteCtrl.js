@@ -1,83 +1,23 @@
 /*globals $,_*/
 'use strict';
-function VoteCtrl($scope, $routeParams, $http) {
+function VoteCtrl($scope, $routeParams, $http, $USER) {
 
     $scope.init = function(){
-      
+      //do nothing
     }
   
     $scope.votePositive = function(){
 
       // Call Rest Post method
-      if ($scope.isIdea()){
+      $scope.vote('up');
 
-        // PUT     /api/ideas/:id/up                  controllers.Ideas.up(id: Long)
-      
-        $http.put(SERVICE_ENDPOINT + 'ideas/'+ $scope.idea.id + '/up',undefined)
-        .success(function(json) {
-          
-            $scope.idea.votes.pos += 1;
-            // refresh entity
-            // $http.get(SERVICE_ENDPOINT+'ideas/'+ $scope.idea.id ).success(function(json) {
-            //   $scope.idea = json;
-            // });
-                
-            
-         }).error(function(data, status, headers, config) {
-            throw new Error("Error al votar una idea.");
-        });
-
-      }else
-      {
-        // PUT     /api/ideas/:idea/comments/:id/up       controllers.Comments.up(idea: Long, id: Long)
-        
-        $http.put(SERVICE_ENDPOINT + 'ideas/'+ $scope.idea.id+ '/comments/'+ $scope.comment.id+ '/up',undefined)
-        .success(function(json) {
-
-            $scope.comment.votes.pos += 1;
-            
-        }).error(function(data, status, headers, config) {
-            throw new Error("Error al votar un comentario.");
-        });
-      }
-      
     };
 
     $scope.voteNegative = function(){
 
       // Call Rest Post method
-      if ($scope.isIdea()){
-        
-        // PUT     /api/ideas/:id/down                controllers.Ideas.down(id: Long)
-        
-        $http.put(SERVICE_ENDPOINT + 'ideas/'+ $scope.idea.id+ '/down',undefined)
-        .success(function(json) {
+      $scope.vote('down');
 
-            $scope.idea.votes.neg += 1;
-            // refresh entity
-            // $http.get(SERVICE_ENDPOINT+'ideas/'+ $scope.idea.id ).success(function(json) {
-            //   $scope.idea = json;
-            // });
-            
-        }).error(function(data, status, headers, config) {
-            throw new Error("Error al votar una idea.");
-        });
-
-      }else
-      {
-        
-        // PUT     /api/ideas/:idea/comments/:id/down     controllers.Comments.down(idea: Long, id: Long)
-        $http.put(SERVICE_ENDPOINT + 'ideas/'+ $scope.idea.id+ '/comments/'+ $scope.comment.id + '/down',undefined)
-        .success(function(json) {
-            
-          $scope.comment.votes.neg += 1;
-            
-        }).error(function(data, status, headers, config) {
-            throw new Error("Error al votar un comentario.");
-        });
-
-
-      }
     };
 
 
@@ -86,6 +26,49 @@ function VoteCtrl($scope, $routeParams, $http) {
       return ($scope.comment === undefined) 
     };
     
+    // Vote main function
+    $scope.vote = function(action){
+      var url,type;
+
+      if ($scope.isIdea()){
+        type = 'idea';
+      }else{
+        type = 'comment';
+      }
+
+      switch(type){
+        case 'comment':
+          url = $scope.idea.id + '/comments/'+ $scope.comment.id + '/' + action;
+        break;
+        case 'idea':
+          url = $scope.idea.id + '/' + action;
+        break;
+      };
+
+      if(url){
+        var data = {author: {id: $USER.getId()} };
+        $http.put(SERVICE_ENDPOINT + 'ideas/'+ url,data)
+        .success(function(json) {
+          switch(type){
+            case 'comment':
+             $scope.comment.votes = json.votes;
+            break;
+            case 'idea':
+              $scope.idea.votes = json.votes;
+            break;
+          };
+            
+        }).error(function(data, status, headers, config) {
+            var error = 'ERROR!: ';
+            angular.forEach(data, function(e, i){
+              error += ' - ' + e.message;
+            });
+            alert(error);
+        });
+      }
+
+    };
+
     $scope.init();
     
 };
