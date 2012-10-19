@@ -1,6 +1,6 @@
 /*globals $,_*/
 'use strict';
-function HomeCtrl($scope, $routeParams, $http) {
+function HomeCtrl($scope, $routeParams, $http, $USER) {
 
 	$scope.rows = [];
 

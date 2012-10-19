@@ -1,6 +1,6 @@
 /*globals $,_*/
 'use strict';
-function IdeaDetailCtrl($scope, $routeParams, $http) {
+function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
   $scope.ideaId = $routeParams.ideaId;
 
   $scope.idea = {};
@@ -18,7 +18,7 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
       $scope.editorInstance = $scope.editor.panelInstance('commentText');
   });
 
-  $scope.search = function(){
+  $scope.init = function(){
 
     //IDEA
     $http.get(SERVICE_ENDPOINT+'ideas/'+$scope.ideaId).success(function(json) {
@@ -37,7 +37,7 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
 
     var $commentBox = $('#comment-box'),
       data = {
-        "author": {id: 1},
+        "author": {id: $USER.getId()},
         "idea": {id: $scope.ideaId},
         "comment": $scope.editor.instanceById('commentText').getContent()
       };
@@ -45,13 +45,12 @@ function IdeaDetailCtrl($scope, $routeParams, $http) {
     $http.post(SERVICE_ENDPOINT+$scope.ideaId+'/comment',data).success(function(json) {
         $commentBox.find('textarea').val('');
         $scope.comments.push(json);
-        console.log(json);
       }).error(function(data, status, headers, config) {
         alert('ERROR AL DAR DE ALTA EL COMENTARIO');
       });
 
   };
 
-  $scope.search();
+  $scope.init();
 
 };

@@ -1,6 +1,6 @@
 /*globals $,_*/
 'use strict';
-function VoteCtrl($scope, $routeParams, $http) {
+function VoteCtrl($scope, $routeParams, $http, $USER) {
 
     $scope.init = function(){
       //do nothing
@@ -46,7 +46,8 @@ function VoteCtrl($scope, $routeParams, $http) {
       };
 
       if(url){
-        $http.put(SERVICE_ENDPOINT + 'ideas/'+ url,undefined)
+        var data = {author: {id: $USER.getId()} };
+        $http.put(SERVICE_ENDPOINT + 'ideas/'+ url,data)
         .success(function(json) {
           switch(type){
             case 'comment':

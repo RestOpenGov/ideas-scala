@@ -45,17 +45,8 @@
               <li><a href="#">Map of ideas</a></li>
             </ul>
             <ul class="nav pull-right">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="http://a0.twimg.com/profile_images/1557699557/penguin_armed_normal.jpg" style="width:20px;height:20px">&nbsp; Hello opensas 
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">My profile</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Logout</a></li>
-                </ul>
-              </li>
+              <li><a href="javascript:;">Who am I?</a></li>
+              <select ng-model="selectedUserId" ng-change="changeUser()" id="userSelector" ng-options="u.id as u.name for u in userList"></select>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

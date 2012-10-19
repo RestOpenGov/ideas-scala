@@ -1,6 +1,6 @@
 /*globals $,_*/
 'use strict';
-function IdeaFormCtrl($scope, $routeParams, $http, $location) {
+function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 	$scope.types = [];
 
 	$scope.idea = {};
@@ -28,7 +28,7 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location) {
 		$scope.idea.description = $scope.editor.instanceById('areaMessage').getContent();
 
 		//Completo el user logueado
-		$scope.idea.author = {id:1};
+		$scope.idea.author = {id:$USER.getId()};
 
 		$http.post(SERVICE_ENDPOINT+'ideas',$scope.idea).success(function(json) {
 			$location.path("/ideas/"+json.id).search();
