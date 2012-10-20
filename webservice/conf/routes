@@ -72,6 +72,7 @@ POST    /api/types/                        controllers.IdeaTypes.save
 POST    /api/types                         controllers.IdeaTypes.save
 GET     /api/types/:id                     controllers.IdeaTypes.show(id: Long)
 DELETE  /api/types/:id                     controllers.IdeaTypes.delete(id: Long)
+
 GET     /api/tags                          controllers.Tags.list
 #GET     /api/tags/count                    controllers.Tags.count
 PUT     /api/tags/:id                      controllers.Tags.update(id: Long)
