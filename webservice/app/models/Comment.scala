@@ -126,8 +126,13 @@ object Comment extends EntityCompanion[Comment] {
 
   def findCommentByIdea(idea: Long) : List[Comment] = {
     DB.withConnection { implicit c => {
-         SQL("Select * from comment, idea, user where idea_id = {idea}").
-         on("idea" -> idea).as(Comment.parser() *) 
+      val query = 
+          """
+          SELECT * FROM comment, idea, user  WHERE comment.idea_id = {idea}
+          AND comment.user_id = user.id AND comment.idea_id = idea.id 
+          """
+
+         SQL(query.stripMargin).on("idea" -> idea).as(Comment.parser() *) 
       }  
     } 
   }

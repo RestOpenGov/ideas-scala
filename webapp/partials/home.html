@@ -1,5 +1,5 @@
 <div class="row-fluid" ng-repeat="row in rows">
-    <div class="span6 well" ng-repeat="type in row">
+    <div class="span6 well idea-container idea-container-{{type.id}} idea-container-home" ng-repeat="type in row">
       <h2>
       	<a class="btn btn-large btn-block btn-warning" href="/#/ideas/lista?q=type.id:{{type.id}}">{{type.name}}</a>
 

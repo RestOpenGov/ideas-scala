@@ -381,3 +381,32 @@ textarea {
 #userSelector {
   margin-top: 10px;
 }
+
+.idea-container{
+  background-position: left bottom;
+  background-repeat: no-repeat;
+}
+
+.idea-container-1 {
+  background-color: #FFE6CC;
+  background-image: url('/img/idea-bg/idea.png');
+}
+
+.idea-container-2 {
+  background-color: #CCFFCC;
+  background-image: url('/img/idea-bg/reclamo.png');
+}
+
+.idea-container-3 {
+  background-color: #CCE6FF;
+  background-image: url('/img/idea-bg/pregunta.png');
+}
+
+.idea-container-4 {
+  background-color: #E6CCFF;
+  background-image: url('/img/idea-bg/recomendacion.png');
+}
+
+.idea-container-home {
+  min-height: 400px;
+}
