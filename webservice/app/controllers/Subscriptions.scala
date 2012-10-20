@@ -25,4 +25,8 @@ object Subscriptions extends Controller {
   def show(id: Long) = Action{ request =>
      Ok(toJson(Subscription.findById(id)))
   }
+  def list(id: Long) = Action{ request =>
+     Ok(toJson(Subscription.findById(id)))
+  }
+
 }
