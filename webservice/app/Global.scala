@@ -6,8 +6,15 @@ import models.Error
 import formatters.json.ErrorFormatter._
 
 import play.api.libs.json.Json.toJson
-
 import play.api.http.Status
+
+import play.api.libs.concurrent.Akka
+import play.api.Play.current
+import akka.actor.Props
+import akka.routing.RoundRobinRouter
+import notification.NotificationActor
+import notification.NewCommentNotification
+
 
 object Global extends GlobalSettings {
 
@@ -25,7 +32,12 @@ object Global extends GlobalSettings {
     BadRequest(toJson(
       Error(status = Status.BAD_REQUEST, message = error)
     ))
-
   }
+
+  override def onStart(app: Application) {
+    Logger.info("Ideas-ba is Starting...")
+    val props = Props[NotificationActor].withRouter(RoundRobinRouter(nrOfInstances = 10))
+    val a = Akka.system.actorOf(props, name = "notificationActor");
+  }  
 
 }
