@@ -14,7 +14,7 @@
   </div>
 
   <div class="row-fluid">
-    <div id="comment-box" class="well">
+    <div id="comment-box" class="well" ng-hide="commentedMark">
       <form id="new-comment-form" ng-submit="addComment()">
         <legend>¡Comentá! ¡La verdad nos hará libres!</legend>
         <textarea id="commentText" name="commentText" class="span12" placeholder="El comentario va aquí..."></textarea>
@@ -22,7 +22,8 @@
         <button class="comment-btn btn-large btn-primary" type="submit" class="btn">Enviar</button>
       </form>
     </div>
-  </div>  
+    <p class="well" ng-show="commentedMark">Gracias por comentar!!</p>
+  </div>
 
   <div class="row-fluid">
     <div ng-include src="'includes/comment.html'" ng-repeat="comment in comments"></div>

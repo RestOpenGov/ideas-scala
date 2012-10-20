@@ -9,6 +9,8 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
 
   $scope.comments = [];
   
+  $scope.commentedMark = false;
+
   $scope.$on('$viewContentLoaded', function() {
       $scope.editor = new nicEditor({
         buttonList : ['bold','italic','underline','strikeThrough','ol','ul','forecolor','link','unlink'],
@@ -16,6 +18,10 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
       })
 
       $scope.editorInstance = $scope.editor.panelInstance('commentText');
+  });
+
+  $scope.$watch("idea.created",function(value){
+    console.log(value);
   });
 
   $scope.init = function(){
@@ -38,13 +44,14 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
     var $commentBox = $('#comment-box'),
       data = {
         "author": {id: $USER.getId()},
-        "idea": {id: $scope.ideaId},
         "comment": $scope.editor.instanceById('commentText').getContent()
       };
 
-    $http.post(SERVICE_ENDPOINT+$scope.ideaId+'/comment',data).success(function(json) {
-        $commentBox.find('textarea').val('');
+    $http.post(SERVICE_ENDPOINT+'ideas/'+$scope.ideaId+'/comment',data).success(function(json) {
+        $scope.editor.instanceById('commentText').setContent('');
         $scope.comments.push(json);
+        $scope.commentedMark = true;
+        console.log(json);
       }).error(function(data, status, headers, config) {
         alert('ERROR AL DAR DE ALTA EL COMENTARIO');
       });
