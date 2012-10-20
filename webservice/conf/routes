@@ -20,8 +20,9 @@ POST    /api/users                         controllers.Users.save
 GET     /api/users/:id                     controllers.Users.show(id: Long)
 DELETE  /api/users/:id                     controllers.Users.delete(id: Long)
 
-GET     /api/users/:id/subscriptions            controllers.Subscriptions.list(id: Long)
-GET     /api/users/:id/subscriptions/count      controllers.Subscriptions.count(id: Long)
+GET     /api/users/:id/subscriptions            controllers.Subscriptions.show(id: Long)
+#GET     /api/users/:id/subscriptions            controllers.Subscriptions.list(id: Long)
+#GET     /api/users/:id/subscriptions/count      controllers.Subscriptions.count(id: Long)
 POST    /api/users/:id/subscriptions            controllers.Subscriptions.save(id: Long)
 DELETE  /api/users/:id/subscriptions/:ideaId    controllers.Subscriptions.delete(id: Long, ideaId: Long)
 

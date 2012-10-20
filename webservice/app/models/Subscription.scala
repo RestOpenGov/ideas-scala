@@ -2,17 +2,23 @@ package models
 
 import play.api.Play.current
 import play.api.db._
+
 import anorm._
 import anorm.SqlParser._
+
+import utils.Validate._
+import play.api.Play
 import play.api.i18n.Lang
 
+import utils.Http
 import utils.Validate
+
+import utils.Sql.sanitize
 
 import utils.Conversion.pkToLong
 
-import java.util.Date
-
 import play.Logger
+import java.util.Date
 
 case class Subscription (
 
@@ -26,7 +32,7 @@ case class Subscription (
 {
 
 
-  val url: String = id.map(controllers.routes.Subscriptions.list(_).url).getOrElse("")
+  val url: String = id.map(controllers.routes.Subscriptions.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Subscription.update(this)
   def save()    (implicit lang: Lang) = Subscription.save(this)
   def delete()  (implicit lang: Lang) = Subscription.delete(this)
@@ -45,7 +51,7 @@ object Subscription extends EntityCompanion[Subscription] {
 
   override lazy val view = """
     |idea     on subscription.idea_id = idea.id      inner join 
-    |user     on comment.user_id = user.id""".stripMargin
+    |user     on subscription.user_id = user.id""".stripMargin
 
   override val tableMappings = Map("idea" -> "idea", "author" -> "user")
 
@@ -95,4 +101,6 @@ object Subscription extends EntityCompanion[Subscription] {
     }
     errors.reverse
   }
+
+  def find(userId: Long) : Unit = {}
 }
