@@ -1,7 +1,7 @@
-<div class="well span12 ng-cloak">
+<div class="well span12 ng-cloak comment-container">
   <div class="span9">
+     <h6>Fecha: {{ comment.created | date:'yyyy-MM-dd HH:mm a' }} - Entrada: <a href="/#/ideas/{{comment.idea.id}}">{{comment.idea.name}}</a></h6>
      <p ng-bind-html-unsafe="comment.comment"></p>
-     <p>Publicado {{comment.created}} en <a href="/#/ideas/{{comment.idea.id}}">{{comment.idea.name}}</a></p>
   </div>
   <div class="span3">
     <div class="row-fluid">
@@ -10,8 +10,14 @@
       </div> 
     </div>
     <div class="row-fluid">
-      <a class="span12" href="/#/user/{{comment.author.id}}">{{comment.author.name}}</a>
-      <img class="avatar-image" ng-src="{{comment.author.avatar}}" />
-    </div> 
+      <div class="span6 avatar-image-container">
+        <a href="/#/user/{{comment.author.id}}">
+          <img class="avatar-image-comment img-rounded" ng-src="{{comment.author.avatar}}" />
+        </a>  
+      </div>
+      <div class="span6 avatar-image-container">
+        <h6><a href="/#/user/{{comment.author.id}}">{{comment.author.name}}</a></h6>
+      </div>
+    </div>
   </div>
 </div>

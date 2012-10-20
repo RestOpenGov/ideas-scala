@@ -365,8 +365,17 @@ textarea {
   text-align: center;
 }
 
+.avatar-image-container {
+  text-align: center;
+}
+
 .avatar-image {
   width: 100px;
+  height: auto;
+}
+
+.avatar-image-comment {
+  width: 50px;
   height: auto;
 }
 
@@ -410,3 +419,4 @@ textarea {
 .idea-container-home {
   min-height: 400px;
 }
+
