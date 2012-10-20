@@ -59,10 +59,9 @@
               <li><a href="/#/ideas/lista?order=created DESC">Latest</a></li>
               <li><a href="javascript:;">Map of ideas</a></li>
             </ul>
-            <ul class="nav pull-right">
-              <li><a href="javascript:;">Who am I?</a></li>
-              <li><select ng-model="selectedUserId" ng-change="changeUser()" id="userSelector" ng-options="u.id as u.name for u in userList"></select></li>
-            </ul>
+
+            <div ng-include src="menuLogged"></div>
+            
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -146,7 +145,31 @@
     <script src="js/app/controller/IdeaFormCtrl.js"></script>
     <script src="js/app/controller/UserDetailCtrl.js"></script>
     <script src="js/app/controller/UserFormCtrl.js"></script>    
-    <script src="js/app/controller/ShareCtrl.js"></script>   
+    <script src="js/app/controller/ShareCtrl.js"></script> 
+
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId : '486452174721099',
+          //channelUrl : '//ideas-jugar.rhcloud.com/channel.html', 
+          //channelUrl : '//ideas-ba.com.ar/channel.html', 
+          channelUrl : '//localhost/ideas-ba/channel.html', 
+          status : true,
+          cookie : true,
+          xfbml : true 
+        });
+      };
+
+      (function(d){
+         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement('script'); js.id = id; js.async = true;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         ref.parentNode.insertBefore(js, ref);
+       }(document));
+
+    </script>  
 
   </body>
 
