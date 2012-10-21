@@ -32,7 +32,8 @@ case class IdeaType (
   def update()  (implicit lang: Lang) = IdeaType.update(this)
   def save()    (implicit lang: Lang) = IdeaType.save(this)
   def delete()  (implicit lang: Lang) = IdeaType.delete(this)
-  
+
+  def withId(newId: Long) = this.copy(id=Id(newId))
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"            -> pkToLong(id),
     "name"          -> name,
@@ -89,7 +90,7 @@ object IdeaType extends EntityCompanion[IdeaType] {
     }
 
     // description
-    if (Validate.isEmptyWord(ideaType.name)) {
+    if (Validate.isEmptyWord(ideaType.description)) {
       errors ::= ValidationError(Error.REQUIRED, "description", "validate.empty", &("ideaType.description"))
     } else {
       if (isDuplicate(ideaType, "description")) {

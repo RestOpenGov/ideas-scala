@@ -31,6 +31,7 @@ case class IdeaTag (
   def save()    (implicit lang: Lang) = IdeaTag.save(this)
   def delete()  (implicit lang: Lang) = IdeaTag.delete(this)
 
+  def withId(newId: Long) = this.copy(id=Id(newId))
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"          -> pkToLong(id),
     "idea_id"     -> idea.id.getOrElse(0L),

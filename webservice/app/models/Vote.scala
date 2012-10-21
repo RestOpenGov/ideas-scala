@@ -34,6 +34,7 @@ case class Vote (
   def save()    (implicit lang: Lang) = Vote.save(this)
   def delete()  (implicit lang: Lang) = Vote.delete(this)
 
+  def withId(newId: Long) = this.copy(id=Id(newId))
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"            -> pkToLong(id),
     "voteType"      -> voteType,

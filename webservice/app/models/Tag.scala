@@ -32,7 +32,8 @@ case class Tag (
   def update()  (implicit lang: Lang) = Tag.update(this)
   def save()    (implicit lang: Lang) = Tag.save(this)
   def delete()  (implicit lang: Lang) = Tag.delete(this)
-  
+
+  def withId(newId: Long) = this.copy(id=Id(newId))
   def asSeq(): Seq[(String, Any)] = Seq(
     "id"            -> pkToLong(id),
     "name"          -> name,
