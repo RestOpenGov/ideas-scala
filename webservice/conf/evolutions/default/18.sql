@@ -10,7 +10,8 @@ INSERT INTO subscription VALUES
   (05, 2, 1),
   (06, 2, 2),
   (07, 3, 3),
-  (08, 4, 1)
+  (08, 4, 1),
+  (09, 1, 5)
 ;
 
 # --- !Downs
