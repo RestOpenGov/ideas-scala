@@ -19,6 +19,7 @@ object Error {
   val NOT_FOUND = 10003
   val BUSINESS_RULE = 10004
   val PERMISSION = 10005
+  val AUTHENTICATION = 10006
 }
 
 object ValidationError {
