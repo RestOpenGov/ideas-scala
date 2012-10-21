@@ -11,7 +11,7 @@ CREATE TABLE vote (
   comment_id      int(11)       NULL,              -- should be null if vote.vote_type = idea
   user_id         int(11)       NOT NULL,
   pos             boolean       NOT NULL,          -- positive = true, negative = false
-  created         timestamp     NULL DEFAULT NULL,
+  created         timestamp     NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (id)
 );
 

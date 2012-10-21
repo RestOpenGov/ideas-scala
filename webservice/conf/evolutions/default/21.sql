@@ -11,7 +11,7 @@ CREATE TABLE categorization (
   name        varchar(100)  NOT NULL,
   latitude    integer       NULL,
   longitude   integer       NULL,
-  created     timestamp     NULL DEFAULT NULL,
+  created     timestamp     NOT NULL DEFAULT current_timestamp,
 
   PRIMARY KEY (id)
 );

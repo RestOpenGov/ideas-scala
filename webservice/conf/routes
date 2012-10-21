@@ -4,6 +4,9 @@
 
 OPTIONS /api/*url                          controllers.Application.options(url: String)
 
+GET     /api/secured                       controllers.Security.secured
+POST    /api/auth                          controllers.Security.auth
+
 GET     /                                  controllers.Assets.at(path="/public", file="index.html")
 GET     /app                               controllers.Assets.at(path="/public", file="index.html")
 # GET     /                                  controllers.Application.app

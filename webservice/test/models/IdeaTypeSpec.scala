@@ -6,10 +6,11 @@ import org.specs2.mutable.After
 import play.api.test._
 import play.api.test.Helpers._
 
-class IdeaTypeSpec extends Specification {
+import test.matchers.ErrorSpec
 
-  import models.IdeaType
-  import models.Idea
+class IdeaTypeSpec extends Specification with ErrorSpec {
+
+  import models.{IdeaType, Idea, Error}
 
   "IdeaType model" should {
 
@@ -93,6 +94,39 @@ class IdeaTypeSpec extends Specification {
         IdeaType.findById(modifiedEntity.id.get) must beNone
         IdeaType.count() must equalTo(4)
       }
+    }
+
+    "check for required values" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        // check update
+        IdeaType.findById(1).get.copy(name="").update must haveError.like {
+          case error => {
+            error.errorCode must equalTo(Error.REQUIRED)
+            error.field must equalTo("name")
+            error.message must contain("""campo "nombre" no puede estar vacío""")
+          }
+        }
+
+        // check save
+        IdeaType(name="", description="some description").save must haveError.like {
+          case error => {
+            error.errorCode must equalTo(Error.REQUIRED)
+            error.field must equalTo("name")
+            error.message must contain("""campo "nombre" no puede estar vacío""")
+          }
+        }
+
+        // // check https://groups.google.com/d/topic/specs2-users/z7Dyn9C2hwM/discussion
+        // // check correct error
+        // IdeaType(name="", description="some description").save must not(haveError.like {
+        //   case error => {
+        //     error.field must equalTo("description")
+        //   }
+        // })
+
+      }
+      
     }
 
   }

@@ -8,11 +8,11 @@ CREATE TABLE idea (
   id              int(11)         NOT NULL AUTO_INCREMENT,
   idea_type_id    int(11)         NOT NULL,
   subject_id      int(11)         NULL,     -- null so that we can work while implementing it
-  name            varchar(200)    DEFAULT NULL,
-  description     varchar(1000)   DEFAULT NULL,
+  name            varchar(200)    NOT NULL DEFAULT '',
+  description     varchar(1000)   NOT NULL DEFAULT '',
   user_id         int(11)         NOT NULL,
   views           int(11)         NOT NULL,
-  created         timestamp       NULL DEFAULT NULL,
+  created         timestamp       NOT NULL DEFAULT current_timestamp,
 
   PRIMARY KEY (id),
   UNIQUE KEY idea_uk_name (name)
