@@ -37,3 +37,12 @@ object JsonNotFound {
     Results.NotFound(toJson(Error(status, errorCode, message, developerMessage)))
   }
 }
+
+object JsonUnauthorized {
+  def apply(message: String = "Unauthorized", developerMessage: String = "Unauthorized access",
+            status: Int = Status.UNAUTHORIZED, errorCode: Int = 0
+  ) = {
+    Results.Unauthorized(toJson(Error(status, errorCode, message, developerMessage)))
+  }
+}
+
