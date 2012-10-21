@@ -14,7 +14,7 @@ object Global extends GlobalSettings {
   override def onError(request: RequestHeader, ex: Throwable) = {
     InternalServerError(toJson(
       Error(
-        status = Status.INTERNAL_SERVER_ERROR, 
+        status = Status.INTERNAL_SERVER_ERROR,
         message = "Internal server error",
         developerMessage = ex.getMessage()
       )
