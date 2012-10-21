@@ -44,14 +44,18 @@ object Users extends Controller {
   }
 
   def update(id: Long) = CORSAction { implicit request =>
+    parse[User](request).map { user =>
+      user.copy(id=Id(id)).update.fold(
+        errors => JsonBadRequest(errors),
+        user => Ok(toJson(user))
+      )
+    }.getOrElse       (JsonBadRequest("Invalid User entity"))
+  }
+
+  def parse[T: play.api.libs.json.Reads](request: Request[AnyContent]): Option[T] = {
     request.body.asJson.map { json =>
-      json.asOpt[User].map { user =>
-        user.copy(id=Id(id)).update.fold(
-          errors => JsonBadRequest(errors),
-          user => Ok(toJson(user))
-        )
-      }.getOrElse       (JsonBadRequest("Invalid User entity"))
-    }.getOrElse         (JsonBadRequest("Expecting JSON data"))
+      json.asOpt[T]
+    }.getOrElse(None)
   }
 
   def delete(id: Long) = CORSAction { implicit request =>
