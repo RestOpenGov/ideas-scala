@@ -2,12 +2,12 @@ var ideasModule = angular.module('ideas-ba', [], function($routeProvider, $locat
 
 	//ROUTES
 	$routeProvider.
-    when('/ideas', {templateUrl: '/partials/home.html',   controller: HomeCtrl}).
-    when('/ideas/lista', {templateUrl: '/partials/idea-list.html',   controller: IdeaListCtrl}).
-    when('/ideas/nueva', {templateUrl: '/partials/idea-form.html', controller: IdeaFormCtrl}).
-    when('/ideas/:ideaId', {templateUrl: '/partials/idea-detail.html', controller: IdeaDetailCtrl}).
-    when('/user/edit', {templateUrl: '/partials/user-form.html', controller: UserFormCtrl}).
-    when('/user/:userId', {templateUrl: '/partials/user-detail.html', controller: UserDetailCtrl}).
+    when('/ideas', {templateUrl: './partials/home.html',   controller: HomeCtrl}).
+    when('/ideas/lista', {templateUrl: './partials/idea-list.html',   controller: IdeaListCtrl}).
+    when('/ideas/nueva', {templateUrl: './partials/idea-form.html', controller: IdeaFormCtrl}).
+    when('/ideas/:ideaId', {templateUrl: './partials/idea-detail.html', controller: IdeaDetailCtrl}).
+    when('/user/edit', {templateUrl: './partials/user-form.html', controller: UserFormCtrl}).
+    when('/user/:userId', {templateUrl: './partials/user-detail.html', controller: UserDetailCtrl}).
     otherwise({redirectTo: '/ideas'});
 
     //URL -- Remove # char from url

@@ -2,42 +2,35 @@
 
 <html lang="en" ng-app="ideas-ba">
 
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title>Ideas-ba demo application</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/docs.css" rel="stylesheet">
-    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Ideas-ba demo application</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/docs.css" rel="stylesheet">
+  <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
 
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script> -->
-    <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-507b57486aceb784"></script>
-    <script src="js/lib/angular-1.0.2.js"></script>
-    <script src="js/lib/jquery-1.8.2.min.js"></script>
-    <script src="js/lib/bootstrap.min.js"></script>
-    <script src="js/lib/nicEdit.js"></script> <!-- WYSWYG for textareas -->
+  <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script> -->
+  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-507b57486aceb784"></script>
+  <script src="js/lib/angular-1.0.2.js"></script>
+  <script src="js/lib/jquery-1.8.2.min.js"></script>
+  <script src="js/lib/bootstrap.min.js"></script>
+  <script src="js/lib/nicEdit.js"></script> <!-- WYSWYG for textareas -->
+  
+  <script src="js/lib/jquery.ba-hashchange.min.js"></script> <!-- Tackpage View Lib -->
+  <script src="js/lib/googleAnalyticsScript.js"></script>  <!-- Google analytics -->
+  <script src="js/lib/trackPageView-hashchange.js"></script>  <!-- Tackpage events -->
 
-    
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+
+  
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]> 
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     
-    <!-- Google analytics -->
-    <script type="text/javascript">
+  
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-35728816-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
-    </script>
   </head>
 
   <body ng:controller="MainCtrl">
@@ -95,63 +88,63 @@
         </div>
       </div>
     </div>
--->
-     <div class="container-fluid master-container">
-          <div class="row-fluid">
-            <div class="span2">
-              
-              <!-- logo -->
-              <div id="logo-container" class="well sidebar-nav">
-                <a href="/#/ideas"><img src="img/ideas-ba-logo.png" /></a>
-                <p>Social brainstorming for improving our city!</p>
-                <p class="small" style="text-align:center">
-                  Ideas-ba aims to be a social website that allows citizens to share ideas, complaints, questions and proposal to improve our cities. It is inspired in sites like <a href="http://www.stackoverflow.com">StackOverflow</a>, that allows collective knowledge to help us solve the problems that as developers we face everyday.
-                </p>
-              </div><!--/.well -->
+  -->
+  <div class="container-fluid master-container">
+    <div class="row-fluid">
+      <div class="span2">
+        
+        <!-- logo -->
+        <div id="logo-container" class="well sidebar-nav">
+          <a href="/#/ideas"><img src="img/ideas-ba-logo.png" /></a>
+          <p>Social brainstorming for improving our city!</p>
+          <p class="small" style="text-align:center">
+            Ideas-ba aims to be a social website that allows citizens to share ideas, complaints, questions and proposal to improve our cities. It is inspired in sites like <a href="http://www.stackoverflow.com">StackOverflow</a>, that allows collective knowledge to help us solve the problems that as developers we face everyday.
+          </p>
+        </div><!--/.well -->
 
-              <!-- information -->
-              <div class="well sidebar-nav">
-                <a id="image-reference" class="btn btn-mini popover-component" data-title="Imagen de fondo:" data-content="propiedad de Benjamin Dumas CC <a href='http://www.flickr.com/photos/b00nj/5440055211'>Flickr</a>"><i class="icon-camera"></i></a>
-                <a id="logo-rog" class="btn btn-mini popover-component" data-title="Desarrollado por:" data-content="#NARDOZ <a href='http://restopengov.org/'>RestOpenGov Team</a>"><i class="icon-edit"></i></a>
-                <a class="btn btn-mini popover-component" data-title="Código fuente:" data-content="<a href='https://github.com/RestOpenGov/ideas-ba'>github</a>"><i class="icon-share"></i></a>                
-              </div><!--/.well -->
+        <!-- information -->
+        <div class="well sidebar-nav">
+          <a id="image-reference" class="btn btn-mini popover-component" data-title="Imagen de fondo:" data-content="propiedad de Benjamin Dumas CC <a href='http://www.flickr.com/photos/b00nj/5440055211'>Flickr</a>"><i class="icon-camera"></i></a>
+          <a id="logo-rog" class="btn btn-mini popover-component" data-title="Desarrollado por:" data-content="#NARDOZ <a href='http://restopengov.org/'>RestOpenGov Team</a>"><i class="icon-edit"></i></a>
+          <a class="btn btn-mini popover-component" data-title="Código fuente:" data-content="<a href='https://github.com/RestOpenGov/ideas-ba'>github</a>"><i class="icon-share"></i></a>                
+        </div><!--/.well -->
 
-            </div><!--/span-->
-            <div class="span10">
-              <div class="well">
-                <div>
-                  <form class="form-search" ng-submit="search()">
-                    <div class="input-append">
-                      <input type="text" ng-model="searchQuery" class="input-large search-query">
-                      <button type="submit" class="btn btn-primary">Buscar</button>
-                    </div>
-                  </form>
-                </div>
+      </div><!--/span-->
+      <div class="span10">
+        <div class="well">
+          <div>
+            <form class="form-search" ng-submit="search()">
+              <div class="input-append">
+                <input type="text" ng-model="searchQuery" class="input-large search-query">
+                <button type="submit" class="btn btn-primary">Buscar</button>
               </div>
-
-              <div ng-view></div>
-
-            </div><!--/span-->
+            </form>
           </div>
-     
-     </div>
+        </div>
 
-    <script src="js/app/app.js"></script>
-    <script src="js/app/controller/MainCtrl.js"></script>
-    <script src="js/app/controller/HomeCtrl.js"></script>
-    <script src="js/app/controller/VoteCtrl.js"></script>
-    <script src="js/app/controller/IdeaDetailCtrl.js"></script>
-    <script src="js/app/controller/IdeaListCtrl.js"></script>
-    <script src="js/app/controller/IdeaFormCtrl.js"></script>
-    <script src="js/app/controller/UserDetailCtrl.js"></script>
-    <script src="js/app/controller/UserFormCtrl.js"></script>    
-    <script src="js/app/controller/ShareCtrl.js"></script> 
+        <div ng-view></div>
 
-    <div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId : '486452174721099',
+      </div><!--/span-->
+    </div>
+    
+  </div>
+
+  <script src="js/app/app.js"></script>
+  <script src="js/app/controller/MainCtrl.js"></script>
+  <script src="js/app/controller/HomeCtrl.js"></script>
+  <script src="js/app/controller/VoteCtrl.js"></script>
+  <script src="js/app/controller/IdeaDetailCtrl.js"></script>
+  <script src="js/app/controller/IdeaListCtrl.js"></script>
+  <script src="js/app/controller/IdeaFormCtrl.js"></script>
+  <script src="js/app/controller/UserDetailCtrl.js"></script>
+  <script src="js/app/controller/UserFormCtrl.js"></script>    
+  <script src="js/app/controller/ShareCtrl.js"></script> 
+
+  <div id="fb-root"></div>
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId : '486452174721099',
           //channelUrl : '//ideas-jugar.rhcloud.com/channel.html', 
           //channelUrl : '//ideas-ba.com.ar/channel.html', 
           channelUrl : '//localhost/ideas-ba/channel.html', 
@@ -159,18 +152,18 @@
           cookie : true,
           xfbml : true 
         });
-      };
+  };
 
-      (function(d){
-         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement('script'); js.id = id; js.async = true;
-         js.src = "//connect.facebook.net/en_US/all.js";
-         ref.parentNode.insertBefore(js, ref);
-       }(document));
+  (function(d){
+   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement('script'); js.id = id; js.async = true;
+   js.src = "//connect.facebook.net/en_US/all.js";
+   ref.parentNode.insertBefore(js, ref);
+ }(document));
 
-    </script>  
+  </script>  
 
-  </body>
+</body>
 
 </html>
