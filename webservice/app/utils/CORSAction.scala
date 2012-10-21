@@ -22,6 +22,14 @@ object CORSAction {
     }
   }
 
+  def apply[A](bodyParser: BodyParser[A])(block: Request[A] => ResultWithHeaders): Action[A] = {
+    Action(bodyParser) {
+      request =>
+        //block(request).withHeaders("Access-Control-Allow-Origin" -> "*", "Access-Control-Allow-Methods" -> "GET, POST, PUT, DELETE, OPTIONS")
+        block(request).withHeaders("Access-Control-Allow-Origin" -> "*")
+    }
+  }
+
   def apply(block: => ResultWithHeaders): Action[AnyContent] = {
     this.apply(_ => block)
   }
