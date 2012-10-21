@@ -25,6 +25,7 @@ import play.Logger
 trait Entity {
   val id: Pk[Long]
 
+  def withId(newId: Long): Entity
   def asSeq(): Seq[(String, Any)]
   def isNew(): Boolean = (id == NotAssigned)
 
@@ -171,6 +172,11 @@ trait EntityCompanion[A<:Entity] {
       ).as(parser)
     }
 
+  }
+
+  def saveOrUpdate(entity: A)(implicit lang: Lang): Either[List[Error],A] = {
+    if (entity.isNew) save(entity)(lang)
+    else update(entity)(lang)
   }
 
   def save(entity: A)(implicit lang: Lang): Either[List[Error],A] = {
