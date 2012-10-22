@@ -52,6 +52,20 @@ class SecurityManagerSpec extends Specification with ErrorSpec {
       }
     }
 
+    "return an error if the user already exists" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        // TODO
+        1 must equalTo(1)
+      }
+    }
+
+    "retrieve a valid token if everyting is ok" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        // TODO
+        1 must equalTo(1)
+      }
+    }
+
   }
 
   "SecurityManager.retrieveProviderInfo" should {
@@ -89,6 +103,31 @@ class SecurityManagerSpec extends Specification with ErrorSpec {
           }
         }
 
+      }
+    }
+
+  }
+
+  "SecurityManager.findUserByApplicationToken" should {
+
+    "return an error there's no user with that application token" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        // TODO
+        1 must equalTo(1)
+      }
+    }
+
+    "return an error if the application token has expired" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        // TODO
+        1 must equalTo(1)
+      }
+    }
+
+    "return the user associated with that application token" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        // TODO
+        1 must equalTo(1)
       }
     }
 
