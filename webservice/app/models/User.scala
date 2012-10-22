@@ -238,7 +238,6 @@ object User extends EntityCompanion[User] {
   }
 
   def findOrCreateFromProviderInfo(info: IdentityProviderInfo): Either[List[Error], User] = {
-
     findByProviderId(info.provider, info.id).map { user =>
       Right(user)
     }.getOrElse {
