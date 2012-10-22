@@ -15,9 +15,6 @@ import java.util.Properties
 import notification.mailTemplates.NewCommentMailTemplate
 import models.User
 
-
-
-case class NewCommentNotification(idea: Long)
  
 class NotificationActor extends Actor with ActorLogging {
   def receive = {

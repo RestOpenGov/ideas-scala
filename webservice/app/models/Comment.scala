@@ -13,6 +13,7 @@ import utils.Conversion.pkToLong
 import java.util.Date
 
 import play.Logger
+import notification._
 
 case class Comment (
 
@@ -30,7 +31,24 @@ case class Comment (
 
   val url: String = id.map(controllers.routes.Comments.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Comment.update(this)
-  def save()    (implicit lang: Lang) = Comment.save(this)
+  
+  def save()    (implicit lang: Lang) = {
+    val result = Comment.save(this)
+
+    result match {
+      case Right(comment) => {
+            val idea = comment.idea.id.get
+            Logger.debug("Save Succesful, so we send a Notification for idea: " + idea)        
+            NotificationService(NewCommentNotification(idea))
+      }
+      case Left(l) => {
+        Logger.debug("There was an error saving a comment, so we do NOT send a notification")
+      }
+    }
+
+    result
+  }
+  
   def delete()  (implicit lang: Lang) = Comment.delete(this)
 
   def withId(newId: Long) = this.copy(id=Id(newId))

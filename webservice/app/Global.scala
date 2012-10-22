@@ -9,12 +9,8 @@ import formatters.json.ErrorFormatter._
 import play.api.libs.json.Json.toJson
 import play.api.http.Status
 
-import play.api.libs.concurrent.Akka
-import play.api.Play.current
-import akka.actor.Props
-import akka.routing.RoundRobinRouter
-import notification.NotificationActor
-import notification.NewCommentNotification
+import notification.NotificationService
+
 
 
 object Global extends GlobalSettings {
@@ -49,8 +45,6 @@ object Global extends GlobalSettings {
                ^^^^^^^^
     """
     Logger.info(greeting)
-    val props = Props[NotificationActor].withRouter(RoundRobinRouter(nrOfInstances = 10))
-    val a = Akka.system.actorOf(props, name = "notificationActor");
   }  
 
 }
