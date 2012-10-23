@@ -1,6 +1,7 @@
 package utils
 
 import scala.collection.immutable.Map
+import java.net.URLEncoder
 
 import play.Logger
 
@@ -26,4 +27,7 @@ object Http {
 
     (page, len, order, filter, q)
   }
+
+  def encode(text: String): String = URLEncoder.encode(text, "UTF-8")
+
 }
