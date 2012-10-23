@@ -26,6 +26,14 @@ object JSONAction extends BodyParsers {
     }
   }
 
+  def apply[T: Reads](block: (T, Request[JsValue]) => ResultWithHeaders): Action[JsValue] = {
+    CORSAction(parse.json) { request =>
+      request.body.asOpt[T].map { parsed =>
+        block(parsed, request)
+      }.getOrElse       (JsonBadRequest("Invalid entity"))
+    }
+  }
+
   // parse the entity, but the block doesn't use it
   def apply[T: Reads](block: => ResultWithHeaders): Action[JsValue] = {
     this.apply[T] { entity: T => block }
