@@ -3,8 +3,8 @@ package controllers
 import play.api._
 import play.api.mvc._
 
-import utils.CORSAction
-import utils.SecuredAction
+import utils.actions.CORSAction
+import utils.actions.SecuredAction
 
 import formatters.json.AccessTokenFormatter._
 import formatters.json.ApplicationTokenFormatter._

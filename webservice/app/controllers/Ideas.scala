@@ -12,7 +12,7 @@ import formatters.json.IdeaFormatter._
 import formatters.json.ErrorFormatter._
 
 import scala.collection.immutable.Map
-import utils.CORSAction
+import utils.actions.CORSAction
 import utils.{JsonBadRequest, JsonNotFound, JsonOk}
 import utils.Http
 

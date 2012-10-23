@@ -1,10 +1,9 @@
-package utils
+package utils.actions
 
 import play.api.mvc._
-
 import models.User
 
-// import utils.CORSAction
+import utils.JsonUnauthorized
 
 /**
  * Created with IntelliJ IDEA.
