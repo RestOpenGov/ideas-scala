@@ -1,5 +1,7 @@
 package services.security
 
+import utils.DateHelper.addSeconds
+
 import java.util.{Date, Calendar}
 
 case class ApplicationToken(
@@ -16,10 +18,7 @@ object ApplicationToken {
   }
 
   private def newExpiration(from: Date): Date = {
-    val calendar = Calendar.getInstance
-    calendar.setTime(from)
-    calendar.add(Calendar.SECOND, SecurityManager.APPLICATION_TOKEN_MAX_AGE)
-    calendar.getTime
+    addSeconds(from, SecurityManager.APPLICATION_TOKEN_MAX_AGE)
   }
 
   def refresh: ApplicationToken = {
