@@ -51,7 +51,7 @@ object Users extends Controller {
 
   def delete(id: Long) = CORSAction { implicit request =>
     User.delete(id)
-    JsonOk("User successfully deleted","User with id %s deleted".format(id))
+    JsonOk("User successfully deleted", "User with id %s deleted".format(id))
   }
 
   def stats(id: Long) = TODO
