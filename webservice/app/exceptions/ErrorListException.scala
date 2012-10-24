@@ -13,6 +13,6 @@ import models.Error
 case class ErrorListException(errors: List[Error]) extends RuntimeException
 
 object ErrorList {
-  def apply(errors: List[Error]): ErrorListException = ErrorList(errors)
+  def apply(errors: List[Error]): ErrorListException = ErrorListException(errors)
   def apply(error: Error): ErrorListException = ErrorList(List(error))
 }

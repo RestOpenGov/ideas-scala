@@ -50,29 +50,21 @@ class SecurityManagerSpec extends Specification with ErrorSpec {
 
     }
 
-    // WEIRD COMPILE ERROR!!! compilation never ends
-    // if I have two operations on User ????
-    // "return an error if the user already exists" in {
-    //   running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+    "return an error if the user already exists" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-    //     import models.User
+        models.User(nickname = "twitter.nickname").save must beRight
+        createApplicationToken(AccessToken("twitter", "valid twitter token")) must haveError.like { 
+          case error => {
+            error.errorCode must equalTo(Error.DUPLICATE)
+            error.field must equalTo("nickname")
+            error.message must contain("Ya existe un usuario")
+          }
+        }
+      }
+    }
 
-    //     // User(nickname = "twitter.nickname").save must beRight
-    //     // createApplicationToken(AccessToken("twitter", "valid twitter token")) must beLeft
-
-    //     User(nickname = "twitter.nickname").save must beRight
-    //     createApplicationToken(AccessToken("twitter", "valid twitter token")) must haveError.like { 
-    //       case error => {
-    //         error.errorCode must equalTo(Error.DUPLICATE)
-    //         error.field must equalTo("name")
-    //         error.message must contain("Ya existe un usuario")
-    //       }
-    //     }
-    //     todo
-    //   }
-    // }
-
-    "retrieve a valid token if everyting is ok" in {
+    "retrieve a valid token if everything is ok" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         // retrieve a valid token
