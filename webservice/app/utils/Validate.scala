@@ -7,7 +7,7 @@ import play.api.i18n.{Messages, Lang}
 object Validate {
 
   def isEmptyWord(value: String): Boolean = {
-    "[a-zA-Z]".r.findFirstIn(value).isEmpty
+    "[a-zA-Z0-9]".r.findFirstIn(value).isEmpty
   }
 
   def isNumeric(value: String): Boolean = {
