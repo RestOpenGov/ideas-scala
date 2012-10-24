@@ -47,8 +47,8 @@ object FacebookAdapter extends SocialAdapter {
           "facebook.email", "facebook.avatar"
         ))
       case _ => {
+        // Logger.info("Connecting to FB: " + buildUrl(accessToken.token))  
         val response = WS.url(buildUrl(accessToken.token)).get().await.get.body
-        Logger.debug("Connecting to FB: " + buildUrl(accessToken.token))  
         parseResponse(response)
       }
     }
@@ -80,6 +80,7 @@ object FacebookAdapter extends SocialAdapter {
     //   }
     // }
 
+    // play.Logger.info(json.toString)
     for {
       id <- (json \ "id").asOpt[String]
       username <- (json \ "username").asOpt[String]
