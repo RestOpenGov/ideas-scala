@@ -1,4 +1,4 @@
-package utils
+package utils.actions
 
 import play.api.mvc._
 

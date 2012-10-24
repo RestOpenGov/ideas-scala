@@ -41,11 +41,11 @@ object SecurityManager {
     User.findByApplicationToken(applicationToken).map { user =>
       val now = new Date()
       if (now.after(user.tokenExpiration)) {
-        Left(List(ValidationError(Error.PERMISSION, "accessToken", "Token expired")))
+        Left(List(ValidationError(Error.AUTHENTICATION, "accessToken", "Token expired")))
       } else {
         Right(user)
       }
-    }.getOrElse   (Left(List(ValidationError(Error.NOT_FOUND, "accessToken", "Invalid application token"))))
+    }.getOrElse   (Left(List(ValidationError(Error.NOT_FOUND, "applicationToken", "Invalid application token"))))
   }
 
   def retrieveProviderInfo(accessToken: AccessToken): Either[List[Error], IdentityProviderInfo] = {

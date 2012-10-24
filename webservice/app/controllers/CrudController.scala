@@ -9,7 +9,7 @@ import anorm.Id
 import play.api.libs.json.Format
 import play.api.libs.json.Json.toJson
 
-import utils.CORSAction
+import utils.actions.CORSAction
 import utils.{JsonBadRequest, JsonNotFound, JsonOk}
 
 abstract class CrudController[A <: Entity](

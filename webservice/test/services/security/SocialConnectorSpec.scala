@@ -1,4 +1,4 @@
-package test.models
+package test.services.security
 
 import org.specs2.mutable._
 

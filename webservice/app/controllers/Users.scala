@@ -12,9 +12,11 @@ import formatters.json.UserFormatter._
 import formatters.json.ErrorFormatter._
 
 import scala.collection.immutable.Map
-import utils.CORSAction
 import utils.{JsonBadRequest, JsonNotFound, JsonOk}
 import utils.Http
+
+import utils.actions.CORSAction
+import utils.actions.JSONAction
 
 object Users extends Controller {
 
@@ -26,41 +28,30 @@ object Users extends Controller {
     Ok(toJson(User.count(request.queryString)))
   }
 
-  def show(id: Long) = CORSAction {
+  def show(id: Long) = CORSAction { request =>
+    play.Logger.info("user.show")
     User.findById(id).map { user =>
       Ok(toJson(user))
     }.getOrElse(JsonNotFound("User with id %s not found".format(id)))
   }
 
-  def save() = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[User].map { user =>
-        user.save.fold(
-          errors => JsonBadRequest(errors),
-          user => Ok(toJson(user))
-        )
-      }.getOrElse     (JsonBadRequest("Invalid User entity"))
-    }.getOrElse       (JsonBadRequest("Expecting JSON data"))
+  def save() = JSONAction { user: User =>
+    user.save.fold(
+      errors => JsonBadRequest(errors),
+      user => Created(toJson(user))
+    )
   }
 
-  def update(id: Long) = CORSAction { implicit request =>
-    parse[User](request).map { user =>
-      user.copy(id=Id(id)).update.fold(
-        errors => JsonBadRequest(errors),
-        user => Ok(toJson(user))
-      )
-    }.getOrElse       (JsonBadRequest("Invalid User entity"))
-  }
-
-  def parse[T: play.api.libs.json.Reads](request: Request[AnyContent]): Option[T] = {
-    request.body.asJson.map { json =>
-      json.asOpt[T]
-    }.getOrElse(None)
+  def update(id: Long) = JSONAction { user: User =>
+    user.copy(id=Id(id)).update.fold(
+      errors => JsonBadRequest(errors),
+      user => Ok(toJson(user))
+    )
   }
 
   def delete(id: Long) = CORSAction { implicit request =>
     User.delete(id)
-    JsonOk("User successfully deleted","User with id %s deleted".format(id))
+    JsonOk("User successfully deleted", "User with id %s deleted".format(id))
   }
 
   def stats(id: Long) = TODO

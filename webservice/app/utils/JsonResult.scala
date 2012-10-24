@@ -26,7 +26,9 @@ object JsonOk {
   def apply(message: String = "Operation successful", developerMessage: String = "Operation successful",
             status: Int = Status.OK, errorCode: Int = 0
   ) = {
-    Results.Ok(toJson(Error(status, errorCode, message, developerMessage)))
+    Results.Ok(toJson(
+      Error(status = status, errorCode = errorCode, message = message, developerMessage = developerMessage)
+    ))
   }
 }
 
@@ -34,7 +36,7 @@ object JsonNotFound {
   def apply(message: String = "Not found", developerMessage: String = "Not found",
             status: Int = Status.NOT_FOUND, errorCode: Int = 0
   ) = {
-    Results.NotFound(toJson(Error(status, errorCode, message, developerMessage)))
+    Results.NotFound(toJson(Error(status = status, errorCode = errorCode, message = message, developerMessage = developerMessage)))
   }
 }
 
@@ -42,7 +44,7 @@ object JsonUnauthorized {
   def apply(message: String = "Unauthorized", developerMessage: String = "Unauthorized access",
             status: Int = Status.UNAUTHORIZED, errorCode: Int = 0
   ) = {
-    Results.Unauthorized(toJson(Error(status, errorCode, message, developerMessage)))
+    Results.Unauthorized(toJson(Error(status = status, errorCode = errorCode, message = message, developerMessage = developerMessage)))
   }
 }
 

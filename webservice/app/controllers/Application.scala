@@ -3,8 +3,6 @@ package controllers
 import play.api._
 import play.api.mvc._
 
-import utils.SecuredAction
-
 object Application extends Controller {
 
   // no longer needed, handled at routes file

@@ -15,8 +15,7 @@ class ConvertSpec extends Specification {
   "Convert.dummy test" should {
 
     "dummy test TODO" in {
-      "1" must equalTo("1")
-
+      todo
     }
 
   }
