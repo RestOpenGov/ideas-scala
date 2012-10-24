@@ -27,3 +27,12 @@ openshift
 # Ignore sublime project
 *.sublime-project
 *.sublime-workspace
+
+# Ignore Eclipse Files
+.project
+.metadata
+.classpath
+.settings/
+.loadpath
+.externalToolBuilders/
+*.launch
