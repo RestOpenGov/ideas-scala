@@ -17,6 +17,7 @@ object Application extends Controller {
   def options(url: String) = Action {
     Ok("").withHeaders(
       "Access-Control-Allow-Origin" -> "*",
+      // "Access-Control-Allow-Origin" -> "http://ideas-ba.com.ar",
       "Access-Control-Allow-Methods" -> "GET, POST, PUT, DELETE, OPTIONS",
       "Access-Control-Allow-Headers" -> "Content-Type, X-Requested-With, Accept",
       // cache access control response for one day
@@ -31,7 +32,7 @@ object Application extends Controller {
         Ideas.up, Ideas.down,
         Comments.up, Comments.down
       )
-    ).as("text/javascript") 
+    ).as("text/javascript")
   }
 
 }
