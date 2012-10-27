@@ -29,7 +29,6 @@ object Users extends Controller {
   }
 
   def show(id: Long) = CORSAction { request =>
-    play.Logger.info("user.show")
     User.findById(id).map { user =>
       Ok(toJson(user))
     }.getOrElse(JsonNotFound("User with id %s not found".format(id)))

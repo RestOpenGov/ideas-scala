@@ -6,15 +6,30 @@ import play.api.mvc.AnyContentAsFormUrlEncoded
 import play.api.libs.json.Json
 import play.api.libs.json.JsUndefined
 import utils.Http.encode
-
 import play.Logger
+import play.api.libs.json.JsValue
 
 abstract class SocialAdapter {
-  def fetch(accessToken: AccessToken): Option[IdentityProviderInfo]
+  def fetch(accessToken: AccessToken): Option[IdentityProviderInfo] = {
+    var uri = buildUrl(accessToken.token)
+    val response = WS.url(uri).get().await.get.body
+        Logger.debug("Connecting to " + uri)  
+        parseResponse(response)
+  }
+  
+  def buildUrl(token: String): String = URLBuilder.build(defineBaseUri(token), defineQueryParams(token))
+  
+  def parseResponse(response: String): Option[IdentityProviderInfo] = {
+    parseJsonResponse(Json.parse(response))
+  }
+  
+  def defineBaseUri(token: String): String
+  def defineQueryParams(token:String): Map[String, String] = Map()
+  def parseJsonResponse(response: JsValue): Option[IdentityProviderInfo] = { None }
 }
 
 object URLBuilder {
-  def build(url: String, params: List[(String, String)]): String = {
+  def build(url: String, params: Map[String, String]): String = {
     url + "?" + params.map {
       case (key, value) => encode(key) + "=" + encode(value)
     }.mkString("&")
@@ -22,20 +37,33 @@ object URLBuilder {
 }
 
 object TwitterAdapter extends SocialAdapter {
-  def fetch(accessToken: AccessToken): Option[IdentityProviderInfo] = {
+  override def fetch(accessToken: AccessToken): Option[IdentityProviderInfo] = {
     accessToken.token match {
       case "valid twitter token" =>
         Some(IdentityProviderInfo(
           "twitter", "twitter.id",
           "twitter.nickname", "twitter.name",
           "twitter.email", "twitter.avatar"))
-      case _ => None
+      case _ => super.fetch(accessToken)
     }
+  }
+  
+  override def defineBaseUri(token: String) = "https://api.twitter.com/1.1/account/verify_credentials.json"
+  override def defineQueryParams(token: String) = Map("skip_status" -> "true")
+    
+  override def parseJsonResponse(json: JsValue): Option[IdentityProviderInfo] = {
+    for {
+      id <- (json \ "id_str").asOpt[String]
+      username <- (json \ "screen_name").asOpt[String]
+      name <- (json \ "name").asOpt[String]
+      email <- Option("")
+      avatar <- (json \ "profile_image_url").asOpt[String]
+    } yield IdentityProviderInfo("twitter", id, username, name, email, avatar)
   }
 }
 
 object FacebookAdapter extends SocialAdapter {
-  def fetch(accessToken: AccessToken): Option[IdentityProviderInfo] = {
+  override def fetch(accessToken: AccessToken): Option[IdentityProviderInfo] = {
 
     // TODO: use mockito to mock this funcionality
     accessToken.token match {
@@ -46,40 +74,14 @@ object FacebookAdapter extends SocialAdapter {
           "facebook.nickname", "facebook.name", 
           "facebook.email", "facebook.avatar"
         ))
-      case _ => {
-        val response = WS.url(buildUrl(accessToken.token)).get().await.get.body
-        Logger.debug("Connecting to FB: " + buildUrl(accessToken.token))  
-        parseResponse(response)
-      }
+      case _ => super.fetch(accessToken)
     }
-
   }
 
-  def buildUrl(token: String) = URLBuilder.build("https://graph.facebook.com/me", List(("access_token", token), ("fields", "id,username,name,picture,verified")))
-
-  def parseResponse(response: String): Option[IdentityProviderInfo] = {
-    val json = Json.parse(response)
-
-    // (json \ "error") match {
-    //   case JsUndefined(_) => {
-    //     try {
-    //       val id = (json \ "id").asOpt[String].get
-    //       val username = (json \ "username").asOpt[String].get
-    //       val name = (json \ "name").asOpt[String].get
-    //       val email = (json \ "id").asOpt[String].get
-    //       val avatar = (json \ "picture" \ "data" \ "url").asOpt[String].get
-    //       Some(IdentityProviderInfo("facebook", id, username, name, email, avatar))
-    //     } catch {
-    //       case e => {
-    //         None
-    //       }
-    //     }
-    //   }
-    //   case _ => {
-    //     None
-    //   }
-    // }
-
+  override def defineBaseUri(token: String) = "https://graph.facebook.com/me"
+  override def defineQueryParams(token: String) = Map("access_token" -> token, "fields" -> "id,username,name,picture,verified,email")
+  
+  override def parseJsonResponse(json: JsValue): Option[IdentityProviderInfo] = {
     for {
       id <- (json \ "id").asOpt[String]
       username <- (json \ "username").asOpt[String]
@@ -87,7 +89,6 @@ object FacebookAdapter extends SocialAdapter {
       email <- Some((json \ "email").asOpt[String].getOrElse(""))
       avatar <- (json \ "picture" \ "data" \ "url").asOpt[String]
     } yield IdentityProviderInfo("facebook", id, username, name, email, avatar)
-
   }
 
 }

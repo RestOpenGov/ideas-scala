@@ -85,19 +85,20 @@ class UserSecuritySpec extends Specification with ErrorSpec {
       }
     }
 
-    // WEIRD COMPILE ERROR!!! compilation never ends
-    // if I have two operations on User ????
-    // 
-    // "return an error if it has to create a user but another user with the same nickname exists" in {
-    //   running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+    "return an error if it has to create a user but another user with the same nickname exists" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-    //     User(nickname = providerInfo.nickname).save must beRight
+        User(nickname = providerInfo.nickname).save must beRight
 
-    //     User.findOrCreateFromProviderInfo(providerInfo) must beLeft
-
-    //     todo
-    //   }
-    // }
+        User.findOrCreateFromProviderInfo(providerInfo) must haveError.like { 
+          case error => {
+            error.errorCode must equalTo(Error.DUPLICATE)
+            error.field must equalTo("nickname")
+            error.message must contain("Ya existe un usuario")
+          }
+        }
+      }
+    }
 
   }
 
@@ -128,38 +129,28 @@ class UserSecuritySpec extends Specification with ErrorSpec {
       }
     }
 
-    // WEIRD COMPILE ERROR!!! compilation never ends
-    // if I have two operations on User ????
+    "return an error when trying to create an already existing user" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-    // "return an error when trying to create an already existing user" in {
-    //   running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        // create the user
+        User(name = providerInfo.name).save must beRight
 
-    //     // create the user
-    //     User(nickname = providerInfo.nickname).save must beRight
-    //     // User.createFromProviderInfo(providerInfo) //must beRight
-    //     User.createFromProviderInfo(providerInfo) //must beRight
+        val usersBefore = User.count()
+        val identitiesBefore = Identity.count()
 
-    //     // val usersBefore = User.count()
-    //     // val identitiesBefore = Identity.count()
+        User.createFromProviderInfo(providerInfo) must haveError.like {
+          case error => {
+            error.errorCode must equalTo(Error.DUPLICATE)
+            error.field must equalTo("name")
+            error.message must contain("""Ya existe un usuario""")
+          }
+        }
 
-    //     // // try to create another user
-    //     // User.createFromProviderInfo(providerInfo) //must beLeft
+        User.count() must equalTo(usersBefore)
+        Identity.count() must equalTo(identitiesBefore)
 
-    //     // User.createFromProviderInfo(providerInfo) must haveError.like {
-    //     //   case error => {
-    //     //     error.errorCode must equalTo(Error.REQUIRED)
-    //     //     error.field must equalTo("name")
-    //     //     error.message must contain("""campo "nombre" no puede estar vacío""")
-    //     //   }
-    //     // }
-
-    //     // User.count() must equalTo(usersBefore)
-    //     // Identity.count() must equalTo(identitiesBefore)
-
-    //     done
-
-    //   }
-    // }
+      }
+    }
 
   }
 

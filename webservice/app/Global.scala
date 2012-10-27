@@ -11,8 +11,6 @@ import play.api.http.Status
 
 import notification.NotificationService
 
-
-
 object Global extends GlobalSettings {
 
   override def onError(request: RequestHeader, ex: Throwable) = {
