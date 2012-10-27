@@ -53,6 +53,12 @@ object Users extends Controller {
     JsonOk("User successfully deleted", "User with id %s deleted".format(id))
   }
 
+  def showByToken(token: String) = CORSAction { request =>
+    User.findByApplicationToken(token).map { user =>
+      Ok(toJson(user))
+    }.getOrElse(JsonNotFound("User with token %s not found".format(token)))
+  }
+
   def stats(id: Long) = TODO
   def votes(id: Long) = TODO
 
