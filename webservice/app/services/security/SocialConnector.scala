@@ -13,7 +13,9 @@ import adapters._
 
 object Social {
 
-  val defaultAdapters = List(TwitterAdapter, FacebookAdapter)
+  val defaultAdapters = List(TwitterAdapter, FacebookAdapter, GoogleAdapter)
+
+  def providers = defaultAdapters.map { _.provider }
 
   def retrieveSocialProviderInfo
     (accessToken: AccessToken)
@@ -27,18 +29,8 @@ object Social {
     }.getOrElse {
       throw new SocialConnectorException(
         "Invalid social identity provider specified. Valid providers: '%s'."
-        .format(SecurityManager.SOCIAL_PROVIDERS.mkString))
+        .format(providers.mkString(", ")))
     }
-
-    // accessToken.provider.toLowerCase match {
-    //   case "twitter" => TwitterAdapter.fetch(accessToken)
-    //   case "facebook" => FacebookAdapter.fetch(accessToken)
-    //   case _ => {
-    //     throw new SocialConnectorException(
-    //       "Invalid social identity provider specified. Valid providers: '%s'."
-    //         .format(SecurityManager.SOCIAL_PROVIDERS.mkString))
-    //   }
-    // }
 
   }
 

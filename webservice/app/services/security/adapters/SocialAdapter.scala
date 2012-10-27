@@ -11,10 +11,18 @@ import utils.Http.encode
 abstract class SocialAdapter {
   val provider: String
   def fetch(accessToken: AccessToken): Option[IdentityProviderInfo] = {
-    var uri = buildUrl(accessToken.token)
-    val response = WS.url(uri).get().await.get.body
-        Logger.debug("Connecting to " + uri)  
-        parseResponse(response)
+
+    val uri = buildUrl(accessToken.token)
+    val headers = defineHeaders(accessToken.token)
+
+    val response = WS.
+      url(uri).
+      withHeaders(headers.toSeq: _*).
+      get().await.get.body
+
+    Logger.debug("Connecting to %s with headers %s".format(uri, headers.toString))
+
+    parseResponse(response)
   }
   
   def buildUrl(token: String): String = URLBuilder.build(defineBaseUri(token), defineQueryParams(token))
@@ -25,6 +33,7 @@ abstract class SocialAdapter {
   
   def defineBaseUri(token: String): String
   def defineQueryParams(token:String): Map[String, String] = Map()
+  def defineHeaders(token:String): Map[String, String] = Map()
   def parseJsonResponse(response: JsValue): Option[IdentityProviderInfo] = { None }
 }
 

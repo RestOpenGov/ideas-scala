@@ -22,6 +22,7 @@ POST    /api/users/                        controllers.Users.save
 POST    /api/users                         controllers.Users.save
 GET     /api/users/:id                     controllers.Users.show(id: Long)
 DELETE  /api/users/:id                     controllers.Users.delete(id: Long)
+GET     /api/users/token/:token            controllers.Users.showByToken(token: String)
 
 GET     /api/users/:id/subscriptions            controllers.Subscriptions.list(id: Long)
 GET     /api/users/:id/subscriptions/count      controllers.Subscriptions.count(id: Long)
