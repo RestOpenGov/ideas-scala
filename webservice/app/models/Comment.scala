@@ -37,9 +37,12 @@ case class Comment (
 
     result match {
       case Right(comment) => {
-            val idea = comment.idea.id.get
-            Logger.debug("Save Succesful, so we send a Notification for idea: " + idea)        
-            NotificationService(NewCommentNotification(idea))
+            val ideaid = comment.idea.id.get
+            val commentText = comment.comment
+            val authorName = comment.author.name
+            val authorAvatar = comment.author.avatar
+            Logger.debug("Save Succesful, so we send a Notification for idea: " + ideaid)        
+            NotificationService(NewCommentNotification(ideaid, authorName, commentText, authorAvatar))
       }
       case Left(l) => {
         Logger.debug("There was an error saving a comment, so we do NOT send a notification")
