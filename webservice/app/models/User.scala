@@ -167,15 +167,16 @@ object User extends EntityCompanion[User] {
       }
     }
 
-    // email
-    if (isEmptyWord(user.email)) {
-      errors ::= ValidationError(Error.REQUIRED, "email", "validate.empty", &("user.email"))
-    } else {
-      if (isDuplicate(user, "email")) {
-        errors ::= ValidationError(Error.DUPLICATE, "name", 
-          "validate.duplicate", &("user"), &("user.email"), user.email)
-      }
-    }
+    // email can NOT be required
+    // because twitter does NOT provide the email address
+    // if (isEmptyWord(user.email)) {
+    //   errors ::= ValidationError(Error.REQUIRED, "email", "validate.empty", &("user.email"))
+    // } else {
+    //   if (isDuplicate(user, "email")) {
+    //     errors ::= ValidationError(Error.DUPLICATE, "name", 
+    //       "validate.duplicate", &("user"), &("user.email"), user.email)
+    //   }
+    // }
 
     errors.reverse
   }
