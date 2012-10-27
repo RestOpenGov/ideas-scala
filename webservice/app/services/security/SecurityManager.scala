@@ -1,11 +1,12 @@
 package services.security
 
-import models.User
-
 import java.util.Date
 
 import models.Error
+import models.User
 import models.ValidationError
+
+import adapters.SocialAdapter
 
 object SecurityManager {
 
@@ -15,7 +16,9 @@ object SecurityManager {
   // token duration, expressed in seconds
   val APPLICATION_TOKEN_MAX_AGE = 60 * 60 * 2       // 2 hours
 
-  def createApplicationToken(accessToken: AccessToken): Either[List[Error], ApplicationToken] = {
+  def createApplicationToken(accessToken: AccessToken)
+    (implicit adapters: List[SocialAdapter] = Social.defaultAdapters)
+  : Either[List[Error], ApplicationToken] = {
 
     // go to social info provider and fetch information
     retrieveProviderInfo(accessToken).fold(
@@ -48,7 +51,9 @@ object SecurityManager {
     }.getOrElse   (Left(List(ValidationError(Error.NOT_FOUND, "applicationToken", "Invalid application token"))))
   }
 
-  def retrieveProviderInfo(accessToken: AccessToken): Either[List[Error], IdentityProviderInfo] = {
+  def retrieveProviderInfo(accessToken: AccessToken)
+    (implicit adapters: List[SocialAdapter] = Social.defaultAdapters)
+  : Either[List[Error], IdentityProviderInfo] = {
 
     import exceptions.ErrorListException
     val errors = AccessToken.validate(accessToken)

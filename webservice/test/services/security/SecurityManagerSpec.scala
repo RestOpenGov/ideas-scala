@@ -67,8 +67,10 @@ class SecurityManagerSpec extends Specification with ErrorSpec {
     "retrieve a valid token if everything is ok" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
+        implicit val socialAdapter = List(MockTwitterAdapter, MockFacebookAdapter)
+
         // retrieve a valid token
-        createApplicationToken(AccessToken("twitter", "valid twitter token")) must beRight.like { 
+        createApplicationToken(AccessToken("twitter", "valid mock twitter token")) must beRight.like { 
           case applicationToken => {
             // token is not empty
             applicationToken.token must not equalTo("")
