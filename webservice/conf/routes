@@ -100,5 +100,16 @@ DELETE  /api/votes/:id                     controllers.Votes.delete(id: Long)
 # Javascript routing
 GET     /assets/javascripts/routes         controllers.Application.javascriptRoutes
 
+GET     /mail/test                     	controllers.Application.mail
+GET     /mail/test/                     controllers.Application.mail
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /*file                   controllers.Assets.at(path="/public", file)
+
+
+
+
+
+
+

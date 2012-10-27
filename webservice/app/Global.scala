@@ -9,7 +9,7 @@ import formatters.json.ErrorFormatter._
 import play.api.libs.json.Json.toJson
 import play.api.http.Status
 
-import notification.NotificationService
+import notification._
 
 object Global extends GlobalSettings {
 
@@ -43,6 +43,8 @@ object Global extends GlobalSettings {
                ^^^^^^^^
     """
     Logger.info(greeting)
+    //NotificationService(NewCommentNotification(1));
+
   }  
 
 }

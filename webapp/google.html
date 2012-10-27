@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Google</title>
+    <script src="https://apis.google.com/js/client.js"></script>
+    <script type="text/javascript">
+    function auth() {
+
+        var config = {
+            client_id: '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com',
+            scope: [ 
+                'https://www.googleapis.com/auth/userinfo.email', 
+                'https://www.googleapis.com/auth/userinfo.profile' 
+            ]
+        };
+
+        gapi.auth.authorize(config, function() {
+            console.log(gapi.auth.getToken().access_token);
+        });
+    }
+
+    </script>
+</head>
+<body>
+    <button onclick="auth()">Login with Google</button>
+</body>
+</html>

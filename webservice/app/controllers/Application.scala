@@ -35,4 +35,10 @@ object Application extends Controller {
     ).as("text/javascript")
   }
 
+  def mail = Action { 
+    val mail = "mail"
+    play.Logger.info("Applecation.controller MAil" + mail)
+    Ok(views.html.commentCreatedMailTemplate(mail, mail, mail, mail, mail, mail, mail, "1"))
+  }
+
 }
