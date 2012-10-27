@@ -101,14 +101,18 @@ object Tag extends EntityCompanion[Tag] {
       errors ::= ValidationError(Error.REQUIRED, "name", "validate.empty", &("tag.name"))
     } else {
       if (isDuplicate(tag, "name")) {
-        errors ::= ValidationError("name", "There already exists an idea type with the name '%s'".format(tag.name))
+        errors ::= ValidationError(Error.DUPLICATE, "name", "validate.duplicate",
+          &("tag"), &("tag.name"), tag.name)
       }
     }
 
     // description
+    //It could be empty and duplicated, right? (Flor)
+    /*
     if (Validate.isEmptyWord(tag.name)) {
       errors ::= ValidationError(Error.REQUIRED, "description", "validate.empty", &("tag.description"))
     }
+    */
 
     errors.reverse
   }
