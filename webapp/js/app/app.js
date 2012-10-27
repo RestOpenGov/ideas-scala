@@ -39,8 +39,8 @@ ideasModule.run(function($rootScope,$http) {
 
 });
 
-var SERVICE_ENDPOINT = "http://ideas-ba.com.ar/api/";
-// var SERVICE_ENDPOINT = "http://ideas-jugar.rhcloud.com/api/";
+// var SERVICE_ENDPOINT = "http://ideas-ba.com.ar/api/";
+var SERVICE_ENDPOINT = "https://ideas-jugar.rhcloud.com/api/";
 // var SERVICE_ENDPOINT = "/api/";
 //var SERVICE_ENDPOINT = "http://localhost:9000/api/";
 

@@ -42,7 +42,7 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
       .success(function(response) {
 
         // Get User
-        $http.get(SERVICE_ENDPOINT+'users/token/' + response.access_token)
+        $http.get(SERVICE_ENDPOINT+'users/token/' + response.token)
           .success(function(user) {
 
             $scope.user = user;
@@ -73,18 +73,18 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
     };
 
     gapi.auth.authorize(config, function() {
-        getIdeasToken({ provider: 'google', accessToken: gapi.auth.getToken().access_token })
+        getIdeasToken({ provider: 'google', token: gapi.auth.getToken().access_token })
     });
   };
 
   $scope.authenticateTwitter = function() {
      twttr.anywhere(function (T) {
       if(T.isConnected()) {
-        getIdeasToken({ provider: 'twitter', accessToken: twttr.anywhere.token })
+        getIdeasToken({ provider: 'twitter', token: twttr.anywhere.token })
       } else {
         T.signIn();
         T.bind("authComplete", function (e, user) {
-          getIdeasToken({ provider: 'twitter', accessToken: twttr.anywhere.token })
+          getIdeasToken({ provider: 'twitter', token: twttr.anywhere.token })
         });
       }
     });
@@ -94,11 +94,11 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
 
     FB.getLoginStatus(function(response) {
       if(response.status == 'connected') {
-        getIdeasToken({ provider: 'facebook', accessToken: response.authResponse.accessToken })
+        getIdeasToken({ provider: 'facebook', token: response.authResponse.accessToken })
       } else {
         FB.login(function(response) {
           if(response.authResponse) {
-            getIdeasToken({ provider: 'facebook', accessToken: response.authResponse.accessToken });
+            getIdeasToken({ provider: 'facebook', token: response.authResponse.accessToken });
           }
         });
       }
@@ -113,7 +113,7 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
 
   $scope.search = function(){
     if($scope.searchQuery){
-      $location.path("/ideas/lista").search({"filter": $scope.searchQuery});      
+      $location.path("/ideas/lista").search({"filter": $scope.searchQuery});
     }else{
       $location.path("/ideas/lista").search();
     }

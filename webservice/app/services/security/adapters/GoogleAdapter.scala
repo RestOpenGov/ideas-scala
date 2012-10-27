@@ -18,7 +18,7 @@ object GoogleAdapter extends SocialAdapter {
       firstName <- (json \ "given_name").asOpt[String]
       username  <- Some((json \ "email").asOpt[String].getOrElse(firstName))
       email     <- Some((json \ "email").asOpt[String].getOrElse(""))
-      avatar    <- (json \ "picture").asOpt[String]
+      avatar    <- Some((json \ "picture").asOpt[String].getOrElse(""))
     } yield IdentityProviderInfo("google", id, username, name, email, avatar)
   }
 
