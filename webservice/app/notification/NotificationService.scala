@@ -21,7 +21,7 @@ import akka.actor.Props
 import akka.routing.RoundRobinRouter
 
 
-case class NewCommentNotification(idea: Long)
+case class NewCommentNotification(idea: Long, authorName: String, commentText: String, authorAvatar: String)
 
 object NotificationService {
 

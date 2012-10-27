@@ -14,21 +14,27 @@ import javax.mail.PasswordAuthentication
 import java.util.Properties
 import notification.mailTemplates.NewCommentMailTemplate
 import models.User
+import models.Idea
 
  
 class NotificationActor extends Actor with ActorLogging {
   def receive = {
-    case NewCommentNotification(idea) => {
+    case NewCommentNotification(ideaId, authorName, commentText, authorAvatar) => {
     		DB.withConnection { implicit c => {
 		   		val query = 
 		    	"""
-		    	SELECT * FROM user, subscription WHERE user.id = subscription.user_id
-		    	AND subscription.idea_id = {idea}
+		    	SELECT * FROM user, subscription, idea WHERE user.id = subscription.user_id
+		    	AND subscription.idea_id = {idea} AND idea.id = {idea}
 		    	"""		
 
-		        val users: List[User] = SQL(query.stripMargin).on("idea" -> idea).as(User.parser() *) 
+		    	val idea = Idea.findById(ideaId).get
+
+
+		        val users: List[User] = SQL(query.stripMargin).on("idea" -> ideaId).as(User.parser() *) 
+		        
 		        users.foreach ( user => { 
-						NewCommentMailTemplate(user.email)
+						NewCommentMailTemplate(user.email, user.name, idea.name, idea.description, 
+							authorName, commentText, authorAvatar, idea.author.avatar, "" + ideaId )
 					}
 		        )	
 
