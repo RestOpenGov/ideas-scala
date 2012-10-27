@@ -65,16 +65,39 @@ function getCookie(c_name) {
 
 var Auth = {
 
-  ids: {
-    twitter: 'NlSXLXyTcTTsbA85wxpHdw',
-    facebook: '486452174721099',
-    google: '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com'
+  providerKey: {
+    get: function(key) {
+      if(typeof Auth.providerKey[window.location.host] == 'undefined') {
+        return false;
+      }
+      return Auth.providerKey[window.location.host][key];
+    },
+    'localhost': {
+      twitter: '',
+      facebook: '486452174721099',
+      google: '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com'
+    },
+    'ideasba.dev': {
+      twitter: 'NlSXLXyTcTTsbA85wxpHdw',
+      facebook: '486452174721099',
+      google: '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com'
+    },
+    'ideas-jugar.rhcloud.com': {
+      twitter: 'z7F8JCoVZrmXpTiG18tw',
+      facebook: '486452174721099',
+      google: '985870621747.apps.googleusercontent.com'
+    },
+    'www.ideas-ba.com.ar': {
+      twitter: '',
+      facebook: '486452174721099',
+      google: '985870621747-j927dgla2ulsugmu6bjpaicnae46ppc2.apps.googleusercontent.com'
+    }
   },
 
   initiated: false,
 
   initTwitter: function() {
-    $('<script src="http://platform.twitter.com/anywhere.js?id=' + Auth.ids.twitter + '&amp;v=1" type="text/javascript"></script>').appendTo('body');
+    $('<script src="http://platform.twitter.com/anywhere.js?id=' + Auth.providerKey.get('twitter') + '&amp;v=1" type="text/javascript"></script>').appendTo('body');
   },
 
   initFacebook: function() {
@@ -82,7 +105,7 @@ var Auth = {
 
     window.fbAsyncInit = function() {
       FB.init({
-        appId : Auth.ids.facebook,
+        appId : Auth.providerKey.get('facebook'),
             //channelUrl : '//ideas-jugar.rhcloud.com/channel.html', 
             //channelUrl : '//ideas-ba.com.ar/channel.html', 
             channelUrl : '//localhost/ideas-ba/channel.html', 

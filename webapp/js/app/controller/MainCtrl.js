@@ -65,7 +65,7 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
   $scope.authenticateGoogle = function() {
 
     var config = {
-        client_id: Auth.ids.google,
+        client_id: Auth.providerKey.get('google'),
         scope: [ 
             'https://www.googleapis.com/auth/userinfo.email', 
             'https://www.googleapis.com/auth/userinfo.profile' 
