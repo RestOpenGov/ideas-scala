@@ -64,11 +64,17 @@ function getCookie(c_name) {
 }
 
 var Auth = {
-  
+
+  ids: {
+    twitter: 'NlSXLXyTcTTsbA85wxpHdw',
+    facebook: '486452174721099',
+    google: '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com'
+  },
+
   initiated: false,
 
   initTwitter: function() {
-    $('<script src="http://platform.twitter.com/anywhere.js?id=NlSXLXyTcTTsbA85wxpHdw&amp;v=1" type="text/javascript"></script>').appendTo('body');
+    $('<script src="http://platform.twitter.com/anywhere.js?id=' + Auth.ids.twitter + '&amp;v=1" type="text/javascript"></script>').appendTo('body');
   },
 
   initFacebook: function() {
@@ -76,7 +82,7 @@ var Auth = {
 
     window.fbAsyncInit = function() {
       FB.init({
-        appId : '486452174721099',
+        appId : Auth.ids.facebook,
             //channelUrl : '//ideas-jugar.rhcloud.com/channel.html', 
             //channelUrl : '//ideas-ba.com.ar/channel.html', 
             channelUrl : '//localhost/ideas-ba/channel.html', 
