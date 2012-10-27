@@ -2,6 +2,7 @@ package services.security
 
 import java.util.Date
 
+import play.Logger
 import models.Error
 import models.User
 import models.ValidationError
@@ -9,9 +10,6 @@ import models.ValidationError
 import adapters.SocialAdapter
 
 object SecurityManager {
-
-  val PROVIDERS = List("twitter", "facebook")
-  val SOCIAL_PROVIDERS = List("twitter", "facebook")
 
   // token duration, expressed in seconds
   val APPLICATION_TOKEN_MAX_AGE = 60 * 60 * 2       // 2 hours
@@ -61,15 +59,13 @@ object SecurityManager {
       Left(errors)
     } else {
       try {
-        if (SOCIAL_PROVIDERS.contains(accessToken.provider)) {
-          Social.retrieveSocialProviderInfo(accessToken).map { info => 
+        Social.retrieveSocialProviderInfo(accessToken).map { info => 
+          {
+            Logger.debug("Identity successfully retrieved from " + accessToken.provider + ": " + info)  
             Right(info)
-          }.getOrElse {
-            Left(List(ValidationError("Could not retrieve identity info from %s provider".format(accessToken.provider))))
           }
-        } else {
-          // #TODO, local provider - email & password
-          Left(List(ValidationError("Could not retrieve identity info from %s provider. Provider not supported".format(accessToken.provider))))
+        }.getOrElse {
+          Left(List(ValidationError("Could not retrieve identity info from %s provider".format(accessToken.provider))))
         }
       } catch {
         case e: ErrorListException => return Left(e.errors)
