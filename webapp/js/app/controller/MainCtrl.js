@@ -35,38 +35,62 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
     $scope.changeUser();//select first
   };
 
-  $scope.authenticateTwitter = function() {
+  var getIdeasToken = function(data) {
+      
+    // Get IdeasToken
+    $http.post(SERVICE_ENDPOINT+'auth/', data)
+      .success(function(response) {
+
+        // Get User
+        $http.get(SERVICE_ENDPOINT+'users/token/' + response.access_token)
+          .success(function(user) {
+
+            $scope.user = user;
+            $USER.setUser(user);
+            $scope.menuLogged = 'includes/menu-loggedin.html';
+            setCookie('user', JSON.stringify(user));
+            window.location.reload(); // FIX THIS
+
+          })
+          .error(function(json) {
+            console.log(json);
+          });
+      })
+      .error(function(json) {
+        console.log(json);
+      }); 
 
   };
 
+  $scope.authenticateGoogle = function() {
+
+    var config = {
+        client_id: '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com',
+        scope: [ 
+            'https://www.googleapis.com/auth/userinfo.email', 
+            'https://www.googleapis.com/auth/userinfo.profile' 
+        ]
+    };
+
+    gapi.auth.authorize(config, function() {
+        getIdeasToken({ provider: 'google', accessToken: gapi.auth.getToken().access_token })
+    });
+  };
+
+  $scope.authenticateTwitter = function() {
+     twttr.anywhere(function (T) {
+      if(T.isConnected()) {
+        getIdeasToken({ provider: 'twitter', accessToken: twttr.anywhere.token })
+      } else {
+        T.signIn();
+        T.bind("authComplete", function (e, user) {
+          getIdeasToken({ provider: 'twitter', accessToken: twttr.anywhere.token })
+        });
+      }
+    });
+  };
+
   $scope.authenticateFacebook = function() {
-
-    var getIdeasToken = function(data) {
-      
-      // Get IdeasToken
-      $http.post(SERVICE_ENDPOINT+'auth/', data)
-        .success(function(response) {
-
-          // Get User
-          $http.post(SERVICE_ENDPOINT+'user', response)
-            .success(function(user) {
-
-              $scope.user = user;
-              $USER.setUser(user);
-              $scope.menuLogged = 'includes/menu-loggedin.html';
-              setCookie('user', JSON.stringify(user));
-              window.location.reload(); // FIX THIS
-
-            })
-            .error(function(json) {
-              console.log(json);
-            });
-        })
-        .error(function(json) {
-          console.log(json);
-        }); 
-
-    }
 
     FB.getLoginStatus(function(response) {
       if(response.status == 'connected') {
