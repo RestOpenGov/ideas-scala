@@ -5,6 +5,7 @@ import javax.mail.internet._
 import javax.mail.Authenticator
 import javax.mail.PasswordAuthentication
 import java.util.Properties
+import play.Logger
 
 
 
@@ -23,7 +24,7 @@ object SendMail {
         props.put("mail.smtp.auth", "true");
  
 		val auth = new SMTPAuthenticator();
-        val mailSession = Session.getDefaultInstance(props, auth);
+        val mailSession = Session.getInstance(props, auth);
 
         // uncomment for debugging infos to stdout
         // mailSession.setDebug(true);
@@ -37,7 +38,7 @@ object SendMail {
         part1.setText(contentTEXT);
  
         val part2 = new MimeBodyPart();
-        part2.setContent("contentHTML", "text/html");
+        part2.setContent(contentHTML, "text/html");
  
         multipart.addBodyPart(part1);
         multipart.addBodyPart(part2);
@@ -52,6 +53,7 @@ object SendMail {
         transport.sendMessage(message,
             message.getRecipients(Message.RecipientType.TO));
         transport.close();
+        Logger.info("SendMail sent an email to: " + mail)
     }
 
 	class SMTPAuthenticator extends javax.mail.Authenticator {

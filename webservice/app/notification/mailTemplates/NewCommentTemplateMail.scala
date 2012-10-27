@@ -1,6 +1,7 @@
 package notification.mailTemplates
 
 import notification.SendMail
+import play.Logger
 
 /**
 Using  inline string replacement using Scala.
@@ -12,26 +13,17 @@ http://stackoverflow.com/questions/2183503/substitute-values-in-a-string-with-pl
 
 */
 object NewCommentMailTemplate {
-	def apply(mail: String) = {
-    	SendMail.send( 
-						
-					<subject>
-					Un Subject de {mail}
-					</subject>.text
+	def apply(mail: String, username: String, ideaText: String,
+		ideaTitle: String, commentUser: String, commentText: String,
+		commentUserAvatar: String, authorIdeaAvatar: String, ideaId: String) = {
 
-					,
-					
-					<mailtext>
-					Text
-					</mailtext>.text
+		val mailHtml = views.html.commentCreatedMailTemplate.render(username,
+			ideaText, ideaTitle ,commentUser ,commentText, commentUserAvatar, authorIdeaAvatar, ideaId).body
 
-					,
-					
-					<htmlmail>
-					<b> HTML </b>
-					</htmlmail>.text
+		Logger.debug("Mail to send when create a comment: " + mailHtml)
 
-					,
-					mail)
+		val subject = <subject>{commentUser} comento sobre esta idea: {ideaTitle}</subject>.text
+
+    	SendMail.send(subject, mailHtml, mailHtml, mail)
   	}
 }
