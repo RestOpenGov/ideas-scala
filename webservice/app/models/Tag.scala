@@ -106,13 +106,16 @@ object Tag extends EntityCompanion[Tag] {
       }
     }
 
+    //como se hace el NOT (!, ~, NOT ) ?
     // description
-    //It could be empty and duplicated, right? (Flor)
-    /*
-    if (Validate.isEmptyWord(tag.name)) {
-      errors ::= ValidationError(Error.REQUIRED, "description", "validate.empty", &("tag.description"))
+    if (Validate.isEmptyWord(tag.description)) {
+    }else{
+      if (isDuplicate(tag, "description")) {
+        errors ::= ValidationError(Error.DUPLICATE, "description", "validate.duplicate",
+          &("tag"), &("tag.description"), tag.description)
+      }
     }
-    */
+    
 
     errors.reverse
   }
