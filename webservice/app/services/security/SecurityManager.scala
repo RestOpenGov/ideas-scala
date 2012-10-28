@@ -1,21 +1,22 @@
 package services.security
 
-import models.User
-
 import java.util.Date
 
+import play.Logger
 import models.Error
+import models.User
 import models.ValidationError
 
-object SecurityManager {
+import adapters.SocialAdapter
 
-  val PROVIDERS = List("twitter", "facebook")
-  val SOCIAL_PROVIDERS = List("twitter", "facebook")
+object SecurityManager {
 
   // token duration, expressed in seconds
   val APPLICATION_TOKEN_MAX_AGE = 60 * 60 * 2       // 2 hours
 
-  def createApplicationToken(accessToken: AccessToken): Either[List[Error], ApplicationToken] = {
+  def createApplicationToken(accessToken: AccessToken)
+    (implicit adapters: List[SocialAdapter] = Social.defaultAdapters)
+  : Either[List[Error], ApplicationToken] = {
 
     // go to social info provider and fetch information
     retrieveProviderInfo(accessToken).fold(
@@ -48,7 +49,9 @@ object SecurityManager {
     }.getOrElse   (Left(List(ValidationError(Error.NOT_FOUND, "applicationToken", "Invalid application token"))))
   }
 
-  def retrieveProviderInfo(accessToken: AccessToken): Either[List[Error], IdentityProviderInfo] = {
+  def retrieveProviderInfo(accessToken: AccessToken)
+    (implicit adapters: List[SocialAdapter] = Social.defaultAdapters)
+  : Either[List[Error], IdentityProviderInfo] = {
 
     import exceptions.ErrorListException
     val errors = AccessToken.validate(accessToken)
@@ -56,15 +59,13 @@ object SecurityManager {
       Left(errors)
     } else {
       try {
-        if (SOCIAL_PROVIDERS.contains(accessToken.provider)) {
-          Social.retrieveSocialProviderInfo(accessToken).map { info => 
+        Social.retrieveSocialProviderInfo(accessToken).map { info => 
+          {
+            Logger.debug("Identity successfully retrieved from " + accessToken.provider + ": " + info)  
             Right(info)
-          }.getOrElse {
-            Left(List(ValidationError("Could not retrieve identity info from %s provider".format(accessToken.provider))))
           }
-        } else {
-          // #TODO, local provider - email & password
-          Left(List(ValidationError("Could not retrieve identity info from %s provider. Provider not supported".format(accessToken.provider))))
+        }.getOrElse {
+          Left(List(ValidationError("Could not retrieve identity info from %s provider".format(accessToken.provider))))
         }
       } catch {
         case e: ErrorListException => return Left(e.errors)

@@ -1,0 +1,449 @@
+@(username: String, ideaText: String, ideaTitle: String, commentUser: String, commentText: String, commentUserAvatar: String, authorIdeaAvatar: String, idea: String )
+
+@import org.joda.time.DateTime
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<style type="text/css">
+@@media only screen and (max-device-width: 480px) {
+table[class=outer] .global-width-670-to-320 {
+width: 320px !important;
+}
+table[class=outer] .global-width-520-to-320 {
+width: 320px !important;
+}
+table[class=outer] .global-width-500-to-300 {
+width: 300px !important;
+}
+table[class=outer] .global-separator-padding {
+height: 8px !important;
+}
+table[class=outer] .global-shrinking-to-0 {
+height: 0px !important;
+}
+table[class=outer] .global-shrinking-to-10 {
+height: 10px !important;
+}
+table[class=outer] .global-h1 {
+font-size: 14px !important;
+}
+
+table[class=outer] .cut {
+width: 0 !important;
+padding: 0 !important;
+}
+table[class=outer] .vcut {
+height: 0 !important;
+padding: 0 !important;
+}
+table[class=outer] img.cut {
+display: none !important;
+width: 0 !important;
+height: 0 !important;
+}
+table[class=outer] .cut span, table[class=outer] .cut a {
+display: none !important;
+}
+table[class=outer] .frame {
+width: 320px !important;
+border-left: 0px !important;
+border-right: 0px !important;
+}
+table[class=outer] .main_header.media_header {
+width: 300px !important;
+height: 55px !important;
+}
+table[class=outer] .header_left {
+height: 55px !important;
+}
+table[class=outer] .logo_header {
+height: 62px !important;
+}
+table[class=outer] .main_name {
+font-size: 12px !important;
+}
+table[class=outer] .subtitle {
+font-size: 12px !important;
+}
+table[class=outer] .media_main {
+width: 300px !important;
+}
+table[class=outer] .media_main .intro {
+width: 260px !important;
+font-size: 14px !important;
+}
+table[class=outer] .media_main .intro2 {
+font-size: 14px !important;
+}
+table[class=outer] .media_main .suggestions {
+font-size: 14px !important;
+}
+table[class=outer] .media_more {
+width: 300px !important;
+border-radius: 0 !important;
+background-color: #ffffff !important;
+border-top: 1px solid #e8e8e8 !important;
+}
+table[class=outer] .media_button {
+width: 300px !important;
+background-color: #209ae4 !important;
+padding-top: 3px !important;
+padding-bottom: 3px !important;
+}
+table[class=outer] .media_footer {
+font-size: 11px !important;
+line-height: 14px !important;
+padding: 0 10px !important;
+}
+table[class=outer] .address {
+font-size: 11px !important;
+line-height: 14px !important;
+display: block !important;
+}
+table[class=outer] td[class=footer-padding-top] {
+height: 20px !important;
+}
+table[class=outer] td[class=footer-padding-bottom] {
+height: 17px !important;
+}
+table[class=outer] .media_footer br {
+display: none !important;
+}
+table[class=outer] .spacer.ios {
+display: none !important;
+}
+table[class=outer] .reset {
+display: block !important;
+padding-bottom: 4px !important;
+}
+table[class=outer] .media_logo_div {
+display: block !important;
+position: absolute !important;
+left: 274px !important;
+top: 0 !important;
+background-image: url('http://ideas-jugar.rhcloud.com/img/ideas-ba-logo.png') !important;
+background-size: 100% 100% !important;
+width: 36px !important;
+height: 68px !important;
+z-index: 1 !important;
+}
+table[class=employee-only-padding-top-bottom] {
+width: 310px !important;
+}
+td[class=employee-only-padding-left-right] {
+width: 4px !important;
+}
+table[class=employee-only] {
+width: 310px !important;
+}
+td[class=header_padding] {
+height: 55px !important;
+}
+}
+
+@@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+table[class=outer] .media_button {
+padding-top: 3px !important;
+padding-bottom: 3px !important;
+background-color: #209ae4 !important;
+}
+table[class=outer] .media_button td.cut {
+width: 0 !important;
+padding: 0 !important;
+}
+table[class=outer] .media_button {
+padding-left: 10px !important;
+padding-right: 10px !important;
+}
+}
+
+</style>
+</head>
+<body style="margin: 0; padding: 0; background: #ffffff;-webkit-text-size-adjust: 100%;">
+<span style="color: white; font-size: 1px; display: none;">@@nfmelendez posta te saci a pasear? Muy bien dato. Ni lo intento entonces. - @@DiegoRam</span>
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="outer" style="position: relative; background-color: #dddddd;">
+<tbody>
+<tr>
+<td>
+<table class="outer frame" align="center" cellpadding="0" cellspacing="0" border="0" width="670" style="border: 0px; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; background-color: #ffffff;position: relative; background-color: #dddddd;">
+<tbody>
+<tr>
+<td> <a href="https://twitter.com?uid=175816262&amp;iid=am-130280753913513437171791826&amp;nid=27+21" style="border: none; color: #0084b4; text-decoration: none;"><span class="media_logo_div"></span></a>
+<table cellpadding="0" cellspacing="0" border="0" width="670" class="header frame" style="background-color: #f2f2f2; table-layout: fixed;">
+<tbody>
+<tr>
+<td class="header_left cut" style="width: 0px; height: 77px;"> &nbsp; </td>
+<td height="94" width="46" valign="top" rowspan="2" class="logo_header cut" style="background-color: #ffffff; line-height: 100%;"><a href="http://www.ideas-ba.com.ar" style="border: none; color: #0084b4; text-decoration: none;"><img class="logo cut" src="http://ideas-jugar.rhcloud.com/img/ideas-ba-logo.png" width="65" height="94" style="border: 0; background-color: #fff; line-height: 100%;border: 0;" /></a></td>
+<td class="cut" width="9"> &nbsp; </td>
+<td width="10" height="77" class="header_padding"> &nbsp; </td>
+<td width="458" height="77" class="main_header media_header" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333333;">
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td class="main_name" style="font-size: 14px; font-weight: bold; color: #000000;"> @username, </td>
+</tr>
+<tr>
+<td class="subtitle" style="font-size: 14px; color: #666666;"> Se realizo un nuevo comentario sobre una idea que te interesa! </td>
+</tr>
+</tbody>
+</table> </td>
+<td width="10" height="77" class="header_padding"> &nbsp; </td>
+<td class="main_avatar cut" width="32" style="text-align: right;"> <a href="#" style="border: none; color: #0084b4; text-decoration: none;"><img class="cut" src="@authorIdeaAvatar" width="32" height="32"  style="display:none; background-color: #ffffff; border-radius: 5px;border: 0;" /></a> </td>
+<td class="col header cut" style="background-color: #f2f2f2; table-layout: fixed;width: 85px;"></td>
+</tr>
+<tr>
+<td class="main header_drop cut" style="border-top: 1px solid #dddddd;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #ffffff;">&nbsp;</td>
+<td class="main header_drop cut" style="border-top: 1px solid #dddddd;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #ffffff;">&nbsp;</td>
+<td class="main header_drop media_header" height="17" style="border-top: 1px solid #dddddd;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #ffffff;"><img width="1" height="1" style="display: block;border: 0;" src="https://twitter.com/scribe/ibis?uid=175816262&amp;iid=am-130280753913513437171791826&amp;nid=27+20" /></td>
+<td class="main header_drop cut" height="17" colspan="4" style="border-top: 1px solid #dddddd;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #ffffff;">&nbsp;</td>
+</tr>
+</tbody>
+</table> </td>
+<td rowspan="3"></td>
+</tr>
+<tr>
+<td style="background: #ffffff;">
+<style type="text/css">
+@@media only screen and (max-device-width: 480px) {
+table[class="main"] {
+width: 320px !important;
+}
+table[class="general-text-rules"] {
+width: 300px !important;
+}
+table[class="separator-padding"] {
+width: 320px !important;
+}
+table[class="separator-padding"] td {
+height: 8px !important;
+}
+hr[class="separator"] {
+width: 320px !important;
+}
+table[class="action"] {
+width: 300px !important;
+border-radius: 0 !important;
+background-color: #ffffff !important;
+}
+td[class="engagement-message"] {
+display: none;
+}
+td[class="top-height"] {
+height: 8px !important;
+}
+}
+
+</style>
+<table width="670" border="0" cellpadding="0" cellspacing="0" class="main frame" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #ffffff;">
+<tbody>
+<tr>
+<td>
+<table width="520" border="0" align="center" cellpadding="0" cellspacing="0" class="general-text-rules" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+<tbody>
+<tr>
+<td height="20" class="top-height" style="height: 20px;"></td>
+</tr>
+<tr>
+<td>
+<style type="text/css">
+@@media only screen and (max-device-width: 480px) {
+table[class="main"] {
+width: 320px !important;
+}
+table[class="small-tweet-template"] {
+width: 300px !important;
+}
+table[class="small-tweet-template-padding padding"] {
+width: 320px !important;
+}
+table[class="action"] {
+width: 300px !important;
+border-radius: 0 !important;
+background-color: #ffffff !important;
+}
+td[class="small-tweet-template-text"] a {
+color: #777 !important;
+}
+}
+
+</style>
+<table width="500" border="0" align="center" cellpadding="0" cellspacing="0" class="small-tweet-template" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: white; table-layout: fixed;">
+<tbody>
+<tr valign="top">
+<td rowspan="3" width="48" class="small-tweet-template-avatar" style="width: 48px;"> <a href="#" style="border: none; color: #0084b4; text-decoration: none;"> <img width="48" height="48" src="@authorIdeaAvatar"  style="border: 0;width: 48px; height: 48px; border-radius: 4px;" /> </a> </td>
+<td rowspan="3" width="10" class="small-tweet-template-avatar-padding padding"></td>
+<td> <a href="https://twitter.com/nfmelendez/status/262175545452810240?uid=175816262&amp;iid=am-130280753913513437171791826&amp;nid=27+225" style="border: none; color: #0084b4; text-decoration: none;"><span class="small-tweet-template-name" style="font-size: 14px; font-weight: bold; color: #333;">@ideaTitle!</span></a> <a href="https://twitter.com/nfmelendez/status/262175545452810240?uid=175816262&amp;iid=am-130280753913513437171791826&amp;nid=27+224" style="border: none; color: #0084b4; text-decoration: none;"><span class="small-tweet-template-screen-name" style="font-size: 12px; color: #999;"></span></a> </td>
+<td width="60" align="right"> <a href="https://twitter.com/nfmelendez/status/262175545452810240?uid=175816262&amp;iid=am-130280753913513437171791826&amp;nid=27+227" style="border: none; color: #0084b4; text-decoration: none;"><span class="small-tweet-template-date" style="font-size: 12px; color: #bbb;"></span></a> </td>
+</tr>
+<tr valign="top">
+<td height="2" colspan="2" class="small-tweet-template-padding "></td>
+</tr>
+<tr valign="top">
+<td colspan="2" class="small-tweet-template-text" style="word-wrap: break-word; font-size: 14px; line-height: 18px; color: #333;"> @ideaText! </td>
+</tr>
+</tbody>
+</table>
+<table width="500" border="0" align="center" cellpadding="0" cellspacing="0" class="separator-padding">
+<tbody>
+<tr>
+<td width="500" height="12" class="first-tweet-bottom-padding" style="height: 12px;"></td>
+</tr>
+</tbody>
+</table>
+<hr class="separator" style="height: 1px; border: 0px; margin: 0px; background-color: #e8e8e8; width: 520px;" />
+<!-- -------------------- -->
+<table width="500" border="0" align="center" cellpadding="0" cellspacing="0" class="separator-padding">
+<tbody>
+<tr>
+<td width="500" height="12"></td>
+</tr>
+</tbody>
+</table>
+<style type="text/css">
+@@media only screen and (max-device-width: 480px) {
+table[class="big-tweet-template"] {
+width: 300px !important;
+}
+td[class="big-tweet-template-text"] {
+font-size: 18px !important;
+line-height: 22px !important;
+}
+td[class="big-tweet-template-text"] a {
+color: #777 !important;
+}
+td[class="big-tweet-template-user-info"] {
+width: 242px !important;
+}
+}
+
+</style>
+<table width="500" border="0" align="center" cellpadding="0" cellspacing="0" class="big-tweet-template" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: white; table-layout: fixed;">
+<tbody>
+<tr valign="top">
+<td rowspan="2" width="48" class="big-tweet-template-avatar" style="width: 48px;"> <a href="#" style="border: none; color: #0084b4; text-decoration: none;"> <img width="48" height="48" src="@commentUserAvatar"  style="border: 0;width: 48px; height: 48px; border-radius: 4px;" /> </a> </td>
+<td rowspan="2" width="10" class="big-tweet-template-avatar-padding"></td>
+<td height="24" valign="bottom" class="big-tweet-template-user-info" style="width: 442px;"> <a href="https://twitter.com/DiegoRam/status/262180667922739200?uid=175816262&amp;iid=am-130280753913513437171791826&amp;nid=27+234" style="border: none; color: #0084b4; text-decoration: none;"><span class="big-tweet-template-name" style="font-size: 18px; font-weight: bold; color: #333;">@commentUser!</span></a> </td>
+</tr>
+<tr valign="top">
+<td height="24" class="big-template-tweet-user-info"> <a href="https://twitter.com/DiegoRam/status/262180667922739200?uid=175816262&amp;iid=am-130280753913513437171791826&amp;nid=27+233" style="border: none; color: #0084b4; text-decoration: none;"> <span class="big-tweet-template-screen-name" style="font-size: 14px; color: #999;"></span> </a> </td>
+</tr>
+<tr>
+<td height="10" colspan="3" class="big-tweet-template-padding"></td>
+</tr>
+<tr>
+<td colspan="3" class="big-tweet-template-text" style="word-wrap: break-word; color: #333; font-size: 22px; font-family: Georgia, 'Times New Roman', Times, serif; line-height: 26px;">@commentText!</td>
+</tr>
+<tr>
+<td height="4" colspan="3" class="big-tweet-template-padding"></td>
+</tr>
+<tr>
+<td colspan="3" class="big-tweet-template-date" style="font-size: 12px; color: #bbb;"> <a href="https://twitter.com/DiegoRam/status/262180667922739200?uid=175816262&amp;iid=am-130280753913513437171791826&amp;nid=27+236" style="border: none; color: #0084b4; text-decoration: none;color: #bbb;">@{new DateTime().toString("dd/MM/yyyy - HH:mm")}</a> </td>
+</tr>
+</tbody>
+</table>
+<table width="500" border="0" align="center" cellpadding="0" cellspacing="0" class="separator-padding">
+<tbody>
+<tr>
+<td width="500" height="12"></td>
+</tr>
+</tbody>
+</table>
+<hr class="separator" style="height: 1px; border: 0px; margin: 0px; background-color: #e8e8e8; width: 520px;" />
+<!-- -------------------- -->
+<table cellpadding="0" cellspacing="0" width="500" align="center" class="action">
+<tbody>
+<tr>
+<td height="12" colspan="2"></td>
+</tr>
+<tr>
+<td>
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tbody>
+<tr>
+<td class="engagement-message" style="color: #666; font-size: 14px;"> Qu&eacute; te parecio? Sigamos mejorando con tu voto!</td>
+<td align="right">
+<style type="text/css">
+@@media only screen and (max-device-width: 480px) {
+table[class=button-template] {
+width: 300px !important;
+}
+tr[class=button-template-vertical-padding] {
+height: 3px !important;
+}
+}
+@@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+td[class=button-template] {
+padding-left: 10px !important;
+padding-right: 10px !important;
+}
+}
+
+</style>
+<table cellpadding="0" cellspacing="0" border="0" class="button-template" style="background-image: url('https://twitter.com/images/email/t1/button_bg_long.png'); background-repeat: repeat-x; background-color: #33a9e5; border-radius: 5px; height: 28px; border: 1px solid #28C; word-wrap: break-word; text-align: center;">
+<tbody>
+<tr>
+<td align="center" style="padding-left: 15px; padding-right: 15px;">
+<table cellpadding="0" cellspacing="0" border="0" class="button-template-inner">
+<tbody>
+<tr>
+<td style="padding-left: 15px; padding-right: 15px;padding-left: 0px; padding-right: 0px;"> <a href="https://twitter.com/home?screen_name=DiegoRam&amp;context=email&amp;iid=am-130280753913513437171791826&amp;in_reply_to_status_id=262180667922739200&amp;status=&amp;uid=175816262&amp;nid=27+241" style="border: none; color: #0084b4; text-decoration: none;color: white;"> <img src="https://twitter.com/images/email/t1/reply_arrow.png" alt="" style="border: 0;" /> </a> </td>
+<td width="6" class="button-template-inner-vertical-padding" style="padding-left: 15px; padding-right: 15px;padding-left: 0px; padding-right: 0px;height: 6px;"> <a href="https://twitter.com/home?screen_name=DiegoRam&amp;context=email&amp;iid=am-130280753913513437171791826&amp;in_reply_to_status_id=262180667922739200&amp;status=&amp;uid=175816262&amp;nid=27+241" style="border: none; color: #0084b4; text-decoration: none;color: white;"> </a> </td>
+<td height="28" class="button-template-font" style="color: white; font-size: 13px; font-weight: bold; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;padding-left: 15px; padding-right: 15px;padding-left: 0px; padding-right: 0px;"> <a href="http://ideas-ba.com.ar/#/ideas/@idea" style="border: none; color: #0084b4; text-decoration: none;color: white;"> Votar Comentario </a> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+<td> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="12" colspan="2"></td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td>
+<table bgcolor="#eeeeee" border="0" cellpadding="0" cellspacing="0" width="670" class="frame footer" style="background-color: #eeeeee; background-image: url(https://twitter.com/images/email/t1/shadow_bottom.jpg); background-position: top; background-repeat: repeat-x; border-top-color: #dddddd; border-top-style: solid; border-top-width: 1px;">
+<tbody>
+<tr>
+<td colspan="4" height="28" class="footer-padding-top"></td>
+</tr>
+<tr>
+<td class="col cut" style="width: 85px;"></td>
+<td class="footer_body media_footer" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 12px; line-height: 17px; color: #777; text-shadow: 0 1px 0 #ffffff;">
+<div>
+<a href="http://www.ideas-ba.com.ar">Ideasba</a> te permite realizar/contestar preguntas o sugerir ideas para mejorar la ciudad en la que vivimos
+</div>
+<div>
+<a href="#" class="address" style="border: none; color: #0084b4; text-decoration: none;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; text-decoration: none; font-size: 11px; line-height: 17px; color: #999999; text-shadow: 0 1px 0 #ffffff;">Ideas-ba, Inc. </a>
+</div> </td>
+<td class="col cut" style="width: 85px;"></td>
+</tr>
+<tr>
+<td colspan="3" class="footer-padding-bottom" height="25"></td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

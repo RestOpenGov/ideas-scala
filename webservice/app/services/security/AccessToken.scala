@@ -14,19 +14,17 @@ object AccessToken {
 
   def validate(accessToken: AccessToken)(implicit lang: Lang): List[Error] = {
 
-    import SecurityManager.PROVIDERS
-
     var errors = List[Error]()
 
     // Authentication provider
     if (Validate.isEmptyWord(accessToken.provider)) {
       errors ::= ValidationError(Error.AUTHENTICATION, "provider", 
-        "Access provider not specified. Valid values: %s".format(PROVIDERS.mkString(", "))
+        "Access provider not specified. Valid values: %s".format(Social.providers.mkString(", "))
       )
     } else {
-      if (!PROVIDERS.contains(accessToken.provider)) {
+      if (!Social.providers.contains(accessToken.provider)) {
         errors ::= ValidationError(Error.AUTHENTICATION, "provider", 
-          "Invalid authentication provider. Valid values: %s".format(PROVIDERS.mkString(", "))
+          "Invalid authentication provider. Valid values: %s".format(Social.providers.mkString(", "))
         )
       }
     }

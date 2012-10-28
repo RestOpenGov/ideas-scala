@@ -1,0 +1,45 @@
+<html>
+<head>
+	<title>Twitter</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="http://platform.twitter.com/anywhere.js?id=NlSXLXyTcTTsbA85wxpHdw&amp;v=1" type="text/javascript"></script>
+	<style type="text/css">
+	a { color:#0000FF; text-decoration:none }
+	a:hover { text-decoration:underline; }
+	</style>
+</head>
+<body>
+
+<span id="login-logout"></span>
+<script type="text/javascript">
+
+twttr.anywhere(function (T) {
+
+	window.T = T;
+
+	if(T.isConnected()) {
+	
+		$('#login-logout').before('<a href="#" id="signout">Signout @' + T.currentUser.screenName + ' </a>')
+
+		$("#signout").bind("click", function () {
+			twttr.anywhere.signOut();
+			window.location.reload();
+		});
+
+		console.log(T)
+		console.log(twttr.anywhere.token);
+
+	} else {
+		
+		T.bind("authComplete", function (e, user) {
+			window.location.reload();
+		});
+
+		T("#login-logout").connectButton();
+
+	}
+
+});
+</script>
+</body>
+</html>

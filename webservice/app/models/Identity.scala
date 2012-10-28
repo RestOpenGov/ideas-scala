@@ -85,7 +85,7 @@ object Identity extends EntityCompanion[Identity] {
 
   def validate(identity: Identity)(implicit lang: Lang): List[Error] = {
 
-    import services.security.SecurityManager.PROVIDERS
+    import services.security.Social
 
     var errors = List[Error]()
 
@@ -97,11 +97,11 @@ object Identity extends EntityCompanion[Identity] {
     // provider
     if (Validate.isEmptyWord(identity.provider)) {
       errors ::= ValidationError("provider", 
-        "Identity provider not specified. Valid values: %s".format(PROVIDERS.mkString))
+        "Identity provider not specified. Valid values: %s".format(Social.providers.mkString))
     } else {
-      if (!PROVIDERS.contains(identity.provider)) {
+      if (!Social.providers.contains(identity.provider)) {
         errors ::= ValidationError("provider", 
-          "Invalid authentication provider. Valid values: %s".format(PROVIDERS.mkString)
+          "Invalid authentication provider. Valid values: %s".format(Social.providers.mkString)
         )
       }
     }

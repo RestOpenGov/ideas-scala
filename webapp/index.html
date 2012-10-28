@@ -129,6 +129,26 @@
     
   </div>
 
+
+
+<div class="modal hide fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="authLabel">Login</h3>
+  </div>
+  <div class="modal-body">
+    <p>Please your authentication method:</p>
+    <p>
+       <a href="#" class="btn btn-primary" ng-click="authenticateFacebook()">Facebook</a>
+       <a href="#" class="btn btn-primary" ng-click="authenticateTwitter()">Twitter</a>
+       <a href="#" class="btn btn-primary" ng-click="authenticateGoogle()">Google</a>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
   <script src="js/app/app.js"></script>
   <script src="js/app/controller/MainCtrl.js"></script>
   <script src="js/app/controller/HomeCtrl.js"></script>
@@ -139,30 +159,6 @@
   <script src="js/app/controller/UserDetailCtrl.js"></script>
   <script src="js/app/controller/UserFormCtrl.js"></script>    
   <script src="js/app/controller/ShareCtrl.js"></script> 
-
-  <div id="fb-root"></div>
-  <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId : '486452174721099',
-          //channelUrl : '//ideas-jugar.rhcloud.com/channel.html', 
-          //channelUrl : '//ideas-ba.com.ar/channel.html', 
-          channelUrl : '//localhost/ideas-ba/channel.html', 
-          status : true,
-          cookie : true,
-          xfbml : true 
-        });
-  };
-
-  (function(d){
-   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-   if (d.getElementById(id)) {return;}
-   js = d.createElement('script'); js.id = id; js.async = true;
-   js.src = "//connect.facebook.net/en_US/all.js";
-   ref.parentNode.insertBefore(js, ref);
- }(document));
-
-  </script>  
 
 </body>
 

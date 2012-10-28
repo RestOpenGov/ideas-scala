@@ -5,6 +5,7 @@
 OPTIONS /api/*url                          controllers.Application.options(url: String)
 
 GET     /api/secured                       controllers.Security.secured
+POST    /api/auth/                         controllers.Security.auth
 POST    /api/auth                          controllers.Security.auth
 
 GET     /                                  controllers.Assets.at(path="/public", file="index.html")
@@ -22,6 +23,7 @@ POST    /api/users/                        controllers.Users.save
 POST    /api/users                         controllers.Users.save
 GET     /api/users/:id                     controllers.Users.show(id: Long)
 DELETE  /api/users/:id                     controllers.Users.delete(id: Long)
+GET     /api/users/token/:token            controllers.Users.showByToken(token: String)
 
 GET     /api/users/:id/subscriptions            controllers.Subscriptions.list(id: Long)
 GET     /api/users/:id/subscriptions/count      controllers.Subscriptions.count(id: Long)
@@ -99,5 +101,16 @@ DELETE  /api/votes/:id                     controllers.Votes.delete(id: Long)
 # Javascript routing
 GET     /assets/javascripts/routes         controllers.Application.javascriptRoutes
 
+GET     /mail/test                     	controllers.Application.mail
+GET     /mail/test/                     controllers.Application.mail
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /*file                   controllers.Assets.at(path="/public", file)
+
+
+
+
+
+
+

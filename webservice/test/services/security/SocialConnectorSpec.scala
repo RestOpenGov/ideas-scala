@@ -40,7 +40,9 @@ class SocialConnectorSpec extends Specification with ErrorSpec {
     "return Some IdentityProviderInfo if a valid token is passed" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        retrieveSocialProviderInfo(AccessToken("facebook", "valid facebook token")
+        implicit val socialAdapter = List(MockTwitterAdapter, MockFacebookAdapter)
+
+        retrieveSocialProviderInfo(AccessToken("facebook", "valid mock facebook token")
         ) must beSome
 
       }
