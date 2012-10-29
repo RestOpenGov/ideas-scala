@@ -2,8 +2,7 @@
   <h1>Nueva idea</h1>
 </div>
 <div class="well">
-	<!-- <form id="new-idea-form" class="form-horizontal" ng-submit="saveIdea()"> -->
-	<div id="new-idea-form" class="form-horizontal">
+	<form id="new-idea-form" class="form-horizontal" ng-submit="saveIdea()">
 	  <div class="control-group">
 	    <label class="control-label" for="inputTitle">Título</label>
 	    <div class="controls">
@@ -22,21 +21,9 @@
 		    	<textarea id="areaMessage" class="span12" placeholder="La idea va aquí..." name="areaMessage"></textarea>
 		    </div>
 	  </div>
-	  
-   	  <div class="control-group">
-	    <label class="control-label" for="inputTags">Tags</label>
-	    <div class="controls">
-	      <form class="form-inline">
-		  <input type="text" autocomplete="off" data-items="6" data-provide="typeahead" name="tagsjax" placeholder="Agregar tag" class="input-medium tagManager" data-original-title="" />
-		</form>
-
-	    </div>
-	  </div> 
-
-
 	  <div class="form-actions">
-        <button type="button" ng-click="saveIdea()" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
         <button type="reset" class="btn">Cancel</button>
        </div>
-	</div>
+	</form>
 </div>

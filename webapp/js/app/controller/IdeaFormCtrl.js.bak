@@ -14,16 +14,6 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 		})
 
 		$scope.editorInstance = $scope.editor.panelInstance('areaMessage');
-		
-	    $(".tagManager").tagsManager({
-	        preventSubmitOnEnter: true,
-	        typeahead: true,
-	        typeaheadAjaxSource: SERVICE_ENDPOINT +'tags',
-	        typeaheadAjaxPolling: true,
-	        // AjaxPush: SERVICE_ENDPOINT +'tags/', 
-	        blinkBGColor_1: '#FFFF9C',
-	        blinkBGColor_2: '#CDE69C',
-	      });
 	});
 
 	$scope.init = function(){
@@ -42,18 +32,6 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 
 		$http.post(SERVICE_ENDPOINT+'ideas',$scope.idea).success(function(json) {
 			$location.path("/ideas/"+json.id).search();
-			
-			// preparing the tags array
-			var arrTags = $("input[name='hidden-tagsjax']").attr("value").split(",");
-			$http.put(SERVICE_ENDPOINT+'ideas/' + json.id + '/tags', arrTags).success(function(json) {
-				
-				// put tags for the new idea and redirect
-				$location.path("/ideas/"+json.id).search();
-				
-		    }).error(function(data, status, headers, config) {
-		    	alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
-		    });
-			
 	    }).error(function(data, status, headers, config) {
 	    	alert('ERROR AL DAR DE ALTA LA IDEA');
 	    });
