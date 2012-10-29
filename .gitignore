@@ -17,6 +17,7 @@ webservice/project/target
 webservice/bin
 websevice/dist
 webservice/RUNNING_PID
+webservice/public
 
 # Ignore openshift deployment folder
 openshift
