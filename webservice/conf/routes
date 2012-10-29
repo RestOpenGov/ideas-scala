@@ -71,12 +71,24 @@ POST    /api/ideas/:idea/tags/:tag                     controllers.Ideas.saveTag
 DELETE  /api/ideas/:idea/tags/:tag                     controllers.Ideas.deleteTag(idea: Long, tag: String)
 
 GET     /api/types                         controllers.IdeaTypes.list
+GET     /api/types/                        controllers.IdeaTypes.list
 GET     /api/types/count                   controllers.IdeaTypes.count
+GET     /api/types/count/                  controllers.IdeaTypes.count
 PUT     /api/types/:id                     controllers.IdeaTypes.update(id: Long)
-POST    /api/types/                        controllers.IdeaTypes.save
 POST    /api/types                         controllers.IdeaTypes.save
+POST    /api/types/                        controllers.IdeaTypes.save
 GET     /api/types/:id                     controllers.IdeaTypes.show(id: Long)
 DELETE  /api/types/:id                     controllers.IdeaTypes.delete(id: Long)
+
+#GET     /api/types                         controllers.CrudIdeaTypes.list
+#GET     /api/types/                        controllers.CrudIdeaTypes.list
+#GET     /api/types/count                   controllers.CrudIdeaTypes.count
+#GET     /api/types/count/                  controllers.CrudIdeaTypes.count
+#PUT     /api/types/:id                     controllers.CrudIdeaTypes.update(id: Long)
+#POST    /api/types                         controllers.CrudIdeaTypes.save
+#POST    /api/types/                        controllers.CrudIdeaTypes.save
+#GET     /api/types/:id                     controllers.CrudIdeaTypes.show(id: Long)
+#DELETE  /api/types/:id                     controllers.CrudIdeaTypes.delete(id: Long)
 
 GET     /api/tags                          controllers.Tags.list
 #GET     /api/tags/count                    controllers.Tags.count
