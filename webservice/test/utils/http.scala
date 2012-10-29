@@ -27,3 +27,12 @@ object FakeJsonRequest {
     apply(method, uri, Map[String, String](), jsonString)
   }
 }
+
+object FakeRequestHelper {
+  import play.api.test.Helpers._
+  import play.api.libs.json.Json.parse
+
+  def count(url: String): Int = {
+    parse(contentAsString(routeAndCall(FakeRequest(GET, url)).get)).as[Int]
+  }
+}

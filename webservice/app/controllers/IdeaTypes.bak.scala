@@ -39,35 +39,16 @@ object IdeaTypes extends Controller {
     )
   }
 
-  // def save() = CORSAction(parse.json) { implicit request =>
-  //   request.body.asOpt[IdeaType].map { ideatype =>
-  //     ideatype.save.fold(
-  //       errors => JsonBadRequest(errors),
-  //       ideatype => Ok(toJson(ideatype))
-  //     )
-  //   }.getOrElse     (JsonBadRequest("Invalid type of idea entity"))
-  // }
-
-  def update(id: Long) = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[IdeaType].map { ideatype =>
-        ideatype.copy(id=Id(id)).update.fold(
-          errors => JsonBadRequest(errors),
-          ideatype => Ok(toJson(ideatype))
-        )
-      }.getOrElse       (JsonBadRequest("Invalid type of idea entity"))
-    }.getOrElse         (JsonBadRequest("Expecting JSON data"))
+  def update(id: Long) = JSONAction { ideatype: IdeaType =>
+    ideatype.withId(id).update.fold(
+      errors => JsonBadRequest(errors),
+      ideatype => Ok(toJson(ideatype))
+    )
   }
 
   def delete(id: Long) = CORSAction { implicit request =>
     IdeaType.delete(id)
     JsonOk("IdeaType successfully deleted","Type of idea with id %s deleted".format(id))
   }
-
-  // def parse[T: play.api.libs.json.Reads](request: Request[AnyContent]): Option[T] = {
-  //   request.body.asJson.map { json =>
-  //     json.asOpt[T]
-  //   }.getOrElse(None)
-  // }
 
 }

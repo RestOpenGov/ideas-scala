@@ -11,6 +11,7 @@ import play.api.http.HeaderNames
 import play.api.libs.json.Json.parse
 
 import test.utils.FakeJsonRequest
+import test.utils.FakeRequestHelper._
 
 import models.{IdeaType, Error}
 import formatters.json.IdeaTypeFormatter._
@@ -58,7 +59,8 @@ class IdeaTypesSpec extends Specification {
         contentType(result) must beSome("application/json")
         val ideaTypes = parse(contentAsString(result)).as[List[IdeaType]]
 
-        ideaTypes.size must equalTo(4)
+        ideaTypes.size mustEqual 4
+        ideaTypes.size mustEqual count("/api/types/count")
 
         val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/types"))
         contentAsString(result) mustEqual contentAsString(resultWithSlash)
@@ -106,6 +108,7 @@ class IdeaTypesSpec extends Specification {
         val ideaTypes = parse(contentAsString(result)).as[List[IdeaType]]
 
         ideaTypes.size must equalTo(2)
+        ideaTypes.size mustEqual count("/api/types/count?filter=alg")
 
         // no results
         val Some(resultNone) = routeAndCall(FakeRequest(GET, "/api/types?filter=no match"))
@@ -127,6 +130,7 @@ class IdeaTypesSpec extends Specification {
         val ideaTypes = parse(contentAsString(result)).as[List[IdeaType]]
 
         ideaTypes.size mustEqual 2
+        ideaTypes.size mustEqual count("/api/types/count?q=id:1..3,description$para")
 
         ideaTypes(0).id.get mustEqual 1
         ideaTypes(1).id.get mustEqual 3
@@ -150,6 +154,7 @@ class IdeaTypesSpec extends Specification {
         val ideaTypes = parse(contentAsString(result)).as[List[IdeaType]]
 
         ideaTypes.size mustEqual 4
+        ideaTypes.size mustEqual count("/api/types/count?order=name")
         ideaTypes(0).name mustEqual "idea"
         ideaTypes(3).name mustEqual "recomendación"
 
@@ -158,6 +163,7 @@ class IdeaTypesSpec extends Specification {
         val ideaTypesDesc = parse(contentAsString(resultDesc)).as[List[IdeaType]]
 
         ideaTypesDesc.size mustEqual 4
+        ideaTypes.size mustEqual count("/api/types/count?order=name desc")
         ideaTypesDesc(0).name mustEqual "recomendación"
         ideaTypesDesc(3).name mustEqual "idea"
 
@@ -193,7 +199,7 @@ class IdeaTypesSpec extends Specification {
     "save a new ideaType, using route POST /api/types" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        val originalCount = parse(contentAsString(routeAndCall(FakeRequest(GET, "/api/types/count")).get)).as[Int]
+        val originalCount = count("/api/types/count")
 
         val json = """{"name": "new name", "description": "new description"}"""
 
@@ -204,7 +210,7 @@ class IdeaTypesSpec extends Specification {
         val Some(ideaType) = parse(contentAsString(result)).asOpt[IdeaType]
 
         // check new total count
-        val currentCount = parse(contentAsString(routeAndCall(FakeRequest(GET, "/api/types/count")).get)).as[Int]
+        val currentCount = count("/api/types/count") 
         currentCount mustEqual originalCount + 1
 
         ideaType.name mustEqual "new name"
@@ -216,7 +222,7 @@ class IdeaTypesSpec extends Specification {
     "return an error if a required field is missing, using route POST /api/types" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        val originalCount = parse(contentAsString(routeAndCall(FakeRequest(GET, "/api/types/count")).get)).as[Int]
+        val originalCount = count("/api/types/count")
 
         val json = """{"name": "", "description": "new description"}"""
 
@@ -235,27 +241,85 @@ class IdeaTypesSpec extends Specification {
         error.message must equalTo("""El campo "nombre" no puede estar vacío.""")
 
         // // check new total count
-        val currentCount = parse(contentAsString(routeAndCall(FakeRequest(GET, "/api/types/count")).get)).as[Int]
-        currentCount mustEqual originalCount
+        count("/api/types/count") mustEqual originalCount
 
       }
     }
 
     "update an existing ideaType, using route PUT /api/types/:id" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        todo
+
+        val json = """{"name": "edited name", "description": "edited description"}"""
+
+        val Some(result) = routeAndCall(FakeJsonRequest(PUT, "/api/types/1", json))
+
+        status(result) must equalTo(OK)
+        contentType(result) must beSome("application/json")
+        val Some(ideaType) = parse(contentAsString(result)).asOpt[IdeaType]
+        ideaType.name must equalTo("edited name")
+        ideaType.description must equalTo("edited description")
+
+        val Some(updatedResult) = routeAndCall(FakeRequest(GET, "/api/types/1"))
+        val Some(updatedIdeaType) = parse(contentAsString(updatedResult)).asOpt[IdeaType]
+        updatedIdeaType.name must equalTo("edited name")
+        updatedIdeaType.description must equalTo("edited description")
+
       }
     }
 
     "return an error if a required field is missing, using route PUT /api/types/:id" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        todo
+
+        val json = """{"name": "", "description": "edited description"}"""
+
+        val Some(result) = routeAndCall(FakeJsonRequest(PUT, "/api/types/1", json))
+
+        status(result) mustEqual BAD_REQUEST
+        contentType(result) must beSome("application/json")
+
+        val errors = parse(contentAsString(result)).as[List[Error]]
+        errors.size mustEqual 1
+
+        val error = errors(0)
+
+        error.status mustEqual BAD_REQUEST
+        error.field mustEqual "name"
+        error.message must equalTo("""El campo "nombre" no puede estar vacío.""")
+
       }
     }
 
     "delete an existing ideaType, using route DELETE /api/types/:id" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
-        todo
+
+        val originalCount = count("/api/types/count")
+
+        // create a new idea to delete
+        val json = """{"name": "new name", "description": "new description"}"""
+
+        val Some(result) = routeAndCall(FakeJsonRequest(POST, "/api/types", json))
+
+        status(result) must equalTo(CREATED)
+        contentType(result) must beSome("application/json")
+        val Some(ideaType) = parse(contentAsString(result)).asOpt[IdeaType]
+
+        count("/api/types/count") mustEqual originalCount + 1
+
+        val id = ideaType.id.get
+
+        val Some(deletedResult) = routeAndCall(FakeRequest(DELETE, "/api/types/%s".format(id)))
+
+        status(deletedResult) mustEqual OK
+        contentType(deletedResult) must beSome("application/json")
+        val error = parse(contentAsString(deletedResult)).as[Error]
+
+        error.status mustEqual OK
+        error.field mustEqual ""
+        error.message must equalTo("""IdeaType successfully deleted""")
+
+        // // check new total count
+        count("/api/types/count") mustEqual originalCount
+
       }
     }
 
