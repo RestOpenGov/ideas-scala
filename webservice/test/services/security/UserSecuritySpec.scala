@@ -39,7 +39,8 @@ class UserSecuritySpec extends Specification with ErrorSpec {
     import services.security.Social.retrieveSocialProviderInfo
     import services.security.AccessToken
 
-    val accessToken = AccessToken("twitter", "valid twitter token")
+    implicit val socialAdapter = List(MockTwitterAdapter, MockFacebookAdapter)
+    val accessToken = AccessToken("twitter", "valid mock twitter token")
     val Some(providerInfo) = retrieveSocialProviderInfo(accessToken)
 
     "return the user if it already exists" in {
@@ -107,7 +108,8 @@ class UserSecuritySpec extends Specification with ErrorSpec {
     import services.security.Social.retrieveSocialProviderInfo
     import services.security.AccessToken
 
-    val accessToken = AccessToken("twitter", "valid twitter token")
+    implicit val socialAdapter = List(MockTwitterAdapter, MockFacebookAdapter)
+    val accessToken = AccessToken("twitter", "valid mock twitter token")
     val Some(providerInfo) = retrieveSocialProviderInfo(accessToken)
 
     "create the user and also the identity" in {
