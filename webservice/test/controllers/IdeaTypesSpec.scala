@@ -190,7 +190,7 @@ class IdeaTypesSpec extends Specification {
       }
     }
 
-    "add a new ideaType, using route POST /api/types" in {
+    "save a new ideaType, using route POST /api/types" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         val originalCount = parse(contentAsString(routeAndCall(FakeRequest(GET, "/api/types/count")).get)).as[Int]
@@ -238,6 +238,24 @@ class IdeaTypesSpec extends Specification {
         val currentCount = parse(contentAsString(routeAndCall(FakeRequest(GET, "/api/types/count")).get)).as[Int]
         currentCount mustEqual originalCount
 
+      }
+    }
+
+    "update an existing ideaType, using route PUT /api/types/:id" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        todo
+      }
+    }
+
+    "return an error if a required field is missing, using route PUT /api/types/:id" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        todo
+      }
+    }
+
+    "delete an existing ideaType, using route DELETE /api/types/:id" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+        todo
       }
     }
 
