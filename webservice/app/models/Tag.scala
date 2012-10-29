@@ -95,7 +95,7 @@ object Tag extends EntityCompanion[Tag] {
   def validate(tag: Tag)(implicit lang: Lang): List[Error] = {
 
     var errors = List[Error]()
-    
+
     // name
     if (Validate.isEmptyWord(tag.name)) {
       errors ::= ValidationError(Error.REQUIRED, "name", "validate.empty", &("tag.name"))
@@ -106,16 +106,14 @@ object Tag extends EntityCompanion[Tag] {
       }
     }
 
-    //como se hace el NOT (!, ~, NOT ) ?
-    // description
-    if (Validate.isEmptyWord(tag.description)) {
-    }else{
+    // the user can automatically create tags withour entering a description
+    // description - only check for duplicates if it's NOT empty
+    if (!Validate.isEmptyWord(tag.description)) {
       if (isDuplicate(tag, "description")) {
         errors ::= ValidationError(Error.DUPLICATE, "description", "validate.duplicate",
           &("tag"), &("tag.description"), tag.description)
       }
     }
-    
 
     errors.reverse
   }
