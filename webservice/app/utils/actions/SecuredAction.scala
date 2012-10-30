@@ -56,27 +56,11 @@ object SecuredAction {
   // then tries to find the token in the querystring: "ideas_token=xxxxx"
   def applicationTokenFromRequest(request: Request[AnyContent]): Option[String] = {
 
-    val fromHeaders: Option[String] = request.headers.get("authorization")
-    val tokenRegExp = """^\s*ideas-token\s*=\s*(\w+)\s*$""".r
+    val Token = """^\s*ideas-token\s*=\s*(\w+)\s*$""".r
 
-    val tokenFromHeader: Option[String] = {
-      if (fromHeaders.isDefined) {
-        val header = fromHeaders.get
-        if (tokenRegExp.pattern.matcher(header).matches) {
-          val tokenRegExp(extracted) = header
-          Some(extracted)
-        } else {
-          None
-        }
-      } else {
-        None
-      }
-    }
-
-    // try to find it in the queryString
-    tokenFromHeader.orElse {
-      toFlatQueryString(request.queryString).get("ideas-token")
-    }
+    request.headers.get("authorization") collect {
+      case Token(t) => t
+    } orElse toFlatQueryString(request.queryString).get("ideas-token")
 
   }
 
