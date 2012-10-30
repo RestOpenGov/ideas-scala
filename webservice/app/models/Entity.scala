@@ -126,6 +126,8 @@ trait EntityCompanion[A<:Entity] {
     )
   }
 
+  def count: Long = count(q="")
+
   def count(query: Map[String, Seq[String]]): Long = {
     val (page, len, order, filter, q) = Http.parseQuery(query)
     count(filter,q)
