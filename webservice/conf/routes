@@ -8,6 +8,9 @@ GET     /api/secured                       controllers.Security.secured
 POST    /api/auth/                         controllers.Security.auth
 POST    /api/auth                          controllers.Security.auth
 
+#test token extaction
+GET     /api/token                         controllers.Security.readToken
+
 GET     /                                  controllers.Assets.at(path="/public", file="index.html")
 GET     /app                               controllers.Assets.at(path="/public", file="index.html")
 # GET     /                                  controllers.Application.app
