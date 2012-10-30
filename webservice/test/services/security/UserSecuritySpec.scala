@@ -46,13 +46,13 @@ class UserSecuritySpec extends Specification with ErrorSpec {
     "return the user if it already exists" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        val beforeUsers = User.count()
-        val beforeIdentities = Identity.count()
+        val beforeUsers = User.count
+        val beforeIdentities = Identity.count
 
         val Right(originalUser) = User.findOrCreateFromProviderInfo(providerInfo)
 
-        val originalUsers = User.count()
-        val originalIdentities = Identity.count()
+        val originalUsers = User.count
+        val originalIdentities = Identity.count
 
         // a user and an identity were created
         originalUsers must equalTo(beforeUsers + 1)
@@ -62,8 +62,8 @@ class UserSecuritySpec extends Specification with ErrorSpec {
         existingUser.id.get must equalTo(originalUser.id.get)
 
         // no user nor identity were created
-        User.count() must equalTo(originalUsers)
-        Identity.count() must equalTo(originalIdentities)
+        User.count must equalTo(originalUsers)
+        Identity.count must equalTo(originalIdentities)
 
       }
     }
@@ -71,14 +71,14 @@ class UserSecuritySpec extends Specification with ErrorSpec {
     "create the user if it doesn't exists" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        val usersBefore = User.count()
-        val identitiesBefore = Identity.count()
+        val usersBefore = User.count
+        val identitiesBefore = Identity.count
 
         val Right(newUser) = User.findOrCreateFromProviderInfo(providerInfo)
         newUser.nickname must equalTo(providerInfo.nickname)
 
-        User.count() must equalTo(usersBefore + 1)
-        Identity.count() must equalTo(identitiesBefore + 1)
+        User.count must equalTo(usersBefore + 1)
+        Identity.count must equalTo(identitiesBefore + 1)
 
         val newIdentity = Identity.find(q = "user_id:%s".format(newUser.id.get))
 
@@ -115,14 +115,14 @@ class UserSecuritySpec extends Specification with ErrorSpec {
     "create the user and also the identity" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        val usersBefore = User.count()
-        val identitiesBefore = Identity.count()
+        val usersBefore = User.count
+        val identitiesBefore = Identity.count
 
         val Right(newUser) = User.createFromProviderInfo(providerInfo)
         newUser.nickname must equalTo(providerInfo.nickname)
 
-        User.count() must equalTo(usersBefore + 1)
-        Identity.count() must equalTo(identitiesBefore + 1)
+        User.count must equalTo(usersBefore + 1)
+        Identity.count must equalTo(identitiesBefore + 1)
 
         val newIdentity = Identity.find(q = "user_id:%s".format(newUser.id.get))
 
@@ -137,8 +137,8 @@ class UserSecuritySpec extends Specification with ErrorSpec {
         // create the user
         User(name = providerInfo.name).save must beRight
 
-        val usersBefore = User.count()
-        val identitiesBefore = Identity.count()
+        val usersBefore = User.count
+        val identitiesBefore = Identity.count
 
         User.createFromProviderInfo(providerInfo) must haveError.like {
           case error => {
@@ -148,8 +148,8 @@ class UserSecuritySpec extends Specification with ErrorSpec {
           }
         }
 
-        User.count() must equalTo(usersBefore)
-        Identity.count() must equalTo(identitiesBefore)
+        User.count must equalTo(usersBefore)
+        Identity.count must equalTo(identitiesBefore)
 
       }
     }

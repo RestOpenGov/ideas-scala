@@ -55,7 +55,7 @@ class TagSpec extends Specification with ErrorSpec {
     "allow to add, modify and delete an entity" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        val originalCount = Tag.count()
+        val originalCount = Tag.count
 
         val entity = Tag(
           name = "new entity's name", 
@@ -66,7 +66,7 @@ class TagSpec extends Specification with ErrorSpec {
         entity.save() should beRight
 
         // check new entity
-        Tag.count() must equalTo(originalCount+1)
+        Tag.count must equalTo(originalCount+1)
 
         val newEntity = Tag.find(q = "name:new entity's name")(0)
         newEntity.name must equalTo("new entity's name")
@@ -92,7 +92,7 @@ class TagSpec extends Specification with ErrorSpec {
         Tag.delete(modifiedEntity.id.get)
 
         Tag.findById(modifiedEntity.id.get) must beNone
-        Tag.count() must equalTo(originalCount)
+        Tag.count must equalTo(originalCount)
       }
     }
 
@@ -132,13 +132,13 @@ class TagSpec extends Specification with ErrorSpec {
     "check for duplicate description only if it's not empty" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        val originalCount = Tag.count()
+        val originalCount = Tag.count
 
         // action: create, description: NOT EMPTY
         // if it's not empty check for duplicate values
         Tag(name = "new tag's name", description = "new tag's description").save must beRight
 
-        Tag.count() must equalTo(originalCount + 1)
+        Tag.count must equalTo(originalCount + 1)
 
         // error if trying to CREATE a new tag with duplicate description
         Tag(name = "duplicated tag's name", description = "new tag's description").save must haveError.like {
@@ -152,7 +152,7 @@ class TagSpec extends Specification with ErrorSpec {
         // create another tag
         Tag(name = "another tag's name", description = "another tag's description").save must beRight
 
-        Tag.count() must equalTo(originalCount + 2)
+        Tag.count must equalTo(originalCount + 2)
 
         val anotherTag = Tag.find(q = "name=another tag's name")(0)
 
@@ -168,7 +168,7 @@ class TagSpec extends Specification with ErrorSpec {
 
         // remove another tag
         anotherTag.delete
-        Tag.count() must equalTo(originalCount + 1)
+        Tag.count must equalTo(originalCount + 1)
 
         // modify original new tag, set description empty
         val newTag = Tag.find(q = "name=new tag's name")(0)
@@ -178,7 +178,7 @@ class TagSpec extends Specification with ErrorSpec {
         // action: create, description: EMPTY
         // if it IS empty, don't check for duplicates values
         Tag(name = "another tag's name", description = "").save must beRight
-        Tag.count() must equalTo(originalCount + 2)
+        Tag.count must equalTo(originalCount + 2)
 
         val anotherEmptyTag = Tag.find(q = "name=another tag's name")(0)
 
@@ -188,10 +188,10 @@ class TagSpec extends Specification with ErrorSpec {
 
         // remove created tag
         anotherEmptyTag.delete
-        Tag.count() must equalTo(originalCount + 1)
+        Tag.count must equalTo(originalCount + 1)
 
         newTag.delete
-        Tag.count() must equalTo(originalCount)
+        Tag.count must equalTo(originalCount)
 
       }
 
