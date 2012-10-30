@@ -24,7 +24,7 @@ case class Tag (
   val id: Pk[Long] = NotAssigned,
 
   val name: String = "unknown tag",
-  val description: String = "no description"
+  val description: String = ""
 )
   extends Entity
 {

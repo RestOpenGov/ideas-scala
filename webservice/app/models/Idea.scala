@@ -61,9 +61,10 @@ case class Idea (
     }
   }
 
-  def updateTags(newTags: List[String])(implicit user: User, lang: Lang): Either[List[Error],List[String]] = {
+  def updateTags(updatedTags: List[String])(implicit user: User, lang: Lang): Either[List[Error],List[String]] = {
     Right(List[String]())
 
+    val newTags = updatedTags.map {_.toLowerCase }
     val currentTags = tags
     val addTags     = newTags diff currentTags
     val removeTags  = currentTags diff newTags

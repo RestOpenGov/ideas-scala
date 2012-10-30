@@ -45,8 +45,7 @@ class IdeaTypesSpec extends Specification {
         contentType(result) must beSome("application/json")
         val Some(error) = parse(contentAsString(result)).asOpt[Error]
 
-        error.status must equalTo(NOT_FOUND)
-        error.message must equalTo("Type of idea with id 9999 not found")
+        error.message must equalTo("Idea_type with id 9999 not found.")
       }
     }
 
@@ -315,11 +314,12 @@ class IdeaTypesSpec extends Specification {
 
         error.status mustEqual OK
         error.field mustEqual ""
-        error.message must equalTo("""IdeaType successfully deleted""")
+        error.errorCode mustEqual Error.NONE
+        error.message must equalTo("Idea_type successfully deleted")
+        error.developerMessage must equalTo("Idea_type with id 5 deleted")
 
         // // check new total count
         count("/api/types/count") mustEqual originalCount
-
       }
     }
 

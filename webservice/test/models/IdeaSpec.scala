@@ -8,7 +8,7 @@ import play.api.test.Helpers._
 
 class IdeaSpec extends Specification {
 
-  import models.Idea
+  import models.{Idea, Tag, User}
 
   "Idea model" should {
 
@@ -45,6 +45,35 @@ class IdeaSpec extends Specification {
         Idea.findById(1).get.views must equalTo(originalViews+4)
 
         Idea.find(q = "id:1")(0).views must equalTo(originalViews+4)
+      }
+    }
+
+    "allow to bulk update tags" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        implicit val Right(user) = User.findByIdWithErr(1)
+
+        val Some(idea) = Idea.findById(1)
+
+        val tags = idea.tags
+        tags mustEqual List("internet", "tecnología")
+        val tagsCount = Tag.count
+
+        // keep 1 tag (Internet), remove 1 tag (teconologia), add 1 tag (multas), create 2 tags(new_tag, another_new_tag)
+        val updatedTagsResult = idea.updateTags( List("Internet", "new_tag", "multas", "another_new_tag") )
+        updatedTagsResult must beRight
+
+        val updatedTags = updatedTagsResult.right.get
+
+        // it should return the updated tags
+        updatedTags mustEqual List("another_new_tag", "internet", "multas", "new_tag")
+
+        // retrieve the updated tags from the idea
+        Idea.findById(1).get.tags mustEqual List("another_new_tag", "internet", "multas", "new_tag")
+
+        // two tags must have been created
+        Tag.count mustEqual tagsCount + 2
+
       }
     }
 
