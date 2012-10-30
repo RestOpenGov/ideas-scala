@@ -42,7 +42,7 @@ object SecurityManager {
     User.findByApplicationToken(applicationToken).map { user =>
       val now = new Date()
       if (now.after(user.tokenExpiration)) {
-        Left(List(ValidationError(Error.AUTHENTICATION, "accessToken", "Token expired")))
+        Left(List(ValidationError(Error.AUTHENTICATION, "applicationToken", "Token expired")))
       } else {
         Right(user)
       }
