@@ -38,6 +38,9 @@ object JsonNotFound {
   ) = {
     Results.NotFound(toJson(Error(status = status, errorCode = errorCode, message = message, developerMessage = developerMessage)))
   }
+  def apply(error: Error) = {
+    Results.NotFound(toJson(error))
+  }
 }
 
 object JsonUnauthorized {

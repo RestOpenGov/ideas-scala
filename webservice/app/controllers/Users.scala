@@ -34,18 +34,12 @@ object Users extends Controller {
     }.getOrElse(JsonNotFound("User with id %s not found".format(id)))
   }
 
-  def save() = JSONAction { user: User =>
-    user.save.fold(
-      errors => JsonBadRequest(errors),
-      user => Created(toJson(user))
-    )
+  def save() = JSONAction.parseWithErr { user: User =>
+    user.save
   }
 
-  def update(id: Long) = JSONAction { user: User =>
-    user.copy(id=Id(id)).update.fold(
-      errors => JsonBadRequest(errors),
-      user => Ok(toJson(user))
-    )
+  def update(id: Long) = JSONAction.parseWithErr { user: User =>
+    user.copy(id=Id(id)).update
   }
 
   def delete(id: Long) = CORSAction { implicit request =>

@@ -16,21 +16,18 @@ object BaseAction {
 
   def apply(block: Request[AnyContent] => ResultWithHeaders): Action[AnyContent] = {
     CORSAction { request => 
-      play.Logger.info("BaseAction1 called")
       block(request) 
     }
   }
 
   def apply[A](bodyParser: BodyParser[A])(block: Request[A] => ResultWithHeaders): Action[A] = {
     CORSAction(bodyParser) { request => 
-      play.Logger.info("BaseAction2 called")
       block(request) 
     }
   }
 
   def apply(block: => ResultWithHeaders): Action[AnyContent] = {
     this.apply { _ => 
-      play.Logger.info("BaseAction3 called")
       block
     }
   }
