@@ -54,7 +54,10 @@ class SecurityManagerSpec extends Specification with ErrorSpec {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         models.User(nickname = "twitter.nickname").save must beRight
-        createApplicationToken(AccessToken("twitter", "valid twitter token")) must haveError.like { 
+
+        implicit val socialAdapter = List(MockTwitterAdapter, MockFacebookAdapter)
+
+        createApplicationToken(AccessToken("twitter", "valid mock twitter token")) must haveError.like { 
           case error => {
             error.errorCode must equalTo(Error.DUPLICATE)
             error.field must equalTo("nickname")

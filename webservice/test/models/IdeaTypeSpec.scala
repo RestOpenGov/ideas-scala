@@ -55,7 +55,7 @@ class IdeaTypeSpec extends Specification with ErrorSpec {
     "allow to add, modify and delete an entity" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        IdeaType.count() must equalTo(4)
+        IdeaType.count must equalTo(4)
 
         val entity = IdeaType(
           name = "new idea's name", 
@@ -66,7 +66,7 @@ class IdeaTypeSpec extends Specification with ErrorSpec {
         entity.save() should beRight
 
         // check new entity
-        IdeaType.count() must equalTo(5)
+        IdeaType.count must equalTo(5)
 
         val newEntity = IdeaType.find(q = "name:new idea's name")(0)
         newEntity.name must equalTo("new idea's name")
@@ -92,7 +92,7 @@ class IdeaTypeSpec extends Specification with ErrorSpec {
         IdeaType.delete(modifiedEntity.id.get)
 
         IdeaType.findById(modifiedEntity.id.get) must beNone
-        IdeaType.count() must equalTo(4)
+        IdeaType.count must equalTo(4)
       }
     }
 

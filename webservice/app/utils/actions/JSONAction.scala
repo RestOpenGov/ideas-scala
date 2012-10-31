@@ -1,42 +1,74 @@
 package utils.actions
 
 import play.api.mvc._
+import play.api.mvc.Results
+import play.api.mvc.Results.Ok
+import play.api.http.Status
 
-import play.api.libs.json.{JsValue, Reads}
+import play.api.libs.json.{JsValue, Reads, Writes, Format}
+import play.api.libs.json.Json.toJson
 
 import utils.JsonBadRequest
-
-/**
- * Created with IntelliJ IDEA.
- * User: sas
- * Date: 7/28/12
- * Time: 2:50 PM
- * To change this template use File | Settings | File Templates.
- */
 
 object JSONAction extends BodyParsers {
 
   import CORSAction.ResultWithHeaders
 
-  def apply[T: Reads](block: T => ResultWithHeaders): Action[JsValue] = {
-    CORSAction(parse.json) { request =>
-      request.body.asOpt[T].map { parsed =>
-        block(parsed)
-      }.getOrElse       (JsonBadRequest("Invalid entity"))
+  // helper function to create a result with a custom status
+  private def resultWithStatus(status: Int = Status.OK) = {
+    new Results.Status(status)
+  }
+
+  // passes the request to the block
+  def fromRequest[T: Writes](status: Int)(block: Request[AnyContent] => T): Action[AnyContent] = {
+    CORSAction { request: Request[AnyContent] =>
+      resultWithStatus(status)(toJson(block(request)))
     }
   }
 
-  def apply[T: Reads](block: (T, Request[JsValue]) => ResultWithHeaders): Action[JsValue] = {
-    CORSAction(parse.json) { request =>
-      request.body.asOpt[T].map { parsed =>
-        block(parsed, request)
-      }.getOrElse       (JsonBadRequest("Invalid entity"))
+  // passes the request to the block
+  def fromRequest[T: Writes](block: Request[AnyContent] => T): Action[AnyContent] = {
+    fromRequest(Status.OK)(block)
+  }
+
+  def withErr[E: Writes, T: Writes](block: => Either[E, T]): Action[AnyContent] = {
+    withErr(Status.OK, Status.BAD_REQUEST)(block)
+  }
+
+  def withErr[E: Writes, T: Writes](statusOk: Int)(block: => Either[E, T]): Action[AnyContent] = {
+    withErr(statusOk, Status.BAD_REQUEST)(block)
+  }
+
+  def withErr[E: Writes, T: Writes](statusOk: Int, statusErr: Int)     // Status.OK
+    (block: => Either[E, T]): Action[AnyContent] = {
+
+    CORSAction {
+      block.fold(
+        errors          => resultWithStatus(statusErr)(toJson(errors)),
+        responseEntity  => resultWithStatus(statusOk)(toJson(responseEntity))
+      )
     }
   }
 
-  // parse the entity, but the block doesn't use it
-  def apply[T: Reads](block: => ResultWithHeaders): Action[JsValue] = {
-    this.apply[T] { entity: T => block }
+  def parseWithErr[E: Writes, T: Format](block: T => Either[E, T]): Action[JsValue] = {
+    parseWithErr(Status.OK, Status.BAD_REQUEST)(block)
+  }
+
+  def parseWithErr[E: Writes, T: Format](statusOk: Int)(block: T => Either[E, T]): Action[JsValue] = {
+    parseWithErr(statusOk, Status.BAD_REQUEST)(block)
+  }
+
+  def parseWithErr[E: Writes, T: Format](statusOk: Int, statusErr: Int)     // Status.OK
+    (block: T => Either[E, T]): Action[JsValue] = {
+
+    CORSAction(parse.json) { request =>
+      request.body.asOpt[T].map { requestEntity =>
+        block(requestEntity).fold(
+          errors          => resultWithStatus(statusErr)(toJson(errors)),
+          responseEntity  => resultWithStatus(statusOk)(toJson(responseEntity))
+        )
+      }.getOrElse       (JsonBadRequest("Invalid entity"))
+    }
   }
 
 }

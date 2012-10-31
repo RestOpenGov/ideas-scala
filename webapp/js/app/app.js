@@ -40,7 +40,7 @@ ideasModule.run(function($rootScope,$http) {
 });
 
 var SERVICE_ENDPOINT = "http://ideas-ba.com.ar/api/";
-// var SERVICE_ENDPOINT = "http://ideas-jugar.rhcloud.com/api/";
+// var SERVICE_ENDPOINT = "https://ideas-jugar.rhcloud.com/api/";
 // var SERVICE_ENDPOINT = "/api/";
 //var SERVICE_ENDPOINT = "http://localhost:9000/api/";
 
@@ -83,6 +83,7 @@ var Auth = {
       google: '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com'
     },
     'ideas-jugar.rhcloud.com': {
+      // twitter: 'nrtUVmeQAlNN2lFwxSlQA', // ideasba registered app
       twitter: 'z7F8JCoVZrmXpTiG18tw',
       facebook: '486452174721099',
       google: '985870621747.apps.googleusercontent.com'

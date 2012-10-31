@@ -24,7 +24,7 @@ case class Tag (
   val id: Pk[Long] = NotAssigned,
 
   val name: String = "unknown tag",
-  val description: String = "no description"
+  val description: String = ""
 )
   extends Entity
 {
@@ -95,19 +95,24 @@ object Tag extends EntityCompanion[Tag] {
   def validate(tag: Tag)(implicit lang: Lang): List[Error] = {
 
     var errors = List[Error]()
-    
+
     // name
     if (Validate.isEmptyWord(tag.name)) {
       errors ::= ValidationError(Error.REQUIRED, "name", "validate.empty", &("tag.name"))
     } else {
       if (isDuplicate(tag, "name")) {
-        errors ::= ValidationError("name", "There already exists an idea type with the name '%s'".format(tag.name))
+        errors ::= ValidationError(Error.DUPLICATE, "name", "validate.duplicate",
+          &("tag"), &("tag.name"), tag.name)
       }
     }
 
-    // description
-    if (Validate.isEmptyWord(tag.name)) {
-      errors ::= ValidationError(Error.REQUIRED, "description", "validate.empty", &("tag.description"))
+    // the user can automatically create tags withour entering a description
+    // description - only check for duplicates if it's NOT empty
+    if (!Validate.isEmptyWord(tag.description)) {
+      if (isDuplicate(tag, "description")) {
+        errors ::= ValidationError(Error.DUPLICATE, "description", "validate.duplicate",
+          &("tag"), &("tag.description"), tag.description)
+      }
     }
 
     errors.reverse

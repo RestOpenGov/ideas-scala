@@ -1,9 +1,15 @@
 package utils.actions
 
 import play.api.mvc._
-import models.User
+import models.{User, Error}
 
 import utils.JsonUnauthorized
+
+import models.ValidationError
+
+import services.security.SecurityManager
+
+import utils.Http.toFlatQueryString
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,6 +39,29 @@ object SecuredAction {
 
   def userFromRequest(request: Request[AnyContent]): Option[User] = {
     request.session.get("token").flatMap(token => User.findByApplicationToken(token))
+  }
+
+  def validateUserFromRequest(request: Request[AnyContent]): Either[List[Error], User] = {
+    applicationTokenFromRequest(request).map { applicationToken =>
+      SecurityManager.findUserByApplicationToken(applicationToken)
+    } getOrElse {
+      Left(List(ValidationError(
+        Error.AUTHENTICATION, "applicationToken", 
+        "Token not found in authentication header nor in ideas_token querystring param"
+      )))
+    }
+  }
+
+  // first tries to find the token in a header: "authorization: ideas-token=xxxxx"
+  // then tries to find the token in the querystring: "ideas_token=xxxxx"
+  def applicationTokenFromRequest(request: Request[AnyContent]): Option[String] = {
+
+    val Token = """^\s*ideas-token\s*=\s*(\w+)\s*$""".r
+
+    request.headers.get("authorization") collect {
+      case Token(t) => t
+    } orElse toFlatQueryString(request.queryString).get("ideas-token")
+
   }
 
 }

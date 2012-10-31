@@ -13,6 +13,7 @@ case class Error(
 )
 
 object Error {
+  val NONE = 0
   val UNSPECIFIED = 10000
   val REQUIRED = 10001
   val DUPLICATE = 10002
@@ -47,3 +48,20 @@ object ValidationError {
 
 }
 
+case class Success(
+  val status: Int       = Status.OK,
+  val errorCode: Int    = Error.NONE,
+  val field: String     = "",
+  val message: String   = "Operation successful",
+  val developerMessage: String = "Operation successful"
+)
+
+object Success {
+  def apply(message: String) = {
+    new Success(status = Status.OK, message = message)
+  }
+
+  def apply(field: String, message: String, args: Any*)(implicit lang: Lang): Success = {
+    Success(status = Status.OK, field = field, message = Messages(message, args: _*))
+  }
+}

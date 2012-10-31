@@ -78,10 +78,10 @@ object IdeaType extends EntityCompanion[IdeaType] {
   def validate(ideaType: IdeaType)(implicit lang: Lang): List[Error] = {
 
     var errors = List[Error]()
-    
+
     // name
     if (Validate.isEmptyWord(ideaType.name)) {
-        errors ::= ValidationError(Error.REQUIRED, "name", "validate.empty", &("ideaType.name"))
+      errors ::= ValidationError(Error.REQUIRED, "name", "validate.empty", &("ideaType.name"))
     } else {
       if (isDuplicate(ideaType, "name")) {
         errors ::= ValidationError(Error.DUPLICATE, "name", 

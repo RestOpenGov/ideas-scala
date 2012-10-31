@@ -18,6 +18,11 @@ import services.security.{SecurityManager, AccessToken, ApplicationToken}
 
 object Security extends Controller {
 
+  def readToken = CORSAction { implicit request =>
+    val token = SecuredAction.applicationTokenFromRequest(request).getOrElse("application token not found")
+    Ok(toJson(Map("token" -> token)))
+  }
+
   def secured = SecuredAction { implicit request =>
     Ok(views.html.api())
   }

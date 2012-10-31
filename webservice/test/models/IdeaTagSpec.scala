@@ -71,14 +71,14 @@ class IdeaTagSpec extends Specification with ErrorSpec {
         Idea.findById(1).get.tags must equalTo(List("bicisendas", "tecnología"))
 
         // test creating a new tag
-        Tag.count(q="") must equalTo(7)
+        Tag.count must equalTo(7)
 
         Tag.findByName("new tag") must be none
 
         Idea.findById(1).get.updateTags(List("tecnología", "bicisendas", "new tag")) must beRight
         Idea.findById(1).get.tags must equalTo(List("bicisendas", "new tag", "tecnología"))
 
-        Tag.count(q="") must equalTo(8)
+        Tag.count must equalTo(8)
         Tag.findByName("new tag") must not be none
       }
     }
@@ -88,13 +88,13 @@ class IdeaTagSpec extends Specification with ErrorSpec {
 
         implicit val Some(user) = User.findById(1)
 
-        Tag.count(q="") must equalTo(7)
+        Tag.count must equalTo(7)
         Tag.findByName("new tag") must be none
 
         Idea.findById(1).get.updateTags(List("internet", "tecnología", "new tag")) must beRight
         Idea.findById(1).get.tags must equalTo(List("internet", "new tag", "tecnología"))
 
-        Tag.count(q="") must equalTo(8)
+        Tag.count must equalTo(8)
         Tag.findByName("new tag") must not be none
       }
     }
@@ -104,7 +104,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
 
         implicit val Some(user) = User.findById(2)
 
-        Tag.count(q="") must equalTo(7)
+        Tag.count must equalTo(7)
         Tag.findByName("new tag") must be none
         
         Idea.findById(1).get.updateTags(List("internet", "tecnología")) 
@@ -122,7 +122,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
         )
         Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
 
-        Tag.count(q="") must equalTo(7)
+        Tag.count must equalTo(7)
         Tag.findByName("new tag") must be none
       }
     }
@@ -188,13 +188,13 @@ class IdeaTagSpec extends Specification with ErrorSpec {
 
         Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
 
-        Tag.count(q="") must equalTo(7)
+        Tag.count must equalTo(7)
         Tag.findByName("new tag") must be none
 
         Idea.findById(1).get.saveTag("new tag") must beRight
         Idea.findById(1).get.tags must equalTo(List("internet", "new tag", "tecnología"))
 
-        Tag.count(q="") must equalTo(8)
+        Tag.count must equalTo(8)
         Tag.findByName("new tag") must not be none
       }
     }
@@ -206,7 +206,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
 
         Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
 
-        Tag.count(q="") must equalTo(7)
+        Tag.count must equalTo(7)
         Tag.findByName("new tag") must be none
 
         (
@@ -221,7 +221,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
         )
         Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
 
-        Tag.count(q="") must equalTo(7)
+        Tag.count must equalTo(7)
         Tag.findByName("new tag") must be none
       }
     }

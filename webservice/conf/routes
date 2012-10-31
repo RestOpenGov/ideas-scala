@@ -5,7 +5,11 @@
 OPTIONS /api/*url                          controllers.Application.options(url: String)
 
 GET     /api/secured                       controllers.Security.secured
+POST    /api/auth/                         controllers.Security.auth
 POST    /api/auth                          controllers.Security.auth
+
+#test token extaction
+GET     /api/token                         controllers.Security.readToken
 
 GET     /                                  controllers.Assets.at(path="/public", file="index.html")
 GET     /app                               controllers.Assets.at(path="/public", file="index.html")
@@ -60,22 +64,34 @@ PUT     /api/ideas/:idea/comments/:id/up       controllers.Comments.up(idea: Lon
 PUT     /api/ideas/:idea/comments/:id/down     controllers.Comments.down(idea: Long, id: Long)
 
 # get all te tags of the idea as an array of tags
-GET     /api/ideas/:idea/tags                          controllers.Ideas.listTags(idea: Long)
-GET     /api/ideas/:idea/tags/count                    controllers.Ideas.countTags(idea: Long)
+GET     /api/ideas/:idea/tags                  controllers.Ideas.listTags(idea: Long)
+GET     /api/ideas/:idea/tags/count            controllers.Ideas.countTags(idea: Long)
 # receives an array of tags, updates them all, adding, removing and creating tags as necessary
-PUT     /api/ideas/:idea/tags/                         controllers.Ideas.updateTags(idea: Long)
-PUT     /api/ideas/:idea/tags                          controllers.Ideas.updateTags(idea: Long)
+PUT     /api/ideas/:idea/tags/                 controllers.Ideas.updateTags(idea: Long)
+PUT     /api/ideas/:idea/tags                  controllers.Ideas.updateTags(idea: Long)
 # receives a string with a single tag
-POST    /api/ideas/:idea/tags/:tag                     controllers.Ideas.saveTag(idea: Long, tag: String)
-DELETE  /api/ideas/:idea/tags/:tag                     controllers.Ideas.deleteTag(idea: Long, tag: String)
+POST    /api/ideas/:idea/tags/:tag             controllers.Ideas.saveTag(idea: Long, tag: String)
+DELETE  /api/ideas/:idea/tags/:tag             controllers.Ideas.deleteTag(idea: Long, tag: String)
 
 GET     /api/types                         controllers.IdeaTypes.list
+GET     /api/types/                        controllers.IdeaTypes.list
 GET     /api/types/count                   controllers.IdeaTypes.count
+GET     /api/types/count/                  controllers.IdeaTypes.count
 PUT     /api/types/:id                     controllers.IdeaTypes.update(id: Long)
-POST    /api/types/                        controllers.IdeaTypes.save
 POST    /api/types                         controllers.IdeaTypes.save
+POST    /api/types/                        controllers.IdeaTypes.save
 GET     /api/types/:id                     controllers.IdeaTypes.show(id: Long)
 DELETE  /api/types/:id                     controllers.IdeaTypes.delete(id: Long)
+
+#GET     /api/types                         controllers.CrudIdeaTypes.list
+#GET     /api/types/                        controllers.CrudIdeaTypes.list
+#GET     /api/types/count                   controllers.CrudIdeaTypes.count
+#GET     /api/types/count/                  controllers.CrudIdeaTypes.count
+#PUT     /api/types/:id                     controllers.CrudIdeaTypes.update(id: Long)
+#POST    /api/types                         controllers.CrudIdeaTypes.save
+#POST    /api/types/                        controllers.CrudIdeaTypes.save
+#GET     /api/types/:id                     controllers.CrudIdeaTypes.show(id: Long)
+#DELETE  /api/types/:id                     controllers.CrudIdeaTypes.delete(id: Long)
 
 GET     /api/tags                          controllers.Tags.list
 #GET     /api/tags/count                    controllers.Tags.count

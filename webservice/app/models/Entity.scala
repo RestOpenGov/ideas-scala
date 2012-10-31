@@ -93,6 +93,14 @@ trait EntityCompanion[A<:Entity] {
     _findById(id)
   }
 
+  def findByIdWithErr(id: Long): Either[Error, A] = {
+    _findById(id).map { entity =>
+      Right(entity)
+    } getOrElse {
+      Left(ValidationError("%s with id %s not found.".format(entityName, id.toString)))
+    }
+  }
+
   // private _findById called by save and update methods
   // allows child classes to override findById
   // TODO: add an overridable onFindById handler to avoid conflicts
@@ -117,6 +125,8 @@ trait EntityCompanion[A<:Entity] {
       filter=filter, q=q, condition=condition, parser=parser() *
     )
   }
+
+  def count: Long = count(q="")
 
   def count(query: Map[String, Seq[String]]): Long = {
     val (page, len, order, filter, q) = Http.parseQuery(query)
@@ -254,5 +264,16 @@ trait EntityCompanion[A<:Entity] {
     }
   }
 
+  def deleteWithErr(id: Long): Either[models.Error, models.Success] = {
+    try {
+      delete(id)
+      Right(models.Success(
+        message           = "%s successfully deleted".format(entityName),
+        developerMessage  = "%s with id %s deleted".format(entityName, id)
+      ))
+    } catch {
+      case e => Left(ValidationError(e.getMessage))
+    }
+  }
 
 }
