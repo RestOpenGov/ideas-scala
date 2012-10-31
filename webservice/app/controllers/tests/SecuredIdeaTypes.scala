@@ -1,4 +1,4 @@
-package controllers
+package controllers.tests
 
 import formatters.json.ErrorFormatter.JsonErrorFormatter
 import formatters.json.IdeaTypeFormatter.JsonIdeaTypeFormatter
@@ -8,9 +8,9 @@ import models.IdeaType
 
 import play.api.mvc.Controller
 
-import utils.actions.{CrudAction, CrudAuthAction}
+import utils.actions.CrudAuthAction
 
-object IdeaTypes extends Controller {
+object SecuredIdeaTypes extends Controller {
 
   def list = CrudAuthAction.list { request =>
     IdeaType.find(request.queryString)

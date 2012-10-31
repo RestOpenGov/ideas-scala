@@ -16,7 +16,7 @@ import utils.{JsonBadRequest, JsonNotFound, JsonOk}
 import utils.Http
 
 import utils.actions.CORSAction
-import utils.actions.JSONAction
+import utils.actions.CrudAction
 
 object Users extends Controller {
 
@@ -34,11 +34,11 @@ object Users extends Controller {
     }.getOrElse(JsonNotFound("User with id %s not found".format(id)))
   }
 
-  def save() = JSONAction.parseWithErr { user: User =>
+  def save() = CrudAction.save { user: User =>
     user.save
   }
 
-  def update(id: Long) = JSONAction.parseWithErr { user: User =>
+  def update(id: Long) = CrudAction.update { user: User =>
     user.copy(id=Id(id)).update
   }
 

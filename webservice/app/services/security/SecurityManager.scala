@@ -9,6 +9,8 @@ import models.ValidationError
 
 import adapters.SocialAdapter
 
+import play.api.mvc.{Request, AnyContent}
+
 object SecurityManager {
 
   // token duration, expressed in seconds
@@ -72,6 +74,31 @@ object SecurityManager {
         case e => return Left(List(ValidationError(e.getMessage)))
       }
     }
+  }
+
+  def validateUserFromRequest[A](request: Request[A]): Either[List[Error], User] = {
+    applicationTokenFromRequest(request).map { applicationToken =>
+      SecurityManager.findUserByApplicationToken(applicationToken)
+    } getOrElse {
+      Left(List(ValidationError(
+        Error.AUTHENTICATION, "applicationToken", 
+        "Token not found in authentication header nor in ideas-token querystring param"
+      )))
+    }
+  }
+
+  // first tries to find the token in a header: "authorization: ideas-token=xxxxx"
+  // then tries to find the token in the querystring: "ideas-token=xxxxx"
+  def applicationTokenFromRequest[A](request: Request[A]): Option[String] = {
+
+    import utils.Http.toFlatQueryString
+
+    val Token = """^\s*ideas-token\s*=\s*(.+?)\s*$""".r
+
+    request.headers.get("authorization") collect {
+      case Token(t) => t
+    } orElse toFlatQueryString(request.queryString).get("ideas-token")
+
   }
 
 }

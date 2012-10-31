@@ -169,7 +169,7 @@ class SecurityManagerSpec extends Specification with ErrorSpec {
         findUserByApplicationToken(applicationToken) must haveError.like {
           case error => {
             error.errorCode must equalTo(Error.AUTHENTICATION)
-            error.field must equalTo("accessToken")
+            error.field must equalTo("applicationToken")
             error.message must contain("""Token expired""")
           }
         }

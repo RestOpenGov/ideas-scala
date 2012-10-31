@@ -1,4 +1,4 @@
-package controllers
+package controllers.tests
 
 import formatters.json.ErrorFormatter.JsonErrorFormatter
 import formatters.json.IdeaTypeFormatter.JsonIdeaTypeFormatter
@@ -8,31 +8,31 @@ import models.IdeaType
 
 import play.api.mvc.Controller
 
-import utils.actions.{CrudAction, CrudAuthAction}
+import utils.actions.CrudAction
 
-object IdeaTypes extends Controller {
+object UnsecuredIdeaTypes extends Controller {
 
-  def list = CrudAuthAction.list { request =>
+  def list = CrudAction.list { request =>
     IdeaType.find(request.queryString)
   }
 
-  def count = CrudAuthAction.count { request =>
+  def count = CrudAction.count { request =>
     IdeaType.count(request.queryString)
   }
 
-  def show(id: Long) = CrudAuthAction.show { request =>
+  def show(id: Long) = CrudAction.show { request =>
     IdeaType.findByIdWithErr(id)
   }
 
-  def save() = CrudAuthAction.save { ideaType: IdeaType =>
+  def save() = CrudAction.save { ideaType: IdeaType =>
     ideaType.save
   }
 
-  def update(id: Long) = CrudAuthAction.update { ideaType: IdeaType =>
+  def update(id: Long) = CrudAction.update { ideaType: IdeaType =>
     ideaType.withId(id).update
   }
 
-  def delete(id: Long) = CrudAuthAction.delete {
+  def delete(id: Long) = CrudAction.delete {
     IdeaType.deleteWithErr(id)
   }
 
