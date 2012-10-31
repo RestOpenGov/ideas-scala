@@ -1,7 +1,9 @@
 <div class="well span12 idea-container idea-container-{{idea.type.id}} ng-cloak">
   <div class="span9">
-    <h3><a href="/#/ideas/{{idea.id}}">{{idea.name}}</a></h3>
+    <h3><a href="/#/ideas/{{idea.id}}">{{idea.name}}</a></h3> 
+    <!-- <div class="controls" ng-include src="'includes/tags.html'" ng-repeat="tag in idea.tags"></div> -->
     <h6>Fecha: {{ idea.created | date:'yyyy-MM-dd HH:mm a' }} - Categoría: <a href="/#/ideas/lista?q=type.id:{{idea.type.id}}">{{idea.type.name}}</a></h6>
+    <h6> Tags: {{idea.tags.toString()}}</h6>
     <p ng-bind-html-unsafe="idea.description"></p>
   </div>
   <div class="span3">
