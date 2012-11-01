@@ -1,0 +1,80 @@
+domain name tutorial
+
+cdmon
+-----
+
+https://pcontrol.cdmon.com/pcontrol/main.php
+
+user: opensas
+pass: cdmons4s
+
+dns estatico
+
+ideas-ba.com.ar
+
+registro cname
+ideas-ba.com.ar
+con el dominio: ideas-jugar.rhcloud.com
+
+registro cname
+www.ideas-ba.com.ar
+con el dominio: ideas-jugar.rhcloud.com
+
+
+Nombres de servidor (NS)
+Enlace su dominio con nuestro servicio de DNS gratuito mediante los siguientes servidores de nombres.
+ns1.cdmon.net 212.36.74.129
+ns2.cdmon.net 46.16.60.60
+ns3.cdmon.net 95.211.8.207
+
+nic.ar
+------
+
+http://www.nic.ar/
+
+
+tramites via web
+
+alta de delegacion
+
+Seleccione el Proveedor de Servicios de Internet (ISP)
+10dencehispahard SL
+10dencehispahard SL
+Josep Colominas
+
+
+openshift
+---------
+
+https://openshift.redhat.com/community/blogs/custom-url-names-for-your-paas-applications-host-forwarding-and-cnames-the-openshift-way
+
+rhc domain show -l sscarano@gmail.com
+
+rhc app add-alias -a ideas --alias www.ideas-ba.com.ar -l sscarano@gmail.com -p xxxx
+
+rhc app add-alias -a ideas --alias ideas-ba.com.ar -l sscarano@gmail.com -p xxxx
+
+ideas @ http://ideas-jugar.rhcloud.com/
+=======================================
+Created: Sep 22  7:28 PM
+Git URL: ssh://27a13fa1f4b44d8cba5af328ff99486d@ideas-jugar.rhcloud.com/~/git/ideas.git/
+Aliases: www.ideas-ba.com.ar, ideas-ba.com.ar
+
+Cartridges:
+  diy-0.1
+
+rhc app show -a ideas -l sscarano@gmail.com -p redsas
+
+Application Info
+================
+ideas
+    Framework: diy-0.1
+     Creation: 2012-09-22T19:28:06-04:00
+         UUID: 27a13fa1f4b44d8cba5af328ff99486d
+      Git URL: ssh://27a13fa1f4b44d8cba5af328ff99486d@ideas-jugar.rhcloud.com/~/git/ideas.git/
+   Public URL: http://ideas-jugar.rhcloud.com/
+      Aliases: www.ideas-ba.com.ar, ideas-ba.com.ar
+
+ Embedded: 
+      None
+

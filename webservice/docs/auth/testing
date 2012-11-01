@@ -1,0 +1,24 @@
+new play.core.StaticApplication(new java.io.File("."))
+
+import services.security._
+
+val t = AccessToken("facebook", "AAACEdEose0cBADKCgA4R23xcZAgPHahGCUxsv8ZC9L4Id2cgZASO7ceZAXAVEjRTSQyKLmyCIOzg3JWDjvxvStjW0mnsbynJ97fPUUJPredKtnNKM5FO")
+
+
+AAACEdEose0cBAMkotMjJrOjxVfOAV7cNiVgM7Ecs5XftvPZCqLciSI8ZBS1j4Q8W0rLVrVmPwgINIIXVsOAeqxhagp5ZArIxR0uEVLhxeFS5Ub0L14q
+
+Social.retrieveSocialProviderInfo(t)
+
+
+get facebook token
+
+http://developers.facebook.com/tools/explorer?method=GET&path=me%2Fhome%3Fwith%3Dlocation
+
+POST
+
+http://localhost:9000/api/auth
+
+{
+  "provider": "xfacebook",
+  "token": "AAACEdEose0cBANUxSqKpBO6WFMSmTPND681fkbzDtqedZCvOqLKLMCl75H0jCyDPcA1xEkE2Rx1uHjxpw2M8LuB7XkWXzijIoXcdF5drBeoQZC0GJx"
+}
