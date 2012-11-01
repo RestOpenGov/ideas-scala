@@ -47,12 +47,14 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 			var arrTags = $("input[name='hidden-tagsjax']").attr("value").split(",");
 			$http.put(SERVICE_ENDPOINT+'ideas/' + json.id + '/tags', arrTags).success(function(json) {
 				
-				// put tags for the new idea and redirect
-				$location.path("/ideas/"+json.id).search();
+				
 				
 		    }).error(function(data, status, headers, config) {
 		    	alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
 		    });
+		    
+		    // put tags for the new idea and redirect
+			$location.path("/ideas/"+json.id).search();
 			
 	    }).error(function(data, status, headers, config) {
 	    	alert('ERROR AL DAR DE ALTA LA IDEA');

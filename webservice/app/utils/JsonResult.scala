@@ -49,5 +49,8 @@ object JsonUnauthorized {
   ) = {
     Results.Unauthorized(toJson(Error(status = status, errorCode = errorCode, message = message, developerMessage = developerMessage)))
   }
+  def apply(errors: List[Error]) = {
+    Results.Unauthorized(toJson(errors))
+  }
 }
 

@@ -10,7 +10,7 @@ class SecuredActionSpec extends Specification {
 
   import models.{Idea, Tag, User}
 
-  import utils.actions.SecuredAction.applicationTokenFromRequest
+  import services.security.SecurityManager.applicationTokenFromRequest
 
   "SecuredAction.applicationTokenFromRequest" should {
 
@@ -56,7 +56,7 @@ class SecuredActionSpec extends Specification {
       }
     }
 
-    "retrieve the token from the querystrin only if the authorization header is not present" in {
+    "retrieve the token from the querystring only if the authorization header is not present" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         val requestWithToken = FakeRequest(GET, "/api/auth?ideas-token=token_from_querystring").
@@ -69,6 +69,20 @@ class SecuredActionSpec extends Specification {
 
       }
     }
+
+    "retrieve the token with different chars" in {
+      running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        // sample from facebook
+        val requestWithToken = FakeRequest(GET, "/api/auth").
+            withHeaders("authorization" -> "ideas-token=ae9274a8-3649-455b-854a-c6d7c1ad421f")
+        applicationTokenFromRequest(requestWithToken) mustEqual Some("ae9274a8-3649-455b-854a-c6d7c1ad421f")
+
+      }
+    }
+
+
+
 
   }
 

@@ -5,6 +5,8 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
 
   $scope.idea = {};
   
+  $scope.idea.tags = [];
+  
   $scope.newComment = {};
 
   $scope.comments = [];
@@ -29,12 +31,21 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
     //IDEA
     $http.get(SERVICE_ENDPOINT+'ideas/'+$scope.ideaId).success(function(json) {
       $scope.idea = json;
+
+      //Tags
+      $http.get(SERVICE_ENDPOINT+'ideas/'+$scope.ideaId + '/tags').success(function(jsonResult) {
+        $scope.idea.tags = jsonResult;
+      });
+      
     });
 
     //COMMENTS
     $http.get(SERVICE_ENDPOINT+'comments?q=idea.id:'+$scope.ideaId).success(function(json) {
       $scope.comments = json;
     });
+    
+    
+
 
   };
 

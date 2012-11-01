@@ -21,6 +21,9 @@ webservice/RUNNING_PID
 # Ignore openshift deployment folder
 openshift
 
+# Ignore secrets.* files (files with applications tokens and secretes) #
+secrets.*
+
 # Ignore tmp folder
 /tmp
 

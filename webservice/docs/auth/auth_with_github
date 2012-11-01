@@ -1,0 +1,65 @@
+github
+======
+
+get an access token using curl
+
+http://www.lornajane.net/posts/2012/github-api-access-tokens-via-curl
+http://www.lornajane.net/posts/2012/posting-raw-data-with-curl
+
+curl -v -u opensas:password -X POST https://api.github.com/authorizations --data "{\"scopes\":[\"user\"]}"
+
+or
+
+curl -v -u opensas -X POST https://api.github.com/authorizations --data @github2.json
+
+and then
+
+curl -v -H "Authorization: token 804ef78pretendtoken8762" -X POST https://api.github.com/users/lornajane/gists --data @github2.json
+
+(githu2.json: )
+{
+  "description": "an API-created gist",
+  "public": true,
+  "files": {
+    "file1.txt": {
+      "content": "Some lovely code, how nice!"
+    }
+  }
+}
+
+http://developer.github.com/v3/users/#get-a-single-user
+
+curl -v -H "Authorization: token 282da4306439dab1d7b546568c4e77ca46ee20b6" -X GET https://api.github.com/user
+
+{
+  "total_private_repos": 0,
+  "following": 10,
+  "type": "User",
+  "url": "https://api.github.com/users/opensas",
+  "gravatar_id": "b072fc2897196b3bafcd337bc9c91e2d",
+  "location": "Buenos Aires, Argentina",
+  "owned_private_repos": 0,
+  "avatar_url": "https://secure.gravatar.com/avatar/b072fc2897196b3bafcd337bc9c91e2d?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png",
+  "public_gists": 4,
+  "followers": 24,
+  "email": "opensas@gmail.com",
+  "private_gists": 0,
+  "disk_usage": 232679,
+  "blog": "http://playlatam.wordpress.com/",
+  "hireable": false,
+  "public_repos": 31,
+  "name": "opensas",
+  "login": "opensas",
+  "collaborators": 0,
+  "plan": {
+    "space": 307200,
+    "private_repos": 0,
+    "name": "free",
+    "collaborators": 0
+  },
+  "bio": null,
+  "id": 481687,
+  "html_url": "https://github.com/opensas",
+  "created_at": "2010-11-15T03:27:43Z",
+  "company": null
+}

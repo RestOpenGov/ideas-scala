@@ -5,6 +5,7 @@
 OPTIONS /api/*url                          controllers.Application.options(url: String)
 
 GET     /api/secured                       controllers.Security.secured
+GET     /api/logged                        controllers.Security.logged
 POST    /api/auth/                         controllers.Security.auth
 POST    /api/auth                          controllers.Security.auth
 
@@ -119,6 +120,28 @@ GET     /assets/javascripts/routes         controllers.Application.javascriptRou
 GET     /mail/test                     	controllers.Application.mail
 GET     /mail/test/                     controllers.Application.mail
 
+
+# routes for testing controllers
+
+GET     /api/tests/secured/types             controllers.tests.SecuredIdeaTypes.list
+GET     /api/tests/secured/types/            controllers.tests.SecuredIdeaTypes.list
+GET     /api/tests/secured/types/count       controllers.tests.SecuredIdeaTypes.count
+GET     /api/tests/secured/types/count/      controllers.tests.SecuredIdeaTypes.count
+PUT     /api/tests/secured/types/:id         controllers.tests.SecuredIdeaTypes.update(id: Long)
+POST    /api/tests/secured/types             controllers.tests.SecuredIdeaTypes.save
+POST    /api/tests/secured/types/            controllers.tests.SecuredIdeaTypes.save
+GET     /api/tests/secured/types/:id         controllers.tests.SecuredIdeaTypes.show(id: Long)
+DELETE  /api/tests/secured/types/:id         controllers.tests.SecuredIdeaTypes.delete(id: Long)
+
+GET     /api/tests/unsecured/types             controllers.tests.UnsecuredIdeaTypes.list
+GET     /api/tests/unsecured/types/            controllers.tests.UnsecuredIdeaTypes.list
+GET     /api/tests/unsecured/types/count       controllers.tests.UnsecuredIdeaTypes.count
+GET     /api/tests/unsecured/types/count/      controllers.tests.UnsecuredIdeaTypes.count
+PUT     /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.update(id: Long)
+POST    /api/tests/unsecured/types             controllers.tests.UnsecuredIdeaTypes.save
+POST    /api/tests/unsecured/types/            controllers.tests.UnsecuredIdeaTypes.save
+GET     /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.show(id: Long)
+DELETE  /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /*file                   controllers.Assets.at(path="/public", file)
