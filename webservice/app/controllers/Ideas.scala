@@ -13,6 +13,8 @@ import formatters.json.ErrorFormatter._
 
 import scala.collection.immutable.Map
 import utils.actions.CORSAction
+import utils.actions.{CrudAction, CrudAuthAction}
+
 import utils.{JsonBadRequest, JsonNotFound, JsonOk}
 import utils.Http
 
@@ -35,27 +37,35 @@ object Ideas extends Controller {
     }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
   }
 
-  def save() = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[Idea].map { idea =>
-        idea.save.fold(
-          errors => JsonBadRequest(errors),
-          idea => Ok(toJson(idea))
-        )
-      }.getOrElse     (JsonBadRequest("Invalid Idea entity"))
-    }.getOrElse       (JsonBadRequest("Expecting JSON data"))
+  def save() = CrudAuthAction.save { idea: Idea =>
+    idea.save
   }
 
-  def update(id: Long) = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[Idea].map { idea =>
-        idea.copy(id=Id(id)).update.fold(
-          errors => JsonBadRequest(errors),
-          idea => Ok(toJson(idea))
-        )
-      }.getOrElse       (JsonBadRequest("Invalid Idea entity"))
-    }.getOrElse         (JsonBadRequest("Expecting JSON data"))
+  def update(id: Long) = CrudAuthAction.update { idea: Idea =>
+    idea.withId(id).update
   }
+
+  // def save() = CORSAction { implicit request =>
+  //   request.body.asJson.map { json =>
+  //     json.asOpt[Idea].map { idea =>
+  //       idea.save.fold(
+  //         errors => JsonBadRequest(errors),
+  //         idea => Ok(toJson(idea))
+  //       )
+  //     }.getOrElse     (JsonBadRequest("Invalid Idea entity"))
+  //   }.getOrElse       (JsonBadRequest("Expecting JSON data"))
+  // }
+
+  // def update(id: Long) = CORSAction { implicit request =>
+  //   request.body.asJson.map { json =>
+  //     json.asOpt[Idea].map { idea =>
+  //       idea.copy(id=Id(id)).update.fold(
+  //         errors => JsonBadRequest(errors),
+  //         idea => Ok(toJson(idea))
+  //       )
+  //     }.getOrElse       (JsonBadRequest("Invalid Idea entity"))
+  //   }.getOrElse         (JsonBadRequest("Expecting JSON data"))
+  // }
 
   def delete(id: Long) = CORSAction { implicit request =>
     Idea.delete(id)
