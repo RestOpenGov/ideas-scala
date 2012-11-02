@@ -12,17 +12,17 @@ function UserDetailCtrl($scope, $routeParams, $http) {
   $scope.search = function(){
 
     //USER
-    $http.get(SERVICE_ENDPOINT+'users/'+$scope.userId).success(function(json) {
+    $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'users/'+$scope.userId,{},function(json) { 
       $scope.user = json;
     });
 
     //COMMENTS - TODO add filter per author
-    $http.get(SERVICE_ENDPOINT+'comments?len=3&q=author.id:'+ $scope.userId).success(function(json) {
+    $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'comments?len=3&q=author.id:'+ $scope.userId,{},function(json) { 
       $scope.comments = json;
     });
 
     //IDEAS - TODO add filter per author
-    $http.get(SERVICE_ENDPOINT+'ideas?len=3&q=author.id:'+ $scope.userId).success(function(json) {
+    $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'ideas?len=3&q=author.id:'+ $scope.userId,{},function(json) {       
       $scope.ideas = json;
     });
 
