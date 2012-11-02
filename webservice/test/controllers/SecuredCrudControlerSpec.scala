@@ -29,7 +29,7 @@ class SecuredCrudControllerSpec extends Specification {
       if (jsonBody == "")   routeAndCall(FakeRequest(method, path))
       else                  routeAndCall(FakeJsonRequest(method, path, jsonBody))
 
-    status(result) must equalTo(UNAUTHORIZED)
+    status(result) mustEqual UNAUTHORIZED
     contentType(result) must beSome("application/json")
     val errors = parse(contentAsString(result)).as[List[Error]]
     errors.size mustEqual 1
@@ -47,13 +47,10 @@ class SecuredCrudControllerSpec extends Specification {
 
         mustReturnAuthError(GET, "/api/tests/secured/types/1")
         mustReturnAuthError(GET, "/api/tests/secured/types")
-        mustReturnAuthError(GET, "/api/tests/secured/types/")
         mustReturnAuthError(GET, "/api/tests/secured/types/count")
-        mustReturnAuthError(GET, "/api/tests/secured/types/count/")
 
         val json = """{"name": "new name", "description": "new description"}"""
         mustReturnAuthError(POST, "/api/tests/secured/types", json)
-        mustReturnAuthError(POST, "/api/tests/secured/types/", json)
         mustReturnAuthError(PUT, "/api/tests/secured/types/1", json)
 
         mustReturnAuthError(DELETE, "/api/tests/secured/types/1")
@@ -97,10 +94,6 @@ class SecuredCrudControllerSpec extends Specification {
 
         ideaTypes.size mustEqual 4
         ideaTypes.size mustEqual count("/api/tests/unsecured/types/count")
-
-        val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types"))
-        contentAsString(result) mustEqual contentAsString(resultWithSlash)
-
       }
     }
 
@@ -127,9 +120,6 @@ class SecuredCrudControllerSpec extends Specification {
         // third page
         val Some(resultPage3) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types?page=3&len=3"))
         parse(contentAsString(resultPage3)).as[List[IdeaType]].size mustEqual 0
-
-        val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types?page=1&len=3"))
-        contentAsString(result) mustEqual contentAsString(resultWithSlash)
       }
     }
 
@@ -149,9 +139,6 @@ class SecuredCrudControllerSpec extends Specification {
         // no results
         val Some(resultNone) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types?filter=no match"))
         parse(contentAsString(resultNone)).as[List[IdeaType]].size mustEqual 0
-
-        val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/?filter=alg"))
-        contentAsString(result) mustEqual contentAsString(resultWithSlash)
       }
     }
 
@@ -174,9 +161,6 @@ class SecuredCrudControllerSpec extends Specification {
         // no results
         val Some(resultNone) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types?q=id:1..3,description$no match"))
         parse(contentAsString(resultNone)).as[List[IdeaType]].size mustEqual 0
-
-        val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/?q=id:1..3,description$para"))
-        contentAsString(result) mustEqual contentAsString(resultWithSlash)
       }
     }
 
@@ -202,9 +186,6 @@ class SecuredCrudControllerSpec extends Specification {
         ideaTypes.size mustEqual count("/api/tests/unsecured/types/count?order=name desc")
         ideaTypesDesc(0).name mustEqual "recomendación"
         ideaTypesDesc(3).name mustEqual "idea"
-
-        val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/?order=name"))
-        contentAsString(result) mustEqual contentAsString(resultWithSlash)
       }
     }
 
@@ -226,9 +207,6 @@ class SecuredCrudControllerSpec extends Specification {
         // count with query
         val Some(countQuery) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/count?q=id:3..4"))
         parse(contentAsString(countQuery)).as[Int] mustEqual 2
-
-        val Some(countWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/count/"))
-        contentAsString(count) mustEqual contentAsString(countWithSlash)
       }
     }
 
