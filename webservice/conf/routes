@@ -76,6 +76,13 @@ POST    /api/types                         controllers.IdeaTypes.save
 GET     /api/types/:id                     controllers.IdeaTypes.show(id: Long)
 DELETE  /api/types/:id                     controllers.IdeaTypes.delete(id: Long)
 
+GET     /api/identities                    controllers.Identities.list
+GET     /api/identities/count              controllers.Identities.count
+PUT     /api/identities/:id                controllers.Identities.update(id: Long)
+POST    /api/identities                    controllers.Identities.save
+GET     /api/identities/:id                controllers.Identities.show(id: Long)
+DELETE  /api/identities/:id                controllers.Identities.delete(id: Long)
+
 #GET     /api/types                         controllers.CrudIdeaTypes.list
 #GET     /api/types/                        controllers.CrudIdeaTypes.list
 #GET     /api/types/count                   controllers.CrudIdeaTypes.count
