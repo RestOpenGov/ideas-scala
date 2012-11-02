@@ -1,62 +1,39 @@
 package controllers
 
-import play.api._
-import play.api.mvc._
+import formatters.json.ErrorFormatter.JsonErrorFormatter
+import formatters.json.VoteFormatter.JsonVoteFormatter
+import formatters.json.SuccessFormatter.JsonSuccessFormatter
 
-import models.{Vote, Error}
-import anorm.Id
+import models.Vote
 
-import play.api.libs.json.Json.toJson
+import play.api.mvc.Controller
 
-import formatters.json.VoteFormatter._
-import formatters.json.ErrorFormatter._
-
-import scala.collection.immutable.Map
-import utils.actions.CORSAction
-import utils.{JsonBadRequest, JsonNotFound, JsonOk}
-import utils.Http
+import utils.actions.{CrudAction, CrudAuthAction}
 
 object Votes extends Controller {
 
-  def list = CORSAction { request =>
-    Ok(toJson(Vote.find(request.queryString)))
+  def list = CrudAction.list { request =>
+    Vote.find(request.queryString)
   }
 
-  def count = CORSAction { request =>
-    Ok(toJson(Vote.count(request.queryString)))
+  def count = CrudAction.count { request =>
+    Vote.count(request.queryString)
   }
 
-  def show(id: Long) = CORSAction {
-    Vote.findById(id).map { vote =>
-      Ok(toJson(vote))
-    }.getOrElse(JsonNotFound("Vote with id %s not found".format(id)))
+  def show(id: Long) = CrudAction.show { request =>
+    Vote.findByIdWithErr(id)
   }
 
-  def save() = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[Vote].map { vote =>
-        vote.save.fold(
-          errors => JsonBadRequest(errors),
-          vote => Ok(toJson(vote))
-        )
-      }.getOrElse     (JsonBadRequest("Invalid Vote entity"))
-    }.getOrElse       (JsonBadRequest("Expecting JSON data"))
+  def save() = CrudAuthAction.save { (req, vote: Vote) =>
+    vote.copy(userId = req.user.id.get).save
   }
 
-  def update(id: Long) = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[Vote].map { vote =>
-        vote.copy(id=Id(id)).update.fold(
-          errors => JsonBadRequest(errors),
-          vote => Ok(toJson(vote))
-        )
-      }.getOrElse       (JsonBadRequest("Invalid Vote entity"))
-    }.getOrElse         (JsonBadRequest("Expecting JSON data"))
+  def update(id: Long) = CrudAuthAction.update { (req, vote: Vote) =>
+    vote.withId(id).copy(userId = req.user.id.get).update
   }
 
-  def delete(id: Long) = CORSAction { implicit request =>
-    Vote.delete(id)
-    JsonOk("Vote successfully deleted","Vote with id %s deleted".format(id))
+  def delete(id: Long) = CrudAuthAction.delete {
+    Vote.deleteWithErr(id)
   }
 
 }

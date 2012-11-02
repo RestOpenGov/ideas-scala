@@ -8,15 +8,12 @@ function IdeaListCtrl($scope, $routeParams, $http) {
     //console.log('we are ready...');
   });
 
-  $scope.search = function(){
-
-    // Just in case the web service doesn't support X-Requested-With header
-    // delete $http.defaults.headers.common['X-Requested-With']
-    $http.get(SERVICE_ENDPOINT+'ideas?'+ $.param($routeParams)).success(function(json) {
+  $scope.init = function(){
+    $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'ideas?'+ $.param($routeParams),{},function(json) { 
       $scope.ideas = json;
     });
   };
 
-  $scope.search();
+  $scope.init();
 
 };

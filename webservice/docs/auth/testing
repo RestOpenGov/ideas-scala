@@ -22,3 +22,100 @@ http://localhost:9000/api/auth
   "provider": "xfacebook",
   "token": "AAACEdEose0cBANUxSqKpBO6WFMSmTPND681fkbzDtqedZCvOqLKLMCl75H0jCyDPcA1xEkE2Rx1uHjxpw2M8LuB7XkWXzijIoXcdF5drBeoQZC0GJx"
 }
+
+--
+
+step by step guide
+
+get facebook token
+http://developers.facebook.com/tools/explorer?method=GET&path=me%2Fhome%3Fwith%3Dlocation
+
+get ideas-ba token
+
+POST http://ideas-ba.com.ar/api/auth
+
+headers:
+Content-Type: application/json
+
+body:
+{
+"provider": "facebook",
+"token":"AAACEdEose0cBAMx3lsNOcfwZABZAyg0GAftJVmbpcPtOpK0fEckVilIZC3xTPVY82HtJUMrHXSvCgmuEgCVOa2zAL6wxDNF7dZCZCFHNqoxHDpSA8UzJM"
+}
+
+response body:
+{
+    "token": "7f844c0e-3ce9-4170-be7c-9f608c8cc5ed",
+    "expiration": "2012-11-01T11:03:11Z"
+}
+
+now try a secured resource without token
+
+GET http://ideas-ba.com.ar/api/tests/secured/types/1
+
+headers:
+Content-Type: application/json
+
+response body:
+[
+    {
+        "field": "applicationToken",
+        "errorCode": 10006,
+        "status": 400,
+        "developerMessage": "Error performing operation",
+        "message": "Token not found in authentication header nor in ideas-token querystring param"
+    }
+]
+
+try the same secured resource with token
+
+
+GET http://ideas-ba.com.ar/api/tests/secured/types/1
+
+headers:
+Content-Type: application/json
+authorization: ideas-token=9bc33def-b08c-4ab7-90ed-df383579c954
+
+response body:
+{
+    "url": "/api/types/1",
+    "id": 1,
+    "name": "idea",
+    "description": "Una propuesta para mejorar la ciudad"
+}
+
+using curl:
+
+get facebook access-token at
+
+http://developers.facebook.com/tools/explorer
+
+curl -H "Content-Type: application/json" -X POST http://ideas-ba.com.ar/api/auth --data "{\"provider\": \"facebook\",
+\"token\":\"AAACEdEose0cBAMx3lsNOcfwZABZAyg0GAftJVmbpcPtOpK0fEckVilIZC3xTPVY82HtJUMrHXSvCgmuEgCVOa2zAL6wxDNF7dZCZCFHNqoxHDpSA8UzJM\"}"
+
+should receive:
+{"token":"e835b89a-9ad1-4a76-b8c2-0ab8c114e1e6","expiration":"2012-11-01T11:28:40Z"}
+
+try a secured resource with no token
+
+curl -H "Content-Type: application/json" -X GET http://ideas-ba.com.ar/api/tests/secured/types/1
+
+should receive:
+
+[
+  {
+    "field":"applicationToken",
+    "errorCode":10006,
+    "status":400,
+    "developerMessage":"Error performing operation",
+    "message":"Token not found in authentication header nor in ideas-token querystring param"
+  }
+]
+
+try a secured resource with an ideas-token:
+
+curl -H "Content-Type: application/json" -H "Authorization: ideas-token=e835b89a-9ad1-4a76-b8c2-0ab8c114e1e6" -X GET http://ideas-ba.com.ar/api/tests/secured/types/1
+
+should receive:
+{"url":"/api/types/1","id":1,"name":"idea","description":"Una propuesta para mejorar la ciudad"}
+

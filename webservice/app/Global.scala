@@ -16,6 +16,8 @@ import play.api.Play.current
 
 
 
+import utils.NormalizedRequest
+
 object Global extends GlobalSettings {
 
   override def onError(request: RequestHeader, ex: Throwable) = {
@@ -27,6 +29,10 @@ object Global extends GlobalSettings {
       )
     ))
   } 
+
+  override def onRouteRequest(request: RequestHeader): Option[Handler] = {
+    super.onRouteRequest(NormalizedRequest(request))
+  }
 
   override def onBadRequest(request: RequestHeader, error: String) = {
     BadRequest(toJson(

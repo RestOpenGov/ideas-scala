@@ -36,13 +36,29 @@ ideasModule.factory('$USER', function() {
 ideasModule.run(function($rootScope,$http) {
 
   //Global functions!!
+  $rootScope.ideaAjaxCall = function (_method,_url,_data,_callback,_callbackError) {
+    //TODO add header with 
+
+    var token = getCookie('ideas-ba-token'), _headers={};
+
+    if (token) {
+      _headers = {
+        "Authorization": 'ideas-token='+token
+      };
+    }
+
+    $http({method: _method, url: _url, data: _data, headers: _headers}).success(
+        function (data, status, headers, config){
+          //TODO validar respuesta inválida para mandar a login
+          _callback(data, status, headers, config);  
+        }
+    ).error(_callbackError);
+  }
 
 });
 
+//var SERVICE_ENDPOINT = "https://ideas-jugar.rhcloud.com/api/";
 var SERVICE_ENDPOINT = "http://ideas-ba.com.ar/api/";
-// var SERVICE_ENDPOINT = "https://ideas-jugar.rhcloud.com/api/";
-// var SERVICE_ENDPOINT = "/api/";
-//var SERVICE_ENDPOINT = "http://localhost:9000/api/";
 
 function setCookie(c_name,value,exdays) {
   var exdate=new Date();
@@ -88,9 +104,9 @@ var Auth = {
       facebook: '486452174721099',
       google: '985870621747.apps.googleusercontent.com'
     },
-    'www.ideas-ba.com.ar': {
+    'ideas-ba.com.ar': {
       twitter: '',
-      facebook: '486452174721099',
+      facebook: '',
       google: '985870621747-j927dgla2ulsugmu6bjpaicnae46ppc2.apps.googleusercontent.com'
     }
   },

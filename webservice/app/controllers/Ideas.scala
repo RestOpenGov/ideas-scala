@@ -1,75 +1,52 @@
 package controllers
 
-import play.api._
-import play.api.mvc._
+import formatters.json.ErrorFormatter.JsonErrorFormatter
+import formatters.json.IdeaFormatter.JsonIdeaFormatter
+import formatters.json.SuccessFormatter.JsonSuccessFormatter
 
-import models.{Idea, IdeaTag, Error, User}
-import anorm.Id
+import models.{Idea, User}
 
 import play.api.libs.json.Json.toJson
+import play.api.mvc.Controller
 
-import formatters.json.IdeaFormatter._
-import formatters.json.ErrorFormatter._
+import utils.{JsonBadRequest, JsonNotFound}
 
-import scala.collection.immutable.Map
-import utils.actions.CORSAction
-import utils.{JsonBadRequest, JsonNotFound, JsonOk}
-import utils.Http
+import utils.actions.{CORSAction, CrudAction, CrudAuthAction}
 
 object Ideas extends Controller {
 
   //TODO: testing purposes
   implicit val Some(user) = User.findById(1)
 
-  def list = CORSAction { request =>
-    Ok(toJson(Idea.find(request.queryString)))
+  def list = CrudAction.list { request =>
+    Idea.find(request.queryString)
   }
 
-  def count = CORSAction { request =>
-    Ok(toJson(Idea.count(request.queryString)))
+  def count = CrudAction.count { request =>
+    Idea.count(request.queryString)
   }
 
-  def show(id: Long) = CORSAction {
-    Idea.findById(id).map { idea =>
-      Ok(toJson(idea))
-    }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
+  def show(id: Long) = CrudAction.show {
+    Idea.findByIdWithErr(id)
   }
 
-  def save() = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[Idea].map { idea =>
-        idea.save.fold(
-          errors => JsonBadRequest(errors),
-          idea => Ok(toJson(idea))
-        )
-      }.getOrElse     (JsonBadRequest("Invalid Idea entity"))
-    }.getOrElse       (JsonBadRequest("Expecting JSON data"))
+  def save() = CrudAuthAction.save { (req, idea: Idea) =>
+    idea.copy(author = req.user).save
   }
 
-  def update(id: Long) = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[Idea].map { idea =>
-        idea.copy(id=Id(id)).update.fold(
-          errors => JsonBadRequest(errors),
-          idea => Ok(toJson(idea))
-        )
-      }.getOrElse       (JsonBadRequest("Invalid Idea entity"))
-    }.getOrElse         (JsonBadRequest("Expecting JSON data"))
+  def update(id: Long) = CrudAuthAction.update { (req, idea: Idea) =>
+    idea.withId(id).copy(author = req.user).update
   }
 
-  def delete(id: Long) = CORSAction { implicit request =>
-    Idea.delete(id)
-    JsonOk("Idea successfully deleted","Idea with id %s deleted".format(id))
+  def delete(id: Long) = CrudAuthAction.delete { implicit request =>
+    Idea.deleteWithErr(id)
   }
 
   def up(id: Long) = vote(id, true)
   def down(id: Long) = vote(id, false)
 
-  def vote(id: Long, pos: Boolean = true) = CORSAction { implicit request =>
-    Idea.vote(id, pos).fold(
-      errors => JsonBadRequest(errors),
-      idea => Ok(toJson(idea))
-    )
+  def vote(id: Long, pos: Boolean = true) = CrudAuthAction.show { request =>
+    Idea.vote(id, pos)
   }
 
   //Tags

@@ -1,37 +1,28 @@
 package controllers
 
-import play.api._
-import play.api.mvc._
+import formatters.json.ErrorFormatter.JsonErrorFormatter
+import formatters.json.SuccessFormatter.JsonSuccessFormatter
 
-import models.{User, Error}
-import anorm.Id
+import models.User
+import formatters.json.UserFormatter.JsonUserFormatter
 
-import play.api.libs.json.Json.toJson
+import play.api.mvc.Controller
 
-import formatters.json.UserFormatter._
-import formatters.json.ErrorFormatter._
-
-import scala.collection.immutable.Map
-import utils.{JsonBadRequest, JsonNotFound, JsonOk}
-import utils.Http
-
-import utils.actions.CORSAction
 import utils.actions.CrudAction
+import utils.actions.CrudAuthAction
 
 object Users extends Controller {
 
-  def list = CORSAction { request =>
-    Ok(toJson(User.find(request.queryString)))
+  def list = CrudAction.list { request =>
+    User.find(request.queryString)
   }
 
-  def count = CORSAction { request =>
-    Ok(toJson(User.count(request.queryString)))
+  def count = CrudAction.count { request =>
+    User.count(request.queryString)
   }
 
-  def show(id: Long) = CORSAction { request =>
-    User.findById(id).map { user =>
-      Ok(toJson(user))
-    }.getOrElse(JsonNotFound("User with id %s not found".format(id)))
+  def show(id: Long) = CrudAction.show { request =>
+    User.findByIdWithErr(id)
   }
 
   def save() = CrudAction.save { user: User =>
@@ -39,18 +30,15 @@ object Users extends Controller {
   }
 
   def update(id: Long) = CrudAction.update { user: User =>
-    user.copy(id=Id(id)).update
+    user.withId(id).update
   }
 
-  def delete(id: Long) = CORSAction { implicit request =>
-    User.delete(id)
-    JsonOk("User successfully deleted", "User with id %s deleted".format(id))
+  def delete(id: Long) = CrudAuthAction.delete {
+    User.deleteWithErr(id)
   }
 
-  def showByToken(token: String) = CORSAction { request =>
-    User.findByApplicationToken(token).map { user =>
-      Ok(toJson(user))
-    }.getOrElse(JsonNotFound("User with token %s not found".format(token)))
+  def showByToken(token: String) = CrudAction.show { request =>
+    User.findByApplicationTokenWithErr(token)
   }
 
   def stats(id: Long) = TODO

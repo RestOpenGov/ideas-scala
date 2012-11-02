@@ -60,10 +60,6 @@ class UnsecuredCrudControllerSpec extends Specification {
 
         ideaTypes.size mustEqual 4
         ideaTypes.size mustEqual count("/api/tests/unsecured/types/count")
-
-        val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types"))
-        contentAsString(result) mustEqual contentAsString(resultWithSlash)
-
       }
     }
 
@@ -90,9 +86,6 @@ class UnsecuredCrudControllerSpec extends Specification {
         // third page
         val Some(resultPage3) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types?page=3&len=3"))
         parse(contentAsString(resultPage3)).as[List[IdeaType]].size mustEqual 0
-
-        val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types?page=1&len=3"))
-        contentAsString(result) mustEqual contentAsString(resultWithSlash)
       }
     }
 
@@ -112,9 +105,6 @@ class UnsecuredCrudControllerSpec extends Specification {
         // no results
         val Some(resultNone) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types?filter=no match"))
         parse(contentAsString(resultNone)).as[List[IdeaType]].size mustEqual 0
-
-        val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/?filter=alg"))
-        contentAsString(result) mustEqual contentAsString(resultWithSlash)
       }
     }
 
@@ -137,9 +127,6 @@ class UnsecuredCrudControllerSpec extends Specification {
         // no results
         val Some(resultNone) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types?q=id:1..3,description$no match"))
         parse(contentAsString(resultNone)).as[List[IdeaType]].size mustEqual 0
-
-        val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/?q=id:1..3,description$para"))
-        contentAsString(result) mustEqual contentAsString(resultWithSlash)
       }
     }
 
@@ -165,14 +152,13 @@ class UnsecuredCrudControllerSpec extends Specification {
         ideaTypes.size mustEqual count("/api/tests/unsecured/types/count?order=name desc")
         ideaTypesDesc(0).name mustEqual "recomendación"
         ideaTypesDesc(3).name mustEqual "idea"
-
-        val Some(resultWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/?order=name"))
-        contentAsString(result) mustEqual contentAsString(resultWithSlash)
       }
     }
 
     "retrieve the count of ideaTypes, using route GET /api/tests/unsecured/types/count" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
+
+        import utils.NormalizedRequest
 
         // check total count
         val Some(count) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/count"))
@@ -189,9 +175,6 @@ class UnsecuredCrudControllerSpec extends Specification {
         // count with query
         val Some(countQuery) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/count?q=id:3..4"))
         parse(contentAsString(countQuery)).as[Int] mustEqual 2
-
-        val Some(countWithSlash) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types/count/"))
-        contentAsString(count) mustEqual contentAsString(countWithSlash)
       }
     }
 

@@ -25,7 +25,7 @@ case class Identity (
   extends Entity
 {
 
-  // val url: String = id.map(controllers.routes.SocialIdentities.show(_).url).getOrElse("")
+  val url: String = id.map(controllers.routes.Identities.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Identity.update(this)
   def save()    (implicit lang: Lang) = Identity.save(this)
   def delete()  (implicit lang: Lang) = Identity.delete(this)

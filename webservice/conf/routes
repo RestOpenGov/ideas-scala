@@ -6,7 +6,6 @@ OPTIONS /api/*url                          controllers.Application.options(url: 
 
 GET     /api/secured                       controllers.Security.secured
 GET     /api/logged                        controllers.Security.logged
-POST    /api/auth/                         controllers.Security.auth
 POST    /api/auth                          controllers.Security.auth
 
 #test token extaction
@@ -23,7 +22,6 @@ GET     /api/                              controllers.Application.api
 GET     /api/users                         controllers.Users.list
 GET     /api/users/count                   controllers.Users.count
 PUT     /api/users/:id                     controllers.Users.update(id: Long)
-POST    /api/users/                        controllers.Users.save
 POST    /api/users                         controllers.Users.save
 GET     /api/users/:id                     controllers.Users.show(id: Long)
 DELETE  /api/users/:id                     controllers.Users.delete(id: Long)
@@ -40,7 +38,6 @@ GET     /api/users/:id/votes               controllers.Users.votes(id: Long)
 GET     /api/ideas                         controllers.Ideas.list
 GET     /api/ideas/count                   controllers.Ideas.count
 PUT     /api/ideas/:id                     controllers.Ideas.update(id: Long)
-POST    /api/ideas/                        controllers.Ideas.save
 POST    /api/ideas                         controllers.Ideas.save
 GET     /api/ideas/:id                     controllers.Ideas.show(id: Long)
 DELETE  /api/ideas/:id                     controllers.Ideas.delete(id: Long)
@@ -56,7 +53,6 @@ GET     /api/comments                  controllers.Comments.listAll()
 GET     /api/ideas/:idea/comments            controllers.Comments.list(idea: Long)
 # GET     /api/ideas/:idea/comments/count      controllers.Comments.count(idea: Long)
 # PUT     /api/ideas/:idea/comments/:id        controllers.Comments.update(idea: Long, id: Long)
-POST    /api/ideas/:idea/comment/               controllers.Comments.save(idea: Long)
 POST    /api/ideas/:idea/comment              controllers.Comments.save(idea: Long)
 GET     /api/ideas/comments/:id               controllers.Comments.show(id: Long)
 # GET     /api/ideas/:idea/comments/:id        controllers.Comments.show(idea:Long, id: Long)
@@ -68,21 +64,24 @@ PUT     /api/ideas/:idea/comments/:id/down     controllers.Comments.down(idea: L
 GET     /api/ideas/:idea/tags                  controllers.Ideas.listTags(idea: Long)
 GET     /api/ideas/:idea/tags/count            controllers.Ideas.countTags(idea: Long)
 # receives an array of tags, updates them all, adding, removing and creating tags as necessary
-PUT     /api/ideas/:idea/tags/                 controllers.Ideas.updateTags(idea: Long)
 PUT     /api/ideas/:idea/tags                  controllers.Ideas.updateTags(idea: Long)
 # receives a string with a single tag
 POST    /api/ideas/:idea/tags/:tag             controllers.Ideas.saveTag(idea: Long, tag: String)
 DELETE  /api/ideas/:idea/tags/:tag             controllers.Ideas.deleteTag(idea: Long, tag: String)
 
 GET     /api/types                         controllers.IdeaTypes.list
-GET     /api/types/                        controllers.IdeaTypes.list
 GET     /api/types/count                   controllers.IdeaTypes.count
-GET     /api/types/count/                  controllers.IdeaTypes.count
 PUT     /api/types/:id                     controllers.IdeaTypes.update(id: Long)
 POST    /api/types                         controllers.IdeaTypes.save
-POST    /api/types/                        controllers.IdeaTypes.save
 GET     /api/types/:id                     controllers.IdeaTypes.show(id: Long)
 DELETE  /api/types/:id                     controllers.IdeaTypes.delete(id: Long)
+
+GET     /api/identities                    controllers.Identities.list
+GET     /api/identities/count              controllers.Identities.count
+PUT     /api/identities/:id                controllers.Identities.update(id: Long)
+POST    /api/identities                    controllers.Identities.save
+GET     /api/identities/:id                controllers.Identities.show(id: Long)
+DELETE  /api/identities/:id                controllers.Identities.delete(id: Long)
 
 #GET     /api/types                         controllers.CrudIdeaTypes.list
 #GET     /api/types/                        controllers.CrudIdeaTypes.list
@@ -97,7 +96,6 @@ DELETE  /api/types/:id                     controllers.IdeaTypes.delete(id: Long
 GET     /api/tags                          controllers.Tags.list
 #GET     /api/tags/count                    controllers.Tags.count
 PUT     /api/tags/:id                      controllers.Tags.update(id: Long)
-POST    /api/tags/                         controllers.Tags.save
 POST    /api/tags                          controllers.Tags.save
 GET     /api/tags/:id                      controllers.Tags.show(id: Long)
 DELETE  /api/tags/:id                      controllers.Tags.delete(id: Long)
@@ -109,7 +107,6 @@ GET     /api/tags/:tag/ideas/count         controllers.Tags.countIdeas(tag: Stri
 GET     /api/votes                         controllers.Votes.list
 GET     /api/votes/count                   controllers.Votes.count
 PUT     /api/votes/:id                     controllers.Votes.update(id: Long)
-POST    /api/votes/                        controllers.Votes.save
 POST    /api/votes                         controllers.Votes.save
 GET     /api/votes/:id                     controllers.Votes.show(id: Long)
 DELETE  /api/votes/:id                     controllers.Votes.delete(id: Long)
@@ -118,28 +115,20 @@ DELETE  /api/votes/:id                     controllers.Votes.delete(id: Long)
 GET     /assets/javascripts/routes         controllers.Application.javascriptRoutes
 
 GET     /mail/test                     	controllers.Application.mail
-GET     /mail/test/                     controllers.Application.mail
-
 
 # routes for testing controllers
 
 GET     /api/tests/secured/types             controllers.tests.SecuredIdeaTypes.list
-GET     /api/tests/secured/types/            controllers.tests.SecuredIdeaTypes.list
 GET     /api/tests/secured/types/count       controllers.tests.SecuredIdeaTypes.count
-GET     /api/tests/secured/types/count/      controllers.tests.SecuredIdeaTypes.count
 PUT     /api/tests/secured/types/:id         controllers.tests.SecuredIdeaTypes.update(id: Long)
 POST    /api/tests/secured/types             controllers.tests.SecuredIdeaTypes.save
-POST    /api/tests/secured/types/            controllers.tests.SecuredIdeaTypes.save
 GET     /api/tests/secured/types/:id         controllers.tests.SecuredIdeaTypes.show(id: Long)
 DELETE  /api/tests/secured/types/:id         controllers.tests.SecuredIdeaTypes.delete(id: Long)
 
 GET     /api/tests/unsecured/types             controllers.tests.UnsecuredIdeaTypes.list
-GET     /api/tests/unsecured/types/            controllers.tests.UnsecuredIdeaTypes.list
 GET     /api/tests/unsecured/types/count       controllers.tests.UnsecuredIdeaTypes.count
-GET     /api/tests/unsecured/types/count/      controllers.tests.UnsecuredIdeaTypes.count
 PUT     /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.update(id: Long)
 POST    /api/tests/unsecured/types             controllers.tests.UnsecuredIdeaTypes.save
-POST    /api/tests/unsecured/types/            controllers.tests.UnsecuredIdeaTypes.save
 GET     /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.show(id: Long)
 DELETE  /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.delete(id: Long)
 

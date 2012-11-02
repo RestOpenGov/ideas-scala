@@ -37,26 +37,20 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 		$scope.editor.instanceById('areaMessage').saveContent();
 		$scope.idea.description = $scope.editor.instanceById('areaMessage').getContent();
 
-		//Completo el user logueado
-		$scope.idea.author = {id:$USER.getId()};
-
-		$http.post(SERVICE_ENDPOINT+'ideas',$scope.idea).success(function(json) {
-			$location.path("/ideas/"+json.id).search();
-			
+	    $scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas',$scope.idea,function(json) {  
 			// preparing the tags array
 			var arrTags = $("input[name='hidden-tagsjax']").attr("value").split(",");
-			$http.put(SERVICE_ENDPOINT+'ideas/' + json.id + '/tags', arrTags).success(function(json) {
+			$scope.ideaAjaxCall('PUT',SERVICE_ENDPOINT+'ideas/' + json.id + '/tags',arrTags,function(jsonTags) { 
 				
+				// put tags for the new idea and redirect
+				$location.path("/ideas/"+json.id).search();
 				
-				
-		    }).error(function(data, status, headers, config) {
+		    },function(data, status, headers, config) {
 		    	alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
 		    });
 		    
-		    // put tags for the new idea and redirect
-			$location.path("/ideas/"+json.id).search();
-			
-	    }).error(function(data, status, headers, config) {
+		
+		},function(data, status, headers, config) {
 	    	alert('ERROR AL DAR DE ALTA LA IDEA');
 	    });
 	};

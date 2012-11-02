@@ -11,7 +11,7 @@ function HomeCtrl($scope, $routeParams, $http, $USER) {
 	});
 
 	//Types
-	$http.get(SERVICE_ENDPOINT+'types').success(function(json) {
+	$scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'types',{},function(json) {
       var row = 0,obj = {},loadedTypes=0;
       types = json;
 
@@ -20,7 +20,8 @@ function HomeCtrl($scope, $routeParams, $http, $USER) {
       	var type = t.id;
 
       	//Retrieve 3 ideas per type TODO add type filter
-      	$http.get(SERVICE_ENDPOINT+'ideas?len=3&order=created DESC&q=type.id:'+type).success(function(json) {
+      	$scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'ideas?len=3&order=created DESC&q=type.id:'+type,{},function(json) {
+
 	      	types[i]['ideas'] = json;
 	      	loadedTypes++;
 	      	
