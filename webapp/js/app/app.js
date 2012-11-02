@@ -57,10 +57,8 @@ ideasModule.run(function($rootScope,$http) {
 
 });
 
+//var SERVICE_ENDPOINT = "https://ideas-jugar.rhcloud.com/api/";
 var SERVICE_ENDPOINT = "http://ideas-ba.com.ar/api/";
-// var SERVICE_ENDPOINT = "https://ideas-jugar.rhcloud.com/api/";
-// var SERVICE_ENDPOINT = "/api/";
-//var SERVICE_ENDPOINT = "http://localhost:9000/api/";
 
 function setCookie(c_name,value,exdays) {
   var exdate=new Date();
@@ -106,9 +104,9 @@ var Auth = {
       facebook: '486452174721099',
       google: '985870621747.apps.googleusercontent.com'
     },
-    'www.ideas-ba.com.ar': {
+    'ideas-ba.com.ar': {
       twitter: '',
-      facebook: '486452174721099',
+      facebook: '',
       google: '985870621747-j927dgla2ulsugmu6bjpaicnae46ppc2.apps.googleusercontent.com'
     }
   },

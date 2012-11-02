@@ -37,12 +37,7 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 		$scope.editor.instanceById('areaMessage').saveContent();
 		$scope.idea.description = $scope.editor.instanceById('areaMessage').getContent();
 
-		//Completo el user logueado
-		$scope.idea.author = {id:$USER.getId()};
-
 	    $scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas',$scope.idea,function(json) {  
-			$location.path("/ideas/"+json.id).search();
-			
 			// preparing the tags array
 			var arrTags = $("input[name='hidden-tagsjax']").attr("value").split(",");
 			$scope.ideaAjaxCall('PUT',SERVICE_ENDPOINT+'ideas/' + json.id + '/tags',arrTags,function(jsonTags) { 

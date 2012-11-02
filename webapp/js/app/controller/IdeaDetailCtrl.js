@@ -47,7 +47,6 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
 
     var $commentBox = $('#comment-box'),
       data = {
-        "author": {id: $USER.getId()},
         "comment": $scope.editor.instanceById('commentText').getContent()
       };
 
