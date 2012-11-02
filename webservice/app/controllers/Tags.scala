@@ -1,67 +1,47 @@
 package controllers
 
-import play.api._
-import play.api.mvc._
+import formatters.json.ErrorFormatter.JsonErrorFormatter
+import formatters.json.IdeaFormatter.JsonIdeaFormatter
+import formatters.json.SuccessFormatter.JsonSuccessFormatter
+import formatters.json.TagFormatter.JsonTagFormatter
 
-import models.{Tag, Error, Idea}
-import anorm.Id
+import models.{Idea, Tag}
 
 import play.api.libs.json.Json.toJson
+import play.api.mvc.Controller
 
-import formatters.json.TagFormatter._
-import formatters.json.IdeaFormatter._
-import formatters.json.ErrorFormatter._
+import utils.JsonNotFound
 
-import scala.collection.immutable.Map
-import utils.actions.CORSAction
-import utils.{JsonBadRequest, JsonNotFound, JsonOk}
-import utils.Http
+import utils.actions.{CORSAction, CrudAction, CrudAuthAction}
 
 object Tags extends Controller {
 
-  def list = CORSAction { request =>
-    Ok(toJson(Tag.find(request.queryString)))
+  def list = CrudAction.list { request =>
+    Tag.find(request.queryString)
   }
 
-  def count = CORSAction { request =>
-    Ok(toJson(Tag.count(request.queryString)))
+  def count = CrudAction.count { request =>
+    Tag.count(request.queryString)
   }
 
-  def show(id: Long) = CORSAction {
-    Tag.findById(id).map { ideatype =>
-      Ok(toJson(ideatype))
-    }.getOrElse(JsonNotFound("Tag with id %s not found".format(id)))
+  def show(id: Long) = CrudAction.show {
+    Tag.findByIdWithErr(id)
   }
 
-  def save() = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[Tag].map { ideatype =>
-        ideatype.save.fold(
-          errors => JsonBadRequest(errors),
-          ideatype => Ok(toJson(ideatype))
-        )
-      }.getOrElse     (JsonBadRequest("Invalid tag entity"))
-    }.getOrElse       (JsonBadRequest("Expecting JSON data"))
+  def save() = CrudAuthAction.save { tag: Tag =>
+    tag.save
   }
 
-  def update(id: Long) = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[Tag].map { ideatype =>
-        ideatype.copy(id=Id(id)).update.fold(
-          errors => JsonBadRequest(errors),
-          ideatype => Ok(toJson(ideatype))
-        )
-      }.getOrElse       (JsonBadRequest("Invalid tag entity"))
-    }.getOrElse         (JsonBadRequest("Expecting JSON data"))
+  def update(id: Long) = CrudAuthAction.update { tag: Tag =>
+    tag.withId(id).update
   }
 
-  def delete(id: Long) = CORSAction { implicit request =>
-    Tag.delete(id)
-    JsonOk("Tag successfully deleted","Tag id %s deleted".format(id))
+  def delete(id: Long) = CrudAuthAction.delete {
+    Tag.deleteWithErr(id)
   }
 
-  def listIdeas(tag: String) = CORSAction { request =>
-    Ok(toJson(Idea.findByTag(tag, request.queryString)))
+  def listIdeas(tag: String) = CrudAuthAction.list { request =>
+    Idea.findByTag(tag, request.queryString)
   }
 
   def listIdeasByTagId(id: Long) = CORSAction { request =>
@@ -70,8 +50,8 @@ object Tags extends Controller {
     }.getOrElse(JsonNotFound("Tag with id %s not found".format(id)))
   }
 
-  def countIdeas(tag: String) = CORSAction { request =>
-    Ok(toJson(Idea.countByTag(tag, request.queryString)))
+  def countIdeas(tag: String) = CrudAuthAction.count { request =>
+    Idea.countByTag(tag, request.queryString)
   }
 
   def countIdeasByTagId(id: Long) = CORSAction { request =>

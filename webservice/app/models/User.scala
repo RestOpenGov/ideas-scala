@@ -189,6 +189,18 @@ object User extends EntityCompanion[User] {
     }
   }
 
+  def findByApplicationTokenWithErr(applicationToken: String): Either[Error, User] = {
+    if (isEmptyWord(applicationToken)) {
+      Left(ValidationError("No token specified"))
+    } else {
+      findByApplicationToken(applicationToken).map { entity =>
+        Right(entity)
+      } getOrElse {
+        Left(ValidationError("User with token %s not found".format(applicationToken)))
+      }
+    }
+  }
+
   def findByProviderId(provider: String, providerId: String): Option[User] = {
     val condition = """
     |exists( 
