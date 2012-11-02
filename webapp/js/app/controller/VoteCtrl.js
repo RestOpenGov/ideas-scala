@@ -47,8 +47,8 @@ function VoteCtrl($scope, $routeParams, $http, $USER) {
 
       if(url){
         var data = {author: {id: $USER.getId()} };
-        $http.put(SERVICE_ENDPOINT + 'ideas/'+ url,data)
-        .success(function(json) {
+        $scope.ideaAjaxCall('PUT',SERVICE_ENDPOINT + 'ideas/'+ url,data,function(json) {       
+
           switch(type){
             case 'comment':
              $scope.comment.votes = json.votes;
@@ -58,7 +58,7 @@ function VoteCtrl($scope, $routeParams, $http, $USER) {
             break;
           };
             
-        }).error(function(data, status, headers, config) {
+        },function(data, status, headers, config) {
             var error = 'ERROR!: ';
             angular.forEach(data, function(e, i){
               error += ' - ' + e.message;

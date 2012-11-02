@@ -4,7 +4,6 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
 
   $scope.searchFilter = '';
 
-  $scope.userList = [];
   $scope.selectedUserId = 1;
   $scope.user = {};
 
@@ -29,10 +28,7 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
   });
   
   $scope.init = function() {
-    $http.get(SERVICE_ENDPOINT+'users').success(function(json) {
-      $scope.userList = json;
-    });
-    $scope.changeUser();//select first
+
   };
 
   var getIdeasToken = function(data) {
@@ -44,11 +40,12 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
         // Get User
         $http.get(SERVICE_ENDPOINT+'users/token/' + response.token)
           .success(function(user) {
-
+            
             $scope.user = user;
             $USER.setUser(user);
             $scope.menuLogged = 'includes/menu-loggedin.html';
             setCookie('user', JSON.stringify(user));
+            setCookie('ideas-ba-token', response.token);
             window.location.reload(); // FIX THIS
 
           })

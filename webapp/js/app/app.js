@@ -36,6 +36,24 @@ ideasModule.factory('$USER', function() {
 ideasModule.run(function($rootScope,$http) {
 
   //Global functions!!
+  $rootScope.ideaAjaxCall = function (_method,_url,_data,_callback,_callbackError) {
+    //TODO add header with 
+
+    var token = getCookie('ideas-ba-token'), _headers={};
+
+    if (token) {
+      _headers = {
+        "Authorization": 'ideas-token='+token
+      };
+    }
+
+    $http({method: _method, url: _url, data: _data, headers: _headers}).success(
+        function (data, status, headers, config){
+          //TODO validar respuesta inválida para mandar a login
+          _callback(data, status, headers, config);  
+        }
+    ).error(_callbackError);
+  }
 
 });
 
