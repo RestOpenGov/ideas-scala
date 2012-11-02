@@ -12,15 +12,15 @@ import utils.actions.{CrudAction, CrudAuthAction}
 
 object IdeaTypes extends Controller {
 
-  def list = CrudAuthAction.list { request =>
+  def list = CrudAction.list { request =>
     IdeaType.find(request.queryString)
   }
 
-  def count = CrudAuthAction.count { request =>
+  def count = CrudAction.count { request =>
     IdeaType.count(request.queryString)
   }
 
-  def show(id: Long) = CrudAuthAction.show { request =>
+  def show(id: Long) = CrudAction.show { request =>
     IdeaType.findByIdWithErr(id)
   }
 
