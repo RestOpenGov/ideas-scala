@@ -38,7 +38,8 @@ class NotificationActor extends Actor with ActorLogging {
 					}
 		        )	
 
-	      	}  
+	      	}
+
     	} 
     }
   }

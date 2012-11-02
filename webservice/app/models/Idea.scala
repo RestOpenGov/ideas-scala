@@ -19,6 +19,7 @@ import exceptions.{ErrorList, ErrorListException}
 import utils.Http
 
 import play.Logger
+import notification._
 
 case class Idea (
 
@@ -124,7 +125,10 @@ case class Idea (
 
   val url: String = id.map(controllers.routes.Ideas.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Idea.update(this)
-  def save()    (implicit lang: Lang) = Idea.save(this)
+  def save()    (implicit lang: Lang) = {
+    NotificationService(NewIdeaNotification())
+    Idea.save(this)
+  }
   def delete()  (implicit lang: Lang) = Idea.delete(this)
 
   def withId(newId: Long) = this.copy(id=Id(newId))

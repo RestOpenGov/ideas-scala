@@ -16,6 +16,8 @@ import play.api.i18n.Lang
 
 import play.Logger
 
+import notification._
+
 case class Vote (
 
   val id: Pk[Long] = NotAssigned,
@@ -31,7 +33,11 @@ case class Vote (
 {
   val url: String = id.map(controllers.routes.Votes.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = Vote.update(this)
-  def save()    (implicit lang: Lang) = Vote.save(this)
+  def save()    (implicit lang: Lang) = {
+    NotificationService(NewVoteNotification())
+    Vote.save(this)
+  }
+
   def delete()  (implicit lang: Lang) = Vote.delete(this)
 
   def withId(newId: Long) = this.copy(id=Id(newId))

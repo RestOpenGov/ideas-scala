@@ -10,6 +10,11 @@ import play.api.libs.json.Json.toJson
 import play.api.http.Status
 
 import notification._
+import akka.util.duration._
+import play.api.libs.concurrent.Akka
+import play.api.Play.current
+
+
 
 object Global extends GlobalSettings {
 
@@ -43,7 +48,10 @@ object Global extends GlobalSettings {
                ^^^^^^^^
     """
     Logger.info(greeting)
-    //NotificationService(NewCommentNotification(1));
+
+    Akka.system.scheduler.schedule(4 hours, 4 hours,
+      NotificationService.reportActor, ReportNotification());
+    Logger.info("Report Scheduler started.")
 
   }  
 

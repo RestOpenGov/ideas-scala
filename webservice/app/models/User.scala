@@ -15,6 +15,8 @@ import java.util.Date
 
 import services.security.{ApplicationToken, IdentityProviderInfo}
 
+import notification._
+
 case class User (
 
   val id: Pk[Long] = NotAssigned,
@@ -31,7 +33,10 @@ case class User (
 {
   val url: String = id.map(controllers.routes.Users.show(_).url).getOrElse("")
   def update()  (implicit lang: Lang) = User.update(this)
-  def save()    (implicit lang: Lang) = User.save(this)
+  def save()    (implicit lang: Lang) = {
+    NotificationService(NewUserNotification())
+    User.save(this)
+  }
   def delete()  (implicit lang: Lang) = User.delete(this)
 
   def withId(newId: Long) = this.copy(id=Id(newId))
