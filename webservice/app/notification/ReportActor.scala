@@ -26,13 +26,21 @@ class ReportActor extends Actor with ActorLogging {
 	var votes: Long = 0;
     var users: Long = 0;
 
-    val mails = List("nfmelendez@gmail.com")
+    val mails = List("nfmelendez@gmail.com",
+    "matias.urbano@gmail.com",
+    "ddarkheart@gmail.com",
+    "opensas@gmail.com",
+    "paladinop@gmail.com",
+    "mail@alanreid.com.ar","lfarzati@gmail.com",
+    "mvferrieri@gmail.com","flormontanari@gmail.com")
+
+
 
   def receive = {
 
     case NewCommentNotification(ideaId, authorName, commentText, authorAvatar) => {
    		comments = comments + 1
-        play.Logger.info("comment +1")
+        play.Logger.info("cdomment +1")
     }
 
     case NewIdeaNotification() => {
