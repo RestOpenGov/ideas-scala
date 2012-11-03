@@ -12,7 +12,7 @@ class NormalizedRequest(request: RequestHeader) extends RequestHeader {
   val method = request.method
 
   // strip first part of path and uri if it matches http.path config
-  val path = request.path.stripSuffix("/")
+  val path = if (request.path == "/") "/" else request.path.stripSuffix("/")
   val uri = path + {
     if(request.rawQueryString == "") ""
     else "?" + request.rawQueryString
