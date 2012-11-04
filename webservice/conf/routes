@@ -17,7 +17,6 @@ GET     /app                               controllers.Assets.at(path="/public",
 
 # Home page
 GET     /api                               controllers.Application.api
-GET     /api/                              controllers.Application.api
 
 GET     /api/users                         controllers.Users.list
 GET     /api/users/count                   controllers.Users.count
