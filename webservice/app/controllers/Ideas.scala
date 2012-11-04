@@ -15,9 +15,6 @@ import utils.actions.{CORSAction, CrudAction, CrudAuthAction}
 
 object Ideas extends Controller {
 
-  //TODO: testing purposes
-  implicit val Some(user) = User.findById(1)
-
   def list = CrudAction.list { request =>
     Idea.find(request.queryString)
   }
@@ -45,8 +42,8 @@ object Ideas extends Controller {
   def up(id: Long) = vote(id, true)
   def down(id: Long) = vote(id, false)
 
-  def vote(id: Long, pos: Boolean = true) = CrudAuthAction.show { request =>
-    Idea.vote(id, pos)
+  def vote(id: Long, pos: Boolean = true) = CrudAuthAction.show { req =>
+    Idea.vote(id, pos)(req.user)
   }
 
   //Tags
@@ -63,6 +60,7 @@ object Ideas extends Controller {
   }
 
   def updateTags(id: Long) = CORSAction { implicit request =>
+    implicit val Some(user) = User.findById(1)
     request.body.asJson.map { json =>
       json.asOpt[List[String]].map { tags =>
         Idea.findById(id).map { idea =>
@@ -76,6 +74,7 @@ object Ideas extends Controller {
   }
 
   def saveTag(id: Long, tag: String) = CORSAction { implicit request =>
+    implicit val Some(user) = User.findById(1)
     Idea.findById(id).map { idea =>
       idea.saveTag(tag).fold(
         errors => JsonBadRequest(errors),
