@@ -1,119 +1,62 @@
 <!DOCTYPE html>
-
 <html lang="en" ng-app="ideas-ba">
-
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Ideas-ba demo application</title>
+  <title>IdeasBA - Ideas Para mejorar tu ciudad</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/docs.css" rel="stylesheet">
   <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-  <link href="css/bootstrap-tagmanager.css" rel="stylesheet"> <!-- Tagmanager -->
-  
-
-  <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script> -->
+  <link href="css/bootstrap-tagmanager.css" rel="stylesheet">
+  <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>-->
   <script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-507b57486aceb784"></script>
   <script src="js/lib/angular-1.0.2.js"></script>
   <script src="js/lib/jquery-1.8.2.min.js"></script>
   <script src="js/lib/bootstrap.min.js"></script>
-  <script src="js/lib/nicEdit.js"></script> <!-- WYSWYG for textareas -->
-  <script src="js/lib/bootstrap-tagmanager.js"></script> <!-- Tagmanager -->
-  
-  
-  <script src="js/lib/jquery.ba-hashchange.min.js"></script> <!-- Tackpage View Lib -->
-  <script src="js/lib/googleAnalyticsScript.js"></script>  <!-- Google analytics -->
-  <script src="js/lib/trackPageView-hashchange.js"></script>  <!-- Tackpage events -->
-
-
-  
+  <script src="js/lib/nicEdit.js"></script>
+  <script src="js/lib/bootstrap-tagmanager.js"></script>
+  <script src="js/lib/jquery.ba-hashchange.min.js"></script>
+  <script src="js/lib/googleAnalyticsScript.js"></script>
+  <script src="js/lib/trackPageView-hashchange.js"></script>
   <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]> 
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    
-  
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
 
-  </head>
-
-  <body ng:controller="MainCtrl">
-
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">Ideas-ba</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li><a href="/#/ideas/nueva">Nueva Idea!</a></li>
-              <li><a href="/#/ideas/lista?q=author.id:{{selectedUserId}}">Mis ideas</a></li>
-              <li><a href="javascript:;">Best rated</a></li>
-              <li><a href="/#/ideas/lista?order=created DESC">Latest</a></li>
-              <li><a href="javascript:;">Map of ideas</a></li>
-            </ul>
-
-            <div ng-include src="menuLogged"></div>
-            
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
-<!--
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="#">Ideas-ba</a>
+<body ng:controller="MainCtrl">
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="#">Ideas-ba</a>
+        <div class="nav-collapse collapse">
           <ul class="nav">
-            <li><a href="#">Submmit Idea!</a></li>
-            <li><a href="#">My ideas</a></li>
-            <li><a href="#">Best rated</a></li>
-            <li><a href="#">Latest</a></li>
-            <li><a href="#">Map of ideas</a></li>
+            <li><a href="/#/ideas/nueva">¡Nueva Idea!</a></li>
+            <li><a href="/#/ideas/lista?q=author.id:{{selectedUserId}}">Mis ideas</a></li>
+            <li><a href="/#/ideas/lista?order=created DESC">Últimas ideas</a></li>
           </ul>
-          <ul class="nav pull-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="http://a0.twimg.com/profile_images/1557699557/penguin_armed_normal.jpg" style="width:20px;height:20px">&nbsp; Hello opensas 
-                <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="#">My profile</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Logout</a></li>
-              </ul>
-            </li>
-          </ul>
+          <div ng-include src="menuLogged"></div>
         </div>
       </div>
     </div>
-  -->
+  </div>
+
   <div class="container-fluid master-container">
     <div class="row-fluid">
       <div class="span2">
-        
-        <!-- logo -->
         <div id="logo-container" class="well sidebar-nav">
           <a href="/#/ideas"><img src="img/ideas-ba-logo.png" /></a>
-          <p>Social brainstorming for improving our city!</p>
+          <p><strong>Brainstorming social para mejorar tu ciudad</strong></p>
           <p class="small" style="text-align:center">
-            Ideas-ba aims to be a social website that allows citizens to share ideas, complaints, questions and proposal to improve our cities. It is inspired in sites like <a href="http://www.stackoverflow.com">StackOverflow</a>, that allows collective knowledge to help us solve the problems that as developers we face everyday.
+            IdeasBA es un sitio que permite a los ciudadanos compartir sus ideas, quejas, preguntas y propuestas para mejorar nuestra ciudad.
           </p>
-        </div><!--/.well -->
-
-        <!-- information -->
-        <div class="well sidebar-nav">
-          <a id="image-reference" class="btn btn-mini popover-component" data-title="Imagen de fondo:" data-content="propiedad de Benjamin Dumas CC <a href='http://www.flickr.com/photos/b00nj/5440055211'>Flickr</a>"><i class="icon-camera"></i></a>
-          <a id="logo-rog" class="btn btn-mini popover-component" data-title="Desarrollado por:" data-content="#NARDOZ <a href='http://restopengov.org/'>RestOpenGov Team</a>"><i class="icon-edit"></i></a>
-          <a class="btn btn-mini popover-component" data-title="Código fuente:" data-content="<a href='https://github.com/RestOpenGov/ideas-ba'>github</a>"><i class="icon-share"></i></a>                
-        </div><!--/.well -->
-
-      </div><!--/span-->
+        </div>
+      </div>
+      
       <div class="span10">
         <div class="well">
           <div>
@@ -128,30 +71,32 @@
 
         <div ng-view></div>
 
-      </div><!--/span-->
+      </div>
     </div>
-    
   </div>
 
+  <div id="footer">
+    Desarrollado por <a href="http://www.restopengov.org/" target="_blank">#NARDOZ (RestOpenGov Team)</a>.<br />
+    IdeasBA es código abierto y está disponible en <a href="https://github.com/RestOpenGov/ideas-ba" target="_blank">Github</a>
+  </div>
 
-
-<div class="modal hide fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="authLabel">Login</h3>
+  <div class="modal hide fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="authLabel">Iniciá sesión</h3>
+    </div>
+    <div class="modal-body">
+      <p>Elegí con qué servicio te querés iniciar sesión:</p>
+      <p>
+        <a href="#" class="btn btn-primary" ng-click="authenticateFacebook()">Facebook</a>
+        <a href="#" class="btn btn-primary" ng-click="authenticateTwitter()">Twitter</a>
+        <a href="#" class="btn btn-primary" ng-click="authenticateGoogle()">Google</a>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
   </div>
-  <div class="modal-body">
-    <p>Please your authentication method:</p>
-    <p>
-       <a href="#" class="btn btn-primary" ng-click="authenticateFacebook()">Facebook</a>
-       <a href="#" class="btn btn-primary" ng-click="authenticateTwitter()">Twitter</a>
-       <a href="#" class="btn btn-primary" ng-click="authenticateGoogle()">Google</a>
-    </p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-  </div>
-</div>
 
   <script src="js/app/app.js"></script>
   <script src="js/app/controller/MainCtrl.js"></script>
@@ -161,8 +106,8 @@
   <script src="js/app/controller/IdeaListCtrl.js"></script>
   <script src="js/app/controller/IdeaFormCtrl.js"></script>
   <script src="js/app/controller/UserDetailCtrl.js"></script>
-  <script src="js/app/controller/UserFormCtrl.js"></script>    
-  <script src="js/app/controller/ShareCtrl.js"></script> 
+  <script src="js/app/controller/UserFormCtrl.js"></script>
+  <script src="js/app/controller/ShareCtrl.js"></script>
 
 </body>
 

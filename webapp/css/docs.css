@@ -420,3 +420,5 @@ textarea {
   min-height: 400px;
 }
 
+
+#footer { text-align:center; font-size:8pt; border-top:1px solid #ccc; line-height:10pt; padding:10px 0 }
