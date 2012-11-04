@@ -1,1 +1,1 @@
-exec java "-DapplyEvolutions.default=true" -cp "`dirname $0`/target/staged/*" play.core.server.NettyServer `dirname $0`
+exec java "-DapplyEvolutions.default=false" -cp "`dirname $0`/target/staged/*" play.core.server.NettyServer `dirname $0`
