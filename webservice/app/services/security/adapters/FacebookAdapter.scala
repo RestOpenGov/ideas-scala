@@ -3,6 +3,7 @@ package services.security.adapters
 import play.api.libs.json.JsValue
 import services.security.AccessToken
 import services.security.IdentityProviderInfo
+import services.security.IdentityProviderInfo.DEFAULT_AVATAR
 
 object FacebookAdapter extends SocialAdapter {
   val provider = "facebook"
@@ -16,7 +17,7 @@ object FacebookAdapter extends SocialAdapter {
       username  <- (json \ "username").asOpt[String]
       name      <- (json \ "name").asOpt[String]
       email     <- Some((json \ "email").asOpt[String].getOrElse(""))
-      avatar    <- (json \ "picture" \ "data" \ "url").asOpt[String]
+      avatar    <- Some((json \ "picture" \ "data" \ "url").asOpt[String].getOrElse(defaultAvatar))
     } yield IdentityProviderInfo("facebook", id, username, name, email, avatar)
   }
 

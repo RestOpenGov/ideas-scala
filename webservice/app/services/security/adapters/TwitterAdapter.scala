@@ -22,11 +22,11 @@ object TwitterAdapter extends SocialAdapter {
 
   override def parseJsonResponse(json: JsValue): Option[IdentityProviderInfo] = {
     for {
-      id        <- Some(((json \ "id").asOpt[Int].getOrElse(0)).toString)
+      id        <- (json \ "id").asOpt[String]
       username  <- (json \ "screen_name").asOpt[String]
       name      <- (json \ "name").asOpt[String]
       email     <- Some("")
-      avatar    <- (json \ "profile_image_url").asOpt[String]
+      avatar    <- Some((json \ "profile_image_url").asOpt[String].getOrElse(defaultAvatar))
     } yield IdentityProviderInfo(provider, id, username, name, email, avatar)
   }
 
