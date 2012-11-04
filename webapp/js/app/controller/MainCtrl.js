@@ -31,6 +31,11 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
 
   };
 
+  $scope.logout = function() {
+    setCookie("user", "");
+    window.location.reload();
+  };
+
   var getIdeasToken = function(data) {
       
     // Get IdeasToken
