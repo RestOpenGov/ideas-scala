@@ -11,8 +11,10 @@ import play.api.libs.json.Json.toJson
 import formatters.json.CommentFormatter._
 import formatters.json.ErrorFormatter._
 
+import models.ValidationError
+
 import scala.collection.immutable.Map
-import utils.actions.CORSAction
+import utils.actions.{CORSAction, SecuredAction, CrudAuthAction}
 import utils.{JsonBadRequest, JsonNotFound, JsonOk}
 import utils.Http
 
@@ -39,11 +41,11 @@ object Comments extends Controller {
     }.getOrElse(JsonNotFound("Comment with id %s not found".format(id)))
   }
 
-  def save(ideaId : Long) = CORSAction { implicit request =>
+  def save(ideaId : Long) = SecuredAction { implicit req =>
     Idea.findById(ideaId).map { idea =>
-      request.body.asJson.map { json =>
+      req.body.asJson.map { json =>
         json.asOpt[Comment].map { comment =>
-          comment.copy(idea = idea).save.fold(
+          comment.copy(idea = idea, author=req.user).save.fold(
             errors => JsonBadRequest(errors),
             comment => Ok(toJson(comment))
           )
@@ -52,16 +54,17 @@ object Comments extends Controller {
     }.getOrElse         (JsonBadRequest("Could not find idea with id '%s'".format(ideaId)))
   }
 
-  def update(id: Long) = CORSAction { implicit request =>
-    request.body.asJson.map { json =>
-      json.asOpt[Comment].map { idea =>
-        idea.copy(id=Id(id)).update.fold(
-          errors => JsonBadRequest(errors),
-          comment => Ok(toJson(comment))
-        )
-      }.getOrElse       (JsonBadRequest("Invalid Comment entity"))
-    }.getOrElse         (JsonBadRequest("Expecting JSON data"))
-  }
+  def update(id: Long) = TODO
+  // def update(id: Long) = CORSAction { implicit request =>
+  //   request.body.asJson.map { json =>
+  //     json.asOpt[Comment].map { idea =>
+  //       idea.copy(id=Id(id)).update.fold(
+  //         errors => JsonBadRequest(errors),
+  //         comment => Ok(toJson(comment))
+  //       )
+  //     }.getOrElse       (JsonBadRequest("Invalid Comment entity"))
+  //   }.getOrElse         (JsonBadRequest("Expecting JSON data"))
+  // }
 
   def delete(id: Long) = CORSAction { implicit request =>
     Comment.delete(id)
@@ -71,13 +74,27 @@ object Comments extends Controller {
   def up(idea: Long, id: Long) = vote(idea, id, true)
   def down(idea: Long, id: Long) = vote(idea, id, false)
 
-  def vote(idea: Long, id: Long, pos: Boolean = true) = CORSAction { implicit request =>
-    implicit val Some(user) = User.findById(2)
-    
-    Comment.vote(id, pos).fold(
-      errors => JsonBadRequest(errors),
-      idea => Ok(toJson(idea))
+  def vote(ideaId: Long, commentId: Long, pos: Boolean = true) = SecuredAction { req =>
+    Comment.findById(commentId).map { comment =>
+      if (comment.idea.id.get != ideaId) {
+        JsonBadRequest("Comment with id '%s' does not belong to idea with id '%s'.".format(commentId, ideaId))
+      } else {
+        Comment.vote(commentId, pos)(req.user).fold(
+          errors => JsonBadRequest(errors),
+          idea => Ok(toJson(idea))
+        )
+      }
+    }.getOrElse(
+      JsonBadRequest("Could not find comment with id '%s'".format(commentId))
     )
   }
+
+  // def vote(idea: Long, id: Long, pos: Boolean = true) = CORSAction { implicit request =>
+  //   implicit val Some(user) = User.findById(2)
+  //   Comment.vote(id, pos).fold(
+  //     errors => JsonBadRequest(errors),
+  //     idea => Ok(toJson(idea))
+  //   )
+  // }
 
 }
