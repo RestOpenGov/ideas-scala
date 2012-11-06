@@ -131,6 +131,8 @@ POST    /api/tests/unsecured/types             controllers.tests.UnsecuredIdeaTy
 GET     /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.show(id: Long)
 DELETE  /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.delete(id: Long)
 
+POST    /api/tests/categorize                  controllers.tests.Categorizer.categorize
+
 # tmp admin tasks
 
 GET     /api/management/ideas/:id/zap          controllers.Management.zapIdea(id: Long)
