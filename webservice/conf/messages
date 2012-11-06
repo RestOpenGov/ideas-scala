@@ -15,5 +15,19 @@ tag=tag
 tag.name=nombre
 tag.description=descripción
 
+vote=voto
+vote.voteType=tipo de voto
+vote.userId=autor
+
+vote.validate.voteType=Tipo de voto especificado inválido. Valores válidos: {0}.
+vote.validate.noIdeaNorComment=No se ha especificado la idea ni el comentario correspondiente a este voto.
+vote.validate.ideaAndComment=Se ha especificado la idea y el comentario. Sólo puede especificar uno de ellos.
+vote.validate.alreadyVoted=Ya ha votado por esa idea o comentario.
+vote.validate.yourOwnIdeaUp=Un poco más de humildad. No podés votar por tu propia idea!
+vote.validate.yourOwnIdeaDown=No te gusta tu idea? No podés votar por tu propia idea!
+vote.validate.yourOwnCommentUp=Un poco más de humildad. No podés votar por tu propio comentario!
+vote.validate.yourOwnCommentDown=No te gusta tu comentario? No podés votar por tu propio comentario!
+
 validate.empty=El campo "{0}" no puede estar vacío.
 validate.duplicate=Ya existe un {0} con el campo {1} "{2}".
+

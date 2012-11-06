@@ -7,6 +7,7 @@ import anorm._
 import anorm.SqlParser._
 
 import utils.Validate
+import utils.Validate._
 
 import utils.Conversion.pkToLong
 
@@ -190,26 +191,25 @@ object Vote extends EntityCompanion[Vote] {
 
     // vote type, should also validate foreign key!
     if (Validate.isEmptyWord(vote.voteType)) {
-      errors ::= ValidationError("type", "Vote type not specified")
+      errors ::= ValidationError(Error.REQUIRED, "type", "validate.empty", &("vote.voteType"))
     } else {
       if (!vote.voteType.toLowerCase.isOneOf("idea", "comment")) {
-        errors ::= ValidationError("type", "Invalid vote type specified. Valid values: idea, comment")
+        errors ::= ValidationError(Error.BUSINESS_RULE, "type", "vote.validate.voteType", "idea, comment")
       }
     }
 
-    // user, should also validate foreign key!
     if (!vote.ideaId.isDefined && !vote.commentId.isDefined) {
-      errors ::= ValidationError("", "No idea nor comment specified")
+      errors ::= ValidationError("", "vote.validate.noIdeaNorComment")
     }
 
     // user, should also validate foreign key!
     if (vote.ideaId.isDefined && vote.commentId.isDefined) {
-      errors ::= ValidationError("", "Idea and comment specified, you can only vote for one of them")
+      errors ::= ValidationError("", "vote.validate.ideaAndComment")
     }
 
     // user, should also validate foreign key!
     if (vote.userId == 0) {
-      errors ::= ValidationError("user", "Author of the vote not specified")
+      errors ::= ValidationError(Error.REQUIRED, "author", "validate.empty", &("vote.userId"))
     }
 
     // check for duplicate vote
@@ -221,8 +221,7 @@ object Vote extends EntityCompanion[Vote] {
       val entity = ( if (vote.ideaId.isDefined) "idea" else "comment" )
       if (vote.pos == duplicated.pos) {
         val up_down = ( if (vote.pos) "up" else "down" )
-        errors ::= ValidationError(Error.BUSINESS_RULE, "author",
-          "You've already voted %s for that %s!".format(up_down, entity))
+        errors ::= ValidationError(Error.BUSINESS_RULE, "author", "vote.validate.alreadyVoted")
       }
     }
 
@@ -230,8 +229,8 @@ object Vote extends EntityCompanion[Vote] {
     vote.ideaId.map { id =>
       Idea.findById(id).map { idea =>
         if (idea.author.id.get == vote.userId) {
-          if (vote.pos) errors ::= ValidationError(Error.BUSINESS_RULE, "author", "Be more humble! You can't vote your own idea")
-          else          errors ::= ValidationError(Error.BUSINESS_RULE, "author", "Don't you like your own idea? You can't vote your own idea")
+          if (vote.pos) errors ::= ValidationError(Error.BUSINESS_RULE, "author", "vote.validate.yourOwnIdeaUp")
+          else          errors ::= ValidationError(Error.BUSINESS_RULE, "author", "vote.validate.yourOwnIdeaDown")
         }
       }
     }
@@ -240,8 +239,8 @@ object Vote extends EntityCompanion[Vote] {
     vote.commentId.map { id =>
       Comment.findById(id).map { comment =>
         if (comment.author.id.get == vote.userId) {
-          if (vote.pos) errors ::= ValidationError(Error.BUSINESS_RULE, "author", "Be more humble! You can't vote your own comment")
-          else          errors ::= ValidationError(Error.BUSINESS_RULE, "author", "Don't you like your own comment? You can't vote your own comment")
+          if (vote.pos) errors ::= ValidationError(Error.BUSINESS_RULE, "author", "vote.validate.yourOwnCommentUp")
+          else          errors ::= ValidationError(Error.BUSINESS_RULE, "author", "vote.validate.yourOwnCommentDown")
         }
       }
     }

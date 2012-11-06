@@ -31,6 +31,7 @@ abstract class SocialAdapter {
     parseJsonResponse(Json.parse(response))
   }
   
+  val defaultAvatar = IdentityProviderInfo.DEFAULT_AVATAR
   def defineBaseUri(token: String): String
   def defineQueryParams(token:String): Map[String, String] = Map()
   def defineHeaders(token:String): Map[String, String] = Map()

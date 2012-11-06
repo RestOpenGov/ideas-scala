@@ -82,7 +82,8 @@ object SecurityManager {
     } getOrElse {
       Left(List(ValidationError(
         Error.AUTHENTICATION, "applicationToken", 
-        "Token not found in authentication header nor in ideas-token querystring param"
+        // "Token not found in authentication header nor in ideas-token querystring param"
+        "Tenés que iniciar sesión para votar, proponer tus ideas o agregar comentarios"
       )))
     }
   }

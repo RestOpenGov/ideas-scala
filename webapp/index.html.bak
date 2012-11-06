@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Ideas-ba demo application</title>
+  <title>IdeasBA demo application</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/docs.css" rel="stylesheet">
@@ -43,7 +43,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Ideas-ba</a>
+          <a class="brand" href="#">IdeasBA</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li><a href="/#/ideas/nueva">Nueva Idea!</a></li>
@@ -64,7 +64,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="#">Ideas-ba</a>
+          <a class="brand" href="#">IdeasBA</a>
           <ul class="nav">
             <li><a href="#">Submmit Idea!</a></li>
             <li><a href="#">My ideas</a></li>
@@ -98,7 +98,7 @@
           <a href="/#/ideas"><img src="img/ideas-ba-logo.png" /></a>
           <p>Social brainstorming for improving our city!</p>
           <p class="small" style="text-align:center">
-            Ideas-ba aims to be a social website that allows citizens to share ideas, complaints, questions and proposal to improve our cities. It is inspired in sites like <a href="http://www.stackoverflow.com">StackOverflow</a>, that allows collective knowledge to help us solve the problems that as developers we face everyday.
+            IdeasBA aims to be a social website that allows citizens to share ideas, complaints, questions and proposal to improve our cities. It is inspired in sites like <a href="http://www.stackoverflow.com">StackOverflow</a>, that allows collective knowledge to help us solve the problems that as developers we face everyday.
           </p>
         </div><!--/.well -->
 

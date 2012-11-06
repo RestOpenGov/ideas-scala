@@ -3,6 +3,7 @@ package services.security.adapters
 import play.api.libs.json.JsValue
 import services.security.AccessToken
 import services.security.IdentityProviderInfo
+import services.security.IdentityProviderInfo.DEFAULT_AVATAR
 
 //https://www.googleapis.com/oauth2/v1/userinfo?access_token=<token>
 object GoogleAdapter extends SocialAdapter {
@@ -17,7 +18,7 @@ object GoogleAdapter extends SocialAdapter {
       name      <- (json \ "name").asOpt[String]
       username  <- Some((json \ "given_name").asOpt[String].getOrElse(name))
       email     <- Some((json \ "email").asOpt[String].getOrElse(""))
-      avatar    <- Some((json \ "picture").asOpt[String].getOrElse(""))
+      avatar    <- Some((json \ "picture").asOpt[String].getOrElse(defaultAvatar))
     } yield IdentityProviderInfo("google", id, username, name, email, avatar)
   }
 

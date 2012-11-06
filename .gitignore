@@ -18,6 +18,13 @@ webservice/bin
 websevice/dist
 webservice/RUNNING_PID
 
+# Ignore local h2 database temp files
+webservice/data/ideasba.lock.db
+webservice/data/ideasba.trace.db
+
+# Ignore local h2 database files
+# webservice/data
+
 # Ignore openshift deployment folder
 openshift
 
