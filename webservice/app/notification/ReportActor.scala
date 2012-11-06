@@ -16,6 +16,7 @@ import notification.mailTemplates.NewCommentMailTemplate
 import models.User
 import models.Idea
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 
 
  
@@ -25,6 +26,7 @@ class ReportActor extends Actor with ActorLogging {
 	var ideas: Long = 0;
 	var votes: Long = 0;
     var users: Long = 0;
+    //val mails = List("nfmelendez@gmail.com")
 
     val mails = List("nfmelendez@gmail.com",
     "matias.urbano@gmail.com",
@@ -62,16 +64,17 @@ class ReportActor extends Actor with ActorLogging {
 
     case ReportNotification() => {
     	val mailHtml = views.html.reportMailTemplate.render(comments, ideas, votes, users).body
-        val date = new DateTime().toString()
+        val date = new DateTime(DateTimeZone.forOffsetHours(-3)).toString()
 		val subject = <subject>Ideas-BA Report -  {date}</subject>.text
+
+        comments = 0
+        ideas = 0
+        votes = 0
+        users = 0
+        
         mails.foreach(mail => {
             SendMail.send(subject, mailHtml, mailHtml, mail)
         })
-
-    	comments = 0
-		ideas = 0
-		votes = 0
-		users = 0
     }
 
     case _      => play.Logger.info("received unknown message")
