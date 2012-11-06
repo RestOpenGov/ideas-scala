@@ -14,8 +14,6 @@ import akka.util.duration._
 import play.api.libs.concurrent.Akka
 import play.api.Play.current
 
-
-
 import utils.NormalizedRequest
 
 object Global extends GlobalSettings {
@@ -50,15 +48,15 @@ object Global extends GlobalSettings {
     | |( (_| |(  ___/( (_| |\__, \              | (_) )| | | |
     (_)`\__,_)`\____)`\__,_)(____/              (____/'(_) (_)
                                                         
-    IDEASBA IS STARTING ...
+    IDEASBA IS STARTING 
                ^^^^^^^^
     """
     Logger.info(greeting)
 
     Akka.system.scheduler.schedule(4 hours, 24 hours,
-      NotificationService.reportActor, ReportNotification());
+    NotificationService.reportActor, ReportNotification());
     Logger.info("Report Scheduler started.")
 
-  }  
+  }
 
 }
