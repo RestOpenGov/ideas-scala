@@ -55,7 +55,7 @@ object Global extends GlobalSettings {
     """
     Logger.info(greeting)
 
-    Akka.system.scheduler.schedule(4 hours, 4 hours,
+    Akka.system.scheduler.schedule(4 hours, 24 hours,
       NotificationService.reportActor, ReportNotification());
     Logger.info("Report Scheduler started.")
 
