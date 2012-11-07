@@ -131,7 +131,7 @@ var Auth = {
         appId : Auth.providerKey.get('facebook'),
             //channelUrl : '//ideas-jugar.rhcloud.com/channel.html', 
             //channelUrl : '//ideas-ba.com.ar/channel.html', 
-            channelUrl : '//localhost/ideas-ba/channel.html', 
+            channelUrl : '/channel.html', 
             status : true,
             cookie : true,
             xfbml : true 

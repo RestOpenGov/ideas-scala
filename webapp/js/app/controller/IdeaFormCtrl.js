@@ -46,12 +46,12 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 				$location.path("/ideas/"+json.id).search();
 				
 		    },function(data, status, headers, config) {
-		    	alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
+		    	alert('Ocurrió un error al querer dar de alta la idea. Por favor intenta nuevamente.');
 		    });
 		    
 		
 		},function(data, status, headers, config) {
-	    	alert('ERROR AL DAR DE ALTA LA IDEA');
+	    	alert('Ocurrió un error al querer dar de alta la idea. Por favor intenta nuevamente.');
 	    });
 	};
 
