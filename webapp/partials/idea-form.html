@@ -22,7 +22,12 @@
 		    	<textarea id="areaMessage" class="span12" placeholder="La idea va aquí..." name="areaMessage"></textarea>
 		    </div>
 	  </div>
-	  
+	  {{suggestions.length > 0}}
+   	  <div class="control-group" ng-show="suggestions.length > 0" ng-hide="suggestions.length == 0">
+		<label class="control-label" for="inputTags">Sugerencias</label>
+      	<div ng-include src="'includes/suggestion.html'" ng-repeat="suggestion in suggestions"></div>
+      </div>
+
    	  <div class="control-group">
 	    <label class="control-label" for="inputTags">Tags</label>
 	    <div class="controls">

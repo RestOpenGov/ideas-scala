@@ -36,16 +36,16 @@ ideasModule.factory('$USER', function() {
 ideasModule.run(function($rootScope,$http) {
 
   //Global functions!!
-  $rootScope.ideaAjaxCall = function (_method,_url,_data,_callback,_callbackError) {
+  $rootScope.ideaAjaxCall = function (_method,_url,_data,_callback,_callbackError,_contentType) {
     //TODO add header with 
 
     var token = SocialAuth.get('ideas-ba-token'), _headers={};
 
     if (token) {
-      _headers = {
-        "Authorization": 'ideas-token='+token
-      };
+        _headers["Authorization"] = 'ideas-token='+token;
     }
+
+    _headers["Content-Type"] =  _contentType || "application/json";
 
     $http({method: _method, url: _url, data: _data, headers: _headers}).success(
         function (data, status, headers, config){

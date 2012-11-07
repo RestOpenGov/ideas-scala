@@ -5,16 +5,39 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 
 	$scope.idea = {};
 
-	$scope.editor = {};
+	$scope.area = {};
+
+	$scope.timeout = {};
+
+	$scope.suggestions = [];
+
+	$scope.selectedSuggestions = [];
 
 	$scope.$on('$viewContentLoaded', function() {
-		$scope.editor = new nicEditor({
-			buttonList : ['bold','italic','underline','strikeThrough','ol','ul','forecolor','link','unlink'],
-			iconsPath : '/img/nicEditorIcons.gif'
-		})
 
-		$scope.editorInstance = $scope.editor.panelInstance('areaMessage');
-		
+
+		$scope.area = $('#areaMessage').wysihtml5(
+			{
+				"stylesheets": ["/css/bootstrap-wysihtml5-0.0.2.css"],
+				events: {
+			        "newword:composer" : 
+			        	function() { 
+		        			$scope.suggestions = [];
+			        		$scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'tests/categorize',$scope.area.val(),
+			        			function(json) {
+			        				//filtrar las seleccionadas o las que ya le pregunté
+			        				$scope.suggestions = json;
+					    		},
+						    	function(error) {  
+						      		console.log(error);
+						    	},
+					    	'text/plain');
+						}
+				}
+			});
+
+
+
 	    $(".tagManager").tagsManager({
 	        preventSubmitOnEnter: true,
 	        typeahead: true,
@@ -27,15 +50,14 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 	});
 
 	$scope.init = function(){
-		$http.get(SERVICE_ENDPOINT+'types').success(function(json) {
+		$scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'types',{},function(json) {  
 	      $scope.types = json;
 	    });
 	};
 
 	$scope.saveIdea = function(){
 		//Completo la descripcion
-		$scope.editor.instanceById('areaMessage').saveContent();
-		$scope.idea.description = $scope.editor.instanceById('areaMessage').getContent();
+		$scope.idea.description = $scope.area.val();
 
 	    $scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas',$scope.idea,function(json) {  
 			// preparing the tags array
@@ -53,6 +75,17 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 		},function(data, status, headers, config) {
 	    	alert('ERROR AL DAR DE ALTA LA IDEA');
 	    });
+	};
+
+	$scope.removeSuggestion = function(i){
+		//TODO
+		$scope.suggestions.unshift(i);
+		$('#suggestion-'+i).remove();
+	};
+
+	$scope.addSuggestion = function(i){
+		//TODO
+		console.log(i);
 	};
 
 	$scope.init();

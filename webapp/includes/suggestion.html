@@ -1,0 +1,7 @@
+{{suggestion}}
+<div id="suggestion-{{$index}}" class="ng-cloak">
+<p>¿Quiso decir {{suggestion.text}}?</p>
+<p>Tags sugeridos {{suggestion.tags}}</p>
+<a ng-click="addSuggestion($index)">SI</a>
+<a ng-click="removeSuggestion($index)">NO</a>
+</div>
