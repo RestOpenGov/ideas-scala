@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/docs.css" rel="stylesheet">
+  <link href="css/zocial.css" rel="stylesheet">
   <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
   <link href="css/bootstrap-tagmanager.css" rel="stylesheet">
   <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>-->
@@ -19,6 +20,8 @@
   <script src="js/lib/jquery.ba-hashchange.min.js"></script>
   <script src="js/lib/googleAnalyticsScript.js"></script>
   <script src="js/lib/trackPageView-hashchange.js"></script>
+  <script src="js/lib/socialauth.js"></script>
+  <script src="js/lib/socialauth.providers.js"></script>
   <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
@@ -94,9 +97,9 @@
     <div class="modal-body">
       <p>Elegí con qué servicio querés iniciar sesión:</p>
       <p>
-        <!-- <a href="#" class="btn btn-primary" ng-click="authenticateFacebook()">Facebook</a>
-        <a href="#" class="btn btn-primary" ng-click="authenticateTwitter()">Twitter</a> -->
-        <a href="#" class="btn btn-primary" ng-click="authenticateGoogle()">Google</a>
+        <button class="zocial facebook authButton" rel="Facebook">Facebook</button>
+        <button class="zocial twitter authButton" rel="Twitter">Twitter</button>
+        <button class="zocial google authButton" rel="Google">Google</button>
       </p>
     </div>
     <div class="modal-footer">
