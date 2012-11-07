@@ -55,7 +55,7 @@ case class User (
   def canCreateTags: Boolean = id match {
     // hardcoded for testing, should use mocking library instead
     case Id(1) => true
-    case _ => false
+    case _ => true
   }
 
   def upIdea(id: Long) = voteIdea(id, true)

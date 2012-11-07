@@ -6,11 +6,11 @@ import play.api.db._
 import anorm._
 import anorm.SqlParser._
 
-import utils.Validate._
 import play.api.Play
 import play.api.i18n.Lang
 
 import utils.Http
+import utils.Validate._
 import utils.Validate
 
 import utils.Sql.sanitize

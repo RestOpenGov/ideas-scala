@@ -11,7 +11,7 @@ import play.api.mvc.Controller
 
 import utils.{JsonBadRequest, JsonNotFound}
 
-import utils.actions.{CORSAction, CrudAction, CrudAuthAction}
+import utils.actions.{CORSAction, SecuredAction, CrudAction, CrudAuthAction}
 
 object Ideas extends Controller {
 
@@ -59,9 +59,9 @@ object Ideas extends Controller {
     }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
   }
 
-  def updateTags(id: Long) = CORSAction { implicit request =>
-    implicit val Some(user) = User.findById(1)
-    request.body.asJson.map { json =>
+  def updateTags(id: Long) = SecuredAction { implicit req =>
+    implicit val user = req.user
+    req.body.asJson.map { json =>
       json.asOpt[List[String]].map { tags =>
         Idea.findById(id).map { idea =>
           idea.updateTags(tags).fold(

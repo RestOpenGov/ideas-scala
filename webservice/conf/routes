@@ -131,6 +131,16 @@ POST    /api/tests/unsecured/types             controllers.tests.UnsecuredIdeaTy
 GET     /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.show(id: Long)
 DELETE  /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.delete(id: Long)
 
+POST    /api/tests/categorize                  controllers.tests.Categorizer.categorize
+
+# tmp admin tasks
+
+GET     /api/management/ideas/:id/zap          controllers.Management.zapIdea(id: Long)
+GET     /api/management/comments/:id/zap       controllers.Management.zapComment(id: Long)
+
+GET     /api/management/ideas/:id/:text        controllers.Management.updateIdea(id: Long, text: String)
+GET     /api/management/comments/:id/:text     controllers.Management.updateComment(id: Long, text: String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /*file                   controllers.Assets.at(path="/public", file)
 
