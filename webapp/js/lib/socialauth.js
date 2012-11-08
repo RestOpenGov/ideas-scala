@@ -106,7 +106,7 @@ SocialAuth.storageEngines.cookie = {
   get: function(key) {
     var i, x, y, cookies = document.cookie.split(";");
 
-    for(i=0; i < cookies.length; i++) {
+    for(i = 0; i < cookies.length; i++) {
       x = cookies[i].substr(0, cookies[i].indexOf("="));
       y = cookies[i].substr(cookies[i].indexOf("=") + 1);
       x = x.replace(/^\s+|\s+$/g,"");
@@ -121,8 +121,7 @@ SocialAuth.storageEngines.cookie = {
   set: function(key, value) {
     var expireDate = new Date();
     expireDate.setDate(expireDate.getDate() + this.ttl);
-    value = JSON.stringify(value) + ((this.ttl == null) ? "" : "; expires=" + expireDate.toUTCString());
-    document.cookie = key + "=" + escape(value);
+    document.cookie = key + "=" + escape(JSON.stringify(value)) + "; expires=" + expireDate.toUTCString();;
   }
 
 };
