@@ -43,12 +43,60 @@ Mucho más cuando nos referimos a algo que nos concierne a todos, como es mejora
 
 (mostrar y explicar stackoverflow)
 
-Con esta idea en mente, 
+Con esta idea en mente, decidimos desarrollar Ideas-ba.
+
+IdeasBa.org busca ser un sitio donde todos podamos compartir nuestras ideas, reclamos, preguntas y sugerencias con el resto de la ciudadanía. Todos podremos comentar y mejorar las ideas que alli se publiquen, y podremos votar por aquellas que nos parezcan más útiles.
+
+(video de un celular con el loguito del obelisto, un dedo hace scrollear la pantalla y muestras las tres mejores ideas
+
+Las ideas más votadas, simplemente tendrán más visibilidad, por lo que será fácil ver cuáles son las mejores ideas.
+
+(video login with twitter)
+Para poder colaborar con tus ideas, tan sólo tenés que navegar a ideasba.org, ingresar con tu cuenta de twitter, facebook o google
+
+(video votando una idea)
+Si te gusta alguna idea... votala! y así te asegurás que más vecinos puedan verla.
+
+Si tenes alguna idea para mejorar la ciudad, compartila con tus vecinos
+
+Tan sólo tenés que hacer click en ¡Nueva Idea!
+
+(video dando de alta una idea)
+Ideasba te va a ayudar a completar la información para que sea más fácil encontrar tu idea.
+
+(mostrar ejejmplo de varias ideas
+
+mostrar como te sugiere tags
+
+direcciones
+
+etc.
+)
+
+(Ejemplo: En Avenida de Mayo al 825 está el café Tortoni, una cita imperdible)
+
+y mostrar que te sugiere la calle
+
+(Ejemplo: En el teatro San Martín se inicia un taller de confección de títeres, a partir de octubre. 
+y mostrar que te sugiere teatro y que te agrega la dirección
+
+)
 
 
+-- info sobre stack overflow
+
+
+Está inspirado en StackOverflow, un sitio donde los informáticos recurrimos a diario para plantear nuestras preguntas y aportar nuestro conocimiento para ayudar al resto de la comunidad.
+
+(Cartel de stack overflow
 usuarios: 1225580
 preguntas: 3279233
 respuestas: 6578079
+)
+
+
+
+
 
 
 
