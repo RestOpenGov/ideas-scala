@@ -1,9 +1,9 @@
 SocialAuth.providers.Twitter = {
 
   consumerKeys: {
-    'ideasba.dev' :             'NlSXLXyTcTTsbA85wxpHdw',
-    'ideas-jugar.rhcloud.com':  'nrtUVmeQAlNN2lFwxSlQA',
-    'ideasba.org':              'wGtZZoq1CVcmwKkbhXfg'
+    'ideasba.dev' :    'NlSXLXyTcTTsbA85wxpHdw',
+    'ideas-ba.com.ar': 'nrtUVmeQAlNN2lFwxSlQA',
+    'ideasba.org':     'wGtZZoq1CVcmwKkbhXfg'
   },
 
   init: function() {
@@ -28,11 +28,10 @@ SocialAuth.providers.Twitter = {
 SocialAuth.providers.Facebook = {
 
   consumerKeys: {
-      'localhost':                '486452174721099',
-      'localhost:9000':           '486452174721099',
-      'ideasba.dev':              '486452174721099',
-      'ideas-jugar.rhcloud.com':  '486452174721099',
-      'ideasba.org':              '363371277085724'
+      'localhost':       '486452174721099',
+      'ideasba.dev':     '486452174721099',
+      'ideas-ba.com.ar': '471376869573780',
+      'ideasba.org':     '363371277085724'
   },
 
   init: function() {
@@ -77,12 +76,11 @@ SocialAuth.providers.Facebook = {
 SocialAuth.providers.Google = {
 
   consumerKeys: {
-    'localhost':                '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com',
-    'localhost:9000':           '985870621747-2a4vrdvetqt3nf3l02pik89cdtq8qi8v.apps.googleusercontent.com',
-    'ideasba.dev':              '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com',
-    'ideas-jugar.rhcloud.com':  '985870621747.apps.googleusercontent.com',
-    'ideas-ba.com.ar':          '985870621747-j927dgla2ulsugmu6bjpaicnae46ppc2.apps.googleusercontent.com',
-    'ideasba.org':              '985870621747-ldmuh1o133lstageeo47jl3ggn0h9mvm.apps.googleusercontent.com'
+    'localhost':       '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com',
+    'localhost:9000':  '985870621747-2a4vrdvetqt3nf3l02pik89cdtq8qi8v.apps.googleusercontent.com',
+    'ideasba.dev':     '985870621747-7a3hngmm8k249qd4d1gcmk2jtf156msh.apps.googleusercontent.com',
+    'ideas-ba.com.ar': '985870621747-j927dgla2ulsugmu6bjpaicnae46ppc2.apps.googleusercontent.com',
+    'ideasba.org':     '985870621747-ldmuh1o133lstageeo47jl3ggn0h9mvm.apps.googleusercontent.com'
   },
 
   init: function() {
