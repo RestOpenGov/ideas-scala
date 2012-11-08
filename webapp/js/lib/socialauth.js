@@ -121,7 +121,12 @@ SocialAuth.storageEngines.cookie = {
   set: function(key, value) {
     var expireDate = new Date();
     expireDate.setDate(expireDate.getDate() + this.ttl);
-    document.cookie = key + "=" + escape(JSON.stringify(value)) + "; expires=" + expireDate.toUTCString();;
+
+    if(value) {
+      value = escape(JSON.stringify(value));
+    }
+    
+    document.cookie = key + "=" + value + "; expires=" + expireDate.toUTCString();;
   }
 
 };
