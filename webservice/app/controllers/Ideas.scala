@@ -92,4 +92,43 @@ object Ideas extends Controller {
     }.getOrElse       (JsonNotFound("Idea with id %s not found".format(id)))
   }
 
+
+  //Geos
+  def listGeos(id: Long) = TODO
+  // def listGeos(id: Long) = CORSAction {
+  //   Idea.findById(id).map { idea =>
+  //     Ok(toJson(idea.geos))
+  //   }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
+  // }
+
+  def countGeos(id: Long) = TODO
+  // def countGeos(id: Long) = CORSAction {
+  //   Idea.findById(id).map { idea =>
+  //     Ok(toJson(idea.geos.size))
+  //   }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
+  // }
+
+  def saveGeo(id: Long, geo: String) = TODO
+  // def saveGeo(id: Long, geo: String) = CORSAction { implicit request =>
+  //   implicit val Some(user) = User.findById(1)
+  //   Idea.findById(id).map { idea =>
+  //     idea.saveGeo(geo).fold(
+  //       errors => JsonBadRequest(errors),
+  //       geos => Ok(toJson(geos))
+  //     )
+  //   }.getOrElse       (JsonNotFound("Idea with id %s not found".format(id)))
+  // }
+
+  def deleteGeo(id: Long, geo: String) = TODO
+  // def deleteGeo(id: Long, geo: String) = CORSAction { implicit request =>
+  //   Idea.findById(id).map { idea =>
+  //     idea.deleteGeo(geo).fold(
+  //       errors => JsonBadRequest(errors),
+  //       geos => Ok(toJson(geos))
+  //     )
+  //   }.getOrElse       (JsonNotFound("Idea with id %s not found".format(id)))
+  // }
+
+
+
 }
