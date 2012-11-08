@@ -1,0 +1,55 @@
+Guión para el video de ideas-ba
+===============================
+
+(Titulo: Qué es crowdsourcing)
+==============================
+
+Las gente de sistemas, no estamos solos a la hora de realizar nuestro trabajo.
+
+Contamos con la ayuda de miles de desarrolladores, de todo el mundo, que colaboran con nosotros aportando su trabajo y conocimiento.
+
+A diario utilizamos programas y librerias que, siguiendo los principios del software libre, nos dan la libertad de
+
+(imagen del pinguinito y la mascota de gnu
+http://en.wikifur.com/wiki/File:GNU-Linux.png
+)
+
+(las 4 libertades en pantalla)
+
+libertad 0: usar el programa libremente
+libertad 1: ver cómo está hecho el programa y modifcarlo para adaptarlo a nuestras necesidades
+libertad 2: distribuir copia de nuestro programa
+libertad 3: mejorar el progama y hacer públicas nuestras modificaciones, para beneficio del resto de la comunidad
+
+Pero eso no es todo, también contamos con sitios donde compartir nuestro código como github, o donde preguntar nuestras dudas y recibir ayudas de la comunidad, como stackoverflow.
+
+Esta manera de trabajar colaborativamente ha recibido el nombre de "crowdsourcing", que consiste en invitar e involucrar a la comunidad para participar de procesos que antes realizaban un empleado o contratista.
+
+(cartel
+crowd = multitud
+(out)sourcing = externalizar
+)
+
+Esto ha revolucionado la manera en que desarrollamos sistemas, y hoy nos resultaría inconcebible volver a trabajar aisladamente, sin la ayuda de la comunidad.
+
+No es la primera vez que a nosotros, los "informáticos", nos ha tocado experimentar por anticipado cambios tecnológicos que luego terminan cambiando el día a día de toda la población. Mucho antes de que se extendiera su uso, ya trabajábamos a diario con herramientas como el mail o twitter.
+
+Estamos convencidos de que esta revolución que surge de trabajar colaborativamente y compartir nuestro conocimiento, puede aplicarse a otras actividades y discplinas.
+
+Mucho más cuando nos referimos a algo que nos concierne a todos, como es mejorar nuestra ciudad.
+
+(Titulo: Crowdsourcing para mejorar nuestra ciudad)
+===================================================
+
+(mostrar y explicar stackoverflow)
+
+Con esta idea en mente, 
+
+
+usuarios: 1225580
+preguntas: 3279233
+respuestas: 6578079
+
+
+
+
