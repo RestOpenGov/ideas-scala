@@ -7,18 +7,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/docs.css" rel="stylesheet">
+  <link href="css/zocial.css" rel="stylesheet">
   <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
   <link href="css/bootstrap-tagmanager.css" rel="stylesheet">
+  <link href="css/bootstrap-wysihtml5-0.0.2.css" rel="stylesheet">  
   <!-- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>-->
   <script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-507b57486aceb784"></script>
   <script src="js/lib/angular-1.0.2.js"></script>
+  <script src="js/lib/wysihtml5-0.3.0.js"></script>  
   <script src="js/lib/jquery-1.8.2.min.js"></script>
   <script src="js/lib/bootstrap.min.js"></script>
-  <script src="js/lib/nicEdit.js"></script>
+  <!--script src="js/lib/nicEdit.js"></script-->
+  <script src="js/lib/bootstrap-wysihtml5-0.0.2.min.js"></script>
   <script src="js/lib/bootstrap-tagmanager.js"></script>
   <script src="js/lib/jquery.ba-hashchange.min.js"></script>
   <script src="js/lib/googleAnalyticsScript.js"></script>
   <script src="js/lib/trackPageView-hashchange.js"></script>
+  <script src="js/lib/socialauth.js"></script>
+  <script src="js/lib/socialauth.providers.js"></script>
   <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
@@ -94,9 +100,9 @@
     <div class="modal-body">
       <p>Elegí con qué servicio querés iniciar sesión:</p>
       <p>
-        <!-- <a href="#" class="btn btn-primary" ng-click="authenticateFacebook()">Facebook</a>
-        <a href="#" class="btn btn-primary" ng-click="authenticateTwitter()">Twitter</a> -->
-        <a href="#" class="btn btn-primary" ng-click="authenticateGoogle()">Google</a>
+        <button class="zocial facebook authButton" rel="Facebook">Facebook</button>
+        <button class="zocial twitter authButton" rel="Twitter">Twitter</button>
+        <button class="zocial google authButton" rel="Google">Google</button>
       </p>
     </div>
     <div class="modal-footer">

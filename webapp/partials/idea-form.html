@@ -22,7 +22,14 @@
 		    	<textarea id="areaMessage" class="span12" placeholder="La idea va aquí..." name="areaMessage"></textarea>
 		    </div>
 	  </div>
-	  
+
+   	  <div class="control-group" ng-show="suggestions.length > 0" ng-hide="suggestions.length == 0">
+		<label class="control-label" for="inputTags">Sugerencias</label>
+		<div class="controls">
+      		<div ng-include src="'includes/suggestion.html'" ng-repeat="suggestion in suggestions"></div>
+      	</div>
+      </div>
+
    	  <div class="control-group">
 	    <label class="control-label" for="inputTags">Tags</label>
 	    <div class="controls">
@@ -32,7 +39,6 @@
 
 	    </div>
 	  </div> 
-
 
 	  <div class="form-actions">
         <button type="button" ng-click="saveIdea()" class="btn btn-primary">Guardar</button>

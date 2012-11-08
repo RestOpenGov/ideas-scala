@@ -59,7 +59,7 @@ GET     /api/ideas/comments/:id               controllers.Comments.show(id: Long
 PUT     /api/ideas/:idea/comments/:id/up       controllers.Comments.up(idea: Long, id: Long)
 PUT     /api/ideas/:idea/comments/:id/down     controllers.Comments.down(idea: Long, id: Long)
 
-# get all te tags of the idea as an array of tags
+# get all the tags of the idea as an array of tags
 GET     /api/ideas/:idea/tags                  controllers.Ideas.listTags(idea: Long)
 GET     /api/ideas/:idea/tags/count            controllers.Ideas.countTags(idea: Long)
 # receives an array of tags, updates them all, adding, removing and creating tags as necessary
@@ -67,6 +67,12 @@ PUT     /api/ideas/:idea/tags                  controllers.Ideas.updateTags(idea
 # receives a string with a single tag
 POST    /api/ideas/:idea/tags/:tag             controllers.Ideas.saveTag(idea: Long, tag: String)
 DELETE  /api/ideas/:idea/tags/:tag             controllers.Ideas.deleteTag(idea: Long, tag: String)
+
+GET     /api/ideas/:idea/geo                  controllers.Ideas.listGeos(idea: Long)
+GET     /api/ideas/:idea/geo/count            controllers.Ideas.countGeos(idea: Long)
+# receives an array of geo, updates them all, adding, removing and creating geo as necessary
+POST    /api/ideas/:idea/geo/:name             controllers.Ideas.saveGeo(idea: Long, name: String)
+DELETE  /api/ideas/:idea/geo/:name             controllers.Ideas.deleteGeo(idea: Long, name: String)
 
 GET     /api/types                         controllers.IdeaTypes.list
 GET     /api/types/count                   controllers.IdeaTypes.count

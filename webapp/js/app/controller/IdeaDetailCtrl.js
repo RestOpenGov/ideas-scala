@@ -14,12 +14,10 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
   $scope.commentedMark = false;
 
   $scope.$on('$viewContentLoaded', function() {
-      $scope.editor = new nicEditor({
-        buttonList : ['bold','italic','underline','strikeThrough','ol','ul','forecolor','link','unlink'],
-        iconsPath : '/img/nicEditorIcons.gif'
-      })
-
-      $scope.editorInstance = $scope.editor.panelInstance('commentText');
+    console.log('hola');
+    $('#commentText').wysihtml5({
+        stylesheets: ["/css/bootstrap-wysihtml5-0.0.2.css"]
+      });
   });
 
   $scope.init = function(){
@@ -43,15 +41,13 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
   };
 
   $scope.addComment = function(){
-    $scope.editor.instanceById('commentText').saveContent();
-
-    var $commentBox = $('#comment-box'),
-      data = {
-        "comment": $scope.editor.instanceById('commentText').getContent()
+    console.log($scope.area);
+    var data = {
+        "comment": $('#commentText').val()
       };
 
     $scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas/'+$scope.ideaId+'/comment',data,function(json) {  
-        $scope.editor.instanceById('commentText').setContent('');
+        $scope.area.val('');
         $scope.comments.push(json);
         $scope.commentedMark = true;
       },function(data, status, headers, config) {

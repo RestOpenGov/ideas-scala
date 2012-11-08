@@ -3,18 +3,44 @@
 function MainCtrl($scope, $routeParams, $http, $location, $USER) {
 
   $scope.searchFilter = '';
-
   $scope.selectedUserId = 1;
-  $scope.user = {};
-
+  $scope.user = SocialAuth.getUser();
   $scope.menuLogged = 'includes/menu-loggedoff.html';
 
-  var userCookie = getCookie('user');
+  SocialAuth.onAuthentication = function(data) {
+      
+    // Get IdeasToken
+    $.post(SERVICE_ENDPOINT+'auth/', data)
+      .success(function(response) {
 
-  if(userCookie != null && userCookie != "") {
-    var usr = JSON.parse(userCookie);
-    $USER.setUser(usr);
-    $scope.user = usr;
+        // Get User
+        $http.get(SERVICE_ENDPOINT+'users/token/' + response.token)
+          .success(function(user) {
+            
+            $scope.user = user;
+            $USER.setUser(user);
+            $scope.menuLogged = 'includes/menu-loggedin.html';
+            
+            SocialAuth.setUser(user);
+            SocialAuth.set('ideas-ba-token', response.token);
+
+            window.location.reload(); // FIX THIS
+
+          })
+          .error(function(json) {
+            console.log(json);
+          });
+      })
+      .error(function(json) {
+        console.log(json);
+      }); 
+  };
+
+  var user = SocialAuth.getUser();
+
+  if(user) {
+    $USER.setUser(user);
+    $scope.user = user;
     $scope.menuLogged = 'includes/menu-loggedin.html';
   }
 
@@ -32,85 +58,8 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
   };
 
   $scope.logout = function() {
-    setCookie("user", "");
+    SocialAuth.clearUser();
     window.location.reload();
-  };
-
-  var getIdeasToken = function(data) {
-      
-    // Get IdeasToken
-    $http.post(SERVICE_ENDPOINT+'auth/', data)
-      .success(function(response) {
-
-        // Get User
-        $http.get(SERVICE_ENDPOINT+'users/token/' + response.token)
-          .success(function(user) {
-            
-            $scope.user = user;
-            $USER.setUser(user);
-            $scope.menuLogged = 'includes/menu-loggedin.html';
-            setCookie('user', JSON.stringify(user));
-            setCookie('ideas-ba-token', response.token);
-            window.location.reload(); // FIX THIS
-
-          })
-          .error(function(json) {
-            console.log(json);
-          });
-      })
-      .error(function(json) {
-        console.log(json);
-      }); 
-
-  };
-
-  $scope.authenticateGoogle = function() {
-
-    var config = {
-        client_id: Auth.providerKey.get('google'),
-        scope: [ 
-            'https://www.googleapis.com/auth/userinfo.email', 
-            'https://www.googleapis.com/auth/userinfo.profile' 
-        ]
-    };
-
-    gapi.auth.authorize(config, function() {
-        getIdeasToken({ provider: 'google', token: gapi.auth.getToken().access_token })
-    });
-  };
-
-  $scope.authenticateTwitter = function() {
-     twttr.anywhere(function (T) {
-      if(T.isConnected()) {
-        getIdeasToken({ provider: 'twitter', token: twttr.anywhere.token })
-      } else {
-        T.signIn();
-        T.bind("authComplete", function (e, user) {
-          getIdeasToken({ provider: 'twitter', token: twttr.anywhere.token })
-        });
-      }
-    });
-  };
-
-  $scope.authenticateFacebook = function() {
-
-    FB.getLoginStatus(function(response) {
-      if(response.status == 'connected') {
-        getIdeasToken({ provider: 'facebook', token: response.authResponse.accessToken })
-      } else {
-        FB.login(function(response) {
-          if(response.authResponse) {
-            getIdeasToken({ provider: 'facebook', token: response.authResponse.accessToken });
-          }
-        });
-      }
-    });
-  };
-
-  $scope.changeUser = function() {
-    $http.get(SERVICE_ENDPOINT+'users/'+$scope.selectedUserId).success(function(json) {
-      $USER.setUser(json);
-    }); 
   };
 
   $scope.search = function(){
