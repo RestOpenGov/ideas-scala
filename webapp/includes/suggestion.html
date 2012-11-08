@@ -1,7 +1,5 @@
-{{suggestion}}
-<div id="suggestion-{{$index}}" class="ng-cloak">
-<p>¿Quiso decir {{suggestion.text}}?</p>
-<p>Tags sugeridos {{suggestion.tags}}</p>
-<a ng-click="addSuggestion($index)">SI</a>
-<a ng-click="removeSuggestion($index)">NO</a>
+<div class="btn-group span6 ng-cloak">
+  <a class="btn btn-mini" ng-click="addSuggestion($index)">¿Quiso decir {{suggestion.text}}?</a>
+  <a class="btn btn-mini" ng-click="addSuggestion($index)"><i class="icon-ok"></i></a>
+  <a class="btn btn-mini" ng-click="removeSuggestion($index)"><i class="icon-remove"></i></a>
 </div>

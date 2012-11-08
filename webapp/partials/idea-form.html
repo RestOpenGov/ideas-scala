@@ -19,13 +19,17 @@
 	  <div class="control-group">
 		    <label class="control-label" for="areaMessage">Mensaje</label>
 		    <div class="controls">
-		    	<textarea id="areaMessage" class="span12" placeholder="La idea va aquí..." name="areaMessage"></textarea>
+		    	<textarea id="areaMessage" class="span12" placeholder="La idea va aquí..." name="areaMessage">
+En la esquina de corrientes y uruguay esta guerrin, justo al ladodel lorange, esta guerrin, una gran pizzeria. Tambien hay una sucursal en pueyrredon al 600
+		    	</textarea>
 		    </div>
 	  </div>
-	  {{suggestions.length > 0}}
+
    	  <div class="control-group" ng-show="suggestions.length > 0" ng-hide="suggestions.length == 0">
 		<label class="control-label" for="inputTags">Sugerencias</label>
-      	<div ng-include src="'includes/suggestion.html'" ng-repeat="suggestion in suggestions"></div>
+		<div class="controls">
+      		<div ng-include src="'includes/suggestion.html'" ng-repeat="suggestion in suggestions"></div>
+      	</div>
       </div>
 
    	  <div class="control-group">
@@ -37,7 +41,6 @@
 
 	    </div>
 	  </div> 
-
 
 	  <div class="form-actions">
         <button type="button" ng-click="saveIdea()" class="btn btn-primary">Guardar</button>

@@ -11,7 +11,7 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 
 	$scope.suggestions = [];
 
-	$scope.selectedSuggestions = [];
+	$scope.ignoreSuggestions = {};
 
 	$scope.$on('$viewContentLoaded', function() {
 
@@ -26,6 +26,9 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 			        		$scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'tests/categorize',$scope.area.val(),
 			        			function(json) {
 			        				//filtrar las seleccionadas o las que ya le pregunté
+			        				json = json.filter(function (e) {
+									  return typeof($scope.ignoreSuggestions[e.original]) === "undefined";
+									});
 			        				$scope.suggestions = json;
 					    		},
 						    	function(error) {  
@@ -35,8 +38,6 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 						}
 				}
 			});
-
-
 
 	    $(".tagManager").tagsManager({
 	        preventSubmitOnEnter: true,
@@ -78,14 +79,28 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 	};
 
 	$scope.removeSuggestion = function(i){
-		//TODO
-		$scope.suggestions.unshift(i);
-		$('#suggestion-'+i).remove();
+		$scope.sliceSuggestion(i);
 	};
 
 	$scope.addSuggestion = function(i){
-		//TODO
-		console.log(i);
+		var newObj = $scope.sliceSuggestion(i);
+		angular.forEach(newObj.tags, function(t, i){
+			$scope.addTag(t);
+		});
+
+		//TODO add tag to textarea - hack the plugin!
+		var wraper = '<span class="label label-success">'+newObj.original+'</span>';
+		//$scope.area.val($scope.area.val().replace(newObj.original,wraper));
+	};
+
+	$scope.sliceSuggestion = function(i){
+		var removedItem = $scope.suggestions.splice(i,1);
+		$scope.ignoreSuggestions[removedItem[0].original]=removedItem[0];
+		return removedItem[0];
+	};
+
+	$scope.addTag = function(t){
+		$(".tagManager").val(t).blur();
 	};
 
 	$scope.init();
