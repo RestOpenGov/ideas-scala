@@ -26,7 +26,6 @@ var SocialAuth = {
     storage: 'cookie'
   },
 
-  user: {},
   initialized: false,
   providers: {},
   storageEngines: {},
@@ -55,7 +54,7 @@ var SocialAuth = {
     }
 
     if(typeof SocialAuth.providers[provider].consumerKeys[window.location.host] == 'undefined') {
-      console.error('Unregistered host <' + window.location.host + ' for provider <' + provider + '>');
+      console.error('Unregistered host <' + window.location.host + '> for provider <' + provider + '>');
       return false;
     }
 
@@ -112,19 +111,18 @@ SocialAuth.storageEngines.cookie = {
       y = cookies[i].substr(cookies[i].indexOf("=") + 1);
       x = x.replace(/^\s+|\s+$/g,"");
 
-      if(x == key) {
-        return JSON.parse(y);
+      if(x == key) { 
+        return JSON.parse(unescape(y));
       }
-
-      return false;
     }
+    return false;
   },
 
   set: function(key, value) {
     var expireDate = new Date();
-    expireDate.setDate(date.getDate() + this.ttl);
-    value = JSON.stringify(value) + ((days == null) ? "" : "; expires=" + expireDate.toUTCString());
-    document.cookie = key + "=" + value;
+    expireDate.setDate(expireDate.getDate() + this.ttl);
+    value = JSON.stringify(value) + ((this.ttl == null) ? "" : "; expires=" + expireDate.toUTCString());
+    document.cookie = key + "=" + escape(value);
   }
 
 };
