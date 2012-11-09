@@ -3,8 +3,11 @@ package controllers
 import formatters.json.ErrorFormatter.JsonErrorFormatter
 import formatters.json.IdeaFormatter.JsonIdeaFormatter
 import formatters.json.SuccessFormatter.JsonSuccessFormatter
+import formatters.json.CategoryFormatter.JsonCategoryFormatter
 
-import models.{Idea, User}
+
+
+import models.{Idea, User, Categorization}
 
 import play.api.libs.json.Json.toJson
 import play.api.mvc.Controller
@@ -93,13 +96,10 @@ object Ideas extends Controller {
   }
 
 
-  //Geos
-  def listGeos(id: Long) = TODO
-  // def listGeos(id: Long) = CORSAction {
-  //   Idea.findById(id).map { idea =>
-  //     Ok(toJson(idea.geos))
-  //   }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
-  // }
+ 
+   def listGeos(id: Long) = CORSAction {
+       Ok(toJson(Categorization.geoByIdea(id)))
+   }
 
   def countGeos(id: Long) = TODO
   // def countGeos(id: Long) = CORSAction {
