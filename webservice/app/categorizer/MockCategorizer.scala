@@ -11,7 +11,7 @@ object MockCategorizer extends Plugin {
     if (corrientes_y_uruguay.pattern.matcher(freeText).matches) {
       val corrientes_y_uruguay(original) = freeText
       tags = tags :+ Token( 
-        "dirección", original, "Corrientes y Uruguay", Some(10000), Some(20000), 
+        "dirección", original, "Corrientes y Uruguay", Some(-34.6040268), Some(-58.4104767), 
         Seq("esquina", "dirección", "geo")
       )
     }
@@ -20,11 +20,11 @@ object MockCategorizer extends Plugin {
     if (pueyrredon_al_xxx.pattern.matcher(freeText).matches) {
       val pueyrredon_al_xxx(original, street, number) = freeText
       tags = tags :+ Token( 
-        "dirección", original, "Av. Pueyrredón al %s".format(number), Some(11000), Some(21000), 
+        "dirección", original, "Av. Pueyrredón al %s".format(number), Some(-34.6093595), Some(-58.4060234), 
         Seq("esquina", "dirección", "geo")
       )
       tags = tags :+ Token( 
-        "dirección", original, "Av. Honorio Pueyrredón al %s".format(number), Some(13000), Some(23000), 
+        "dirección", original, "Av. Honorio Pueyrredón al %s".format(number), Some(-34.6062245), Some(-58.4405632), 
         Seq("esquina", "dirección", "geo")
       )
     }
@@ -33,7 +33,7 @@ object MockCategorizer extends Plugin {
     if (lorange.pattern.matcher(freeText).matches) {
       val lorange(original) = freeText
       tags = tags :+ Token( 
-        "teatro", original, "teatro Lorange", Some(14000), Some(24000), 
+        "teatro", original, "teatro Lorange", Some(-34.6039899), Some(-58.38614849999999), 
         Seq("teatro", "cultura", "geo")
       )
     }
@@ -42,7 +42,7 @@ object MockCategorizer extends Plugin {
     if (guerrin.pattern.matcher(freeText).matches) {
       val guerrin(original) = freeText
       tags = tags :+ Token( 
-        "comida", original, "pizzería Guerrín", None, None, 
+        "comida", original, "pizzería Guerrín", Some(-34.6039856), Some(-58.3860914), 
         Seq("comida", "pizza")
       )
     }
