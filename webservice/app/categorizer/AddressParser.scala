@@ -117,6 +117,24 @@ object AddressParser {
 // x: String = "lehos de larrea "
 // y: String = san martin
 
+// para sacar una altura
+
+// scala> a.findAllIn("Lic. maria jose ignacio zavaleta 23, esta idea esta en rivadavia al 5345, al lado de José María Moreno 4356, a la vuelta de conte y Juan B. Alberdi").toList
+// res28: List[String] = List(maria jose ignacio zavaleta 23, esta en rivadavia al 5345, José María Moreno 4356)
+
+// scala> val a(x,y) = "maria jose ignacio zavaleta 23"
+// x: String = "maria jose ignacio zavaleta "
+// y: String = 23
+
+// scala> val a(x,y) = "esta en rivadavia al 5345"
+// x: String = "esta en rivadavia al "
+// y: String = 5345
+
+// scala> val a(x,y) = "José María Moreno 4356"
+// x: String = "José María Moreno "
+// y: String = 4356
+
+
 case class Address(
   val original: String,
   val pos: Int, 
