@@ -71,8 +71,15 @@ DELETE  /api/ideas/:idea/tags/:tag             controllers.Ideas.deleteTag(idea:
 GET     /api/ideas/:idea/geo                  controllers.Ideas.listGeos(idea: Long)
 GET     /api/ideas/:idea/geo/count            controllers.Ideas.countGeos(idea: Long)
 # receives an array of geo, updates them all, adding, removing and creating geo as necessary
-POST    /api/ideas/:idea/geo/:name             controllers.Ideas.saveGeo(idea: Long, name: String)
-DELETE  /api/ideas/:idea/geo/:name             controllers.Ideas.deleteGeo(idea: Long, name: String)
+POST    /api/ideas/:idea/geo                  controllers.Ideas.saveGeo(idea: Long)
+DELETE  /api/ideas/:idea/geo/:name            controllers.Ideas.deleteGeo(idea: Long, name: String)
+
+GET     /api/geo                         controllers.IdeaGeos.list
+GET     /api/geo/count                   controllers.IdeaGeos.count
+PUT     /api/geo/:id                     controllers.IdeaGeos.update(id: Long)
+POST    /api/geo                         controllers.IdeaGeos.save
+GET     /api/geo/:id                     controllers.IdeaGeos.show(id: Long)
+DELETE  /api/geo/:id                     controllers.IdeaGeos.delete(id: Long)
 
 GET     /api/types                         controllers.IdeaTypes.list
 GET     /api/types/count                   controllers.IdeaTypes.count

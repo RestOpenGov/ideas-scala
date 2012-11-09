@@ -2,33 +2,27 @@
 
 # --- !Ups
 
-DROP TABLE IF EXISTS subscription;
+DROP TABLE IF EXISTS idea_geo;
 
-CREATE TABLE subscription (
-  id        int(11)   NOT NULL AUTO_INCREMENT,
-  idea_id   int(11)   NOT NULL,
-  user_id   int(11)   NOT NULL,
+CREATE TABLE idea_geo (
+  id        int(11)       NOT NULL AUTO_INCREMENT,
+  idea_id   int(11)       NOT NULL,
+  name      varchar(100)  NOT NULL DEFAULT '',
+  lat       double        NULL,
+  lng       double        NULL,
 
-  PRIMARY KEY (id),
-  UNIQUE KEY subscription_uk (idea_id, user_id)
+  PRIMARY KEY (id)
 );
 
-CREATE INDEX subscription_ix_idea ON subscription(idea_id, user_id);
-CREATE INDEX subscription_ix_user ON subscription(user_id, idea_id);
+CREATE INDEX idea_geo_ix_idea ON idea_geo(idea_id, name);
 
-ALTER TABLE subscription 
-ADD CONSTRAINT subscription_fk_idea
+ALTER TABLE idea_geo 
+ADD CONSTRAINT idea_geo_fk_idea
 FOREIGN KEY (idea_id) 
 REFERENCES idea(id);
 
-ALTER TABLE subscription 
-ADD CONSTRAINT subscription_fk_user
-FOREIGN KEY (user_id) 
-REFERENCES user(id);
-
 # --- !Downs
 
-ALTER TABLE subscription DROP CONSTRAINT subscription_fk_idea;
-ALTER TABLE subscription DROP CONSTRAINT subscription_fk_user;
+ALTER TABLE idea_geo DROP CONSTRAINT idea_geo_fk_idea;
 
-DROP TABLE IF EXISTS subscription;
+DROP TABLE IF EXISTS idea_geo;
