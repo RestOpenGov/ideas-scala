@@ -1,0 +1,34 @@
+{
+	"tokens": [
+		{
+			"id": "3174",
+			"token": "corrientes",
+			"alias": ["corientes", "corrientess"]
+		},
+		{
+			"id": "3030",
+			"token": "callao",
+			"alias": ["calao"]
+		},
+		{
+			"id": "19046",
+			"token": "rivadavia",
+			"alias": ["ribadavia"]
+		},
+		{
+			"id": "13061",
+			"token": "medrano",
+			"alias": []
+		},
+		{
+			"id": "20045",
+			"token": "san martin",
+			"alias": ["sammartin"]
+		},
+		{
+			"id": "12065",
+			"token": "larrea",
+			"alias": ["larea"]
+		}
+	]
+}
