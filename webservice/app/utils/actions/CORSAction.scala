@@ -35,3 +35,30 @@ object CORSAction {
   }
 
 }
+
+// FIXME: This is not working
+object AsyncCORSAction {
+
+  type AsyncResultWithHeaders = AsyncResult {def withHeaders(headers: (String, String)*): AsyncResult}
+
+  def apply(block: Request[AnyContent] => AsyncResultWithHeaders): Action[AnyContent] = {
+    Action {
+      request =>
+        //block(request).withHeaders("Access-Control-Allow-Origin" -> "*", "Access-Control-Allow-Methods" -> "GET, POST, PUT, DELETE, OPTIONS")
+        block(request).withHeaders("Access-Control-Allow-Origin" -> "*")
+    }
+  }
+
+  def apply[A](bodyParser: BodyParser[A])(block: Request[A] => AsyncResultWithHeaders): Action[A] = {
+    Action(bodyParser) {
+      request =>
+        //block(request).withHeaders("Access-Control-Allow-Origin" -> "*", "Access-Control-Allow-Methods" -> "GET, POST, PUT, DELETE, OPTIONS")
+        block(request).withHeaders("Access-Control-Allow-Origin" -> "*")
+    }
+  }
+
+  def apply(block: => AsyncResultWithHeaders): Action[AnyContent] = {
+    this.apply(_ => block)
+  }
+
+}
