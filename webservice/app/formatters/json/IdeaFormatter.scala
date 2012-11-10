@@ -61,7 +61,8 @@ object IdeaMinFormatter {
         "id"          -> toJson(o.id),
         "name"        -> toJson(o.name),
         "description" -> toJson(o.description),
-        "created"     -> toJson(Option(o.created))
+        "created"     -> toJson(Option(o.created)),
+        "type"        -> toJson(o.kind)
       ))
     }
 

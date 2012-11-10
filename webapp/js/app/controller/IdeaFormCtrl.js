@@ -70,50 +70,46 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 	}
 
 	$scope.saveIdea = function(){
-
-		//TODO validar el text area porque está oculto y el select porque la mierda esta no lo reconoce.
-
 		//Completo la descripcion
 		$scope.idea.description = $scope.area.val();
-
+		//Valido si está todo completo
 		if($scope.isValidForm()){
-
-		    $scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas',$scope.idea,function(savedIdea) {  
-				// preparing the tags array
-				var arrTags = $("input[name='hidden-tagsjax']").attr("value").split(",");
-
-				//Help me!! Refactorize me using promises!
-				$scope.ideaAjaxCall('PUT',SERVICE_ENDPOINT+'ideas/' + savedIdea.id + '/tags',arrTags,function(jsonTags) { 
-					var geoItem = {},loaded=0;
-					
-					angular.forEach($scope.selectedGeoSuggestions, function(t, i){
-						geoItem.lat = t.lat;
-						geoItem.lng = t.lng;
-						geoItem.name = t.text;
-
-						$scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas/' + savedIdea.id + '/geo',geoItem,function(jsonTags) { 
-							
-							loaded++;
-
-							if($scope.selectedGeoSuggestions.length==loaded){
-								$location.path("/ideas/"+savedIdea.id).search();
-							}
-
-						},function(data, status, headers, config) {
-				    		//alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
-				    	});
-						
-					});
-				
-			    },function(data, status, headers, config) {
-			    	//alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
-			    });
-			
-			},function(data, status, headers, config) {
-		    	//alert('ERROR AL DAR DE ALTA LA IDEA');
-		    });
+		    $scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas',$scope.idea,function(savedIdea) {
+		    	 $scope.saveTags(savedIdea.id);
+			});
 		}
 	};
+
+	$scope.saveTags = function(ideaId){
+		var arrTags = $("input[name='hidden-tagsjax']").attr("value").split(",");
+		if(arrTags!=''){
+			$scope.ideaAjaxCall('PUT',SERVICE_ENDPOINT+'ideas/' + ideaId + '/tags',arrTags,function(jsonTags) { 
+				$scope.saveGeo(ideaId);
+		    });
+		}else{
+			$scope.saveGeo(ideaId);
+		}
+	}
+
+	$scope.saveGeo = function(ideaId){
+		var geoItem = {},loaded=0;
+		if($scope.selectedGeoSuggestions.length>0){
+			angular.forEach($scope.selectedGeoSuggestions, function(t, i){
+				geoItem.lat = t.lat;
+				geoItem.lng = t.lng;
+				geoItem.name = t.text;
+
+				$scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas/' + ideaId + '/geo',geoItem,function(json) { 
+					loaded++;
+					if($scope.selectedGeoSuggestions.length==loaded){
+						$location.path("/ideas/"+savedIdea.id).search();
+					}
+				});
+			});
+		}else{
+			$location.path("/ideas/"+ideaId).search();
+		}
+	}
 
 	$scope.removeSuggestion = function(i){
 		$scope.sliceSuggestion(i,$scope.suggestions);

@@ -211,10 +211,10 @@ object Idea extends EntityCompanion[Idea] {
     get[Pk[Long]]   (as + "id") ~
     get[String]     (as + "name") ~
     get[String]     (as + "description") ~
-    get[Date]       (as + "created") map {
-      case id~name~description~created => Idea(
-        id = id, name = name, description = description
-      )
+    get[Date]       (as + "created") ~
+    get[Pk[Long]]   (as + "idea_type_id") map {
+      case id~name~description~created~typeId => Idea(
+        id = id, name = name, description = description, kind = IdeaType(typeId))
     }
   }
 
