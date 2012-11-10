@@ -14,7 +14,6 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
   $scope.commentedMark = false;
 
   $scope.$on('$viewContentLoaded', function() {
-    console.log('hola');
     $('#commentText').wysihtml5({
         stylesheets: ["/css/bootstrap-wysihtml5-0.0.2.css"]
       });
@@ -24,19 +23,27 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
 
     //IDEA
     $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'ideas/'+$scope.ideaId,{},function(json) {  
+      console.log(json);
       $scope.idea = json;
-
     });
 
     //COMMENTS
     $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'comments?q=idea.id:'+$scope.ideaId,{},function(json) {  
+      console.log(json);
       $scope.comments = json;
     });
   
     //TAGS
     $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'ideas/'+$scope.ideaId + '/tags',{},function(json) {       
+      console.log(json);
       $scope.idea.tags = json;
-    });    
+    });
+
+    //GEOS
+    $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'ideas/'+$scope.ideaId + '/geo',{},function(json) {       
+      console.log(json);
+      $scope.idea.geos = json;
+    });  
 
   };
 
