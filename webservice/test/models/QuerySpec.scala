@@ -32,14 +32,16 @@ class QuerySpec extends Specification {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         val ideasLaAsc = Idea.find(q="name:la", order="id")
-        ideasLaAsc.size must equalTo(2)
+        ideasLaAsc.size must equalTo(3)
         ideasLaAsc(0).name must equalTo("Multas para los autos que no respetan las bicisendas")
         ideasLaAsc(1).name must equalTo("Cortar las ramas de corrientes y malabia")
+        ideasLaAsc(2).name must contain("Ver cine nacional en las salas del espacio INCAA")
 
         val ideasLaDesc = Idea.find(q="name:la", order="id desc")
-        ideasLaDesc.size must equalTo(2)
-        ideasLaDesc(0).name must equalTo("Cortar las ramas de corrientes y malabia")
-        ideasLaDesc(1).name must equalTo("Multas para los autos que no respetan las bicisendas")
+        ideasLaDesc(0).name must contain("Ver cine nacional en las salas del espacio INCAA")
+        ideasLaDesc(1).name must equalTo("Cortar las ramas de corrientes y malabia")
+        ideasLaDesc(2).name must equalTo("Multas para los autos que no respetan las bicisendas")
+
       }
     }
 
@@ -74,10 +76,11 @@ class QuerySpec extends Specification {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         val ideas1 = Idea.find(q="author.name:mister", order="id")
-        ideas1.size must equalTo(3)
+        ideas1.size must equalTo(4)
         ideas1(0).name must equalTo("Multas para los autos que no respetan las bicisendas")
         ideas1(1).name must equalTo("Cortar las ramas de corrientes y malabia")
         ideas1(2).name must equalTo("Como hago para sacar el registro de conducir?")
+        ideas1(3).name must equalTo("Ver cine nacional en las salas del espacio INCAA")
 
         val ideas2 = Idea.find(q="author.name:mister,type.name:reclamo", order="id")
         ideas2.size must equalTo(1)

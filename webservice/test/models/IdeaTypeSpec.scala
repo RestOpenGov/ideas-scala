@@ -47,7 +47,7 @@ class IdeaTypeSpec extends Specification with ErrorSpec {
         val ordered = IdeaType.find(order = "name desc")
 
         ordered.size must equalTo(4)
-        ordered(0).name must equalTo("recomendación")
+        ordered(0).name must equalTo("sugerencia")
         ordered(3).name must equalTo("idea")
       }
     }

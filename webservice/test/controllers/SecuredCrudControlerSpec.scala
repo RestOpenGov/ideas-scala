@@ -176,7 +176,7 @@ class SecuredCrudControllerSpec extends Specification {
         ideaTypes.size mustEqual 4
         ideaTypes.size mustEqual count("/api/tests/unsecured/types/count?order=name")
         ideaTypes(0).name mustEqual "idea"
-        ideaTypes(3).name mustEqual "recomendación"
+        ideaTypes(3).name mustEqual "sugerencia"
 
         // order desc
         val Some(resultDesc) = routeAndCall(FakeRequest(GET, "/api/tests/unsecured/types?order=name desc"))
@@ -184,7 +184,7 @@ class SecuredCrudControllerSpec extends Specification {
 
         ideaTypesDesc.size mustEqual 4
         ideaTypes.size mustEqual count("/api/tests/unsecured/types/count?order=name desc")
-        ideaTypesDesc(0).name mustEqual "recomendación"
+        ideaTypesDesc(0).name mustEqual "sugerencia"
         ideaTypesDesc(3).name mustEqual "idea"
       }
     }

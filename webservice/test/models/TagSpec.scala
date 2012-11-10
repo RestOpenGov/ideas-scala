@@ -31,7 +31,7 @@ class TagSpec extends Specification with ErrorSpec {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         // no params
-        Tag.find().size must equalTo(7)
+        Tag.find().size must equalTo(9)
 
         //query
         Tag.find(q = "id:1").size must equalTo(1)
@@ -41,14 +41,14 @@ class TagSpec extends Specification with ErrorSpec {
         Tag.find(filter = "ciudad").size must equalTo(3)
 
         // pagination
-        Tag.find(page = 3, len = 3).size must equalTo(1)
+        Tag.find(page = 3, len = 3).size must equalTo(3)
         Tag.find(page = 4, len = 3).size must equalTo(0)
 
         val ordered = Tag.find(order = "name desc")
 
-        ordered.size must equalTo(7)
+        ordered.size must equalTo(9)
         ordered(0).name must equalTo("trámites")
-        ordered(6).name must equalTo("bicisendas")
+        ordered(6).name must equalTo("cultura")
       }
     }
 
