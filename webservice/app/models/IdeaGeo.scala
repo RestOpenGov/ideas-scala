@@ -99,11 +99,11 @@ object IdeaGeo extends EntityCompanion[IdeaGeo] {
     }
 
     if (ideaGeo.lat == 0D) {
-      errors ::= ValidationError("lat", "Lattitude coordinateIdea not specified")
+      errors ::= ValidationError("lat", "Idea's lattitude coordinate not specified")
     }
 
     if (ideaGeo.lng == 0D) {
-      errors ::= ValidationError("lng", "Longitude coordinateIdea not specified")
+      errors ::= ValidationError("lng", "Idea's longitude coordinate not specified")
     }
 
     //check duplicates
