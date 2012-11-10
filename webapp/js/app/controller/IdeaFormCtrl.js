@@ -24,11 +24,11 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 			        "newword:composer" : 
 			        	function() { 
 		        			$scope.suggestions = [];
-			        		$scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'tests/categorize',$scope.area.val(),
+			        		$scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'categorize?input=' + $scope.area.val(), null,
 			        			function(json) {
 			        				//filtrar las seleccionadas o las que ya le pregunté
 			        				json = json.filter(function (e) {
-									  return typeof($scope.ignoreSuggestions[e.original]) === "undefined";
+									  return typeof($scope.ignoreSuggestions[e.original]) === "undefined" && e.original != "undefined";
 									});
 			        				$scope.suggestions = json;
 					    		},

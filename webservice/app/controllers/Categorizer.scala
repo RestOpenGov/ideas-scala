@@ -9,7 +9,6 @@ import akka.dispatch.{Await, Future}
 import akka.pattern.ask
 import akka.util.Timeout
 import akka.util.duration._
-//import utils.actions.AsyncCORSAction
 import org.restopengov.Armadillo._
 
 object Categorizer extends Controller {
@@ -25,7 +24,11 @@ object Categorizer extends Controller {
 
         Async {
 			dispatcherResponse.mapTo[DispatcherResponse].asPromise.map { r => 
-				Ok(r.json)
+				Ok(r.json).withHeaders(
+					"Status" -> "200 OK", 
+					"Content-Type" -> "application/json; charset=utf-8",
+					"Access-Control-Allow-Origin" -> "*"
+				)
 			}
 		}	
 		
