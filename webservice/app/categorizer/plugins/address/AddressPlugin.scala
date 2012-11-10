@@ -13,7 +13,7 @@ object AddressPlugin extends Plugin {
   def categorize(freeText: String): Seq[Token] = {
 	val addresses = AddressParser.parse(freeText)
 	addresses flatMap { ad =>
-		play.Logger.debug("Direccion candidata encontrada: " + ad)
+	play.Logger.debug("Direccion candidata encontrada: " + ad)
 			
 	  	ad match {
 			case CornerAddress(_, street1Id, _, street2Id, _) => {

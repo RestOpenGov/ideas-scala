@@ -92,7 +92,16 @@ object AddressParser {
     }
   }
   
-  private def tokenize(text: String):  Seq[(Array[String], String, Array[String])] = {
+  /**
+   * "en la esquina de corrientes y callao hay una pizzeria y en cordoba esq medrano no"
+   * Lista:
+   *  - ( Array(la, esquina, de, corrientes), "y", Array(callao, hay, una, pizzeria) )
+   *  - ( Array(callao, hay, una, pizzeria), "y", Array(en, cordoba, esq, medrano) )
+   *  - ( Array(pizzeria, y, en, cordoba), "esq", Array(medrano, no) )
+   * @param text
+   * @return
+   */
+private def tokenize(text: String):  Seq[(Array[String], String, Array[String])] = {
     val palabras = text split """\W+"""
     
     palabras.indices filter (keywords contains palabras(_) ) map {

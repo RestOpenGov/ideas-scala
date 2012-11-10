@@ -29,6 +29,11 @@
 			"id": "12065",
 			"token": "larrea",
 			"alias": ["larea"]
+		},
+				{
+			"id": "3165",
+			"token": "cordoba",
+			"alias": ["cordoba","cordova"]
 		}
 	]
 }
