@@ -141,7 +141,7 @@ object IdeaGeo extends EntityCompanion[IdeaGeo] {
   def findByIdea(idea: Idea): List[IdeaGeo] = {
     idea.id.map { id =>
       val condition = "idea_geo.idea_id = %s".format(id)
-      find(condition = condition, order = "name")
+      find(condition = condition, order = "idea_geo.name")
     }.getOrElse {
       List[IdeaGeo]()
     }
