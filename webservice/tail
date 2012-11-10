@@ -1,1 +1,1 @@
-rhc app tail -a ideas -l sscarano@gmail.com
+rhc tail -a ideas -l sscarano@gmail.com

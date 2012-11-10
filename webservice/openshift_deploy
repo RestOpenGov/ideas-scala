@@ -6,8 +6,8 @@ pushd ../openshift/ideas
 # remove previous copy of the project
 rm -fr app project public dist target windows start README*
 
-# remove all conf files except openshift.conf
-rm -fr conf/evolutions conf/application.conf conf/routes
+#remove all conf files
+rm -fr conf
 
 mv openshift_deploy openshift_deploy.bak
 
