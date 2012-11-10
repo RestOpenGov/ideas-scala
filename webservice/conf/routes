@@ -145,7 +145,7 @@ GET     /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTy
 DELETE  /api/tests/unsecured/types/:id         controllers.tests.UnsecuredIdeaTypes.delete(id: Long)
 
 POST    /api/tests/categorize                  controllers.tests.Categorizer.categorize
-POST    /api/categorize                  		controllers.Categorizer.categorize
+GET    /api/categorize                  	   controllers.Categorizer.categorize
 
 # tmp admin tasks
 
