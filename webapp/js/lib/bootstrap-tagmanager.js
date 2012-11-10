@@ -224,8 +224,15 @@
             var newTagId = objName+'_'+tagId;
             var newTagRemoveId = objName+'_Remover_'+ tagId;
             var html = '';
-            html += '<span class="myTag" id="'+newTagId+ '"><span>' + tag + '&nbsp;&nbsp;</span><a href="#" class="myTagRemover" id="'+newTagRemoveId+'" TagIdToRemove="'+tagId+'" title="Remove">'+tagManagerOptions.tagCloseIcon+'</a></span>';
-        
+//            html += '<span class="myTag" id="'+newTagId+ '"><span>' + tag + '&nbsp;&nbsp;</span><a href="#" class="myTagRemover" id="'+newTagRemoveId+'" TagIdToRemove="'+tagId+'" title="Remove">'+tagManagerOptions.tagCloseIcon+'</a></span>';
+      
+            html += '<div id="'+newTagId+ '" class="btn-group pull-left ng-cloak labelStyle">'
+                  +  '<a class="btn btn-mini btn-success"><i class="icon-tag" ></i></a>'
+                  +  '<a class="btn btn-mini btn-success"><b>' + tag + '</b></a>'
+                  +  '<a class="btn btn-mini btn-success myTagRemover" id="'+newTagRemoveId+'" TagIdToRemove="'+tagId+'"><i class="icon-remove"></i></a>'
+                  + '</div>';
+
+
             if(tagManagerOptions.tagsContainer != null)
             {
                jQuery(tagManagerOptions.tagsContainer).append(html)  

@@ -40,7 +40,7 @@ ideasModule.run(function($rootScope,$http) {
     //TODO add header with 
 
     var token = SocialAuth.get('ideas-ba-token'), _headers={};
-
+    token="opensas";
     if (token) {
         _headers["Authorization"] = 'ideas-token='+token;
     }
@@ -58,8 +58,8 @@ ideasModule.run(function($rootScope,$http) {
 });
 
 //var SERVICE_ENDPOINT = "https://ideas-jugar.rhcloud.com/api/";
-// var SERVICE_ENDPOINT = "http://ideas-ba.com.ar/api/";
-var SERVICE_ENDPOINT = "http://ideasba.org/api/";
+ var SERVICE_ENDPOINT = "http://ideas-ba.com.ar/api/";
+//var SERVICE_ENDPOINT = "http://ideasba.org/api/";
 // var SERVICE_ENDPOINT = "http://localhost:9000/api/";
 
 

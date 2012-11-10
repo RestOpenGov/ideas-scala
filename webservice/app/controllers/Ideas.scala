@@ -1,10 +1,11 @@
 package controllers
 
-import formatters.json.ErrorFormatter.JsonErrorFormatter
-import formatters.json.IdeaFormatter.JsonIdeaFormatter
-import formatters.json.SuccessFormatter.JsonSuccessFormatter
+import formatters.json.ErrorFormatter._
+import formatters.json.SuccessFormatter._
+import formatters.json.IdeaFormatter._
+import formatters.json.IdeaGeoFormatter._
 
-import models.{Idea, User}
+import models.{Idea, IdeaGeo, User}
 
 import play.api.libs.json.Json.toJson
 import play.api.mvc.Controller
@@ -92,43 +93,39 @@ object Ideas extends Controller {
     }.getOrElse       (JsonNotFound("Idea with id %s not found".format(id)))
   }
 
-
   //Geos
-  def listGeos(id: Long) = TODO
-  // def listGeos(id: Long) = CORSAction {
-  //   Idea.findById(id).map { idea =>
-  //     Ok(toJson(idea.geos))
-  //   }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
-  // }
+  def listGeos(id: Long) = CORSAction {
+    Idea.findById(id).map { idea =>
+      Ok(toJson(idea.geos))
+    }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
+  }
 
-  def countGeos(id: Long) = TODO
-  // def countGeos(id: Long) = CORSAction {
-  //   Idea.findById(id).map { idea =>
-  //     Ok(toJson(idea.geos.size))
-  //   }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
-  // }
+  def countGeos(id: Long) = CORSAction {
+    Idea.findById(id).map { idea =>
+      Ok(toJson(idea.geos.size))
+    }.getOrElse(JsonNotFound("Idea with id %s not found".format(id)))
+  }
 
-  def saveGeo(id: Long, geo: String) = TODO
-  // def saveGeo(id: Long, geo: String) = CORSAction { implicit request =>
-  //   implicit val Some(user) = User.findById(1)
-  //   Idea.findById(id).map { idea =>
-  //     idea.saveGeo(geo).fold(
-  //       errors => JsonBadRequest(errors),
-  //       geos => Ok(toJson(geos))
-  //     )
-  //   }.getOrElse       (JsonNotFound("Idea with id %s not found".format(id)))
-  // }
+  def saveGeo(ideaId : Long) = SecuredAction { implicit req =>
+    Idea.findById(ideaId).map { idea =>
+      req.body.asJson.map { json =>
+        json.asOpt[IdeaGeo].map { ideaGeo =>
+          ideaGeo.copy(idea = idea).save.fold(
+            errors => JsonBadRequest(errors),
+            ideaGeo => Ok(toJson(ideaGeo))
+          )
+        }.getOrElse     (JsonBadRequest("Invalid idea geo-reference entity"))
+      }.getOrElse       (JsonBadRequest("Expecting JSON data"))
+    }.getOrElse         (JsonBadRequest("Could not find idea with id '%s'".format(ideaId)))
+  }
 
-  def deleteGeo(id: Long, geo: String) = TODO
-  // def deleteGeo(id: Long, geo: String) = CORSAction { implicit request =>
-  //   Idea.findById(id).map { idea =>
-  //     idea.deleteGeo(geo).fold(
-  //       errors => JsonBadRequest(errors),
-  //       geos => Ok(toJson(geos))
-  //     )
-  //   }.getOrElse       (JsonNotFound("Idea with id %s not found".format(id)))
-  // }
-
-
+  def deleteGeo(id: Long, geo: String) = SecuredAction {
+    IdeaGeo.findByIdeaAndName(id, geo).map { ideaGeo =>
+      IdeaGeo.deleteWithErr(ideaGeo.id.get).fold(
+        errors => JsonBadRequest(errors),
+        geos => Ok(toJson(geos))
+      )
+    }.getOrElse       (JsonNotFound("Geo-reference with name '%s' not found for idea with id '%s'.".format(geo, id)))
+  }
 
 }

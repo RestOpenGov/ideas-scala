@@ -9,7 +9,9 @@ INSERT INTO tag VALUES
   (4, 'transporte',     'Medios de transporte y circulación por la ciudad', '2012-09-20 14:54:00'),
   (5, 'multas',         'Infracciones, multas y demás normativas',          '2012-09-21 03:23:00'),
   (6, 'servicios',      'Servicios que brinda el gobierno de la ciudad',    '2012-09-22 16:28:00'),
-  (7, 'trámites',       'Trámites',                                         '2012-09-23 15:19:00')
+  (7, 'trámites',       'Trámites',                                         '2012-09-23 15:19:00'),
+  (8, 'cultura',        'Cultura',                                          '2012-09-23 16:45:00'),
+  (9, 'cine',           'Cine',                                             '2012-09-26 18:32:00')
 ;
 
 # --- !Downs
