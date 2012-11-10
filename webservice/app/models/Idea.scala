@@ -69,10 +69,13 @@ case class Idea (
   def updateTags(updatedTags: List[String])(implicit user: User, lang: Lang): Either[List[Error],List[String]] = {
     Right(List[String]())
 
-    val newTags = updatedTags.map {_.toLowerCase }
+    import utils.Validate.isEmptyWord
+
+    val newTags = updatedTags.filter{ !isEmptyWord(_) }.map {_.toLowerCase }
     val currentTags = tags
     val addTags     = newTags diff currentTags
     val removeTags  = currentTags diff newTags
+
 
     // tags that first need to be created and THEN added to this idea
     val createTags = addTags.filter { tag =>
