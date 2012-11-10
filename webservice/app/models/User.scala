@@ -54,7 +54,7 @@ case class User (
   // TODO: define a strategy to allow users to create new tags
   def canCreateTags: Boolean = id match {
     // hardcoded for testing, should use mocking library instead
-    case Id(2) => false
+    case Id(1) => false
     case _ => true
   }
 

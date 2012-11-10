@@ -51,7 +51,7 @@ class IdeaSpec extends Specification {
     "allow to bulk update tags" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        implicit val Right(user) = User.findByIdWithErr(1)
+        implicit val Right(user) = User.findByIdWithErr(2)
 
         val Some(idea) = Idea.findById(1)
 

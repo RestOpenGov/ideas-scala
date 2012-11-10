@@ -56,7 +56,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
     "should allow to bulk add and remove tags" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        implicit val Some(user) = User.findById(1)
+        implicit val Some(user) = User.findById(2)
 
         // initially remove all tags
         Idea.findById(1).get.updateTags(List()) must beRight
@@ -86,7 +86,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
     "should allow to automatically create new tags when being assigned to an idea" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        implicit val Some(user) = User.findById(1)
+        implicit val Some(user) = User.findById(2)
 
         val origCount = Tag.count
         Tag.findByName("new tag") must be none
@@ -102,7 +102,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
     "should prevent a user without enough reputation to bulk create new tags when being assigned to an idea" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        implicit val Some(user) = User.findById(2)
+        implicit val Some(user) = User.findById(1)
 
         val origCount = Tag.count
         Tag.findByName("new tag") must be none
@@ -184,7 +184,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
     "should allow a user with enough reputation to create a new tag when being assigned to an idea" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        implicit val Some(user) = User.findById(1)
+        implicit val Some(user) = User.findById(2)
 
         Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
 
@@ -202,7 +202,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
     "should prevent a user without enough reputation to create a new tag when being assigned to an idea" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        implicit val Some(user) = User.findById(2)
+        implicit val Some(user) = User.findById(1)
 
         Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
 
