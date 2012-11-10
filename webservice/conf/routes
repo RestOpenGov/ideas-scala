@@ -13,6 +13,7 @@ GET     /api/token                         controllers.Security.readToken
 
 GET     /                                  controllers.Assets.at(path="/public", file="index.html")
 GET     /app                               controllers.Assets.at(path="/public", file="index.html")
+
 # GET     /                                  controllers.Application.app
 
 # Home page
@@ -157,6 +158,9 @@ GET     /api/management/comments/:id/:text     controllers.Management.updateComm
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /*file                   controllers.Assets.at(path="/public", file)
+
+
+
 
 
 

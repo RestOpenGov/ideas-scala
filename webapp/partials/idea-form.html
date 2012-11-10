@@ -7,21 +7,24 @@
 		<div class="control-group">
 			<label class="control-label" for="inputTitle">Título</label>
 			<div class="controls">
-			  <input type="text" id="inputTitle" placeholder="Título de la idea" ng-model="idea.name"  class="span12" ng-minlength="3" ng-maxlength="50" required>
+			  <input type="text" id="inputTitle" placeholder="Título de la idea..." ng-model="idea.name"  class="span12">
 			</div>
 		</div>
 
-		<div class="control-group">
-			<label class="control-label" for="selectType">Tipo</label>
+		<div id="typeSelector" class="control-group">
+			<label class="control-label">Tipo</label>
 			<div class="controls">
-				<select ng-model="idea.type.id" ng-options="t.id as t.name for t in types" required></select>
+				<div class="btn-group" data-toggle="buttons-radio">
+				  <a id="type-option-{{$index}}" class="btn" ref="{{t.id}}" ng-repeat="t in types" ng-click="changeIdeaType(t.id)">{{t.name}}</a>
+				</div>
+				<!--select ng-model="idea.type.id" ng-options="t.id as t.name for t in types" required></select-->
 			</div>
 		</div>
 
 		<div class="control-group">
 		    <label class="control-label" for="areaMessage">Mensaje</label>
 		    <div class="controls">
-		    	<textarea id="areaMessage" ng-model="idea.description" class="span12" placeholder="La idea va aquí..." name="areaMessage"></textarea>
+		    	<textarea id="areaMessage" class="span12" placeholder="La idea va aquí..." name="areaMessage"></textarea>
 		    </div>
 		</div>
 
@@ -36,7 +39,7 @@
 			<label class="control-label" for="inputTags">Etiquetas</label>
 			<div class="controls">
 				<div class="form-inline">
-					<input type="text" autocomplete="off" data-items="6" data-provide="typeahead" name="tagsjax" placeholder="Agregar tag" class="input-medium tagManager" data-original-title="" />
+					<input type="text" autocomplete="off" data-items="6" data-provide="typeahead" name="tagsjax" placeholder="Agregar etiqueta..." class="input-medium tagManager" data-original-title="" />
 				</div>
 			</div>
 		</div> 

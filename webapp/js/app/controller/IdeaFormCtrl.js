@@ -3,7 +3,11 @@
 function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 	$scope.types = [];
 
-	$scope.idea = {};
+	$scope.idea = {
+		type: {
+			id: ''
+		}
+	};
 
 	$scope.area = {};
 
@@ -54,10 +58,16 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 	});
 
 	$scope.init = function(){
+
 		$scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'types',{},function(json) {  
-	      $scope.types = json;
+	      	$scope.types = json;
 	    });
+
 	};
+
+	$scope.changeIdeaType = function($val){
+		$scope.idea.type.id = $val;
+	}
 
 	$scope.saveIdea = function(){
 
@@ -66,40 +76,43 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 		//Completo la descripcion
 		$scope.idea.description = $scope.area.val();
 
-	    $scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas',$scope.idea,function(savedIdea) {  
-			// preparing the tags array
-			var arrTags = $("input[name='hidden-tagsjax']").attr("value").split(",");
+		if($scope.isValidForm()){
 
-			//Help me!! Refactorize me using promises!
-			$scope.ideaAjaxCall('PUT',SERVICE_ENDPOINT+'ideas/' + savedIdea.id + '/tags',arrTags,function(jsonTags) { 
-				var geoItem = {},loaded=0;
-				
-				angular.forEach($scope.selectedGeoSuggestions, function(t, i){
-					geoItem.lat = t.lat;
-					geoItem.lng = t.lng;
-					geoItem.name = t.text;
+		    $scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas',$scope.idea,function(savedIdea) {  
+				// preparing the tags array
+				var arrTags = $("input[name='hidden-tagsjax']").attr("value").split(",");
 
-					$scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas/' + savedIdea.id + '/geo',geoItem,function(jsonTags) { 
-						
-						loaded++;
-
-						if($scope.selectedGeoSuggestions.length==loaded){
-							$location.path("/ideas/"+savedIdea.id).search();
-						}
-
-					},function(data, status, headers, config) {
-			    		//alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
-			    	});
+				//Help me!! Refactorize me using promises!
+				$scope.ideaAjaxCall('PUT',SERVICE_ENDPOINT+'ideas/' + savedIdea.id + '/tags',arrTags,function(jsonTags) { 
+					var geoItem = {},loaded=0;
 					
-				});
+					angular.forEach($scope.selectedGeoSuggestions, function(t, i){
+						geoItem.lat = t.lat;
+						geoItem.lng = t.lng;
+						geoItem.name = t.text;
+
+						$scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas/' + savedIdea.id + '/geo',geoItem,function(jsonTags) { 
+							
+							loaded++;
+
+							if($scope.selectedGeoSuggestions.length==loaded){
+								$location.path("/ideas/"+savedIdea.id).search();
+							}
+
+						},function(data, status, headers, config) {
+				    		//alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
+				    	});
+						
+					});
+				
+			    },function(data, status, headers, config) {
+			    	//alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
+			    });
 			
-		    },function(data, status, headers, config) {
-		    	//alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
+			},function(data, status, headers, config) {
+		    	//alert('ERROR AL DAR DE ALTA LA IDEA');
 		    });
-		
-		},function(data, status, headers, config) {
-	    	//alert('ERROR AL DAR DE ALTA LA IDEA');
-	    });
+		}
 	};
 
 	$scope.removeSuggestion = function(i){
@@ -133,6 +146,26 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 
 	$scope.addTag = function(t){
 		$(".tagManager").val(t).blur();
+	};
+
+	$scope.isValidForm = function(){
+		var ret = true;
+
+		if($scope.idea.name==''){
+			ret = false;
+		}
+
+		if($scope.idea.description==''){
+			ret = false;
+		}
+
+		if($scope.idea.type.id==''){
+			ret = false;
+		}
+
+		$scope.errorForm = !ret;
+
+		return ret;
 	};
 
 	$scope.init();
