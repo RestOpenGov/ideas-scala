@@ -15,7 +15,7 @@ case class WordlistToken(
 
 class WordlistPlugin extends Plugin {
 
-	val wordlist = "app/categorizer/wordlist/tokenListSample.es.json"
+	val wordlist = "src/main/scala/org/restopengov/Armadillo/backend/plugins/Wordlist/tokenListSample.es.json"
 	
 	def parse(input: String): Seq[Token] = { 
 

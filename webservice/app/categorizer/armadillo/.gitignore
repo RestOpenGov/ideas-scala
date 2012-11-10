@@ -9,5 +9,3 @@ openshift
 tmp/
 .sublime-project
 *.sublime-workspace
-Global.scala
-Armadillo.scala
