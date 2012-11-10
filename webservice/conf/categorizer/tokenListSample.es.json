@@ -1,0 +1,17 @@
+{
+	"tags": ["informacion tempora"], 
+	"tokens": [
+		{
+			"token": "lunes",
+			"alias": ["lun", "lune"],
+			"tags": ["dia de la semana"],
+			"lat": "15.35",
+			"lng": "45.23"
+		},
+		{
+			"token": "martes",
+			"alias": ["mar"],
+			"tags": ["dia de la semana"]
+		}
+	]
+}
