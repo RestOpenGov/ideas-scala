@@ -7,7 +7,7 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
   
   $scope.idea.tags = [];
   
-  $scope.newComment = {};
+  $scope.errorTextArea = false;
 
   $scope.comments = [];
   
@@ -44,19 +44,28 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
   };
 
   $scope.addComment = function(){
-    console.log($scope.area);
     var data = {
-        "comment": $('#commentText').val()
-      };
-
-    $scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas/'+$scope.ideaId+'/comment',data,function(json) {  
-        $scope.area.val('');
+      "comment": $('#commentText').val()
+    }; 
+    if ($scope.isValidForm()){
+      $scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas/'+$scope.ideaId+'/comment',data,function(json) {  
+        $('#commentText').val('');
         $scope.comments.push(json);
         $scope.commentedMark = true;
       });
-
+    }
   };
 
+  $scope.isValidForm = function(){
+    var c = $('#commentText').val();
+    if (c=='') {
+      $scope.errorTextArea = true;
+    } else {
+      $scope.errorTextArea = false;
+    }
+    return ($scope.errorTextArea == false);
+  }
+  
   $scope.init();
 
 };

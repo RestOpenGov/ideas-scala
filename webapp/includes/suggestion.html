@@ -1,5 +1,5 @@
 <div class="btn-group span6 ng-cloak">
-  <a class="btn btn-mini" ng-click="addSuggestion($index)" ng-hide="suggestion.lat == null"><i class="icon-globe" ></i></a>
+  <a class="btn btn-mini" ng-click="addSuggestion($index)" ng-hide="suggestion.lat == null || suggestion.lat == ''"><i class="icon-globe" ></i></a>
   <a class="btn btn-mini" ng-click="addSuggestion($index)">¿Quiso decir <b>{{suggestion.text}}</b>?</a>
   <a class="btn btn-mini" ng-click="addSuggestion($index)"><i class="icon-ok"></i></a>
   <a class="btn btn-mini" ng-click="removeSuggestion($index)"><i class="icon-remove"></i></a>

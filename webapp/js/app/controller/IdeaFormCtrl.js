@@ -15,6 +15,8 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 
 	$scope.selectedGeoSuggestions = [];
 
+	$scope.errorForm = false;
+
 	$scope.$on('$viewContentLoaded', function() {
 
 		$scope.area = $('#areaMessage').wysihtml5(
@@ -114,7 +116,7 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 			$scope.addTag(t);
 		});
 
-		if(newObj.lat!=null){
+		if(newObj.lat!=null && newObj.lat!=''){
 			$scope.selectedGeoSuggestions.push(newObj);
 		}
 

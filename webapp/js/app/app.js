@@ -40,7 +40,7 @@ ideasModule.run(function($rootScope,$http) {
   $rootScope.ideaAjaxCall = function (_method,_url,_data,_callback,_callbackError,_contentType) {
 
     var token = SocialAuth.get('ideas-ba-token'), _headers={};
-    //token="opensas";
+    token="opensas";
     if (token) {
         _headers["Authorization"] = 'ideas-token='+token;
     }

@@ -17,12 +17,17 @@
   </div>
 
   <div class="row-fluid">
-    <div id="comment-box" class="well" ng-hide="commentedMark">
+    <div id="commentForm" name="commentForm" class="well" ng-hide="commentedMark">
       <form id="new-comment-form" ng-submit="addComment()">
         <legend>¡Comentá! ¡La verdad nos hará libres!</legend>
         <textarea id="commentText" name="commentText" class="span12" placeholder="El comentario va aquí..."></textarea>
         <span class="help-block">Cuidá tu lenguaje. Pensá 2 minutos más tu comentario y reemplazá esa puteada por una crítica constructiva. Cualquier forma de discriminación, insulto, comentario que no aporta nada, o SPAM, va a ser borrado. Gracias por evitarlos. :)</span>
-        <button class="comment-btn btn-large btn-primary" type="submit" class="btn">Enviar</button>
+        <div class="form-actions">
+          <button class="comment-btn btn-large btn-primary span2" type="submit" class="btn">Enviar</button>
+          <div ng-show="errorTextArea" class="alert alert-error span6">
+            Debes completar tu comentario!.
+          </div>
+        </div>
       </form>
     </div>
     <p class="well" ng-show="commentedMark">Gracias por comentar!!</p>

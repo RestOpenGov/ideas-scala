@@ -2,7 +2,7 @@
   <h1>Nueva idea</h1>
 </div>
 <div class="well">
-	<form id="new-idea-form" class="form-horizontal" ng-submit="saveIdea()">
+	<form id="new-idea-form" name="new-idea-form" class="form-horizontal" ng-submit="saveIdea()">
 	<!--div id="new-idea-form" class="form-horizontal"-->
 		<div class="control-group">
 			<label class="control-label" for="inputTitle">Título</label>
@@ -49,8 +49,10 @@
 		</div> 
 
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">Guardar</button>
-			<button type="reset" class="btn">Cancel</button>
+			<button type="submit" class="btn btn-primary btn-large span2">Guardar</button>
+			<div ng-show="errorForm" class="alert alert-error span6">
+            	Debes completar todos los campos!.
+          	</div>
 		</div>
 
 	</form>
