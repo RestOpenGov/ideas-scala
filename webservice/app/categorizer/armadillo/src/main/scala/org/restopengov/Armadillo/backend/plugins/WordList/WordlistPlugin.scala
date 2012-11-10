@@ -15,8 +15,9 @@ case class WordlistToken(
 
 class WordlistPlugin extends Plugin {
 
-	val wordlist = "app/categorizer/wordlist/tokenListSample.es.json"
-	
+	import play.api.Play.current
+
+	val wordlist = current.getFile("conf/categorizer/tokenListSample.es.json").getAbsoluteFile
 	def parse(input: String): Seq[Token] = { 
 
 		val lines = scala.io.Source.fromFile(wordlist).mkString
