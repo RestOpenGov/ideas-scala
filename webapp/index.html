@@ -42,7 +42,7 @@
         <div class="nav-collapse collapse">
           <ul class="nav">
             <li><a href="/#/ideas/nueva">¡Nueva Idea!</a></li>
-            <li><a href="/#/ideas/lista?q=author.id:{{selectedUserId}}">Mis ideas</a></li>
+            <li><a href="/#/ideas/mapa">Mapa de ideas</a></li>
             <li><a href="/#/ideas/lista?order=created DESC">Últimas ideas</a></li>
           </ul>
           <div ng-include src="menuLogged"></div>
@@ -110,6 +110,19 @@
     </div>
   </div>
 
+  <div class="modal hide fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="errorLabel">Lo sentimos, ocurrió un error!</h3>
+    </div>
+    <div class="modal-body">
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+  </div>
+
   <script src="js/app/app.js"></script>
   <script src="js/app/controller/MainCtrl.js"></script>
   <script src="js/app/controller/HomeCtrl.js"></script>
@@ -120,7 +133,7 @@
   <script src="js/app/controller/UserDetailCtrl.js"></script>
   <script src="js/app/controller/UserFormCtrl.js"></script>
   <script src="js/app/controller/ShareCtrl.js"></script>
-
+  <script src="js/app/controller/MapCtrl.js"></script>
 </body>
 
 </html>

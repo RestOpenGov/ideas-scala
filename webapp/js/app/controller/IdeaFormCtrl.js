@@ -33,7 +33,7 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 			        				$scope.suggestions = json;
 					    		},
 						    	function(error) {  
-						      		console.log(error);
+						      		
 						    	},
 					    	'text/plain');
 						}
@@ -86,17 +86,17 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 						}
 
 					},function(data, status, headers, config) {
-			    		alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
+			    		//alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
 			    	});
 					
 				});
 			
 		    },function(data, status, headers, config) {
-		    	alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
+		    	//alert('ERROR AL DAR DE ALTA TAGS DE LA IDEA');
 		    });
 		
 		},function(data, status, headers, config) {
-	    	alert('ERROR AL DAR DE ALTA LA IDEA');
+	    	//alert('ERROR AL DAR DE ALTA LA IDEA');
 	    });
 	};
 
