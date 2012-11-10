@@ -76,4 +76,22 @@ class SqlSpec extends Specification {
 
   }
 
+  "Sql.prefixFields" should {
+
+    "return the original fields if no mapping is specified" in {
+      (prefixFields("field1   asc  ,   table2.field2, field3 desc")
+        must equalTo("field1   asc, table2.field2, field3 desc"))
+    }
+
+    "prefix the fields using the table mappings" in {
+      (prefixFields(
+        "field1   asc  ,   table2.field2, field3 desc",
+        Map("table1" -> "new_table1", "table2" -> "new_table2", "" -> "def_table")
+      )
+        must equalTo("def_table.field1   asc, new_table2.field2, def_table.field3 desc")
+      )
+    }
+
+  }
+
 }

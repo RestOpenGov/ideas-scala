@@ -41,6 +41,10 @@ case class Idea (
     Tag.findByIdea(this).map(_.name).toList
   }
 
+  lazy val geos: List[IdeaGeo] = {
+    IdeaGeo.findByIdea(this)
+  }
+
   def saveTag(tag: String)(implicit user: User, lang: Lang): Either[List[Error],List[String]] = {
     if (tags.contains(tag)) {
       Left(List(ValidationError(

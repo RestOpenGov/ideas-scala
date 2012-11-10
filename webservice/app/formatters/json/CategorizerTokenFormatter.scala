@@ -17,7 +17,7 @@ object CategorizerTokenFormatter {
         "original"        -> toJson(o.original),
         "text"            -> toJson(o.text),
         "lat"             -> o.lat.map{ lat => toJson(lat) }.getOrElse(JsNull(0)),
-        "long"            -> o.long.map{ long => toJson(long) }.getOrElse(JsNull(0)),
+        "lng"             -> o.lng.map{ lng => toJson(lng) }.getOrElse(JsNull(0)),
         "tags"            -> toJson(o.tags)
       ))
     }
@@ -27,8 +27,8 @@ object CategorizerTokenFormatter {
         category   = (j \ "category").as[Option[String]]    .getOrElse("undefined"),
         original   = (j \ "original").as[Option[String]]    .getOrElse("undefined"),
         text       = (j \ "text").as[Option[String]]        .getOrElse("undefined"),
-        lat        = (j \ "lat").as[Option[Long]],
-        long       = (j \ "lat").as[Option[Long]],
+        lat        = (j \ "lat").as[Option[Double]],
+        lng        = (j \ "lng").as[Option[Double]],
         tags       = (j \ "tags").as[Option[Seq[String]]]   .getOrElse(Seq[String]())
       )
     }

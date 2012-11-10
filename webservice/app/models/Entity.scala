@@ -170,7 +170,7 @@ trait EntityCompanion[A<:Entity] {
         }
       }
 
-      val orderBy = if (order == "") "" else "order by " + order
+      val orderBy = if (order == "") "" else "order by " + Sql.prefixFields(order, getTableMappings)
       val sql = "select %s from %s %s %s limit {offset}, {len}"
 
       SQL(

@@ -2,47 +2,58 @@
   <h1>Nueva idea</h1>
 </div>
 <div class="well">
-	<!-- <form id="new-idea-form" class="form-horizontal" ng-submit="saveIdea()"> -->
-	<div id="new-idea-form" class="form-horizontal">
-	  <div class="control-group">
-	    <label class="control-label" for="inputTitle">Título</label>
-	    <div class="controls">
-	      <input type="text" id="inputTitle" placeholder="Título de la idea" ng-model="idea.name" required>
-	    </div>
-	  </div>
-	  <div class="control-group">
-	    <label class="control-label" for="selectType">Tipo</label>
-	    <div class="controls">
-	    	<select ng-model="idea.type.id" ng-options="t.id as t.name for t in types" required></select>
-	    </div>
-	  </div>
-	  <div class="control-group">
+	<form id="new-idea-form" name="new-idea-form" class="form-horizontal" ng-submit="saveIdea()">
+	<!--div id="new-idea-form" class="form-horizontal"-->
+		<div class="control-group">
+			<label class="control-label" for="inputTitle">Título</label>
+			<div class="controls">
+			  <input type="text" id="inputTitle" placeholder="Título de la idea" ng-model="idea.name"  class="span12" ng-minlength="3" ng-maxlength="50" required>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="selectType">Tipo</label>
+			<div class="controls">
+				<select ng-model="idea.type.id" ng-options="t.id as t.name for t in types" required></select>
+			</div>
+		</div>
+
+		<div class="control-group">
 		    <label class="control-label" for="areaMessage">Mensaje</label>
 		    <div class="controls">
-		    	<textarea id="areaMessage" class="span12" placeholder="La idea va aquí..." name="areaMessage"></textarea>
+		    	<textarea id="areaMessage" ng-model="idea.description" class="span12" placeholder="La idea va aquí..." name="areaMessage"></textarea>
 		    </div>
-	  </div>
+		</div>
 
-   	  <div class="control-group" ng-show="suggestions.length > 0" ng-hide="suggestions.length == 0">
-		<label class="control-label" for="inputTags">Sugerencias</label>
-		<div class="controls">
-      		<div ng-include src="'includes/suggestion.html'" ng-repeat="suggestion in suggestions"></div>
-      	</div>
-      </div>
+		<div class="control-group" ng-show="suggestions.length > 0">
+			<label class="control-label" for="inputTags">Sugerencias</label>
+			<div class="controls">
+				<div ng-include src="'includes/suggestion.html'" ng-repeat="suggestion in suggestions"></div>
+			</div>
+		</div>
 
-   	  <div class="control-group">
-	    <label class="control-label" for="inputTags">Tags</label>
-	    <div class="controls">
-	      <form class="form-inline">
-		  <input type="text" autocomplete="off" data-items="6" data-provide="typeahead" name="tagsjax" placeholder="Agregar tag" class="input-medium tagManager" data-original-title="" />
-		</form>
+		<div class="control-group">
+			<label class="control-label" for="inputTags">Etiquetas</label>
+			<div class="controls">
+				<div class="form-inline">
+					<input type="text" autocomplete="off" data-items="6" data-provide="typeahead" name="tagsjax" placeholder="Agregar tag" class="input-medium tagManager" data-original-title="" />
+				</div>
+			</div>
+		</div> 
 
-	    </div>
-	  </div> 
+		<div class="control-group" ng-show="selectedGeoSuggestions.length > 0">
+			<label class="control-label" for="inputTags">Geolocalización</label>
+				<div class="controls">
+					<div ng-include src="'includes/geo-suggestion.html'" ng-repeat="suggestion in selectedGeoSuggestions"></div>
+				</div>
+		</div> 
 
-	  <div class="form-actions">
-        <button type="button" ng-click="saveIdea()" class="btn btn-primary">Guardar</button>
-        <button type="reset" class="btn">Cancel</button>
-       </div>
-	</div>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary btn-large span2">Guardar</button>
+			<div ng-show="errorForm" class="alert alert-error span6">
+            	Debes completar todos los campos!.
+          	</div>
+		</div>
+
+	</form>
 </div>
