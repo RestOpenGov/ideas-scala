@@ -19,7 +19,7 @@ function HomeCtrl($scope, $routeParams, $http, $USER) {
       angular.forEach(json, function(t, i){
       	var type = t.id;
 
-      	//Retrieve 3 ideas per type TODO add type filter
+      	//Retrieve 3 ideas per type
       	$scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'ideas?len=3&order=created DESC&q=type.id:'+type,{},function(json) {
 
 	      	types[i]['ideas'] = json;

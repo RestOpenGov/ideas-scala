@@ -2,9 +2,9 @@
   <div class="span9">
     <h3><a href="/#/ideas/{{idea.id}}">{{idea.name}}</a></h3> 
     <h6>Fecha: {{ idea.created | date:'yyyy-MM-dd HH:mm a' }} - Categoría: <a href="/#/ideas/lista?q=type.id:{{idea.type.id}}">{{idea.type.name}}</a></h6>
-    <h6 hg-show="idea.tags.length > 0"><i class="icon-tags" ></i>  {{idea.tags.toString()}}</h6> 
+    <h6 ng-show="idea.tags.length > 0"><i class="icon-tags" ></i>  {{idea.tags.toString()}}</h6> 
     <p ng-bind-html-unsafe="idea.description"></p>
-    <h6 hg-show="idea.geos.length > 0"><i class="icon-globe" ></i>  <img class="img-rounded" src="http://maps.google.com/maps/api/staticmap?center={{geo.lat}},{{geo.lng}}&zoom=14&size=100x100&maptype=roadmap&mark&markers=color:red%7Ccolor:red%7Clabel:A%7C{{geo.lat}},{{geo.lng}}&sensor=false" ng-repeat="geo in idea.geos"/><span>   </span></h6> 
+    <h6 ng-show="idea.geos.length > 0"><i class="icon-globe" ></i>  <img class="img-rounded" src="http://maps.google.com/maps/api/staticmap?center={{geo.lat}},{{geo.lng}}&zoom=14&size=100x100&maptype=roadmap&mark&markers=color:red%7Ccolor:red%7Clabel:A%7C{{geo.lat}},{{geo.lng}}&sensor=false" ng-repeat="geo in idea.geos"/><span>   </span></h6> 
   </div>
   <div class="span3">
     <div class="row-fluid">

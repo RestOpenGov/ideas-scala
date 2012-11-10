@@ -59,11 +59,7 @@ function VoteCtrl($scope, $routeParams, $http, $USER) {
           };
             
         },function(data, status, headers, config) {
-            var error = 'ERROR!: ';
-            angular.forEach(data, function(e, i){
-              error += ' - ' + e.message;
-            });
-            alert(error);
+           
         });
       }
 
