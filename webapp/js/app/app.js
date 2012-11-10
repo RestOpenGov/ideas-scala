@@ -40,7 +40,7 @@ ideasModule.run(function($rootScope,$http) {
     //TODO add header with 
 
     var token = SocialAuth.get('ideas-ba-token'), _headers={};
-
+    token="opensas";
     if (token) {
         _headers["Authorization"] = 'ideas-token='+token;
     }
