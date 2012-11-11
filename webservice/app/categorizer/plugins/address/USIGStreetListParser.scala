@@ -29,9 +29,12 @@ object USIGStreetListParser {
   }
 
   def parse: Option[List[SimpleToken]] = {
-    readFromFile().map { USIGTokens => 
+    val r = readFromFile().map { USIGTokens => 
       USIGTokens.flatMap{ USIGToken => USIGTokenToSimpleToken(USIGToken) }
     }
+    
+    // Remove repeated entries (with the same street id)
+    if(r.isDefined) Some(r.get.groupBy{a =>a.id}.map{_._2.head}.toList) else None
   }
 
   def readFromFile(file: String = USIG_SOURCE_FILE): Option[List[USIGStreetToken]] = {

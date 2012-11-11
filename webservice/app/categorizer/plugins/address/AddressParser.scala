@@ -4,8 +4,8 @@ import scala.Option.option2Iterable
 import play.api.libs.json.Json
 import collection.mutable.HashMap
 import play.api.libs.json.{JsArray, JsObject, JsValue}
-
 import categorizer.SimpleTokenFormatter._
+import categorizer.SimpleToken
 import categorizer.SimpleToken
 
 object AddressParser {
@@ -16,21 +16,32 @@ object AddressParser {
   val numWordsAround = 4;
   val keywords = List("y", "esq", "esquina", "alt", "altura")
   
+  // Creates the lookup street dictionary. 
+  // The hashMap is of type [String, List[SimpleToken]]. Each key can have 1 or more streets
   val dictionary = {
     val lines = scala.io.Source.fromFile(CATEGORIZER_STREETS_FILE).mkString
     val json = Json.parse(lines)
     
-    val res = new HashMap[String, SimpleToken]()
+    val res = new HashMap[String, List[SimpleToken]]()
     
     (json \ "tokens").as[List[SimpleToken]].foreach { item =>
-      res += item.token.toLowerCase -> item
+      res += item.token.toLowerCase -> getValueList(res.get(item.token.toLowerCase), item)
       item.alias.foreach { alias =>
-        res += alias.toLowerCase -> item
+        res += alias.toLowerCase -> getValueList(res.get(alias.toLowerCase), item)
       }
     }
     res
   }
   
+  /**
+   * Returns the list with the value appended. If the existing list exists, use it, otherwise create a new one
+ * @param currentValue
+ * @param value
+ * @return
+ */
+private def getValueList(currentValue: Option[List[SimpleToken]], value: SimpleToken): List[SimpleToken] = {
+    currentValue.getOrElse(List[SimpleToken]()) :+ value
+  }
   
   //val streetDictionary = (xxx -> yy)
 
@@ -56,7 +67,7 @@ object AddressParser {
   // de honorio pueyrredon
   // honorio pueyrredon -> retorna esta calle
   // pueyrredon
-  private def streetMatchFromHead(streets: Array[String]): Option[SimpleToken] = {
+  private def streetMatchFromHead(streets: Array[String]): Option[Seq[SimpleToken]] = {
     if(streets.isEmpty) return None
     
     dictionary.get(streets.mkString(" ")).orElse(streetMatchFromHead(streets.tail))
@@ -70,10 +81,23 @@ object AddressParser {
   // san martin hay un
   // san martin hay
   // san martin -> retorna esta calle
-  private def streetMatchFromTail(streets: Array[String]): Option[SimpleToken] = {
+  private def streetMatchFromTail(streets: Array[String]): Option[Seq[SimpleToken]] = {
     if(streets.isEmpty) return None
     
     dictionary.get(streets.mkString(" ")).orElse(streetMatchFromTail(streets.init))
+  }
+  
+  /**
+   * Given the 2 street lists, returns all posible combinations as CornerAddrresses
+ * @param listA
+ * @param listB
+ * @param separator
+ * @return
+ */
+private def buildAddresses(listA: Seq[SimpleToken], listB: Seq[SimpleToken], separator:String): Seq[CornerAddress] = {
+    listA flatMap {
+      case st1 => listB map {st2 => CornerAddress(st1.token, st1.id, st2.token, st2.id, separator) }
+    }
   }
 
   def parse(text: String): Seq[Address] = {
@@ -85,9 +109,8 @@ object AddressParser {
       for {
         st1 <- streetMatchFromHead(result._1)
         st2 <- streetMatchFromTail(result._3)
-      } yield CornerAddress(st1.token, st1.id, st2.token, st2.id, result._2) 
-       
-    }
+      } yield buildAddresses(st1, st2, result._2) 
+    } flatten
   }
   
   /**
@@ -213,12 +236,12 @@ abstract class Address(
 
 case class CornerAddress(override val street1: String, override val street1Id: String, street2: String, street2Id: String, override val separator: String = "y") extends Address(street1, street1Id, separator) {
   override def toString() = {
-    street1 + " y " + street2;
+    String.format("%s(%s) y %s(%s)", street1, street1Id, street2, street2Id)
   }
 }
 
 case class NumberAddress(override val street1: String, override val street1Id: String, number: Long, override val separator: String = "") extends Address(street1, street1Id, separator) {
   override def toString() = {
-    street1 + " " + number;
+    String.format("%s(%s) %s", street1, street1Id, number.toString)
   }
 }
