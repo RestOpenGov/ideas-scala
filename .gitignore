@@ -34,6 +34,9 @@ secrets.*
 # Ignore tmp folder
 /tmp
 
+# Ignore worksheet files
+*.sc
+
 # Ignore sublime project
 *.sublime-project
 *.sublime-workspace

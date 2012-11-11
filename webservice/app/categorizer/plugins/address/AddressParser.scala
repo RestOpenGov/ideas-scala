@@ -4,7 +4,9 @@ import scala.Option.option2Iterable
 import play.api.libs.json.Json
 import collection.mutable.HashMap
 import play.api.libs.json.{JsArray, JsObject, JsValue}
-import categorizer.plugins.address.SimpleTokenFormatter._
+
+import categorizer.SimpleTokenFormatter._
+import categorizer.SimpleToken
 
 object AddressParser {
 

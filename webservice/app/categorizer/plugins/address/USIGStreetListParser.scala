@@ -9,7 +9,8 @@ import scala.io.Source
 import utils.StringHelper.{trim, normalizeSpaces}
 import utils.Validate.isEmptyWord
 
-import SimpleTokenFormatter.JsonTokenFormatter
+import categorizer.SimpleToken
+import categorizer.SimpleTokenFormatter._
 
 import utils.FileHelper
 
@@ -67,7 +68,17 @@ object USIGStreetListParser {
     val tokenParts = normalized.split("""\s*,\s*""")
     val token = tokenParts.reverse.mkString(" ")
 
-    val alias = if (tokenParts.size > 1) List(tokenParts(0)) else List()
+    var alias = if (tokenParts.size > 1) List(tokenParts(0)) else List()
+    
+    // If the name has more than 2 words, use the partial names as aliases (except when they finish with the exculuded
+    // word list
+    val word = tokenParts(0) split """\W+"""
+    val exclude = List("de", "del", "el", "los", "la", "las", "y", "san", "alt", "altura")
+    
+    for (i <- 2 until word.size if !(exclude contains word(i-1)) ) {
+      alias = alias :+ word.slice(0,i).mkString(" ")
+    }
+    
     (token, alias)
   }
 

@@ -20,6 +20,10 @@ object StringHelper {
     text.replaceAll("""\s{2,}""", " ")
   }
 
+  def stripHtmlTags(text: String): String = {
+    text.replaceAll("""(?m) <[^>]*>""", "")
+  }
+
   def replaceTildes(text: String): String = {
 
     val replacements = List(

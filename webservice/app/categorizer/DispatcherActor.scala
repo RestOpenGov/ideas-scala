@@ -1,21 +1,23 @@
-package org.restopengov.Armadillo
+package categorizer
 
-import org.restopengov.Armadillo.backend.Token
-import org.restopengov.Armadillo.backend.plugins._
-import org.restopengov.Armadillo.formatters.json.TokenFormatter._
+import plugins._
+import TokenFormatter._
+
 import akka.actor.{Actor, ActorRef}
 import akka.actor.Props
 import akka.dispatch.{Await, Future}
 import akka.pattern.ask
 import akka.util.Timeout
 import akka.util.duration._
+
 import play.api.libs.json.Json.toJson
 import play.api.libs.json.JsValue
 
-import categorizer.plugins.address.AddressPlugin
+import plugins.address.AddressPlugin
+import plugins.wordlist.WordlistPlugin
 
 case class DispatcherResponse(json: JsValue)
- 
+
 class DispatcherActor extends Actor {
 
   // private val address = context.actorOf(Props[UsigAddressPlugin], name = "address")
@@ -33,10 +35,9 @@ class DispatcherActor extends Actor {
         val addr = addressResult.asInstanceOf[Seq[Token]]
         val wrds = wordlistResult.asInstanceOf[Seq[Token]]
         DispatcherResponse(toJson(addr ++ wrds))
+        // DispatcherResponse(toJson(addr))
       }
-
       sender ! response
-
     }
   }
 
