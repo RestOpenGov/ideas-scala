@@ -6,36 +6,31 @@ import collection.mutable.HashMap
 import play.api.libs.json.{JsArray, JsObject, JsValue}
 import categorizer.plugins.address.SimpleTokenFormatter._
 
-case class SimpleToken(
-    val id: String = "0",
-	val token: String = "",
-	val alias: List[String] = List(""),
-	val tags: List[String] = List("")
-)
-
 object AddressParser {
+
+  val CATEGORIZER_STREETS_FILE = "conf/categorizer/ba_streets.pretty.json"
+  // val CATEGORIZER_STREETS_FILE = "app/categorizer/plugins/address/streetListSample.json"
+
+  val numWordsAround = 4;
+  val keywords = List("y", "esq", "esquina", "alt", "altura")
   
-	val numWordsAround = 4;
-	val keywords = List("y", "esq", "esquina", "alt", "altura")
-	
-	val dictionary = {
-		val streetlist = "app/categorizer/plugins/address/streetListSample.json"
-		val lines = scala.io.Source.fromFile(streetlist).mkString
-		val json = Json.parse(lines)
-		
-		val res = new HashMap[String,SimpleToken]()
-		
-		(json \ "tokens").as[List[SimpleToken]].foreach { item =>
-		  res += item.token -> item
-		  item.alias.foreach { alias =>
-		    res += alias -> item
-		  }
-		}
-		res
-	}
-	
-	
-	//val streetDictionary = (xxx -> yy)
+  val dictionary = {
+    val lines = scala.io.Source.fromFile(CATEGORIZER_STREETS_FILE).mkString
+    val json = Json.parse(lines)
+    
+    val res = new HashMap[String, SimpleToken]()
+    
+    (json \ "tokens").as[List[SimpleToken]].foreach { item =>
+      res += item.token.toLowerCase -> item
+      item.alias.foreach { alias =>
+        res += alias.toLowerCase -> item
+      }
+    }
+    res
+  }
+  
+  
+  //val streetDictionary = (xxx -> yy)
 
   // recibe un texto libre y busca patterns del tipo:
   //   xxx esquina yyy, xxx y yyy, xxx esq yyy, xxx esq. yyyy, xxxx 11111, xxxx al 1111
@@ -48,8 +43,6 @@ object AddressParser {
   private def guess(text: String): Seq[Address] = {
     val corner = """.*?((?:\w+\W+){1,5})(?:y|esquina)((?:\W+\w+){1,5}).*""".r
     Seq[Address]()
-    
-	 
   }
 
   // recibe un string que sospechamos contiene una calle
@@ -82,7 +75,10 @@ object AddressParser {
   }
 
   def parse(text: String): Seq[Address] = {
-    val results = tokenize(text) 
+    import utils.StringHelper._
+
+    val normalizedText = replaceTildes(trim(text).toLowerCase)
+    val results = tokenize(normalizedText) 
     results flatMap { case result =>
       for {
         st1 <- streetMatchFromHead(result._1)
@@ -105,7 +101,7 @@ private def tokenize(text: String):  Seq[(Array[String], String, Array[String])]
     val palabras = text split """\W+"""
     
     palabras.indices filter (keywords contains palabras(_) ) map {
-    	i => (palabras.slice(math.max(0, i-numWordsAround), i), palabras(i), palabras.slice(i+1, math.min(palabras.length-1, i+numWordsAround)+1))
+      i => (palabras.slice(math.max(0, i-numWordsAround), i), palabras(i), palabras.slice(i+1, math.min(palabras.length-1, i+numWordsAround)+1))
     }
   }
 
@@ -214,13 +210,13 @@ abstract class Address(
 }
 
 case class CornerAddress(override val street1: String, override val street1Id: String, street2: String, street2Id: String, override val separator: String = "y") extends Address(street1, street1Id, separator) {
-	override def toString() = {
-	  street1 + " y " + street2;
-	}
+  override def toString() = {
+    street1 + " y " + street2;
+  }
 }
 
 case class NumberAddress(override val street1: String, override val street1Id: String, number: Long, override val separator: String = "") extends Address(street1, street1Id, separator) {
-	override def toString() = {
-	  street1 + "  " + number;
-	}
+  override def toString() = {
+    street1 + " " + number;
+  }
 }
