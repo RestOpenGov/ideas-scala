@@ -9,7 +9,8 @@ import scala.io.Source
 import utils.StringHelper.{trim, normalizeSpaces}
 import utils.Validate.isEmptyWord
 
-import SimpleTokenFormatter.JsonTokenFormatter
+import categorizer.SimpleToken
+import categorizer.SimpleTokenFormatter._
 
 import utils.FileHelper
 
