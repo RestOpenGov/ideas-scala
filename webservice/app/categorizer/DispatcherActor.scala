@@ -14,15 +14,14 @@ import play.api.libs.json.Json.toJson
 import play.api.libs.json.JsValue
 
 import plugins.address.AddressPlugin
-import plugins.wordlist.WordlistPlugin
+import plugins.wordlist.TemporalWordlistPlugin
 
 case class DispatcherResponse(json: JsValue)
 
 class DispatcherActor extends Actor {
 
-  // private val address = context.actorOf(Props[UsigAddressPlugin], name = "address")
   private val address = context.actorOf(Props[AddressPlugin], name = "address")
-  private val wordlist = context.actorOf(Props[WordlistPlugin], name = "wordlist")
+  private val temporalWordlist = context.actorOf(Props[TemporalWordlistPlugin], name = "temporalWordlist")
   implicit val timeout = Timeout(5 seconds)
 
   def receive = {
@@ -30,12 +29,11 @@ class DispatcherActor extends Actor {
 
       val response = for {
         addressResult <- address ? msg
-        wordlistResult <- wordlist ? msg
+        temporalWordlistResult <- temporalWordlist ? msg
       } yield {
         val addr = addressResult.asInstanceOf[Seq[Token]]
-        val wrds = wordlistResult.asInstanceOf[Seq[Token]]
-        DispatcherResponse(toJson(addr ++ wrds))
-        // DispatcherResponse(toJson(addr))
+        val tmpWords = temporalWordlistResult.asInstanceOf[Seq[Token]]
+        DispatcherResponse(toJson(addr ++ tmpWords))
       }
       sender ! response
     }
