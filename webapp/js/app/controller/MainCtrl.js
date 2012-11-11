@@ -16,6 +16,8 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
         // Get User
         $http.get(SERVICE_ENDPOINT+'users/token/' + response.token)
           .success(function(user) {
+
+            $('#authModal').modal('hide');
             
             $scope.user = user;
             $USER.setUser(user);
@@ -29,10 +31,14 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
           })
           .error(function(json) {
             console.log(json);
+            $('#authModal').modal('hide');
           });
       })
       .error(function(json) {
         console.log(json);
+        $('#authModal').modal('hide');
+        $('#errorModal .modal-body').html("Ocurrió un error al iniciar sesión. Por favor intenta nuevamente.");
+        $('#errorModal').modal();
       }); 
   };
 
@@ -49,6 +55,15 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
     $('.popover-component').popover({
       trigger : 'hover',
       delay: { show: 500, hide: 2000 }
+    });
+
+    if($('#login').length > 0) {
+      SocialAuth.init();
+    }
+
+    $('.authButton').click(function() {
+      SocialAuth.authenticate($(this).attr('rel'));
+      $(this).html('Cargando...');
     });
 
   });
