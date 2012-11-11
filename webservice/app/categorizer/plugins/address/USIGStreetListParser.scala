@@ -43,7 +43,8 @@ object USIGStreetListParser {
   }
 
   def writeToFile(tokens: List[SimpleToken], file: String = CATEGORIZER_STREETS_FILE): Unit = {
-    FileHelper.writeToFile(file, write(tokens))
+    val destFile = Play.current.getFile(file).getAbsolutePath
+    FileHelper.writeToFile(destFile, write(tokens))
   }
 
   def write(tokens: List[SimpleToken]): String = {
