@@ -5,14 +5,14 @@ import play.api.libs.json.JsValue
 import play.api.libs.json.Reads
 
 import scala.io.Source
+import play.api.Play
+import utils.FileHelper
 
 import utils.StringHelper.{trim, normalizeSpaces}
 import utils.Validate.isEmptyWord
 
 import categorizer.SimpleToken
 import categorizer.SimpleTokenFormatter._
-
-import utils.FileHelper
 
 object USIGStreetListParser {
 
@@ -35,7 +35,8 @@ object USIGStreetListParser {
   }
 
   def readFromFile(file: String = USIG_SOURCE_FILE): Option[List[USIGStreetToken]] = {
-    read(Source.fromFile(file).mkString)
+    val sourceFile = Play.current.getFile(file).getAbsoluteFile
+    read(Source.fromFile(sourceFile).mkString)
   }
   def read(input: String): Option[List[USIGStreetToken]] = {
     Json.parse(input).asOpt[List[USIGStreetToken]]

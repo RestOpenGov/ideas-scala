@@ -8,6 +8,9 @@ import play.api.libs.json.{JsArray, JsObject, JsValue}
 import categorizer.SimpleTokenFormatter._
 import categorizer.SimpleToken
 
+import play.api.Play
+import scala.io.Source
+
 object AddressParser {
 
   val CATEGORIZER_STREETS_FILE = "conf/categorizer/ba_streets.pretty.json"
@@ -17,7 +20,8 @@ object AddressParser {
   val keywords = List("y", "esq", "esquina", "alt", "altura")
   
   val dictionary = {
-    val lines = scala.io.Source.fromFile(CATEGORIZER_STREETS_FILE).mkString
+    val sourceFile = Play.current.getFile(CATEGORIZER_STREETS_FILE).getAbsoluteFile
+    val lines = Source.fromFile(sourceFile).mkString
     val json = Json.parse(lines)
     
     val res = new HashMap[String, SimpleToken]()
