@@ -2,17 +2,11 @@ package categorizer.plugins.wordlist
 
 import categorizer.{Plugin, Token}
 
-import WordlistFormatter._
 import play.api.libs.json.Json
 import play.api.libs.json.{JsArray, JsObject, JsValue}
 
-case class WordlistToken(
-  val token: String = "",
-  val alias: List[String] = List(""),
-  val tags: List[String] = List(""),
-  val lat: Option[Double] = None,
-  val lng: Option[Double] = None
-)
+import categorizer.SimpleTokenFormatter._
+import categorizer.SimpleToken
 
 class WordlistPlugin extends Plugin {
 
@@ -26,7 +20,7 @@ class WordlistPlugin extends Plugin {
 
     val globalTags = (json \ "tags").as[List[String]]
 
-    (json \ "tokens").as[List[WordlistToken]].collect {
+    (json \ "tokens").as[List[SimpleToken]].collect {
       case item if 
         (input.toLowerCase contains item.token.toLowerCase) || 
         (input.split(" ").map(_.toLowerCase) diff item.alias.map(_.toLowerCase)).length < input.split(" ").length => {
