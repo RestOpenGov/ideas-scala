@@ -24,6 +24,12 @@ object StringHelper {
     text.replaceAll("""(?m) <[^>]*>""", "")
   }
 
+  def normalizeHtmlSpaces(text: String): String = {
+    text.
+      replaceAll("%20", " ").
+      replaceAll("(?ix) &nbsp:", " ")
+  }
+
   def replaceTildes(text: String): String = {
     val replacements = List(
       ("á", "a"), ("Á", "A"),
