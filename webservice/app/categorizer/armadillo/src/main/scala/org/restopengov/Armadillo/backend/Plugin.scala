@@ -4,13 +4,13 @@ import akka.actor.{Actor, ActorRef}
 
 trait Plugin extends Actor {
 
-	def receive = { 		
-	    case msg: String => {
-	    	sender ! parse(msg)
-		}
-  	}
+  def receive = {
+    case msg: String => {
+      sender ! parse(msg)
+    }
+  }
 
-	def parse(input: String): Seq[Token]
+  def parse(input: String): Seq[Token]
 }
 
 case class Token(

@@ -12,7 +12,9 @@ case class UsigStreet(id: Int = 0, name: String = "undefined", x: Double = 0.0, 
 class UsigAddressPlugin extends Plugin {
 
 	def parse(input: String): Seq[Token] = { 
-		
+
+		play.Logger.debug("entering UsigAddressPlugin.parse")
+
 		val tokens = input.split(" ")
 
 		val andIx = tokens.indexOf("y")

@@ -1,4 +1,4 @@
-package categorizer.plugins.address
+package categorizer
 
 import play.api.libs.json.Format
 import play.api.libs.json.JsValue

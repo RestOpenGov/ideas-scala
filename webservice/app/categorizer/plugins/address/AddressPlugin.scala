@@ -1,15 +1,16 @@
 package categorizer.plugins.address
 
-import categorizer.Plugin
-import categorizer.Token
+import categorizer.{Plugin, Token}
 import categorizer.providers.geo.UsigLocationProvider
 import categorizer.providers.geo.GeoLocation
 
-object AddressPlugin extends Plugin {
+class AddressPlugin extends Plugin {
 
   val tags = List("direccion","geo")
   val geoProvider = new UsigLocationProvider();
-  
+
+  def parse(freeText: String): Seq[Token] = categorize(freeText)
+
   def categorize(freeText: String): Seq[Token] = {
 
     val addresses = AddressParser.parse(freeText)
