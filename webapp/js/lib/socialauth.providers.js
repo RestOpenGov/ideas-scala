@@ -1,7 +1,7 @@
 SocialAuth.providers.Twitter = {
 
   consumerKeys: {
-    'ideasba.dev' :    'NlSXLXyTcTTsbA85wxpHdw',
+    'ideasba.dev' :    'Joh8DbPiyiKXfIyAQbF02w',
     'ideas-ba.com.ar': 'nrtUVmeQAlNN2lFwxSlQA',
     'ideasba.org':     'wGtZZoq1CVcmwKkbhXfg'
   },

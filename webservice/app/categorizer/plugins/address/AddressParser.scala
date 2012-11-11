@@ -8,6 +8,9 @@ import categorizer.SimpleTokenFormatter._
 import categorizer.SimpleToken
 import categorizer.SimpleToken
 
+import play.api.Play
+import scala.io.Source
+
 object AddressParser {
 
   val CATEGORIZER_STREETS_FILE = "conf/categorizer/ba_streets.pretty.json"
@@ -19,7 +22,8 @@ object AddressParser {
   // Creates the lookup street dictionary. 
   // The hashMap is of type [String, List[SimpleToken]]. Each key can have 1 or more streets
   val dictionary = {
-    val lines = scala.io.Source.fromFile(CATEGORIZER_STREETS_FILE).mkString
+    val sourceFile = Play.current.getFile(CATEGORIZER_STREETS_FILE).getAbsoluteFile
+    val lines = Source.fromFile(sourceFile).mkString
     val json = Json.parse(lines)
     
     val res = new HashMap[String, List[SimpleToken]]()
@@ -210,6 +214,9 @@ private def tokenize(text: String):  Seq[(Array[String], String, Array[String])]
 
 // para sacar una altura
 
+// scala> val a = """((?:\w+\W+){1,4})(\d+)""".r
+// a: scala.util.matching.Regex = ((?:\w+\W+){1,4})(\d+)
+
 // scala> a.findAllIn("Lic. maria jose ignacio zavaleta 23, esta idea esta en rivadavia al 5345, al lado de José María Moreno 4356, a la vuelta de conte y Juan B. Alberdi").toList
 // res28: List[String] = List(maria jose ignacio zavaleta 23, esta en rivadavia al 5345, José María Moreno 4356)
 
@@ -224,6 +231,7 @@ private def tokenize(text: String):  Seq[(Array[String], String, Array[String])]
 // scala> val a(x,y) = "José María Moreno 4356"
 // x: String = "José María Moreno "
 // y: String = 4356
+
 
 abstract class Address(
 //  val original: String,

@@ -1,25 +1,4 @@
 
-$(function() {
-
-  $('#authModal')
-    .on('shown', function() {
-      SocialAuth.init();
-    })
-    /*
-    .css({
-      'width': function() { 
-        return '700px';  
-      },
-      'margin-left': function() { 
-        return -($(this).width() / 2); 
-      }
-    });*/
-
-  $('.authButton').click(function() {
-    SocialAuth.authenticate($(this).attr('rel'));
-  });
-});
-
 var SocialAuth = {
 
   options: {

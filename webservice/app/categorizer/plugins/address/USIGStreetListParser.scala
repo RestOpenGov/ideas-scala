@@ -5,14 +5,14 @@ import play.api.libs.json.JsValue
 import play.api.libs.json.Reads
 
 import scala.io.Source
+import play.api.Play
+import utils.FileHelper
 
 import utils.StringHelper.{trim, normalizeSpaces}
 import utils.Validate.isEmptyWord
 
 import categorizer.SimpleToken
 import categorizer.SimpleTokenFormatter._
-
-import utils.FileHelper
 
 object USIGStreetListParser {
 
@@ -38,7 +38,8 @@ object USIGStreetListParser {
   }
 
   def readFromFile(file: String = USIG_SOURCE_FILE): Option[List[USIGStreetToken]] = {
-    read(Source.fromFile(file).mkString)
+    val sourceFile = Play.current.getFile(file).getAbsoluteFile
+    read(Source.fromFile(sourceFile).mkString)
   }
   def read(input: String): Option[List[USIGStreetToken]] = {
     Json.parse(input).asOpt[List[USIGStreetToken]]
@@ -72,7 +73,7 @@ object USIGStreetListParser {
     val token = tokenParts.reverse.mkString(" ")
 
     var alias = if (tokenParts.size > 1) List(tokenParts(0)) else List()
-    
+
     // If the name has more than 2 words, use the partial names as aliases (except when they finish with the exculuded
     // word list
     val word = tokenParts(0) split """\W+"""
@@ -106,35 +107,16 @@ object USIGStreetListParser {
       (?=\W|$)            # look after for non word char
     """, "")
 
-    // first remove noiseword followed by "."
+    // first remove noisewords
     noAbrev.replaceAll("""(?imx)           #insensitive case, multiline, whitespaces and comments
       (?<=\W|^)
       (?:
-        avenida|avda|avd|av|alte|
-        presidente|pres|pte|mcal|mariscal|
-        pasaje|pje|general|gral|
-        particular|pje\.particular|comodoro|cdro|
-        teniente|tte|ing|
-        coronel|cnel|doctor|dr|
-        sin\ nombre\ oficial|sno
+        avenida|avda|avd|av|alte|presidente|pres|pte|mcal|mariscal|
+        pasaje|pje|general|gral|particular|pje\.particular|comodoro|
+        cdro|teniente|tte|ing|coronel|cnel|doctor|dr|sin\ nombre\ oficial|sno
       )
       (?=\W|$)        #noisewords followed by ".", delimited by word separator
     """, "")
-    // // first remove noiseword followed by "."
-    // noAbrev.replaceAll("""(?imx)           #insensitive case, multiline, whitespaces and comments
-    //   (?<=\W|^)
-    //   (?:
-    //     avenida|avda\.|avd\.|av\.|avda|avd|av|alte\.|alte|
-    //     presidente|pres\.|pte\.|pres|pte|mcal\.|mcal|
-    //     pasaje|pje\.|pje|general|gral\.|gral|
-    //     particular|pje\.particular|comodoro|cdro\.|cdro|
-    //     teniente|tte\.|tte|ing\.|ing|
-    //     coronel|cnel\.|cnel|doctor|dr\.|dr|
-    //     sin\ nombre\ oficial|sno\.|sno|
-    //     calle
-    //   )
-    //   (?=\W|$)        #noisewords followed by ".", delimited by word separator
-    // """, "")
   }
 
   // removes double spaces, and trailing commas
@@ -143,7 +125,5 @@ object USIGStreetListParser {
     val noTrailingComma = singleSpaced.stripSuffix(",")
     trim(noTrailingComma)
   }
-
-//"tilcara, AV. aa1 av ave avda aa3 avda. aa4 av.".replaceAll("""(?i)\b(?:av|avda|avd|avenida|pres|pte|pje|pasaje|gral|general|particular|cdro|cnel|coronel|dr|doctor|sno|calle|sin nombre oficial)\.?\b""", "")
 
 }
