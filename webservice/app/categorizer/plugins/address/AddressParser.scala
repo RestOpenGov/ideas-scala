@@ -17,7 +17,8 @@ object AddressParser {
   // val CATEGORIZER_STREETS_FILE = "app/categorizer/plugins/address/streetListSample.json"
 
   val numWordsAround = 4;
-  val keywords = List("y", "esq", "esquina", "alt", "altura")
+  val keywordsCorner = List("y", "esq", "esquina", "alt", "altura")
+  val keywordsNumbered = List("al")
   
   // Creates the lookup street dictionary. 
   // The hashMap is of type [String, List[SimpleToken]]. Each key can have 1 or more streets
@@ -91,30 +92,86 @@ private def getValueList(currentValue: Option[List[SimpleToken]], value: SimpleT
     dictionary.get(streets.mkString(" ")).orElse(streetMatchFromTail(streets.init))
   }
   
-  /**
-   * Given the 2 street lists, returns all posible combinations as CornerAddrresses
- * @param listA
- * @param listB
- * @param separator
- * @return
- */
-private def buildAddresses(listA: Seq[SimpleToken], listB: Seq[SimpleToken], separator:String): Seq[CornerAddress] = {
+	/**
+	 * Given the 2 street lists, returns all posible combinations as CornerAddrresses
+	 */
+  private def buildAddresses(listA: Seq[SimpleToken], listB: Seq[SimpleToken], separator:String): Seq[CornerAddress] = {
     listA flatMap {
       case st1 => listB map {st2 => CornerAddress(st1.token, st1.id, st2.token, st2.id, separator) }
     }
   }
+  
+  	/**
+	 * Given the street list, return NumberedAddrresses
+	 */
+  private def buildAddresses(list: Seq[SimpleToken], number: Long, separator:String): Seq[NumberAddress] = {
+    list map {
+      case st => NumberAddress(st.token, st.id, number, separator) 
+    }
+  }
 
+  /**
+   * Entry point to the parser. Parse a text and returns a list of addresses 
+   * @param text
+   * @return
+   */
   def parse(text: String): Seq[Address] = {
     import utils.StringHelper._
 
     val normalizedText = replaceTildes(trim(text).toLowerCase)
-    val results = tokenize(normalizedText) 
-    results flatMap { case result =>
+    parseCorners(normalizedText) ++ parseNumbered(normalizedText)
+  }
+  
+  /**
+   * Searches and returns addresses that include two streets (corrientes y callao, medrano esq. cordoba) 
+   * @param text
+   * @return
+   */
+  private def parseCorners(text: String): Seq[Address] = {
+    val results = tokenizeCorners(text) 
+    results flatMap { case (listA, separator, listB) =>
       for {
-        st1 <- streetMatchFromHead(result._1)
-        st2 <- streetMatchFromTail(result._3)
-      } yield buildAddresses(st1, st2, result._2) 
+        st1 <- streetMatchFromHead(listA)
+        st2 <- streetMatchFromTail(listB)
+      } yield buildAddresses(st1, st2, separator) 
     } flatten
+  }
+  
+  /**
+   *  Searches and returns addresses that include one street and a number (corrientes 2000, cordoba al 3200) 
+   * @param text
+   * @return
+   */
+  private def parseNumbered(text: String): Seq[Address] = {
+    val results = tokenizeNumbered(text)
+    
+    results flatMap { case (wordList, separator, number) =>
+      for {
+        st <- streetMatchFromHead(wordList)
+      } yield buildAddresses(st, number, separator) 
+    } flatten
+  }
+  
+  private def tokenizeNumbered(text: String):  Seq[(Array[String], String, Long)] = {
+    val regex = """((?:\w+\W+){1,5})(\d+)""".r
+    
+    // find the matches. 
+    regex.findAllIn(text).toSeq.map { res => 
+    	var palabras = res split """\W+"""
+    	
+    	// Get the number and remove it from the word list
+    	val number = palabras.last.toLong
+    	palabras = palabras.init
+    	
+    	// We get 5 words, but 
+    	if(keywordsNumbered contains palabras.last)  {
+    		// if there's a control word in the end, we remove it and set it as "separator"
+    		(palabras.init, palabras.last, number)
+    	} else {
+    	  // If there's no control word, we just want 4 words, so we remove the first one
+    	  (palabras.tail, "", number)
+    	}
+    }
   }
   
   /**
@@ -126,10 +183,10 @@ private def buildAddresses(listA: Seq[SimpleToken], listB: Seq[SimpleToken], sep
    * @param text
    * @return
    */
-private def tokenize(text: String):  Seq[(Array[String], String, Array[String])] = {
+  private def tokenizeCorners(text: String):  Seq[(Array[String], String, Array[String])] = {
     val palabras = text split """\W+"""
     
-    palabras.indices filter (keywords contains palabras(_) ) map {
+    palabras.indices filter (keywordsCorner contains palabras(_) ) map {
       i => (palabras.slice(math.max(0, i-numWordsAround), i), palabras(i), palabras.slice(i+1, math.min(palabras.length-1, i+numWordsAround)+1))
     }
   }

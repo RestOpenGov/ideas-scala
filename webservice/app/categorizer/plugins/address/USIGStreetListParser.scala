@@ -34,7 +34,7 @@ object USIGStreetListParser {
     }
     
     // Remove repeated entries (with the same street id)
-    if(r.isDefined) Some(r.get.groupBy{a =>a.id}.map{_._2.head}.toList) else None
+    if(r.isDefined) Some(r.get.groupBy{a => a.id+a.token}.map{_._2.head}.toList) else None
   }
 
   def readFromFile(file: String = USIG_SOURCE_FILE): Option[List[USIGStreetToken]] = {
