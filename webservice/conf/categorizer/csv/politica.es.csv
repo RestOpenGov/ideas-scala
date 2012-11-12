@@ -1,0 +1,11 @@
+Filename,politica-ba.es.json,,,
+Plugin,LenguajePolitico,,,
+Tags generales,lenguaje político,,,
+,,,geo,
+,,,,
+token,alias,tags,lat,long
+,,,,
+Perón,"peron, peronismo, peronista, peroncho, peruca, descamisado",,,
+kirchner,kirchnerismo,,,
+macri,"macrismo, macrista",,,
+pro,,,,

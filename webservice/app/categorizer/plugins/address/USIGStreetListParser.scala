@@ -51,7 +51,7 @@ object USIGStreetListParser {
   }
 
   def write(tokens: List[SimpleToken]): String = {
-    val json: JsValue = JsonTokenFormatter.writesToFile(tokens)
+    val json: JsValue = JsonSimpleTokenFormatter.writesToFile(tokens)
     Json.stringify(json)
   }
 
