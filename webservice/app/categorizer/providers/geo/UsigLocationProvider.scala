@@ -65,6 +65,9 @@ class UsigLocationProvider extends GeoLocationProvider {
 
 	play.Logger.debug("Response: " + response)
 	
+	// Corner address service and number address service return different data types for the coordinates (the former
+	// strings and the latter numbers), so we try to get String first and Double later. Then we use toString to ensure a String 
+	// is passed
 	for {
 	  x <- (json \ "x").asOpt[String].orElse((json \ "x").asOpt[Double])
 	  y <- (json \ "y").asOpt[String].orElse((json \ "y").asOpt[Double])
