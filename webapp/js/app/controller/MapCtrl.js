@@ -20,6 +20,11 @@ function MapCtrl($scope, $routeParams, $http) {
 	      mapTypeId: google.maps.MapTypeId.ROADMAP
 	    };
 	    $scope.map = new google.maps.Map(document.getElementById("ideas_map"), myOptions);
+
+           $scope.infowindow = new google.maps.InfoWindow({
+           		maxWidth : 200
+           	});
+
 	});
 
     $scope.init = function(){
@@ -34,7 +39,9 @@ function MapCtrl($scope, $routeParams, $http) {
 	      	if(json.length==0 || $scope.loadedGeoIdeas>=$scope.maxGeoIdeas){
 	      		clearInterval($scope.intervalId);
 	      	}
+
  			angular.forEach(json, function(element, index){
+ 				console.log(element);
  				var typeId = element.idea.type.id
  				var image = '/img/markers/idea.png'; // default.
  				if (typeId === 1) {
@@ -49,10 +56,27 @@ function MapCtrl($scope, $routeParams, $http) {
 
 				var latLng = new google.maps.LatLng(element.lat, element.lng);
             	var marker = new google.maps.Marker({
-                position: latLng,
-                map: $scope.map,
-                icon: image
-            });
+                	position: latLng,
+                	map: $scope.map,
+                	icon: image
+            	});
+
+            	google.maps.event.addListener(marker, 'click', function() {
+            		var info = $scope.infowindow;
+            		var nameIdea = element.idea.name;
+            		var ubication = element.name;
+            		var link = HOST + '/#/ideas/' + element.idea.id;
+
+            		var message = "";
+            		//message += '<div id="content">';
+            		message += '<a href="' + link +'"><h5>' + nameIdea + '</h5></a>';
+            		message += '<p> Ubicacion: ' + ubication + '</p>' ;
+            		//message += '</div>';
+            		info.setContent(message);
+            		info.setPosition(latLng);
+            		info.open($scope.map, marker);
+        		});
+
  			});
 
 		});
