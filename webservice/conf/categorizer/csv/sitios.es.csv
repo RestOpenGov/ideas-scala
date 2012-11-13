@@ -6,13 +6,13 @@ Tags generales,,,,,
 token,alias,tags,lat,long,address
 ,,,,,
 Bar Homero Manzi,homero manzi,bar,,,san juan y boedo
-Bar La Giralda,la giralda,bar,,,rivadavia y medrano
+Bar La Giralda,"la giralda, giralda",bar,,,rivadavia y medrano
 Basílica Nuestra Señora del Pilar,"Basílica Nuestra Señora del Pilar, nuestra señora del pilar",turismo,,,
 Bosques de Palermo,palermo,,,,
-Cabildo,,turismo,,,
-Café Tortoni,cafe tortoni,bar,,,avenida de mayo 825
+Cabildo,,turismo,-34.608698,-58.373698,
+Café Tortoni,"cafe tortoni, tortoni",bar,,,avenida de mayo 825
 Caminito,,turismo,,,
-Casa de Gobierno,casa rosada,gobierno,,,balcarce 50
+Casa de Gobierno,casa rosada,gobierno,,,
 Catedral Metropolitana,catedral,"sitio histórico, turismo",,,
 Cementerio de Chacarita,chacarita,cementerio,,,
 Cementerio de la Recoleta,recoleta,"cementerio, turismo",,,
@@ -20,7 +20,7 @@ Centro Cultural Recoleta,recoleta,cultura,,,
 Centro de exposiciones de la Rural,la rural,,,,
 Confitería el Molino,"el molino, confiteria el molino",bar,,,rivadavia 1801
 Congreso de la Nación,"congreso, plaza de los dos congresos",gobierno,,,rivadavia y entre rios
-Correo central,,,,,
+Correo central,,,,,Correo central
 Costanera Norte,costanera,,,,
 Costanera Sur,costanera,,,,
 Edificio Kavanagh,kavanagh,turismo,,,
@@ -36,10 +36,10 @@ Jardín Zoológico Eduardo Ladislao,"zoologico, ladislao, eduardo ladislao",,,,
 Manzana de las Luces,,turismo,,,Perú 272
 Monumento a Lola Mora,lola mora,monumento,,,
 Palacio de Tribunales,tribunales,gobierno,,,Talcahuano 550
-Palermo Hollywood,hollywood,,,,
-Palermo Soho,soho,,,,
+Palermo Hollywood,hollywood,,,,Palermo Hollywood
+Palermo Soho,soho,,,,Palermo Soho
 Pirámide de mayo,piramide de mayo,"monumento, turismo",,,
-Planetario Galileo Galilei,planetario,,,,Sarmiento y Belisario Roldán
+Planetario Galileo Galilei,planetario,,,,
 Plaza de la República,plaza de la republica,,,,9 de julio y corrientes
 Plaza de Mayo,plaza de mayo,plaza,,,Hipólito Yrigoyen y Defensa
 Plaza Miserere,"plaza once, plaza 11","plaza, transporte",,,Rivadavia 2800
@@ -50,9 +50,9 @@ Rosedal de Palermo,rosedal,"paseo, turismo",,,
 Torre de los Ingleses,"torre de los ingleses, torre monumental",monumento,,,Av Del Libertador 49
 Plaza Flores,flores,plaza,,,Rivadavia 6900
 Parque Lezama,lezama,plaza,,,Defensa y Brasil
-Retiro,,transporte,,,
-Constitución,,transporte,,,
-Estadio Vélez Sarsfield,"velez, velez sarsfield",fútbol,,,
+Estación Retiro,retiro,transporte,,,
+Estación Constitución,constitucion,transporte,,,
+Estadio Vélez Sarsfield,"estadio velez, velez sarsfield, estadio de velez",fútbol,,,
 La Ideal,,bar,,,suipacha 380
 Parque Centenario,centenario,parque,,,
 Parque Rivadavia,rivadavia,parque,,,
