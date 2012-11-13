@@ -25,13 +25,18 @@ object Management extends Controller {
     Idea.findById(id).map { idea =>
 
       val sql = """
+  SET SQL_SAFE_UPDATES=0;
   delete from vote where vote_type = 'comment' and comment_id in (select id from comment where idea_id = :id);
   delete from vote where vote_type = 'idea' and idea_id = :id;
+  delete from idea_geo where idea_id = :id;
   delete from idea_tag where idea_id = :id;
   delete from subscription where idea_id = :id;
   delete from comment where idea_id = :id;
   delete from idea where id = :id;
   """.replace(":id", id.toString)
+
+      play.Logger.info("about to execute:")
+      play.Logger.info(sql)
 
       DB.withTransaction { implicit connection =>
         SQL(sql).executeUpdate()
@@ -49,9 +54,13 @@ object Management extends Controller {
     Comment.findById(id).map { idea =>
 
       val sql = """
+  SET SQL_SAFE_UPDATES=0;
   delete from vote where vote_type = 'comment' and comment_id = :id;
   delete from comment where id = :id;
   """.replace(":id", id.toString)
+
+      play.Logger.info("about to execute:")
+      play.Logger.info(sql)
 
       DB.withTransaction { implicit connection =>
         SQL(sql).executeUpdate()
