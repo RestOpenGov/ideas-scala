@@ -34,7 +34,7 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 			        			function(json) {
 			        				//filtrar las seleccionadas o las que ya le pregunté
 			        				json = json.filter(function (e) {
-									  return typeof($scope.ignoreSuggestions[e.original]) === "undefined" && e.original != "undefined";
+									  return typeof($scope.ignoreSuggestions[e.text+'-'+e.category]) === "undefined" && e.original != "undefined";
 									});
 			        				$scope.suggestions = json;
 					    		},
@@ -136,7 +136,7 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 
 	$scope.sliceSuggestion = function(i,array){
 		var removedItem = array.splice(i,1);
-		$scope.ignoreSuggestions[removedItem[0].original]=removedItem[0];
+		$scope.ignoreSuggestions[removedItem[0].text+'-'+removedItem[0].category]=removedItem[0];
 		return removedItem[0];
 	};
 
