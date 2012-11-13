@@ -14,7 +14,6 @@ import utils.Conversion.pkToLong
 import java.util.Date
 
 import models.Error._
-import models.IdeaTag
 import exceptions.{ErrorList, ErrorListException}
 
 import utils.Http
