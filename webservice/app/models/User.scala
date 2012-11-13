@@ -177,11 +177,10 @@ object User extends EntityCompanion[User] {
     // if (isEmptyWord(user.email)) {
     //   errors ::= ValidationError(Error.REQUIRED, "email", "validate.empty", &("user.email"))
     // } else {
-    //   if (isDuplicate(user, "email")) {
-    //     errors ::= ValidationError(Error.DUPLICATE, "name", 
-    //       "validate.duplicate", &("user"), &("user.email"), user.email)
-    //   }
-    // }
+    if (!isEmptyWord(user.email) && isDuplicate(user, "email")) {
+      errors ::= ValidationError(Error.DUPLICATE, "name", 
+        "validate.duplicate", &("user"), &("user.email"), user.email)
+    }
 
     errors.reverse
   }
@@ -219,6 +218,23 @@ object User extends EntityCompanion[User] {
     if (users.isEmpty) None else Some(users(0))
   }
 
+  def nextAvailableName(value: String) = nextAvailableValue("name", value)
+  def nextAvailableNickname(value: String) = nextAvailableValue("nickname", value)
+
+  def nextAvailableValue(field: String, value: String): String = {
+    if (exists(condition = "%s = '%s'".format(field, sanitize(value)))) {
+      nextAvailableValue(field, plusOneValue(value))
+    } else value
+  }
+
+  // plusOne("name")    -> "name1"
+  // plusOne("name1")   -> "name2"
+  // plusOne("name23")  -> "name24"
+  def plusOneValue(value: String): String = {
+    val suffix = """\d+$""".r.findFirstIn(value).getOrElse("0")
+    value + (suffix.toInt + 1).toString
+  }
+
   // create a new user from the information of the Social provider (twitter | facebook)
   // and also saves this information as an Identity
   def createFromProviderInfo(info: IdentityProviderInfo): Either[List[Error], User] = {
@@ -226,12 +242,11 @@ object User extends EntityCompanion[User] {
     import exceptions.{ErrorListException, ErrorList}
 
     try {
-
       DB.withTransaction { implicit connection =>
 
         User(
-          nickname          = info.nickname,
-          name              = info.name,
+          nickname          = nextAvailableNickname(info.nickname),
+          name              = nextAvailableName(info.name),
           email             = info.email,
           avatar            = info.avatar
         ).save.fold(
