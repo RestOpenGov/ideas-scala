@@ -7,18 +7,20 @@ SocialAuth.providers.Twitter = {
   },
 
   init: function() {
-    $('<script src="https://platform.twitter.com/anywhere.js?id=' + SocialAuth.getKey('Twitter') + '&amp;v=1" type="text/javascript"></script>').appendTo('body');
+    $('<script src="//platform.twitter.com/anywhere.js?id=' + SocialAuth.getKey('Twitter') + '&amp;v=1" type="text/javascript"></script>').appendTo('body');
   },
 
   authenticate: function() {
     twttr.anywhere(function (T) {
+
+      T.bind("authComplete", function (e, user) {
+        SocialAuth.onAuthentication({ provider: 'twitter', token: twttr.anywhere.token })
+      });
+
       if(T.isConnected()) {
         SocialAuth.onAuthentication({ provider: 'twitter', token: twttr.anywhere.token })
       } else {
         T.signIn();
-        T.bind("authComplete", function (e, user) {
-          SocialAuth.onAuthentication({ provider: 'twitter', token: twttr.anywhere.token })
-        });
       }
     });
   }
@@ -84,7 +86,7 @@ SocialAuth.providers.Google = {
   },
 
   init: function() {
-    $('body').append('<script src="https://apis.google.com/js/client.js"></script>');
+    $('body').append('<script src="//apis.google.com/js/client.js"></script>');
   },
 
   authenticate: function() {

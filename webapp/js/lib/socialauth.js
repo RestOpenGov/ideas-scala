@@ -55,8 +55,16 @@ var SocialAuth = {
     console.log(data); 
   },
 
+  get: function(key) {
+    return SocialAuth.storageEngines[this.options.storage].get(key);
+  },
+
+  set: function(key, value) {
+    SocialAuth.storageEngines[this.options.storage].set(key, value);
+  },
+
   getUser: function() {
-    this.get('user');
+    return this.get('user');
   },
 
   setUser: function(user) {
@@ -65,16 +73,7 @@ var SocialAuth = {
 
   clearUser: function() {
     this.set('user', '');
-  },
-
-  get: function(key) {
-    return SocialAuth.storageEngines[this.options.storage].get(key);
-  },
-
-  set: function(key, value) {
-    SocialAuth.storageEngines[this.options.storage].set(key, value);
   }
-
 };
 
 
@@ -83,6 +82,7 @@ SocialAuth.storageEngines.cookie = {
   ttl: 7, // days
 
   get: function(key) {
+
     var i, x, y, cookies = document.cookie.split(";");
 
     for(i = 0; i < cookies.length; i++) {
@@ -90,7 +90,7 @@ SocialAuth.storageEngines.cookie = {
       y = cookies[i].substr(cookies[i].indexOf("=") + 1);
       x = x.replace(/^\s+|\s+$/g,"");
 
-      if(x == key) { 
+      if(x == key && y != "") { 
         return JSON.parse(unescape(y));
       }
     }
