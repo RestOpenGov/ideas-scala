@@ -32,8 +32,8 @@ object CSVParser {
 
   val CATEGORIZER_CSV_FOLDER = "conf/categorizer/csv/"
 
-  def parseFromFile(file: String): WordlistTokenFile = {
-    val tokenFile = readFromFile(file)
+  def parseFromFile(file: String, locateUsingToken: Boolean = false): WordlistTokenFile = {
+    val tokenFile = readFromFile(file, locateUsingToken)
     writeToFile(tokenFile)
     tokenFile
   }
@@ -47,24 +47,30 @@ object CSVParser {
     Json.stringify(Json.toJson(tokenFile))
   }
 
-  def readFromFile(file: String): WordlistTokenFile = {
+  def readFromFile(file: String, locateUsingToken: Boolean = false): WordlistTokenFile = {
     val sourceFile = Play.current.getFile(CATEGORIZER_CSV_FOLDER + file).getAbsoluteFile
-    csvToTokenFile(Source.fromFile(sourceFile).getLines.toList)
+    csvToTokenFile(Source.fromFile(sourceFile).getLines.toList, locateUsingToken)
   }
 
-  def csvToTokenFile(lines: List[String]): WordlistTokenFile = {
+  def csvToTokenFile(lines: List[String], locateUsingToken: Boolean = false): WordlistTokenFile = {
     val file    = splitCSV(lines(0))(1)
     val line2   = splitCSV(lines(2)).toList.padTo(2, "")
     val tags    = splitComma(line2(1))
     val tokens  = lines.slice(7, lines.size-1).flatMap { line =>
-      csvToSimpleToken(line)
+      csvToSimpleToken(line, locateUsingToken)
     }
     WordlistTokenFile(file, tags, tokens)
   }
 
-  def csvToSimpleToken(line: String): Option[SimpleToken] = {
+  def csvToSimpleToken(line: String, locateUsingToken: Boolean = false): Option[SimpleToken] = {
 
-    def calculateLocation(values: List[String]): (Option[Double], Option[Double]) = {
+    def calculateLocation(values: List[String], fromTokenlocateUsingToken: Boolean = false): (Option[Double], Option[Double]) = {
+
+      def locate(address: String): (Option[Double], Option[Double]) = {
+        GeoHelper.locate(address).map { location =>
+          (Some(location._1), Some(location._2))
+        }.getOrElse (None, None)
+      }
 
       val TOKEN = 0
       val ALIAS = 1
@@ -73,23 +79,44 @@ object CSVParser {
       val LNG = 4
       val ADDRESS = 5
 
-      // coordinates specified
-      if (values(LAT) != "" && values(LNG) != "") {
+      // locate using coordinates
+      if (values(LAT) != "" && values(LNG) != "")
         (Some(values(LAT).toDouble), Some(values(LNG).toDouble))
-      // some coordinate missing
-      } else {
-        if (values(ADDRESS) == "") (None, None)
-        else {
-          GeoHelper.locate(values(5)).map { location =>
-            (Some(location._1), Some(location._2))
-          }.getOrElse (None, None)
-        }
-      }
+      // locate using address
+      else if (values(ADDRESS) != "") 
+        locate(values(ADDRESS))
+      // locate using token
+      else if (locateUsingToken)
+        locate (values(TOKEN))
+      // do not locate
+      else
+        (None, None)
+
+      //   // address specified
+      //   if 
+      //   else 
+      //   if 
+      //   // address missing
+      //   if (values(ADDRESS) == "") {
+      //     // get address from the token itself (let google handle it)
+      //     if (fromToken) locate(values(TOKEN))
+      //     else (None, None)
+      //   } else {
+
+      //   }
+
+      //   (None, None)
+      //   else {
+      //     GeoHelper.locate(values(5)).map { location =>
+      //       (Some(location._1), Some(location._2))
+      //     }.getOrElse (None, None)
+      //   }
+      // }
     }
 
     val values = splitCSV(line).toList.padTo(6, "")
 
-    val (lat, lng) = calculateLocation(values)
+    val (lat, lng) = calculateLocation(values, locateUsingToken)
     Some(SimpleToken(
       id      = "0",
       token   = values(0),
