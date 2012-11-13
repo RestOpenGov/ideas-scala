@@ -21,9 +21,7 @@ function MapCtrl($scope, $routeParams, $http) {
 	    };
 	    $scope.map = new google.maps.Map(document.getElementById("ideas_map"), myOptions);
 
-           $scope.infowindow = new google.maps.InfoWindow({
-           		maxWidth : 200
-           	});
+        $scope.infowindow = new google.maps.InfoWindow({ maxWidth: 150 });
 
 	});
 
@@ -68,12 +66,11 @@ function MapCtrl($scope, $routeParams, $http) {
             		var link = HOST + '/#/ideas/' + element.idea.id;
 
             		var message = "";
-            		//message += '<div id="content">';
+            		message += '<div id="content">';
             		message += '<a href="' + link +'"><h5>' + nameIdea + '</h5></a>';
-            		message += '<p> Ubicacion: ' + ubication + '</p>' ;
-            		//message += '</div>';
+            		message += '<p> <b>Ubicaci&oacute;n:</b> ' + ubication + '</p>' ;
+            		message += '</div>';
             		info.setContent(message);
-            		info.setPosition(latLng);
             		info.open($scope.map, marker);
         		});
 
