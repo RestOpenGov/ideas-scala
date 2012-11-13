@@ -30,6 +30,7 @@ class DispatcherActor extends Actor {
   private val barrios       = context.actorOf(Props[BarriosWordlistPlugin],     name = "barrios")
   private val comisarias    = context.actorOf(Props[ComisariasWordlistPlugin],  name = "comisarias")
   private val disco         = context.actorOf(Props[DiscoWordlistPlugin],       name = "disco")
+  private val tags          = context.actorOf(Props[TagsWordlistPlugin],        name = "tags")
 
   implicit val timeout  = Timeout(10 seconds)
 
@@ -53,6 +54,7 @@ class DispatcherActor extends Actor {
         barriosResult     <- barrios ? msg
         comisariasResult  <- comisarias ? msg
         discoResult       <- disco ? msg
+        tagsResult        <- tags ? msg
       } yield {
         val addressTokens      = addressResult.asInstanceOf[Seq[Token]]
         val teatrosTokens      = teatrosResult.asInstanceOf[Seq[Token]]
@@ -62,7 +64,9 @@ class DispatcherActor extends Actor {
         val barriosTokens      = barriosResult.asInstanceOf[Seq[Token]]
         val comisariasTokens   = comisariasResult.asInstanceOf[Seq[Token]]
         val discoTokens        = discoResult.asInstanceOf[Seq[Token]]
-        DispatcherResponse(toJson(
+        val tagsTokens         = tagsResult.asInstanceOf[Seq[Token]]
+
+        val tokens = (
           addressTokens ++ 
           teatrosTokens ++
           politicaTokens ++
@@ -70,8 +74,11 @@ class DispatcherActor extends Actor {
           futbolTokens ++
           barriosTokens ++
           comisariasTokens ++
-          discoTokens
-        ))
+          discoTokens ++
+          tagsTokens
+        ).distinct
+
+        DispatcherResponse(toJson(tokens))
       }
       sender ! response
     }

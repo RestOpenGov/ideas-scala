@@ -27,7 +27,7 @@ http://localhost:9000/api/tests/csv/import/sitios.es.csv?locateUsingToken=true
 object CSVImporter extends Controller {
 
   def CSVimport(file: String) = CORSAction { request =>
-    val locateUsingToken = toBoolean(request.queryString.get("locateUsingToken").getOrElse(Seq(""))(0))
+    val locateUsingToken = toBoolean(request.queryString.get("locateUsingToken").getOrElse(Seq("false"))(0))
     val tokenFile = CSVParser.parseFromFile(file, locateUsingToken)
     Ok(toJson(tokenFile))
   }
