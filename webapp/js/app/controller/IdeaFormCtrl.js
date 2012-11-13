@@ -102,7 +102,7 @@ function IdeaFormCtrl($scope, $routeParams, $http, $location, $USER) {
 				$scope.ideaAjaxCall('POST',SERVICE_ENDPOINT+'ideas/' + ideaId + '/geo',geoItem,function(json) { 
 					loaded++;
 					if($scope.selectedGeoSuggestions.length==loaded){
-						$location.path("/ideas/"+savedIdea.id).search();
+						$location.path("/ideas/"+ideaId).search();
 					}
 				});
 			});
