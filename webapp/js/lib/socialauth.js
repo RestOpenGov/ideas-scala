@@ -82,6 +82,7 @@ SocialAuth.storageEngines.cookie = {
   ttl: 7, // days
 
   get: function(key) {
+
     var i, x, y, cookies = document.cookie.split(";");
 
     for(i = 0; i < cookies.length; i++) {
@@ -89,7 +90,7 @@ SocialAuth.storageEngines.cookie = {
       y = cookies[i].substr(cookies[i].indexOf("=") + 1);
       x = x.replace(/^\s+|\s+$/g,"");
 
-      if(x == key) { 
+      if(x == key && y != "") { 
         return JSON.parse(unescape(y));
       }
     }
