@@ -20,8 +20,9 @@ case class DispatcherResponse(json: JsValue)
 
 class DispatcherActor extends Actor {
 
+  // private val temporal      = context.actorOf(Props[TemporalWordlistPlugin],    name = "temporal")
+
   private val address       = context.actorOf(Props[AddressPlugin],             name = "direccion")
-  private val temporal      = context.actorOf(Props[TemporalWordlistPlugin],    name = "temporal")
   private val teatros       = context.actorOf(Props[TeatrosWordlistPlugin],     name = "teatros")
   private val politica      = context.actorOf(Props[PoliticaWordlistPlugin],    name = "politica")
   private val sitios        = context.actorOf(Props[SitiosWordlistPlugin],      name = "sitios")
@@ -45,7 +46,6 @@ class DispatcherActor extends Actor {
     // }
       val response = for {
         addressResult     <- address ? msg
-        temporalResult    <- temporal ? msg
         teatrosResult     <- teatros ? msg
         politicaResult    <- politica ? msg
         sitiosResult      <- sitios ? msg
@@ -55,7 +55,6 @@ class DispatcherActor extends Actor {
         discoResult       <- disco ? msg
       } yield {
         val addressTokens      = addressResult.asInstanceOf[Seq[Token]]
-        val temporalTokens     = temporalResult.asInstanceOf[Seq[Token]]
         val teatrosTokens      = teatrosResult.asInstanceOf[Seq[Token]]
         val politicaTokens     = politicaResult.asInstanceOf[Seq[Token]]
         val sitiosTokens       = sitiosResult.asInstanceOf[Seq[Token]]
@@ -65,7 +64,6 @@ class DispatcherActor extends Actor {
         val discoTokens        = discoResult.asInstanceOf[Seq[Token]]
         DispatcherResponse(toJson(
           addressTokens ++ 
-          temporalTokens ++ 
           teatrosTokens ++
           politicaTokens ++
           sitiosTokens ++
