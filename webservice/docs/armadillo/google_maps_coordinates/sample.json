@@ -1,0 +1,64 @@
+// location_type: "RANGE_INTERPOLATED",
+// location_type: "APPROXIMATE",
+
+// http://maps.googleapis.com/maps/api/geocode/json?sensor=true&address=barrio%20la%20mataderos,%20capital%20federal,%20argentina
+
+{
+  results: [{
+    address_components: [{
+      long_name: "451",
+      short_name: "451",
+      types: ["street_number"]
+    }, {
+      long_name: "Lavalle",
+      short_name: "Lavalle",
+      types: ["route"]
+    }, {
+      long_name: "San Nicolás",
+      short_name: "San Nicolás",
+      types: ["neighborhood", "political"]
+    }, {
+      long_name: "Buenos Aires",
+      short_name: "CF",
+      types: ["locality", "political"]
+    }, {
+      long_name: "Ciudad Autónoma de Buenos Aires",
+      short_name: "Ciudad Autónoma de Buenos Aires",
+      types: ["administrative_area_level_1", "political"]
+    }, {
+      long_name: "Argentina",
+      short_name: "AR",
+      types: ["country", "political"]
+    }],
+    formatted_address: "Lavalle 451, Buenos Aires, Ciudad Autónoma de Buenos Aires, Argentina",
+    geometry: {
+      bounds: {
+        northeast: {
+          lat: -34.6020871,
+          lng: -58.3732361
+        },
+        southwest: {
+          lat: -34.6020879,
+          lng: -58.3732362
+        }
+      },
+      location: {
+        lat: -34.6020871,
+        lng: -58.3732362
+      },
+      location_type: "RANGE_INTERPOLATED",
+      viewport: {
+        northeast: {
+          lat: -34.60073851970849,
+          lng: -58.37188716970849
+        },
+        southwest: {
+          lat: -34.60343648029149,
+          lng: -58.37458513029151
+        }
+      }
+    },
+    types: ["street_address"]
+  }],
+  status: "OK"
+}

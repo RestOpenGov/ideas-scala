@@ -31,15 +31,27 @@ abstract class WordlistPlugin extends Plugin {
   
   // Create regex list. Each regex is used to search for a Token
   lazy val regexes: List[(Regex, SimpleToken)] = {
-    val rawTokens = (jsonTokens \ "tokens").as[List[SimpleToken]]
-    
-    rawTokens map { item =>
-    	val values = (item.alias :+ item.token) map { value => replaceTildes(value.toLowerCase) }
 
-    	// Create regex using the token and the aliases
-    	val r = """\b(?:%s)\b""".format(values.mkString("|")).r
-    	
-    	(r, item)
+    // escapeRegExpChars("hola.vamos a+escapar") = "hola\.vamos\ a\+escapar"
+    def escapeRegExpChars(regExp: String): String = {
+      val charsToEscape = List(".", "+", " ", "*", "/", "(", ")", "{", "}", ":", "?", "\\")
+      charsToEscape.foldRight(regExp){ (char, text) => 
+        val repChar = if (char == """\""") """\\""" else char
+        text.replaceAll("""\""" + char, """\\""" + repChar)
+      }
+    }
+
+    val rawTokens = (jsonTokens \ "tokens").as[List[SimpleToken]]
+
+    rawTokens map { item =>
+      val values = (item.alias :+ item.token) map { value => 
+        escapeRegExpChars(replaceTildes(value.toLowerCase))
+      }
+
+      // Create regex using the token and the aliases
+      val r = """\b(?:%s)\b""".format(values.mkString("|")).r
+
+      (r, item)
     }
   }
   
@@ -48,11 +60,11 @@ abstract class WordlistPlugin extends Plugin {
 
     // Create a list of tokens with only the tokens found
     regexes flatMap { case (r, item) =>
-    	for {
-    		text <- r.findFirstIn(search)
-    	} yield buildToken(text, item)
+      for {
+        text <- r.findFirstIn(search)
+      } yield buildToken(text, item)
     }
-    		
+
   }
   
   def buildToken(text: String, item: SimpleToken): Token = {
@@ -72,4 +84,5 @@ abstract class WordlistPlugin extends Plugin {
 
 object WordlistPlugin {
   val CATEGORIZER_FOLDER = "conf/categorizer/"
+
 }

@@ -131,6 +131,9 @@ GET     /mail/test                     	controllers.Application.mail
 
 # routes for testing controllers
 
+GET     /api/tests/geo/:address              controllers.tests.GeoLocator.locate(address)
+GET     /api/tests/csv/import/:file          controllers.tests.CSVImporter.CSVimport(file)
+
 GET     /api/tests/secured/types             controllers.tests.SecuredIdeaTypes.list
 GET     /api/tests/secured/types/count       controllers.tests.SecuredIdeaTypes.count
 PUT     /api/tests/secured/types/:id         controllers.tests.SecuredIdeaTypes.update(id: Long)

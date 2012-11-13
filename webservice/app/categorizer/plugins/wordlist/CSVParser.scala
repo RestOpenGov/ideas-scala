@@ -10,6 +10,8 @@ import utils.StringHelper.splitCSV
 import categorizer.plugins.wordlist.WordlistTokenFileFormatter._
 import categorizer.SimpleToken
 
+import utils.GeoHelper
+
 /*
 steps to process a file
 
@@ -19,10 +21,10 @@ console
 new play.core.StaticApplication(new java.io.File("."))
 import categorizer.plugins.wordlist.CSVParser._
 
-parseToFile("teatros.es.csv")
-parseToFile("sitios.es.csv")
-parseToFile("politica.es.csv")
-parseToFile("futbol.es.csv")
+parseFromFile("teatros.es.csv")
+parseFromFile("sitios.es.csv")
+parseFromFile("politica.es.csv")
+parseFromFile("futbol.es.csv")
 
 */
 
@@ -30,9 +32,10 @@ object CSVParser {
 
   val CATEGORIZER_CSV_FOLDER = "conf/categorizer/csv/"
 
-  def parseToFile(file: String): Unit = {
+  def parseFromFile(file: String): WordlistTokenFile = {
     val tokenFile = readFromFile(file)
     writeToFile(tokenFile)
+    tokenFile
   }
 
   def writeToFile(tokenFile: WordlistTokenFile): Unit = {
@@ -60,14 +63,40 @@ object CSVParser {
   }
 
   def csvToSimpleToken(line: String): Option[SimpleToken] = {
-    val values = splitCSV(line).toList.padTo(5, "")
+
+    def calculateLocation(values: List[String]): (Option[Double], Option[Double]) = {
+
+      val TOKEN = 0
+      val ALIAS = 1
+      val TAGS = 2
+      val LAT = 3
+      val LNG = 4
+      val ADDRESS = 5
+
+      // coordinates specified
+      if (values(LAT) != "" && values(LNG) != "") {
+        (Some(values(LAT).toDouble), Some(values(LNG).toDouble))
+      // some coordinate missing
+      } else {
+        if (values(ADDRESS) == "") (None, None)
+        else {
+          GeoHelper.locate(values(5)).map { location =>
+            (Some(location._1), Some(location._2))
+          }.getOrElse (None, None)
+        }
+      }
+    }
+
+    val values = splitCSV(line).toList.padTo(6, "")
+
+    val (lat, lng) = calculateLocation(values)
     Some(SimpleToken(
       id      = "0",
       token   = values(0),
       alias   = splitComma(values(1)),
       tags    = splitComma(values(2)),
-      lat     = if (values(3) == "") None else Some(values(3).toDouble),
-      lng     = if (values(4) == "") None else Some(values(4).toDouble)
+      lat     = lat,
+      lng     = lng
     ))
   }
 
