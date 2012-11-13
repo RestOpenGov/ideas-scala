@@ -21,13 +21,13 @@ object StringHelper {
   }
 
   def stripHtmlTags(text: String): String = {
-    text.replaceAll("""(?m) <[^>]*>""", "")
+    text.replaceAll("""(?mx) <[^>]*>""", "")
   }
 
   def normalizeHtmlSpaces(text: String): String = {
     text.
       replaceAll("%20", " ").
-      replaceAll("(?ix) &nbsp:", " ")
+      replaceAll("(?ix) &nbsp;", " ")
   }
 
   def replaceTildes(text: String): String = {

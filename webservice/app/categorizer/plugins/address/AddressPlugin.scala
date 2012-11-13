@@ -14,7 +14,7 @@ class AddressPlugin extends Plugin {
   def categorize(freeText: String): Seq[Token] = {
 
     // Parse the text to get the candidate addresses
-    val addresses = AddressParser.parse(freeText)
+    val addresses = AddressParser.parse(normalizeInput(freeText))
 
     // Filter the list using a real mapping service (only real addresses), get the coordinates and build the token for each one 
     addresses flatMap { ad =>

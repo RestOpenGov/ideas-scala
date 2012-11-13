@@ -56,7 +56,7 @@ abstract class WordlistPlugin extends Plugin {
   }
   
   def categorize(input: String): Seq[Token] = { 
-    val search = replaceTildes(input.toLowerCase)
+    val search = normalizeInput(replaceTildes(input.toLowerCase))
 
     // Create a list of tokens with only the tokens found
     regexes flatMap { case (r, item) =>
@@ -68,17 +68,16 @@ abstract class WordlistPlugin extends Plugin {
   }
   
   def buildToken(text: String, item: SimpleToken): Token = {
-    var token = Token(
-          original = text,
-          text     = item.token,
-          lat      = item.lat,
-          lng      = item.lng,
-          tags     = globalTags ++ item.tags,
-          category = category
-        )
-     play.Logger.debug("Token built: "+ token)
-     
-     token
+    val token = Token(
+      original = text,
+      text     = item.token,
+      lat      = item.lat,
+      lng      = item.lng,
+      tags     = globalTags ++ item.tags,
+      category = category
+    )
+    play.Logger.debug("Token built: "+ token)
+    token
   }
 }
 
