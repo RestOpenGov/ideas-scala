@@ -1,14 +1,15 @@
 package categorizer.plugins.wordlist
 
 import categorizer.{Plugin, Token}
-
 import play.api.libs.json.Json
 import play.api.libs.json.{JsArray, JsObject, JsValue}
-
 import categorizer.SimpleTokenFormatter._
 import categorizer.SimpleToken
-
 import utils.StringHelper.replaceTildes
+import categorizer.SimpleToken
+import categorizer.Token
+import scala.util.matching.Regex
+import categorizer.SimpleToken
 
 abstract class WordlistPlugin extends Plugin {
 
@@ -19,55 +20,54 @@ abstract class WordlistPlugin extends Plugin {
 
   val CATEGORIZER_FOLDER = "conf/categorizer/"
 
-  lazy val wordlist = current.getFile(CATEGORIZER_FOLDER + file).getAbsoluteFile
-  def categorize(input: String): Seq[Token] = { 
+  // Read JSON file
+  lazy val jsonTokens: JsValue = {
+    val wordlist = current.getFile(CATEGORIZER_FOLDER + file).getAbsoluteFile
+    Json.parse(scala.io.Source.fromFile(wordlist).mkString)
+  }
+  
+  // Extract globalTags
+  lazy val globalTags = (jsonTokens \ "tags").as[List[String]]
+  
+  // Create regex list. Each regex is used to search for a Token
+  lazy val regexes: List[(Regex, SimpleToken)] = {
+    val rawTokens = (jsonTokens \ "tokens").as[List[SimpleToken]]
+    
+    rawTokens map { item =>
+    	val values = (item.alias :+ item.token) map { value => replaceTildes(value.toLowerCase) }
 
+    	// Create regex using the token and the aliases
+    	val r = """\b(?:%s)\b""".format(values.mkString("|")).r
+    	
+    	(r, item)
+    }
+  }
+  
+  def categorize(input: String): Seq[Token] = { 
     val search = replaceTildes(input.toLowerCase)
 
-    lazy val globalTags = (jsonTokens \ "tags").as[List[String]]
-
-    lazy val jsonTokens: JsValue = {
-      Json.parse(scala.io.Source.fromFile(wordlist).mkString)
+    // Create a list of tokens with only the tokens found
+    regexes flatMap { case (r, item) =>
+    	for {
+    		text <- r.findFirstIn(search)
+    	} yield buildToken(text, item)
     }
-
-    lazy val tokens: List[SimpleToken] = {
-      val rawTokens = (jsonTokens \ "tokens").as[List[SimpleToken]]
-      // rawTokens
-      val normalizedTokens = rawTokens.map { token: SimpleToken => 
-        token.copy(
-          token = replaceTildes(token.token.toLowerCase),
-          alias = token.alias.map { alias => replaceTildes(alias.toLowerCase) }
-        )
-      }
-      normalizedTokens
-    }
-
-    def isMatchingAlias(search: String, alias: List[String]): Boolean = {
-      alias.exists{ alias => 
-        val r = """\b%s\b""".format(alias).r
-        r.findFirstIn(search).isDefined
-      }
-    }
-
-    tokens.collect {
-      case item if 
-        (search contains item.token) || 
-        (isMatchingAlias(search, item.alias)) ||
-        (search.split(" ") diff item.alias).length < search.split(" ").length => {
-
-        new Token(
-          original = input,
+    		
+  }
+  
+  def buildToken(text: String, item: SimpleToken): Token = {
+    var token = Token(
+          original = text,
           text     = item.token,
           lat      = item.lat,
           lng      = item.lng,
           tags     = globalTags ++ item.tags,
           category = category
         )
-      }
-    }
-
+     play.Logger.debug("Token built: "+ token)
+     
+     token
   }
-
 }
 
 object WordlistPlugin {
