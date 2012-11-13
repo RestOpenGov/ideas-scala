@@ -297,16 +297,25 @@ abstract class Address(
   val street1Id: String,
   val separator: String
 ) {
+  def toDebugString() : String
 }
 
 case class CornerAddress(override val street1: String, override val street1Id: String, street2: String, street2Id: String, override val separator: String = "y") extends Address(street1, street1Id, separator) {
   override def toString() = {
+    String.format("%s y %s", street1, street2)
+  }
+  
+  override def toDebugString() = {
     String.format("%s(%s) y %s(%s)", street1, street1Id, street2, street2Id)
   }
 }
 
 case class NumberAddress(override val street1: String, override val street1Id: String, number: Long, override val separator: String = "") extends Address(street1, street1Id, separator) {
   override def toString() = {
+    String.format("%s %s", street1, number.toString)
+  }
+  
+  override def toDebugString() = {
     String.format("%s(%s) %s", street1, street1Id, number.toString)
   }
 }

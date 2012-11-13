@@ -23,13 +23,21 @@ class UsigLocationProvider extends GeoLocationProvider {
   }
 
   def findByStreetIdAndNumber(streetId: String, number : Long): Option[GeoLocation] = {
-    None
+	val url = "http://ws.usig.buenosaires.gob.ar/geocoder/2.2/geocoding/?cod_calle=" + streetId + "&altura=" + number
+	
+	this.retrieveCoordinates(url)
   }
-
+  
   def findByStreetAndNumber(street: String, number : Long): Option[GeoLocation] = {
-    None
+    for {
+      stId <- findStreet(street)
+      loc <- findByStreetIdAndNumber(stId.toString, number)
+    } yield loc
   }
 
+  /**
+   * Finds a street id by its name
+   */
   def findStreet(street: String): Option[Long] = {
     streets match {
       case arr: JsArray => {
@@ -47,25 +55,40 @@ class UsigLocationProvider extends GeoLocationProvider {
     }
   }
   
+  
+  /**
+   * Given the USIG URL, call the service and retrieve the coordinates
+   */
+  def retrieveCoordinates(url: String) : Option[GeoLocation] = {
+	val response = WS.url(url).get().await.get.body.replaceAll("[\\(\\)]", "")
+	val json = Json.parse(response)
+
+	play.Logger.debug("Response: " + response)
+	
+	for {
+	  x <- (json \ "x").asOpt[String].orElse((json \ "x").asOpt[Double])
+	  y <- (json \ "y").asOpt[String].orElse((json \ "y").asOpt[Double])
+	  loc <- convertCoordinates(x.toString, y.toString)
+	} yield loc
+  }
+
+  
+  /**
+   * Gets the coordinates using two street ids
+   */
   def findCoordinates(streetId1: Long, streetId2: Long): Option[GeoLocation] = {
     if(streetId1 > 0 && streetId1 > 0) {
       val url = "http://ws.usig.buenosaires.gob.ar/geocoder/2.2/geocoding/?cod_calle1=" + streetId1 + "&cod_calle2=" + streetId2
-      val response = WS.url(url).get().await.get.body.replaceAll("[\\(\\)]", "")
-      val json = Json.parse(response)
 
-      play.Logger.debug("Calles con ids: ["+streetId1+" - " + streetId2 + "] -> " + response)
-
-      for {
-        x <- (json \ "x").asOpt[String]
-        y <- (json \ "y").asOpt[String]
-        loc <- convertCoordinates(x, y)
-      } yield loc
-      
+      this.retrieveCoordinates(url)
     } else {
       None
     }
   }
 
+  /**
+   * Translates the USIG specific coordinates to std coordinates
+   */
   def convertCoordinates(x: String, y: String): Option[GeoLocation] = {
     val url = "http://ws.usig.buenosaires.gob.ar/rest/convertir_coordenadas?x=" + x + "&y=" + y + "&output=lonlat"
     val json = WS.url(url).get().await.get.json
