@@ -55,8 +55,16 @@ var SocialAuth = {
     console.log(data); 
   },
 
+  get: function(key) {
+    return SocialAuth.storageEngines[this.options.storage].get(key);
+  },
+
+  set: function(key, value) {
+    SocialAuth.storageEngines[this.options.storage].set(key, value);
+  },
+
   getUser: function() {
-    this.get('user');
+    return this.get('user');
   },
 
   setUser: function(user) {
@@ -65,16 +73,7 @@ var SocialAuth = {
 
   clearUser: function() {
     this.set('user', '');
-  },
-
-  get: function(key) {
-    return SocialAuth.storageEngines[this.options.storage].get(key);
-  },
-
-  set: function(key, value) {
-    SocialAuth.storageEngines[this.options.storage].set(key, value);
   }
-
 };
 
 

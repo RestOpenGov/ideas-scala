@@ -10,7 +10,12 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
   SocialAuth.onAuthentication = function(data) {
       
     // Get IdeasToken
-    $.post(SERVICE_ENDPOINT+'auth/', data)
+    $http({ 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json'}, 
+      url: SERVICE_ENDPOINT+'auth/', 
+      data: JSON.stringify(data)}
+    )
       .success(function(response) {
 
         // Get User
@@ -22,11 +27,9 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
             $scope.user = user;
             $USER.setUser(user);
             $scope.menuLogged = 'includes/menu-loggedin.html';
-            
+
             SocialAuth.setUser(user);
             SocialAuth.set('ideas-ba-token', response.token);
-
-            window.location.reload(); // FIX THIS
 
           })
           .error(function(json) {
