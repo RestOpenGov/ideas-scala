@@ -14,6 +14,7 @@ import utils.Conversion.pkToLong
 import java.util.Date
 
 import models.Error._
+import models.IdeaTag
 import exceptions.{ErrorList, ErrorListException}
 
 import utils.Http
@@ -71,7 +72,7 @@ case class Idea (
 
     import utils.Validate.isEmptyWord
 
-    val newTags = updatedTags.filter{ !isEmptyWord(_) }.map {_.toLowerCase }
+    val newTags = updatedTags.filter{ !isEmptyWord(_) }.map { IdeaTag.normalize(_) }
     val currentTags = tags
     val addTags     = newTags diff currentTags
     val removeTags  = currentTags diff newTags

@@ -123,4 +123,11 @@ object IdeaTag extends EntityCompanion[IdeaTag] {
     }.getOrElse(None)
   }
 
+  // converts the tag to lower case, and removes tildes
+  // normalize("Autódromo de Palermo") = "autodromo de palermo"
+  def normalize(tag: String): String = {
+    import utils.StringHelper.replaceTildes
+    replaceTildes(tag.toLowerCase)
+  }
+
 }
