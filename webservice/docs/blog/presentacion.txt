@@ -1,0 +1,31 @@
+Que es Ideas?
+
+Ideas es un conjunto de servicios que tienen por objetivo permitir a los ciudadanos de cualquier ciudad compartir sus ideas, preguntas y reclamos de una manera colaborativa. 
+
+Ideas ha sido desarrollado siguiendo el espíritu del software libre y crowdsourcing, tomando como inspiración sitios como stackoverflow y github, que los informáticos usamos a diario para resolver nuestros problemas de manera colaborativa.
+
+E IdeasBA?
+
+IdeasBa es la implementación de referencia de Ideas, que hace uso de los DataSet que expone el gobierno de la Ciudad de Buenos Aires para enriquecer y clasificar las ideas de sus ciudadanos.
+
+Componentes de IdeasBA
+
+BackEnd
+
+- web service (es un servicio, no hay ninguna dependencia entre el servicio y la UI)
+
+- categorizer (extensible mediante plugins)
+- DataSets del gobierno de la ciudad
+- web service de la USIG
+
+FrontEnd
+
+- UI
+
+habria que hacer un grafiquito mostrando como interactua la:
+
+- UI
+- redes sociales (al difundir ideas)
+- redes sociales (facebook, google, para autenticar)
+- web service
+- categorizer (con los datasets del gcba y los datasets propios, y con el WS de la USIG)
