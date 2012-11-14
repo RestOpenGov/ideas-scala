@@ -1,21 +1,24 @@
-Que es Ideas?
-=============
+¿Que es Ideas?
+==============
 
 Ideas es un conjunto de servicios que tienen por objetivo permitir a los ciudadanos de cualquier ciudad compartir sus ideas, preguntas y reclamos de una manera colaborativa. 
 
 En el mundo de la informática, los principios del software libre y fenómenos como crowdsourcing han revolucionado la manera en que hacemos sistemas.
 
-Estamos convencidos que este tipo de prácticas participativas y colaborativas también puede aplicarse a otras esferas 
+Estamos convencidos de que este tipo de prácticas participativas y colaborativas también puede aplicarse a otras esferas de nuestra vida cotidiana. ¿Por qué no aplicarlo entonces a mejorar nuestra ciudad?
 
+Es asi como, siguiendo el espíritu del software libre y crowdsourcing, desarrollamos Ideas, tomando como inspiración sitios como stackoverflow y github, que nosotros mismos usamos a diario para resolver nuestros problemas de manera colaborativa.
 
-Ideas ha sido desarrollado siguiendo el espíritu del software libre y crowdsourcing, tomando como inspiración sitios como stackoverflow y github, que los informáticos usamos a diario para resolver nuestros problemas de manera colaborativa.
-
-E ideasBA?
+¿E ideasBA?
 ==========
+
+
 
 IdeasBa es la implementación de referencia de Ideas, que hace uso de los DataSet que expone el gobierno de la Ciudad de Buenos Aires para enriquecer y clasificar las ideas de sus ciudadanos.
 
-Cómo funciona ideasBA?
+Puedes comenzar a usar ideasBA hoy mismo en ideasba.org. El código fuente de la aplicación está disponible en https://github.com/RestOpenGov/ideas-ba.
+
+¿Cómo funciona ideasBA?
 ======================
 
 Muy simple.
@@ -37,7 +40,7 @@ Una idea paso a paso
 
 Veamos ideasBA en acción.
 
-Abrimos nuestro explorador y visitamos ideasba.org.ar. Ahi podremos ver las últimas ideas, reclamos, preguntas y sugerencias publicadas en el sitio. 
+Abrimos nuestro explorador y visitamos ideasba.org Ahi podremos ver las últimas ideas, reclamos, preguntas y sugerencias publicadas en el sitio. 
 
 Para poder votar o publicar nuestras propias ideas debemos registrarnos en el sitio, utilizando nuestra cuenta de facebook o twitter. Hacemos click en "Iniciar sesión" y elegimos el proveedor que utilizaremos para ingresar a ideasBA. (Posiblemente el explorador te pida autorización para permitir que ideasBA abra una ventana de tipo popup).
 
@@ -88,7 +91,7 @@ Próximos pasos
 
 IdeasBA está concebido para fomentar la colaboración y el trabajo colectivo, no sólo a la hora de proponer ideas sino también para mejorar la propia plataforma.
 
-Por eso, y para ser coherentes con la idea propuesta, toda la plataforma de Ideas está desarrollada con software libre y publicada como software libre en github bajo licencia gpl, para que desarrolladores de todo el mundo puedan utilizarla, mejorarla y adaptarla a la idiosincracia de su ciudad.
+Por eso, y para ser coherentes con la idea propuesta, toda la plataforma de Ideas está desarrollada con software libre y publicada como software libre en github (https://github.com/RestOpenGov/ideas-ba) bajo licencia gpl, para que desarrolladores de todo el mundo puedan utilizarla, mejorarla y adaptarla a la idiosincracia de su ciudad.
 
 Inicialmente pensamos estos cuatro tipo de intervención por parte de los ciudadanos (idea, reclamo, pregunta, sugerencia), pero sólo el uso que hagan de él irá determinando que rumbo tomará este proyecto.
 
@@ -178,10 +181,73 @@ En este caso estamos ordenando la información por el nombre del autor y luego p
 Autenticación
 =============
 
-La autenticación es delegada a servicios de terceros como facebook, twitter o google.
+Para utilizar la API para realizar cualquier operación que modifique datos (dar de alta una idea, votar, agregar un comentario) es preciso estar autenticado. 
+
+
+Para poder realizar estas operaciones es preciso contar con un token provisto por ideas-ba, y pasar este token en un header de http.
+
+La autenticación es delegada a servicios de terceros como facebook, twitter o google. Para poder aunticarse con ideaBA, el usuario debe contar con un access-token válido de alguno de estos 3 proveedores.
+
+El flujo sería el siguiente:
+
+El usuario de la api llama al servicio de autenticación de ideasBA pasando como parámetro el proveedor y un access-token válido, de la siguiente manera:
+
+POST http://ideasba.org/api/auth
+
+{
+  "provider": "facebook",
+  "token": "AAACEdEos....0GJx"
+}
+
+Y obtendrá como respuesta un token provisto por ideasBA, como el siguiente:
+
+{
+    "token": "7f844c0e-3ce9-4170-be7c-9f608c8cc5ed",
+    "expiration": "2012-11-01T11:03:11Z"
+}
+
+Y luego, cada operación que requiera autenticación, deberá contar con los siguientes headers:
+
+Content-Type: application/json
+authorization: ideas-token=7f844c0e-3ce9-4170-be7c-9f608c8cc5ed
+
+Categorizador de ideas
+======================
+
+Al igual que el resto de la plataforma ideas, el categorizador está expuesto como un servicio web. Por ejemplo, podemos analizar la siguiente idea:
+
+GET http://ideasba.org/api/categorize?input=Remplazar los tachos de basura de la esquina de Corrientes y Medrano.
+
+Nos devolvería la siguiente información:
+
+[{
+  category: "direccion",
+  text: "corrientes y medrano",
+  original: "Corrientes y Medrano",
+  tags: ["direccion", "geo"],
+  lng: -58.420957,
+  lat: -34.603174
+}, {
+  category: "tags",
+  text: "ecología",
+  original: "tacho",
+  tags: ["ecologia"],
+  lng: null,
+  lat: null
+}]
+
+En este caso hay dos plugins que han encontrado información relevante para el texto ingresado. Uno es el plugin de direcciones, que reconoció "corrientes y medrano" como una esquina, y consultó el servicio web de la USIG para verificar que se trata de una dirección válida, y retorna las coordenadas de la dirección. El otro es el plugin de tags, que reconoció el término "tacho" y como respuesta sugiere el tag "ecología".
+
+El categorizador está implementado como un conjunto de plugins que trabajan en paralelo analizando y el texto de la idea, y que luego envía cada uno de ellos una lista de tokens para sugerirle al usuario.
+
+Aplicación web - FrontEnd
+=========================
+
+Como decíamos, la aplicación web es una single page web app desarrollada en javascript que corre completamente del lado del cliente. La aplicacion simplemente consume los servicios web expuesto por el backend. Es decir, que así como nosotros desarrollamos todo el front-end, cualquier podría desarrollar otro tipo de interfaz utilizando la misma API que usamos nosotros.
 
 
 
+--
 
 
 Componentes de IdeasBA
