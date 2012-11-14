@@ -39,5 +39,5 @@ Para comenzar a jugar con el front-end de Ideas-ba, puedes leer el [Archivo READ
 
 ## Licencia
 
-Este software es distribuído bajo la licencia Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+Este software es distribuído bajo la licencia GPL v3: http://www.gnu.org/licenses/gpl.html
 
