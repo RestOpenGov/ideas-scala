@@ -26,6 +26,15 @@ parseFromFile("sitios.es.csv")
 parseFromFile("politica.es.csv")
 parseFromFile("futbol.es.csv")
 
+from the web service:
+
+import sitio.es.csv file
+http://localhost:9000/api/tests/csv/import/sitios.es.csv
+
+// use the token column to search in google maps web service
+http://localhost:9000/api/tests/csv/import/sitios.es.csv?locateUsingToken=true
+
+
 */
 
 object CSVParser {
