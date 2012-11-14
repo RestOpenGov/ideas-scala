@@ -11,6 +11,11 @@ SocialAuth.providers.Twitter = {
   },
 
   authenticate: function() {
+
+    if(typeof twttr == 'undefined') {
+      SocialAuth.providers.Twitter.init();
+    }
+
     twttr.anywhere(function (T) {
 
       T.bind("authComplete", function (e, user) {
@@ -60,6 +65,11 @@ SocialAuth.providers.Facebook = {
   },
 
   authenticate: function() {
+
+    if(typeof FB == 'undefined') {
+      SocialAuth.providers.Facebook.init();
+    }
+
     FB.getLoginStatus(function(loginResponse) {
       if(loginResponse.status == 'connected') {
         SocialAuth.onAuthentication({ provider: 'facebook', token: loginResponse.authResponse.accessToken })
@@ -90,6 +100,11 @@ SocialAuth.providers.Google = {
   },
 
   authenticate: function() {
+
+    if(typeof gapi == 'undefined') {
+      SocialAuth.providers.Google.init();
+    }
+
     var config = {
       client_id: SocialAuth.getKey('Google'),
       scope: [ 

@@ -93,6 +93,7 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
 
   $scope.logout = function() {
     SocialAuth.clearUser();
+    SocialAuth.set('ideas-ba-token', '');
     window.location.reload();
   };
 

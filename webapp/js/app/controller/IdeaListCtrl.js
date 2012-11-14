@@ -36,7 +36,7 @@ function IdeaListCtrl($scope, $routeParams, $http, $location) {
 
   $scope.getIdeas = function() {
 
-    $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'geo?len='+$scope.geoIdeasPerPage+'&page='+$scope.currentPage, {},function(json) {
+    $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'geo?len='+$scope.geoIdeasPerPage+'&page='+$scope.currentPage+'&q=idea.type.id:' + typeId, {},function(json) {
       $scope.currentPage++;
       $scope.loadedGeoIdeas += json.length;
      
