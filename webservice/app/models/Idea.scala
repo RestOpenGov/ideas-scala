@@ -214,7 +214,8 @@ object Idea extends EntityCompanion[Idea] {
     get[Date]       (as + "created") ~
     get[Pk[Long]]   (as + "idea_type_id") map {
       case id~name~description~created~typeId => Idea(
-        id = id, name = name, description = description, kind = IdeaType(typeId))
+        id = id, name = name, description = description, kind = IdeaType(typeId)
+      )
     }
   }
 
