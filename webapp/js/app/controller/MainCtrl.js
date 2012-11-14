@@ -7,6 +7,11 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
   $scope.user = SocialAuth.getUser();
   $scope.menuLogged = 'includes/menu-loggedoff.html';
 
+  $('.authButton').click(function() {
+    SocialAuth.authenticate($(this).attr('rel'));
+    $(this).html('Cargando...');
+  });
+
   SocialAuth.onAuthentication = function(data) {
       
     // Get IdeasToken
@@ -54,19 +59,30 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
   }
 
   $scope.$on('$viewContentLoaded', function() {
-    
-    $('.popover-component').popover({
-      trigger : 'hover',
-      delay: { show: 500, hide: 2000 }
-    });
 
     if($('#login').length > 0) {
       SocialAuth.init();
     }
 
-    $('.authButton').click(function() {
-      SocialAuth.authenticate($(this).attr('rel'));
-      $(this).html('Cargando...');
+    var types = {
+      '/ideas': 1,
+      '/reclamos': 2,
+      '/preguntas': 3,
+      '/sugerencias': 4
+    };
+
+    var typeId = 0;
+
+    if(typeof types[$location.path()] != 'undefined') {
+      typeId = types[$location.path()];
+    }
+
+    $('.nav li').removeClass('active');
+    $('#link_' + typeId).addClass('active');
+    
+    $('.popover-component').popover({
+      trigger : 'hover',
+      delay: { show: 500, hide: 2000 }
     });
 
   });
