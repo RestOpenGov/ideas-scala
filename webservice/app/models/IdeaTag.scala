@@ -44,7 +44,7 @@ object IdeaTag extends EntityCompanion[IdeaTag] {
   val table = "idea_tag"
 
   override lazy val view = """
-    |idea_tag                                inner join 
+    |idea_tag                                     inner join 
     |idea       on idea_tag.idea_id = idea.id     inner join 
     |tag        on idea_tag.tag_id = tag.id""".stripMargin
 
