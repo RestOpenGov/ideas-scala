@@ -246,7 +246,6 @@ Aplicación web - FrontEnd
 Como decíamos, la aplicación web es una single page web app desarrollada en javascript que corre completamente del lado del cliente. La aplicacion simplemente consume los servicios web expuesto por el backend. Es decir, que así como nosotros desarrollamos todo el front-end, cualquier podría desarrollar otro tipo de interfaz utilizando la misma API que usamos nosotros.
 
 
-
 --
 
 
