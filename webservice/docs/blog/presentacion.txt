@@ -1,12 +1,188 @@
 Que es Ideas?
+=============
 
 Ideas es un conjunto de servicios que tienen por objetivo permitir a los ciudadanos de cualquier ciudad compartir sus ideas, preguntas y reclamos de una manera colaborativa. 
 
+En el mundo de la informática, los principios del software libre y fenómenos como crowdsourcing han revolucionado la manera en que hacemos sistemas.
+
+Estamos convencidos que este tipo de prácticas participativas y colaborativas también puede aplicarse a otras esferas 
+
+
 Ideas ha sido desarrollado siguiendo el espíritu del software libre y crowdsourcing, tomando como inspiración sitios como stackoverflow y github, que los informáticos usamos a diario para resolver nuestros problemas de manera colaborativa.
 
-E IdeasBA?
+E ideasBA?
+==========
 
 IdeasBa es la implementación de referencia de Ideas, que hace uso de los DataSet que expone el gobierno de la Ciudad de Buenos Aires para enriquecer y clasificar las ideas de sus ciudadanos.
+
+Cómo funciona ideasBA?
+======================
+
+Muy simple.
+
+Los ciudadanos publican sus ideas, reclamos, preguntas y sugerencias.
+
+La comunidad las discute y vota por sus preferidas.
+
+Las ideas más populares figurarán al tope de la lista de ideas, y recibirán mayor difusión.
+
+Pero eso no es todo!
+
+Los usuarios pueden ademas difundir las ideas que más les gusten utilizando redes sociales como facebook, twitter, google+, o simplemente usando el mail.
+
+Además, gracias a la información que el gobierno de la ciudad pone a disposición nuestra, podemos ayudar a los ciudadanos a clasificar y geolocalizar las ideas que publican, simplemente procesando de manera inteligente el contenido de sus ideas y cruzándolo contra la información de los datasets de la ciudad.
+
+Una idea paso a paso
+====================
+
+Veamos ideasBA en acción.
+
+Abrimos nuestro explorador y visitamos ideasba.org.ar. Ahi podremos ver las últimas ideas, reclamos, preguntas y sugerencias publicadas en el sitio. 
+
+Para poder votar o publicar nuestras propias ideas debemos registrarnos en el sitio, utilizando nuestra cuenta de facebook o twitter. Hacemos click en "Iniciar sesión" y elegimos el proveedor que utilizaremos para ingresar a ideasBA. (Posiblemente el explorador te pida autorización para permitir que ideasBA abra una ventana de tipo popup).
+
+Para votar una idea simplemente hacemos click en el ícono con la manito hacia arriba o hacia abajo
+
+Ahora demos de alta una idea.
+
+Hacemos click en ¡Nueva Idea!, e ingresamos el título de nuestra idea, por ejemplo:
+
+  Agregar una estación de bicis en la Plaza San Martín
+
+Luego tenemos que decidir si vamos a publicar una idea, un reclamo, una pregunta o una sugerencia. En este caso será una idea.
+
+En texto escribiremos lo siguiente:
+
+  En la plaza San Martín a diario circulan muchísimas personas, en especial aquellas que salen de la estación Retiro. Sería bueno poner una estación de bicicletas en la esquina de Santa Fe y Maipú.
+
+ideasBA analizará el texto a medida que vayamos escribiendo y realizará su mejor esfuerzo para intentar descubrir de qué estamos hablando. En este caso nos preguntará si nos referimos a la Plaza o al teatro San Martín, si estamos hablando de la Estación de trenes Retiro, si estamos hablando de bicisendas y si nos referimos a la esquina de Santa Fe y Maipú. Aquellas propuestas que tengan un ícono de un mundo, cuentan además con información georeferencial, que nos permitirá ubicaresta idea en el mapa de la ciudad.
+
+Tan sólo debemos aceptar las propuestas acertadas. En este caso haremos click en el tilde de confirmación de santa fe y maipu, Plaza San Martin, Estación Retiro y bicisendas.
+
+A medida que vamos aceptando estas propuestas, ideasBa agregará etiquetas que nos ayudarán a clasificar y buscar estas ideas, y la información de georeferencia asociada.
+
+Cuando terminamos de ingresar nuestra idea, hacemos click en "Guardar". A partir de ahi podemos difundir nuestra idea a traves de las redes sociales para que nuestros conocidos la voten y comenten al respecto.
+
+Además, nuestra idea ya figurará en el mapa, justo en la Plaza San Martín y en la esquina de Santa Fe y Maipú.
+
+Acerca del categorizador de Ideas
+=================================
+
+El categorizador de ideasBA es un componente inteligente que tiene como objetivo descubrir de qué estamos hablando y proponernos etiquetas e información georeferencial para enriquecer nuestra idea.
+
+Actualmente reconoce y sugiere la siguiente información:
+
+Direcciones de calles (como "Rivadavia 4280" o "Jose Maria Moreno al 450") o esquinas (como "Leandro N. Alem y Tucumán" o "Juan B. Justo esquina Nazca"), ambas validadas contra el servicio web de la USIG (link: http://servicios.usig.buenosaires.gov.ar/callejero).
+
+- Teatros de la ciudad (georreferenciado) (elaboración propia)
+- Sitios de interés (georreferenciado) (elaboración propia)
+- Equipos de Fútbol (elaboración propia)
+- Barrios (provisto por BA-data - http://data.buenosaires.gob.ar/dataset/mapa-barrios)
+- Locales bailables (georreferenciado) (provisto por BA-data - http://data.buenosaires.gob.ar/dataset/locales-bailables)
+- Comisarías (georreferenciado) (provisto por BA-data - http://data.buenosaires.gob.ar/dataset/mapa-comisarias)
+
+Y constantemente estamos trabajando para ir agregando más información.
+
+Próximos pasos
+==============
+
+IdeasBA está concebido para fomentar la colaboración y el trabajo colectivo, no sólo a la hora de proponer ideas sino también para mejorar la propia plataforma.
+
+Por eso, y para ser coherentes con la idea propuesta, toda la plataforma de Ideas está desarrollada con software libre y publicada como software libre en github bajo licencia gpl, para que desarrolladores de todo el mundo puedan utilizarla, mejorarla y adaptarla a la idiosincracia de su ciudad.
+
+Inicialmente pensamos estos cuatro tipo de intervención por parte de los ciudadanos (idea, reclamo, pregunta, sugerencia), pero sólo el uso que hagan de él irá determinando que rumbo tomará este proyecto.
+
+No obstante lo cual, ya tenemos en nuestra hoja de ruta las siguientes mejoras para ideasBA:
+
+- Implementar categorías: como Arte y cultura, Medioambiente, Gobierno, Tecnología, etc.
+
+- Desarrollar un sistema de reputación, según las ideas y comentarios efectuados por cada usuario
+
+- Permitir la posibilidad de suscribirse a ideas, categorías y etiquetas.
+
+- Filtrar ideas por barrio, etiqueta y categoría.
+
+- Permitir que el usuario pueda subir sus propias imágenes o aceptar las que le sugiera ideasBa.
+
+- Nube de etiquetas
+
+- Agregar georreferencia automática a la versión mobile de ideasBA, para poder publicar una idea desde el lugar de los hechos.
+
+Arquitectura de ideasBA
+=======================
+
+ideasBA está compuesto por varios componentes que interactúan entre sí.
+
+- Web service o backend de ideasBA
+
+- Categorizador de ideas
+
+- plugins del categorizador de ideas
+
+- UI (front-end) de ideasBA
+
+A su vez, ideasBA se consume diversos servicios de terceros
+
+- servicios de autenticacion provista por tereceros (facebook, twitter, google)
+
+- servicios de redes sociales para difundir ideas (facebook, twitter)
+
+- servicio de google maps para georreferenciar puntos
+
+- servicio de la USIG para reconocer direcciones y esquinas válidas
+
+- datasets de BA-data para enriquecer las información mediante el categorizador de ideas
+
+Backend
+=======
+
+Desde un principio toda ideasBA ha sido concebido como un servicio a ser consumido por terceros. Es decir que toda la funcionalidad de la plataforma es accesible a través de una API, impementada como un servicio web de tipo rest que recibe y retorna mensajes en formato json.
+
+Por ejemplo, así es como se ve una idea a traves de la API:
+
+GET http://ideasba.org/api/ideas/1
+
+{
+  url: "/api/ideas/1",
+  id: 1,
+  name: "Wifi libre en ba",
+  description: "Proveer acceso wifi gratuito en toda la ciudad",
+  type: {
+    url: "/api/types/1",
+    id: 1,
+    name: "idea",
+    description: "Una propuesta para mejorar la ciudad"
+  },
+  votes: {
+    pos: 2,
+    neg: 1
+  },
+  author: {
+    url: "/api/users/2",
+    id: 2,
+    name: "Sebastian Scarano",
+    avatar: "http://a0.twimg.com/profile_images/1557699557/penguin_armed_normal.jpg",
+    created: "2012-09-22T01:40:00Z",
+    nickname: "opensas"
+  },
+  views: 320,
+  created: "2012-09-22T05:20:00Z"
+}
+
+El web service permite también filtrar, paginar y ordenar la información:. Aquí podemos ver un ejemplo más completo:
+
+GET http://ideasba.org/api/ideas?order=author.name,idea.name&page=1&len=3&q=idea.name:*bici*
+
+En este caso estamos ordenando la información por el nombre del autor y luego por el título de la idea, estamos consultando la primera página con 3 ideas por página, y filtramos las ideas que en el título (campo name) contiene el texto "bici".
+
+Autenticación
+=============
+
+La autenticación es delegada a servicios de terceros como facebook, twitter o google.
+
+
+
+
 
 Componentes de IdeasBA
 
