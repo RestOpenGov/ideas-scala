@@ -48,8 +48,11 @@ object IdeaGeo extends EntityCompanion[IdeaGeo] {
   val table = "idea_geo"
 
   override lazy val view = """
-    |idea_geo                                inner join 
-    |idea       on idea_geo.idea_id = idea.id""".stripMargin
+    |idea_geo                                   inner join 
+    |idea       on idea_geo.idea_id = idea.id   inner join
+    |idea_type  on idea.idea_type_id = idea_type.id""".stripMargin
+
+  override val tableMappings = Map("idea.type" -> "idea_type", "author" -> "user")
 
   val defaultOrder = "idea_id"
 
