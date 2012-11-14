@@ -2,14 +2,22 @@ var ideasModule = angular.module('ideas-ba', [], function($routeProvider, $locat
 
 	//ROUTES
 	$routeProvider.
-    when('/ideas', {templateUrl: './partials/home.html',   controller: HomeCtrl}).
-    when('/ideas/lista', {templateUrl: './partials/idea-list.html',   controller: IdeaListCtrl}).
-    when('/ideas/nueva', {templateUrl: './partials/idea-form.html', controller: IdeaFormCtrl}).
-    when('/ideas/mapa', {templateUrl: './partials/map.html',   controller: MapCtrl}).    
-    when('/ideas/:ideaId', {templateUrl: './partials/idea-detail.html', controller: IdeaDetailCtrl}).
-    when('/user/edit', {templateUrl: './partials/user-form.html', controller: UserFormCtrl}).
-    when('/user/:userId', {templateUrl: './partials/user-detail.html', controller: UserDetailCtrl}).
-    otherwise({redirectTo: '/ideas'});
+    when('/home',           {templateUrl: './partials/home.html',         controller: HomeCtrl}).
+    when('/ideas',          {templateUrl: './partials/idea-list.html',    controller: IdeaListCtrl}).
+    when('/sugerencias',    {templateUrl: './partials/idea-list.html',    controller: IdeaListCtrl}).
+    when('/reclamos',       {templateUrl: './partials/idea-list.html',    controller: IdeaListCtrl}).
+    when('/preguntas',      {templateUrl: './partials/idea-list.html',    controller: IdeaListCtrl}).
+    when('/nuevo',          {templateUrl: './partials/idea-form.html',    controller: IdeaFormCtrl}).
+    when('/mapa',           {templateUrl: './partials/map.html',          controller: MapCtrl}).    
+    when('/ideas/:ideaId',  {templateUrl: './partials/idea-detail.html',  controller: IdeaDetailCtrl}).
+    when('/user/edit',      {templateUrl: './partials/user-form.html',    controller: UserFormCtrl}).
+    when('/user/:userId',   {templateUrl: './partials/user-detail.html',  controller: UserDetailCtrl}).
+    otherwise({redirectTo: '/home'});
+
+    // Don't redirect if we get an oauth message
+    if(window.location.hash.search('(\#oauth)(.*)') == 0) {
+      $routeProvider.otherwise({redirectTo: null});
+    } 
 
     //URL -- Remove # char from url
     //$locationProvider.html5Mode(true);
@@ -20,8 +28,8 @@ var ideasModule = angular.module('ideas-ba', [], function($routeProvider, $locat
 ideasModule.factory('$USER', function() {
   var data = {};
 
-  data.id = 2;
-  data.token = '234234';
+  data.id = 0;
+  data.token = '000000';
   
   data.setUser = function(json){
     data.id = json.id;
@@ -40,7 +48,7 @@ ideasModule.run(function($rootScope,$http) {
   $rootScope.ideaAjaxCall = function (_method,_url,_data,_callback,_callbackError,_contentType) {
 
     var token = SocialAuth.get('ideas-ba-token'), _headers={};
-    token="opensas";
+    token="nouser";
     if (token) {
         _headers["Authorization"] = 'ideas-token='+token;
     }
