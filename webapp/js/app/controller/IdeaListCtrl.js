@@ -35,8 +35,16 @@ function IdeaListCtrl($scope, $routeParams, $http, $location) {
   });
 
   $scope.getIdeas = function() {
-
-    $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'geo?len='+$scope.geoIdeasPerPage+'&page='+$scope.currentPage+'&q=idea.type.id:' + typeId, {},function(json) {
+    var finalEndPoint = SERVICE_ENDPOINT;  //ideas-ba.com.ar/api/geo?q=idea.name:*INCAA*
+    
+    finalEndPoint += 'geo?len='+$scope.geoIdeasPerPage+'&page='+$scope.currentPage+'&q=idea.type.id:' + typeId;
+    
+    if ($routeParams['filter']){
+      finalEndPoint += '&q=idea.name:*' +  $routeParams['filter'] + '*';
+    }
+    
+    
+    $scope.ideaAjaxCall('GET',finalEndPoint, {},function(json) {
       $scope.currentPage++;
       $scope.loadedGeoIdeas += json.length;
      
@@ -99,6 +107,10 @@ function IdeaListCtrl($scope, $routeParams, $http, $location) {
 
     if(typeId) {
       $routeParams['q'] = 'type.id:' + typeId;
+    }
+    
+    if ($routeParams['filter']){
+      // 
     }
 
     $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'ideas?'+ $.param($routeParams),{},function(json) { 

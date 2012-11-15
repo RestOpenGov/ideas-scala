@@ -25,12 +25,35 @@ function HomeCtrl($scope, $routeParams, $http, $USER) {
   });
 
   $scope.init = function() {
+
     $scope.intervalId = setInterval(function(){$scope.getIdeas();},1000);
+    
+    if($routeParams.order == 'newest') {
+      $routeParams.order = 'created desc';
+    }
+    else if($routeParams.order == 'oldest') {
+      $routeParams.order = 'created asc';
+    }
+
+    if ($routeParams['filter']){
+      // 
+    }
+
+    $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'ideas?'+ $.param($routeParams),{},function(json) { 
+      $scope.ideas = json;
+    });
   }
 
   $scope.getIdeas = function() {
-
-    $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'geo?len='+$scope.geoIdeasPerPage+'&page='+$scope.currentPage, {}, function(json) {
+    var finalEndPoint = SERVICE_ENDPOINT;  //ideas-ba.com.ar/api/geo?q=idea.name:*INCAA*
+    
+    finalEndPoint += 'geo?len='+$scope.geoIdeasPerPage+'&page='+$scope.currentPage;
+    
+    if ($routeParams['filter']){
+      finalEndPoint += '&q=idea.name:*' +  $routeParams['filter'] + '*';
+    }
+    
+    $scope.ideaAjaxCall('GET',finalEndPoint, {}, function(json) {
       $scope.currentPage++;
       $scope.loadedGeoIdeas += json.length;
 
@@ -45,8 +68,5 @@ function HomeCtrl($scope, $routeParams, $http, $USER) {
 
   $scope.init();
 
-  $scope.ideaAjaxCall('GET',SERVICE_ENDPOINT+'ideas?len=10&order=created desc', {}, function(json) {
-    $scope.ideas = json;
-  });
 
 }

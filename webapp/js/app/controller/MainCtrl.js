@@ -7,6 +7,17 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
   $scope.user = SocialAuth.getUser();
   $scope.menuLogged = 'includes/menu-loggedoff.html';
 
+  $scope.types = {
+    '/ideas': 1,
+    '/reclamos': 2,
+    '/preguntas': 3,
+    '/sugerencias': 4
+  };
+
+  $scope.typeId = 0;
+
+
+
   $('.authButton').click(function() {
     SocialAuth.authenticate($(this).attr('rel'));
     $(this).html('Cargando...');
@@ -98,11 +109,30 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
   };
 
   $scope.search = function(){
-    if($scope.searchQuery){
-      $location.path("/ideas").search({"filter": $scope.searchQuery});
-    }else{
-      $location.path("/ideas").search();
+    
+    
+    if(typeof $scope.types[$location.path()] != 'undefined') {
+      
+      var Typelocation = $location.path();
+      if($scope.searchQuery){
+        $location.path(Typelocation).search({"filter": $scope.searchQuery});
+      }else{
+        $location.path(Typelocation).search();
+      }
     }
+    else
+    {
+      // search on home()
+        if($scope.searchQuery){
+        $location.path('/home').search({"filter": $scope.searchQuery});
+      }else{
+        $location.path('/home').search();
+      }
+    }
+
+
+
+
     $scope.searchQuery = '';
   };
 
