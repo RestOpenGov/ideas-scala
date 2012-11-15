@@ -14,7 +14,8 @@ var MapHelper = {
       var marker = new google.maps.Marker({
         position: latLng,
         map: map,
-        icon: image
+        icon: image,
+        title: element.name
       });
 
       google.maps.event.addListener(marker, 'click', function() {
