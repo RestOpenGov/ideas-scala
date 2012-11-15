@@ -26,6 +26,7 @@ class DispatcherActor extends Actor {
   private val teatros       = context.actorOf(Props[TeatrosWordlistPlugin],     name = "teatros")
   private val politica      = context.actorOf(Props[PoliticaWordlistPlugin],    name = "politica")
   private val sitios        = context.actorOf(Props[SitiosWordlistPlugin],      name = "sitios")
+  private val hospitales    = context.actorOf(Props[HospitalesWordlistPlugin],  name = "hospitales")
   private val futbol        = context.actorOf(Props[FutbolWordlistPlugin],      name = "futbol")
   private val barrios       = context.actorOf(Props[BarriosWordlistPlugin],     name = "barrios")
   private val comisarias    = context.actorOf(Props[ComisariasWordlistPlugin],  name = "comisarias")
@@ -50,6 +51,7 @@ class DispatcherActor extends Actor {
         teatrosResult     <- teatros ? msg
         politicaResult    <- politica ? msg
         sitiosResult      <- sitios ? msg
+        hospitalesResult  <- hospitales ? msg
         futbolResult      <- futbol ? msg
         barriosResult     <- barrios ? msg
         comisariasResult  <- comisarias ? msg
@@ -60,6 +62,7 @@ class DispatcherActor extends Actor {
         val teatrosTokens      = teatrosResult.asInstanceOf[Seq[Token]]
         val politicaTokens     = politicaResult.asInstanceOf[Seq[Token]]
         val sitiosTokens       = sitiosResult.asInstanceOf[Seq[Token]]
+        val hospitalesTokens   = hospitalesResult.asInstanceOf[Seq[Token]]
         val futbolTokens       = futbolResult.asInstanceOf[Seq[Token]]
         val barriosTokens      = barriosResult.asInstanceOf[Seq[Token]]
         val comisariasTokens   = comisariasResult.asInstanceOf[Seq[Token]]
@@ -71,6 +74,7 @@ class DispatcherActor extends Actor {
           teatrosTokens ++
           politicaTokens ++
           sitiosTokens ++
+          hospitalesTokens ++
           futbolTokens ++
           barriosTokens ++
           comisariasTokens ++
