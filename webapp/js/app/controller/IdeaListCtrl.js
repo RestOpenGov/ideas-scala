@@ -19,7 +19,7 @@ function IdeaListCtrl($scope, $routeParams, $http, $location) {
 
   $scope.currentPage = 1;
   $scope.maxGeoIdeas = 300;
-  $scope.geoIdeasPerPage = 5;
+  $scope.geoIdeasPerPage = 20;
   $scope.loadedGeoIdeas = 0;
   $scope.intervalId = 0;
 
@@ -46,42 +46,6 @@ function IdeaListCtrl($scope, $routeParams, $http, $location) {
 
       MapHelper.mapIdeas(json, $scope.map, $scope.infowindow);
 
-      // angular.forEach(json, function(element, index){
-
-      //   var image = '/img/markers/idea.png'; // default.
-      //   if (typeId === 1) {
-      //     image = '/img/markers/idea.png';
-      //   } else if (typeId === 2) {
-      //     image = '/img/markers/reclamo.png';
-      //   } else if (typeId === 3) {
-      //     image = '/img/markers/pregunta.png';
-      //   } else if (typeId === 4) {
-      //     image = '/img/markers/sugerencia.png';
-      //   }
-
-      //   var latLng = new google.maps.LatLng(element.lat, element.lng);
-      //   var marker = new google.maps.Marker({
-      //     position: latLng,
-      //     map: $scope.map,
-      //     icon: image
-      //   });
-
-      //   google.maps.event.addListener(marker, 'click', function() {
-      //     var info = $scope.infowindow;
-      //     var nameIdea = element.idea.name;
-      //     var ubication = element.name;
-      //     var link = HOST + '/#/ideas/' + element.idea.id;
-
-      //     var message = "";
-      //     message += '<div id="content">';
-      //     message += '<a href="' + link +'"><h5>' + nameIdea + '</h5></a>';
-      //     message += '<p> <b>Ubicaci&oacute;n:</b> ' + ubication + '</p>' ;
-      //     message += '</div>';
-      //     info.setContent(message);
-      //     info.open($scope.map, marker);
-      //   });
-
-      // });
     });
 
   };
