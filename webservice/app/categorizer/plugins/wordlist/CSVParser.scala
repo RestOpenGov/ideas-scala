@@ -65,7 +65,7 @@ object CSVParser {
     val file    = splitCSV(lines(0))(1)
     val line2   = splitCSV(lines(2)).toList.padTo(2, "")
     val tags    = splitComma(line2(1))
-    val tokens  = lines.slice(7, lines.size-1).flatMap { line =>
+    val tokens  = lines.slice(7, lines.size).flatMap { line =>
       csvToSimpleToken(line, locateUsingToken)
     }
     WordlistTokenFile(file, tags, tokens)
@@ -100,27 +100,6 @@ object CSVParser {
       // do not locate
       else
         (None, None)
-
-      //   // address specified
-      //   if 
-      //   else 
-      //   if 
-      //   // address missing
-      //   if (values(ADDRESS) == "") {
-      //     // get address from the token itself (let google handle it)
-      //     if (fromToken) locate(values(TOKEN))
-      //     else (None, None)
-      //   } else {
-
-      //   }
-
-      //   (None, None)
-      //   else {
-      //     GeoHelper.locate(values(5)).map { location =>
-      //       (Some(location._1), Some(location._2))
-      //     }.getOrElse (None, None)
-      //   }
-      // }
     }
 
     val values = splitCSV(line).toList.padTo(6, "")
