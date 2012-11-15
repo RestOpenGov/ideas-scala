@@ -8,7 +8,7 @@ function HomeCtrl($scope, $routeParams, $http, $USER) {
 
   $scope.currentPage = 1;
   $scope.maxGeoIdeas = 300;
-  $scope.geoIdeasPerPage = 5;
+  $scope.geoIdeasPerPage = 20;
   $scope.loadedGeoIdeas = 0;
   $scope.intervalId = 0;
 
