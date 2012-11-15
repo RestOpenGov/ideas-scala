@@ -87,6 +87,6 @@ ideasModule.run(function($rootScope,$http) {
 });
 // var SERVICE_ENDPOINT = "http://ideasba.org/api/";
 var HOST = "http://ideas-ba.com.ar";
-//var HOST = "http://localhost:9000";
+// var HOST = "http://localhost:3001";
 var SERVICE_ENDPOINT = HOST + "/api/";
 // var SERVICE_ENDPOINT = "http://localhost:9000/api/";

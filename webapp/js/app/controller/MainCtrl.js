@@ -99,9 +99,9 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
 
   $scope.search = function(){
     if($scope.searchQuery){
-      $location.path("/ideas/lista").search({"filter": $scope.searchQuery});
+      $location.path("/ideas").search({"filter": $scope.searchQuery});
     }else{
-      $location.path("/ideas/lista").search();
+      $location.path("/ideas").search();
     }
     $scope.searchQuery = '';
   };
