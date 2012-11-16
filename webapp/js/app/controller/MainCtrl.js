@@ -69,11 +69,11 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
     $scope.menuLogged = 'includes/menu-loggedin.html';
   }
 
-  $scope.$on('$viewContentLoaded', function() {
+  if($('#login').length > 0) {
+    SocialAuth.init();
+  }
 
-    if($('#login').length > 0) {
-      SocialAuth.init();
-    }
+  $scope.$on('$viewContentLoaded', function() {
 
     var types = {
       '/ideas': 1,
