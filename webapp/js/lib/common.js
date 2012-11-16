@@ -27,8 +27,6 @@ function resize() {
 
 $(window).bind('resize', resize);
 
-setInterval(resize, 500)
-
 $(function() {
 	resize();
 });

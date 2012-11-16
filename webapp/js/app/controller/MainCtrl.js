@@ -96,7 +96,7 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
       delay: { show: 500, hide: 2000 }
     });
 
-    resize();
+    setTimeout(resize, 1000);
 
   });
   
