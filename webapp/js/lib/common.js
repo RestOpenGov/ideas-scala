@@ -9,7 +9,7 @@ function resize() {
 		
 		var containerHeight = $(this).height();
 		var userinfoheight  = $('.userinfo .box', $(this)).height();
-		var padding = (containerHeight - userinfoheight) / 2;
+		var padding = Math.ceil((containerHeight - userinfoheight) / 2);
 
 		if(width <= 767) {
 			containerHeight = 'auto';
@@ -27,7 +27,7 @@ function resize() {
 
 $(window).bind('resize', resize);
 
-setInterval(resize, 500);
+setInterval(resize, 500)
 
 $(function() {
 	resize();
