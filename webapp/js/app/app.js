@@ -57,14 +57,16 @@ ideasModule.run(function($rootScope,$http) {
 
     $http({method: _method, url: _url, data: _data, headers: _headers})
     .success(
-        function (data, status, headers, config){
-          if(_callback)
-            _callback(data, status, headers, config);  
-        }
+      function (data, status, headers, config){
+        if(_callback)
+          _callback(data, status, headers, config);  
+      }
     )
     .error(
       function (data, status, headers, config){
         var msg = '';
+        // force data as an array, some errors come as a plain error, not an array of errors
+        data = $.isArray(data) ? data : [data];
         angular.forEach(data, function(e, i){
           msg += '<p>'+e.message+'</p>';
         });
