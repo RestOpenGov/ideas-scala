@@ -70,6 +70,9 @@ function IdeaListCtrl($scope, $routeParams, $http, $location) {
     }
     else if($routeParams.order == 'oldest') {
       $routeParams.order = 'created asc';
+    } else {
+      $routeParams.order = 'created desc';
+      //$routeParams.order = 'votes desc';
     }
 
     if(typeId) {
