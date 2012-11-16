@@ -73,6 +73,10 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
     SocialAuth.init();
   }
 
+  $scope.$on('$routeChangeSuccess', function() {
+    setTimeout(resize, 1000);
+  });
+
   $scope.$on('$viewContentLoaded', function() {
 
     var types = {
@@ -95,9 +99,6 @@ function MainCtrl($scope, $routeParams, $http, $location, $USER) {
       trigger : 'hover',
       delay: { show: 500, hide: 2000 }
     });
-
-    setTimeout(resize, 1000);
-
   });
   
   $scope.init = function() {
