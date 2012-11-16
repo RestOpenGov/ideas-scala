@@ -21,7 +21,10 @@ function HomeCtrl($scope, $routeParams, $http, $USER) {
     };
     $scope.map = new google.maps.Map(document.getElementById("ideas_map"), myOptions);
 
-    $scope.infowindow = new google.maps.InfoWindow({ maxWidth: 300 });
+    $scope.infowindow = new google.maps.InfoWindow({ 
+      pixelOffset: new google.maps.Size(0, 25),
+      maxWidth: 300 
+    });
   });
 
   $scope.init = function() {
