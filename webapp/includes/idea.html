@@ -22,7 +22,7 @@
         <div class="span9 postinfo">
           <h6 ng-show="idea.tags.length > 0"><i class="icon-tags" ></i>{{idea.tags.toString()}}</h6> 
           <h6>Fecha: {{ idea.created | date:'dd/MM/yyyy' }}</h6>
-          <p ng-bind-html-unsafe="idea.description"></p>
+          <div class="ideaDescription" ng-bind-html-unsafe="idea.description"></div>
           <h6 ng-show="idea.geos.length > 0"><i class="icon-globe" ></i>  
             <img class="img-rounded" src="http://maps.google.com/maps/api/staticmap?center={{geo.lat}},{{geo.lng}}&amp;zoom=14&amp;size=100x100&amp;maptype=roadmap&amp;mark&amp;markers=color:red%7Ccolor:red%7Clabel:A%7C{{geo.lat}},{{geo.lng}}&amp;sensor=false" ng-repeat="geo in idea.geos"/><span></span>
           </h6> 

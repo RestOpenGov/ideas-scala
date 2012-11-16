@@ -1,7 +1,18 @@
 
+var lastHeight = 0;
+var lastWidth = 0;
+
 function resize() {
 
 	var width = $(window).width();	
+	var height = $(window).height();	
+
+	if((width == lastWidth && lastHeight == height) || $('.well.idea-container').length == 0) {
+		return;
+	} else {
+		lastWidth = width;
+		lastHeight = height;
+	}
 
 	$('.well.idea-container').each(function() { 
 
@@ -13,9 +24,6 @@ function resize() {
 
 		if(width <= 767) {
 			containerHeight = 'auto';
-		}
-
-		if(width < 400 && padding > 100) {
 			padding = 0;
 		}
 
@@ -26,6 +34,8 @@ function resize() {
 }
 
 $(window).bind('resize', resize);
+
+setInterval(resize, 500);
 
 $(function() {
 	resize();

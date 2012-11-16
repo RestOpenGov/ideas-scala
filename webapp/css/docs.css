@@ -513,6 +513,8 @@ textarea {
   height:300px
 }
 
+.ideaDescription { margin: 20px 0 }
+
 .avatar-image-container h4 { font-size:10pt }
 
 .btn-toolbar { margin-top:0 }
