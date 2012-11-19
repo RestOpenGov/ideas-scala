@@ -266,7 +266,7 @@ object User extends EntityCompanion[User] {
       }
     } catch {
       case e: ErrorListException => return Left(e.errors)
-      case e => return Left(List(ValidationError(e.getMessage)))
+      case e: Throwable => return Left(List(ValidationError(e.getMessage)))
     }
   }
 

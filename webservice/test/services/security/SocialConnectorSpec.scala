@@ -22,7 +22,7 @@ class SocialConnectorSpec extends Specification with ErrorSpec {
 
         retrieveSocialProviderInfo(AccessToken("unsupported_provider", "some token")
         ) must throwA[SocialConnectorException].like { 
-          case e => e.getMessage must matching(""".*Invalid social identity provider specified.*""")
+          case e: Throwable => e.getMessage must matching(""".*Invalid social identity provider specified.*""")
         }
 
       }

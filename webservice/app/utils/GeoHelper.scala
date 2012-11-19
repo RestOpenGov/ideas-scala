@@ -52,7 +52,7 @@ object GeoHelper {
         ret
       }
     } catch {
-      case e => {
+      case e: Throwable => {
         Logger.info(e.toString)
         Logger.info("error fetching geo coodinates for '%s' from url '%s'".format(address, url))
         None

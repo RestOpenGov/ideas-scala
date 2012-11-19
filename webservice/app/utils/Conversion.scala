@@ -20,7 +20,7 @@ object Conversion {
     try {
       Some(dateFormat.parse(date))
     } catch {
-      case e => None
+      case e: Throwable => None
     }
   }
 

@@ -48,42 +48,42 @@ class ConditionBuilderSpec extends Specification {
 
       build("finteger=*1*", columnsInfo
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
+        case e: Throwable => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
       }
 
       build("finteger:*1*", columnsInfo
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
+        case e: Throwable => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
       }
 
       build("finteger$1", columnsInfo
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
+        case e: Throwable => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
       }
 
       build("finteger:$1", columnsInfo
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
+        case e: Throwable => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
       }
 
       build("finteger=1*", columnsInfo
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
+        case e: Throwable => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
       }
 
       build("finteger:1*", columnsInfo
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
+        case e: Throwable => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
       }
 
       build("finteger=*1", columnsInfo
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
+        case e: Throwable => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
       }
 
       build("finteger:*1", columnsInfo
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
+        case e: Throwable => e.getMessage must matching(""".*Operator '.*' is only allowed for string fields\..*""")
       }
 
     }
@@ -266,17 +266,17 @@ class ConditionBuilderSpec extends Specification {
     "raise an error when it's expecting a number and no number is passed" in {
       buildSingleCondition(Condition("table.field=10+", "table", "field", false, Equal, List("10+")), Numeric
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must contain("Value '10+' is not a valid number.")
+        case e: Throwable => e.getMessage must contain("Value '10+' is not a valid number.")
       }
 
       buildSingleCondition(Condition("table.field=12..1a5", "table", "field", true, Between, List("12", "1a5")), Numeric
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must contain("Value '1a5' is not a valid number.")
+        case e: Throwable => e.getMessage must contain("Value '1a5' is not a valid number.")
       }
 
       buildSingleCondition(Condition("table.field=12 a 23..15", "table", "field", true, Between, List("12 a 23", "15")), Numeric
       ) must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must contain("Value '12 a 23' is not a valid number.")
+        case e: Throwable => e.getMessage must contain("Value '12 a 23' is not a valid number.")
       }
     }
 

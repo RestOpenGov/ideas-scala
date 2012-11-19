@@ -120,7 +120,7 @@ case class Idea (
         
       } catch {
         case e: ErrorListException => return Left(e.errors)
-        case e => return Left(List(ValidationError(e.getMessage)))
+        case e: Throwable => return Left(List(ValidationError(e.getMessage)))
       }
 
       // need a copy because tags is a lazy VAL, so it won't be recalculated

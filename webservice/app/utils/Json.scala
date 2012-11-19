@@ -14,7 +14,7 @@ object Json {
     try {
       jsValue.as[Option[Long]]
     } catch {
-      case e => None
+      case e: Throwable => None
     }
   }
 

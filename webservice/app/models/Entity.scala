@@ -272,7 +272,7 @@ trait EntityCompanion[A<:Entity] {
         developerMessage  = "%s with id %s deleted".format(entityName, id)
       ))
     } catch {
-      case e => Left(ValidationError(e.getMessage))
+      case e: Throwable => Left(ValidationError(e.getMessage))
     }
   }
 

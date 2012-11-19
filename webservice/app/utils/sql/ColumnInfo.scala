@@ -60,7 +60,7 @@ object ColumnInfo {
       try {
         return ColumnInfo(resultSet.getMetaData)
       } catch {
-        case e => {
+        case e: Throwable => {
           throw new ColumnInfoException(
             "Error fetching column info for table '%s'.".format(tableName), e
           )
@@ -69,7 +69,7 @@ object ColumnInfo {
         resultSet.close
       }
     } catch {
-      case e => {
+      case e: Throwable => {
         throw new ColumnInfoException(
           "Error fetching column info for table '%s'. Couldn't open resultset".format(tableName), e
         )

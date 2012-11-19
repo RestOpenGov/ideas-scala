@@ -43,7 +43,7 @@ class ConditionParserSpec extends Specification {
         .description must equalTo("field should be greater than or equal to value1")
 
       parseSingleCondition("field=..") must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must contain("You have to specify value 'from' or 'to' when using between operator.")
+        case e: Throwable => e.getMessage must contain("You have to specify value 'from' or 'to' when using between operator.")
       }
 
     }
@@ -119,11 +119,11 @@ class ConditionParserSpec extends Specification {
 
     "throw and exception if no field is defined" in {
       parseSingleCondition("=value") must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must contain("No field specified")
+        case e: Throwable => e.getMessage must contain("No field specified")
       }
 
       parseSingleCondition("field=") must throwA[InvalidQueryConditionException].like {
-        case e => e.getMessage must contain("No value specified")
+        case e: Throwable => e.getMessage must contain("No value specified")
       }
     }
 
