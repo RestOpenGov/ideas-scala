@@ -107,7 +107,7 @@ DELETE  /api/identities/:id                controllers.Identities.delete(id: Lon
 #DELETE  /api/types/:id                     controllers.CrudIdeaTypes.delete(id: Long)
 
 GET     /api/tags                          controllers.Tags.list
-#GET     /api/tags/count                    controllers.Tags.count
+GET     /api/tags/count                    controllers.Tags.count
 PUT     /api/tags/:id                      controllers.Tags.update(id: Long)
 POST    /api/tags                          controllers.Tags.save
 GET     /api/tags/:id                      controllers.Tags.show(id: Long)
