@@ -56,7 +56,7 @@ class IdeaSpec extends Specification {
         val Some(idea) = Idea.findById(1)
 
         val tags = idea.tags
-        tags mustEqual List("internet", "tecnología")
+        tags mustEqual List("internet", "tecnologia")
         val tagsCount = Tag.count
 
         // keep 1 tag (Internet), remove 1 tag (teconologia), add 1 tag (multas), create 2 tags(new_tag, another_new_tag)

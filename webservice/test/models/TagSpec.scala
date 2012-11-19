@@ -20,7 +20,7 @@ class TagSpec extends Specification with ErrorSpec {
         val Some(tag) = Tag.findById(1)
 
         tag must not be none
-        tag.name must equalTo("tecnología")
+        tag.name must equalTo("tecnologia")
         tag.description must equalTo("Informática, tecnología y nuevas tendencias")
 
         Tag.findById(5000) must be none //equalTo(None)
@@ -47,8 +47,8 @@ class TagSpec extends Specification with ErrorSpec {
         val ordered = Tag.find(order = "name desc")
 
         ordered.size must equalTo(9)
-        ordered(0).name must equalTo("trámites")
-        ordered(6).name must equalTo("cultura")
+        ordered(0).name must equalTo("transporte")
+        ordered(8).name must equalTo("bicisendas")
       }
     }
 

@@ -21,7 +21,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
 
         tags.size must equalTo(2)
         tags(0).name must equalTo("internet")
-        tags(1).name must equalTo("tecnología")
+        tags(1).name must equalTo("tecnologia")
       }
     }
 
@@ -41,7 +41,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
     "should retrieve a list of tag names for the idea" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("internet", "tecnologia"))
 
       }
     }
@@ -63,20 +63,20 @@ class IdeaTagSpec extends Specification with ErrorSpec {
         Idea.findById(1).get.tags must equalTo(List())
 
         // add internet and tecnologia initial tags
-        Idea.findById(1).get.updateTags(List("internet", "tecnología")) must beRight
-        Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
+        Idea.findById(1).get.updateTags(List("internet", "tecnologia")) must beRight
+        Idea.findById(1).get.tags must equalTo(List("internet", "tecnologia"))
 
         // remove internet, add bicisendas, keep tecnologia
-        Idea.findById(1).get.updateTags(List("tecnología", "bicisendas")) must beRight
-        Idea.findById(1).get.tags must equalTo(List("bicisendas", "tecnología"))
+        Idea.findById(1).get.updateTags(List("tecnologia", "bicisendas")) must beRight
+        Idea.findById(1).get.tags must equalTo(List("bicisendas", "tecnologia"))
 
         // test creating a new tag
         val origCount = Tag.count
 
         Tag.findByName("new tag") must be none
 
-        Idea.findById(1).get.updateTags(List("tecnología", "bicisendas", "new tag")) must beRight
-        Idea.findById(1).get.tags must equalTo(List("bicisendas", "new tag", "tecnología"))
+        Idea.findById(1).get.updateTags(List("tecnologia", "bicisendas", "new tag")) must beRight
+        Idea.findById(1).get.tags must equalTo(List("bicisendas", "new tag", "tecnologia"))
 
         Tag.count must equalTo(origCount + 1)
         Tag.findByName("new tag") must not be none
@@ -91,8 +91,8 @@ class IdeaTagSpec extends Specification with ErrorSpec {
         val origCount = Tag.count
         Tag.findByName("new tag") must be none
 
-        Idea.findById(1).get.updateTags(List("internet", "tecnología", "new tag")) must beRight
-        Idea.findById(1).get.tags must equalTo(List("internet", "new tag", "tecnología"))
+        Idea.findById(1).get.updateTags(List("internet", "tecnologia", "new tag")) must beRight
+        Idea.findById(1).get.tags must equalTo(List("internet", "new tag", "tecnologia"))
 
         Tag.count must equalTo(origCount + 1)
         Tag.findByName("new tag") must not be none
@@ -107,11 +107,11 @@ class IdeaTagSpec extends Specification with ErrorSpec {
         val origCount = Tag.count
         Tag.findByName("new tag") must be none
         
-        Idea.findById(1).get.updateTags(List("internet", "tecnología")) 
-        Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
+        Idea.findById(1).get.updateTags(List("internet", "tecnologia")) 
+        Idea.findById(1).get.tags must equalTo(List("internet", "tecnologia"))
 
         (
-          Idea.findById(1).get.updateTags(List("internet", "tecnología", "new tag")) 
+          Idea.findById(1).get.updateTags(List("internet", "tecnologia", "new tag")) 
           must haveError.like {
             case error => {
               error.errorCode must equalTo(Error.PERMISSION)
@@ -120,7 +120,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
             }
           }
         )
-        Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("internet", "tecnologia"))
 
         Tag.count must equalTo(origCount)
         Tag.findByName("new tag") must be none
@@ -131,11 +131,11 @@ class IdeaTagSpec extends Specification with ErrorSpec {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         // add internet and tecnologia initial tags
-        Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("internet", "tecnologia"))
 
         // remove internet
         Idea.findById(1).get.deleteTag("internet") must beRight
-        Idea.findById(1).get.tags must equalTo(List("tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("tecnologia"))
 
         // prevent removing a tag that is not associated with the idea
 
@@ -149,7 +149,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
             }
           }
         )
-        Idea.findById(1).get.tags must equalTo(List("tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("tecnologia"))
 
       }
     }
@@ -160,11 +160,11 @@ class IdeaTagSpec extends Specification with ErrorSpec {
         implicit val Some(user) = User.findById(1)
 
         // add internet and tecnologia initial tags
-        Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("internet", "tecnologia"))
 
         // remove internet, add bicisendas, keep tecnologia
         Idea.findById(1).get.saveTag("bicisendas") must beRight
-        Idea.findById(1).get.tags must equalTo(List("bicisendas", "internet", "tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("bicisendas", "internet", "tecnologia"))
 
         // duplicate tag
         (
@@ -186,13 +186,13 @@ class IdeaTagSpec extends Specification with ErrorSpec {
 
         implicit val Some(user) = User.findById(2)
 
-        Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("internet", "tecnologia"))
 
         val origCount = Tag.count
         Tag.findByName("new tag") must be none
 
         Idea.findById(1).get.saveTag("new tag") must beRight
-        Idea.findById(1).get.tags must equalTo(List("internet", "new tag", "tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("internet", "new tag", "tecnologia"))
 
         Tag.count must equalTo(origCount + 1)
         Tag.findByName("new tag") must not be none
@@ -204,7 +204,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
 
         implicit val Some(user) = User.findById(1)
 
-        Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("internet", "tecnologia"))
 
         val origCount = Tag.count
         Tag.findByName("new tag") must be none
@@ -219,7 +219,7 @@ class IdeaTagSpec extends Specification with ErrorSpec {
             }
           }
         )
-        Idea.findById(1).get.tags must equalTo(List("internet", "tecnología"))
+        Idea.findById(1).get.tags must equalTo(List("internet", "tecnologia"))
 
         Tag.count must equalTo(origCount)
         Tag.findByName("new tag") must be none
