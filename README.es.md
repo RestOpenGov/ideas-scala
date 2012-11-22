@@ -41,10 +41,6 @@ Para comenzar a jugar con el front-end de Ideas-ba, puedes leer el [Archivo READ
 
 Este software es distribuído bajo la licencia Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
 
-## License
-
-This software is distributed under the Apache 2.0 license: http://www.apache.org/licenses/LICENSE-2.0
-
-ideasBA es software libre: puede redistribuirlo y?o modificarlo según los términos de la licencia Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ideasBA es software libre: puede redistribuirlo y/o modificarlo según los términos de la licencia Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
 
 ideasBA se distribuye con la esperanza de que resulte de utilidad, pero SIN NINGÚN TIPO DE GARANTÍA.
