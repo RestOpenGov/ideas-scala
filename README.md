@@ -20,7 +20,7 @@ It is a [RESTFul](http://en.wikipedia.org/wiki/Representational_state_transfer) 
 
 The api will allow you to access all the functionality of Ideas-ba application, like submitting and updating, adding comments, voting, etc.
 
-The web service is up and running on [OpenShift](https://openshift.redhat.com), so that you can start playing with it right from the cloud, without installing it locally. You can find it at http://ideas-jugar.rhcloud.com/api
+The web service is up and running on [OpenShift](https://openshift.redhat.com), so that you can start playing with it right from the cloud, without installing it locally. You can find it at http://ideas-ba.com.ar/api
 
 If you want to have a look at the code and get your hands dirty, be sure to read the [README file](https://github.com/RestOpenGov/ideas-ba/blob/master/webservice/README.md)
 
@@ -34,6 +34,8 @@ It accesses the ideas-ba data exclusively using the rest web service.
 You can install the web service locally (check the [README file](https://github.com/RestOpenGov/ideas-ba/blob/master/webservice/README.md)) or you can just point it at https://github.com/RestOpenGov/ideas-ba/tree/master/webservice. Because the front-end is exclusively a client-side application, you can run it without even installing a local web server. Opening the index.html from the file system should be enough to get you up an running.
 
 To start playing with the front-end be sure to read the [README file](https://github.com/RestOpenGov/ideas-ba/blob/master/webapp/README.md).
+
+You can also start using the application, and publishing your ideas, at [ideas-ba.com.ar](http://ideas-ba.com.ar)
 
 ## License
 
