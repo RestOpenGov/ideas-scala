@@ -39,11 +39,8 @@ Para comenzar a jugar con el front-end de Ideas-ba, puedes leer el [Archivo READ
 
 ## Licencia
 
-Este software es distribuído bajo la licencia GPL v3: http://www.gnu.org/licenses/gpl.html
+Este software es distribuído bajo la licencia Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
 
-ideasBA is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ideasBA es software libre: puede redistribuirlo y/o modificarlo según los términos de la licencia Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
 
-ideasBA is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with ideasBA.  If not, see <http://www.gnu.org/licenses/>.
+ideasBA se distribuye con la esperanza de que resulte de utilidad, pero SIN NINGÚN TIPO DE GARANTÍA.
