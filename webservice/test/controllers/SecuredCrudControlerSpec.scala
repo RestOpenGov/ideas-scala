@@ -37,7 +37,8 @@ class SecuredCrudControllerSpec extends Specification {
   
     error.errorCode mustEqual Error.AUTHENTICATION
     error.field mustEqual "applicationToken"
-    error.message must contain("Token not found")
+    error.message must contain("iniciar sesión")
+    // error.message must contain("Token not found")
   }
 
   "Controllers using CrudActions (SecuredIdeaTypes)" should {

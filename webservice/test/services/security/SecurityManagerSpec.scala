@@ -50,20 +50,33 @@ class SecurityManagerSpec extends Specification with ErrorSpec {
 
     }
 
-    "return an error if the user already exists" in {
+    "create a user with the next available nickname when trying to create a token and a user with the same nickname already exists" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
-        models.User(nickname = "twitter.nickname").save must beRight
+        import models.{User, Identity}
+
+        // create a user with the nicjname twitter.nickname
+        User(nickname = "twitter.nickname").save must beRight
+
+        val usersBefore = User.count
+        val identitiesBefore = Identity.count
 
         implicit val socialAdapter = List(MockTwitterAdapter, MockFacebookAdapter)
 
-        createApplicationToken(AccessToken("twitter", "valid mock twitter token")) must haveError.like { 
-          case error => {
-            error.errorCode must equalTo(Error.DUPLICATE)
-            error.field must equalTo("nickname")
-            error.message must contain("Ya existe un usuario")
-          }
-        }
+        val Right(token) = createApplicationToken(AccessToken("twitter", "valid mock twitter token"))
+
+        // get the newly created using the the application token
+        val Some(newUser) = User.findByApplicationToken(token.token)
+
+        // check that the user has the next available nickname
+        newUser.nickname must equalTo("twitter.nickname1")
+
+        User.count must equalTo(usersBefore + 1)
+        Identity.count must equalTo(identitiesBefore + 1)
+
+        val newIdentity = Identity.find(q = "user_id:%s".format(newUser.id.get))
+
+        newIdentity.size must equalTo(1)
       }
     }
 

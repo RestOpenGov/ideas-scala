@@ -86,18 +86,26 @@ class UserSecuritySpec extends Specification with ErrorSpec {
       }
     }
 
-    "return an error if it has to create a user but another user with the same nickname exists" in {
+    "create a user with the next available nickname when another user with the same nickname exists" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
+        // create the user
         User(nickname = providerInfo.nickname).save must beRight
 
-        User.findOrCreateFromProviderInfo(providerInfo) must haveError.like { 
-          case error => {
-            error.errorCode must equalTo(Error.DUPLICATE)
-            error.field must equalTo("nickname")
-            error.message must contain("Ya existe un usuario")
-          }
-        }
+        val usersBefore = User.count
+        val identitiesBefore = Identity.count
+
+        val Right(newUser) = User.createFromProviderInfo(providerInfo)
+        newUser.name must equalTo(providerInfo.name)        // new name
+        newUser.nickname must equalTo(providerInfo.nickname + "1")      // same nickname
+
+        User.count must equalTo(usersBefore + 1)
+        Identity.count must equalTo(identitiesBefore + 1)
+
+        val newIdentity = Identity.find(q = "user_id:%s".format(newUser.id.get))
+
+        newIdentity.size must equalTo(1)
+
       }
     }
 
@@ -131,7 +139,7 @@ class UserSecuritySpec extends Specification with ErrorSpec {
       }
     }
 
-    "return an error when trying to create an already existing user" in {
+    "create a user with the next available name when trying to create an already existing user" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
 
         // create the user
@@ -140,16 +148,16 @@ class UserSecuritySpec extends Specification with ErrorSpec {
         val usersBefore = User.count
         val identitiesBefore = Identity.count
 
-        User.createFromProviderInfo(providerInfo) must haveError.like {
-          case error => {
-            error.errorCode must equalTo(Error.DUPLICATE)
-            error.field must equalTo("name")
-            error.message must contain("""Ya existe un usuario""")
-          }
-        }
+        val Right(newUser) = User.createFromProviderInfo(providerInfo)
+        newUser.nickname must equalTo(providerInfo.nickname)      // same nickname
+        newUser.name must equalTo(providerInfo.name + "1")        // new name
 
-        User.count must equalTo(usersBefore)
-        Identity.count must equalTo(identitiesBefore)
+        User.count must equalTo(usersBefore + 1)
+        Identity.count must equalTo(identitiesBefore + 1)
+
+        val newIdentity = Identity.find(q = "user_id:%s".format(newUser.id.get))
+
+        newIdentity.size must equalTo(1)
 
       }
     }

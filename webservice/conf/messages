@@ -2,6 +2,8 @@ hello=Hola!
 welcome=Bienvenido al {0}
 home.title=Backend de Ideas-ba
 
+authentication.tokenNotFound=Tenés que iniciar sesión para votar, proponer tus ideas o agregar comentarios
+
 user=usuario
 user.name=nombre
 user.nickname=sobrenombre

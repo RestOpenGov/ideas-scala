@@ -2,6 +2,8 @@ hello=Hi!
 welcome=Welcome to {0}
 home.title=Ideas-ba backend
 
+authentication.tokenNotFound=Token not found in authentication header nor in ideas-token querystring param
+
 user=user
 user.name=name
 user.nickname=nickname
@@ -22,11 +24,13 @@ vote.userId=author
 vote.validate.voteType=Invalid vote type specified. Valid values: {0}.
 vote.validate.noIdeaNorComment=No idea nor comment specified.
 vote.validate.ideaAndComment=Idea and comment specified, you can only vote for one of them.
-vote.validate.alreadyVoted=You've already voted for that idea or comment!
-vote.validate.yourOwnIdeaUp=Be more humble! You can't vote your own idea
-vote.validate.yourOwnIdeaDown=Don't you like your own idea? You can't vote your own idea
-vote.validate.yourOwnCommentUp=Be more humble! You can't vote your own comment
-vote.validate.yourOwnCommentDown=Don't you like your own comment? You can't vote your own comment
+vote.validate.alreadyVoted=You''ve already voted for that idea or comment!
+
+vote.validate.yourOwnIdeaUp=Be more humble! You can''t vote your own idea
+vote.validate.yourOwnIdeaDown=Don''t you like your own idea? You can''t vote your own idea
+
+vote.validate.yourOwnCommentUp=Be more humble! You can''t vote your own comment
+vote.validate.yourOwnCommentDown=Don't you like your own comment? You can''t vote your own comment
 
 validate.empty={0} not specified.
 validate.duplicate=There already exists a {0} with the {1} "{2}".

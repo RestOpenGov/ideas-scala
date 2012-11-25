@@ -76,7 +76,12 @@ object SecurityManager {
     }
   }
 
-  def validateUserFromRequest[A](request: Request[A]): Either[List[Error], User] = {
+import play.api.i18n.Lang
+
+  def validateUserFromRequest[A]
+  (request: Request[A])
+  (implicit lang: Lang)
+  : Either[List[Error], User] = {
     applicationTokenFromRequest(request).map { applicationToken =>
       SecurityManager.findUserByApplicationToken(applicationToken)
     } getOrElse {

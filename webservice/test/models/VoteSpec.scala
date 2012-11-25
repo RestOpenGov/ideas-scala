@@ -1,5 +1,7 @@
 package test.models
 
+import play.api.i18n.Lang
+
 import org.specs2.mutable._
 import org.specs2.mutable.After
 
@@ -13,6 +15,8 @@ class VoteSpec extends Specification with ErrorSpec {
   import models.{Vote, VoteCounter, User, Idea, Comment, Error}
 
   "Vote" should {
+
+    implicit val lang = Lang("en")
 
     "allow a user to vote up an idea" in {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
@@ -54,6 +58,7 @@ class VoteSpec extends Specification with ErrorSpec {
           case error => {
             error.errorCode must equalTo(Error.BUSINESS_RULE)
             error.field must equalTo("author")
+            // error.message must contain("No podés votar por tu propia idea")
             error.message must contain("can't vote your own idea")
           }
         }
@@ -75,7 +80,8 @@ class VoteSpec extends Specification with ErrorSpec {
           case error => {
             error.errorCode must equalTo(Error.BUSINESS_RULE)
             error.field must equalTo("author")
-            error.message must contain("already voted up")
+            // error.message must contain("Ya ha votado por esa idea o comentario")
+            error.message must contain("already voted")
           }
         }
 
@@ -145,6 +151,7 @@ class VoteSpec extends Specification with ErrorSpec {
           case error => {
             error.errorCode must equalTo(Error.BUSINESS_RULE)
             error.field must equalTo("author")
+            // error.message must contain(" No podés votar por tu propio comentario")
             error.message must contain("can't vote your own comment")
           }
         }
@@ -166,7 +173,8 @@ class VoteSpec extends Specification with ErrorSpec {
           case error => {
             error.errorCode must equalTo(Error.BUSINESS_RULE)
             error.field must equalTo("author")
-            error.message must contain("already voted up")
+            // error.message must contain("Ya ha votado por esa idea o comentario")
+            error.message must contain("already voted")
           }
         }
 
