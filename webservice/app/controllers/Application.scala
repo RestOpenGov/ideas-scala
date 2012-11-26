@@ -11,6 +11,7 @@ object Application extends Controller {
   // }
 
   def api = Action { implicit request =>
+    // println(play.api.i18n.Messages("hello"))
     Ok(views.html.api())
   }
 

@@ -4,6 +4,10 @@ home.title=Ideas-ba backend
 
 authentication.tokenNotFound=Token not found in authentication header nor in ideas-token querystring param
 
+authentication.tokenExpired=Token expired
+
+authentication.invalidApplicationToken=Invalid application token
+
 user=user
 user.name=name
 user.nickname=nickname

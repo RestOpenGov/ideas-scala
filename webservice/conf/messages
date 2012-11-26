@@ -4,6 +4,10 @@ home.title=Backend de Ideas-ba
 
 authentication.tokenNotFound=Tenés que iniciar sesión para votar, proponer tus ideas o agregar comentarios
 
+authentication.tokenExpired=El token de aplicación ha expirado
+
+authentication.invalidApplicationToken=El token de aplicación es inválido
+
 user=usuario
 user.name=nombre
 user.nickname=sobrenombre

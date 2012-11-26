@@ -7,11 +7,20 @@ import models.Error
 import models.User
 import models.ValidationError
 
+import play.api.i18n.{Lang, Messages}
+
 import adapters.SocialAdapter
 
 import play.api.mvc.{Request, AnyContent}
+import utils.Validate.&
+
+import play.api.mvc.RequestHeader
 
 object SecurityManager {
+
+  import utils.I18n.langFromRequest
+
+  // implicit def lang(implicit request: RequestHeader): Lang = langFromRequest(request)
 
   // token duration, expressed in seconds
   val APPLICATION_TOKEN_MAX_AGE = 60 * 60 * 2       // 2 hours
@@ -40,15 +49,21 @@ object SecurityManager {
     )
   }
 
-  def findUserByApplicationToken(applicationToken: String): Either[List[Error], User] = {
+  def findUserByApplicationToken(applicationToken: String)(implicit lang: Lang): Either[List[Error], User] = {
     User.findByApplicationToken(applicationToken).map { user =>
       val now = new Date()
       if (now.after(user.tokenExpiration)) {
-        Left(List(ValidationError(Error.AUTHENTICATION, "applicationToken", "Token expired")))
+        Left(List(ValidationError(
+          Error.AUTHENTICATION, "applicationToken", &("authentication.tokenExpired")
+        )))
       } else {
         Right(user)
       }
-    }.getOrElse   (Left(List(ValidationError(Error.NOT_FOUND, "applicationToken", "Invalid application token"))))
+    }.getOrElse (
+      Left(List(ValidationError(
+        Error.NOT_FOUND, "applicationToken", &("authentication.invalidApplicationToken")
+      )))
+    )
   }
 
   def retrieveProviderInfo(accessToken: AccessToken)
@@ -76,19 +91,13 @@ object SecurityManager {
     }
   }
 
-import play.api.i18n.Lang
+  def validateUserFromRequest[A](request: Request[A])(implicit lang: Lang): Either[List[Error], User] = {
 
-  def validateUserFromRequest[A]
-  (request: Request[A])
-  (implicit lang: Lang)
-  : Either[List[Error], User] = {
     applicationTokenFromRequest(request).map { applicationToken =>
       SecurityManager.findUserByApplicationToken(applicationToken)
     } getOrElse {
       Left(List(ValidationError(
-        Error.AUTHENTICATION, "applicationToken", 
-        // "Token not found in authentication header nor in ideas-token querystring param"
-        "Tenés que iniciar sesión para votar, proponer tus ideas o agregar comentarios"
+        Error.AUTHENTICATION, "applicationToken", &("authentication.tokenNotFound")
       )))
     }
   }

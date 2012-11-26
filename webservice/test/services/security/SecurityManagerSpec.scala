@@ -148,6 +148,8 @@ class SecurityManagerSpec extends Specification with ErrorSpec {
 
   "SecurityManager.findUserByApplicationToken" should {
 
+    implicit val lang = play.api.i18n.Lang("en")
+
     import services.security.ApplicationToken
 
     "return an error there's no user with that application token" in {
@@ -155,9 +157,10 @@ class SecurityManagerSpec extends Specification with ErrorSpec {
 
         findUserByApplicationToken("made up token") must haveError.like {
           case error => {
+            println(error)
             error.errorCode must equalTo(Error.NOT_FOUND)
             error.field must equalTo("applicationToken")
-            error.message must contain("""Invalid application token""")
+            error.message must contain("Invalid application token")
           }
         }
 
@@ -183,7 +186,7 @@ class SecurityManagerSpec extends Specification with ErrorSpec {
           case error => {
             error.errorCode must equalTo(Error.AUTHENTICATION)
             error.field must equalTo("applicationToken")
-            error.message must contain("""Token expired""")
+            error.message must contain("Token expired")
           }
         }
       }

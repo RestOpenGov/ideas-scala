@@ -13,6 +13,8 @@ import utils.JsonBadRequest
 import JSONAuthAction.RequestWithUser
 import JSONAuthAction.{fromRequest, withErr, parseWithErr}
 
+import play.api.i18n.Lang
+
 object CrudAuthAction extends BodyParsers {
 
   def list[T: Writes](block: RequestWithUser[AnyContent] => T): Action[AnyContent] = {

@@ -1,6 +1,15 @@
 package utils
 
+import play.api.mvc.RequestHeader
+import play.api.i18n.Lang
+
 object I18n {
+
+  implicit def langFromRequest(implicit request: RequestHeader): Lang = {
+    play.api.Play.maybeApplication.map { implicit app =>
+      Lang.preferred(request.acceptLanguages)
+    }.getOrElse(request.acceptLanguages.headOption.getOrElse(Lang.defaultLang))
+  }
 
   // val recognizer: LangRecognizer = CategorizerLangRecognizer
   val recognizer: LangRecognizer = DetectorLangRecognizer

@@ -15,6 +15,8 @@ import services.security.SecurityManager.validateUserFromRequest
 
 object JSONAuthAction extends BodyParsers {
 
+  import utils.I18n.langFromRequest
+
   class RequestWithUser[A](val user: User, val request: Request[A]) extends WrappedRequest(request)
 
   // helper function to create a result with a custom status
@@ -24,7 +26,8 @@ object JSONAuthAction extends BodyParsers {
 
   // passes the request to the block
   def fromRequest[T: Writes](status: Int)(block: RequestWithUser[AnyContent] => T): Action[AnyContent] = {
-    CORSAction { request =>
+
+    CORSAction { implicit request =>
       validateUserFromRequest(request).fold(
         errors  => JsonUnauthorized(errors),
         user    => {
@@ -38,7 +41,7 @@ object JSONAuthAction extends BodyParsers {
   def withErr[E: Writes, T: Writes](statusOk: Int, statusErr: Int)     // Status.OK
     (block: RequestWithUser[AnyContent] => Either[E, T]): Action[AnyContent] = {
 
-    CORSAction { request =>
+    CORSAction { implicit request =>
       validateUserFromRequest(request).fold(
         errors  => JsonUnauthorized(errors),
         user    => {
@@ -55,7 +58,8 @@ object JSONAuthAction extends BodyParsers {
   def parseWithErr[E: Writes, T: Format](statusOk: Int, statusErr: Int)     // Status.OK
     (block: (RequestWithUser[JsValue], T) => Either[E, T]): Action[JsValue] = {
 
-    CORSAction(parse.json) { request =>
+    CORSAction(parse.json) { implicit request =>
+
       validateUserFromRequest(request).fold(
         errors  => JsonUnauthorized(errors),
         user    => {
