@@ -37,6 +37,14 @@ tramites via web
 
 alta de delegacion
 
+Servidor de Nombre Primario:
+212.36.74.129   ns1.cdmon.net 
+46.16.60.60     ns2.cdmon.net 
+
+Servidor de Nombre Alternativo:
+95.211.8.207    ns3.cdmon.net
+
+
 Seleccione el Proveedor de Servicios de Internet (ISP)
 10dencehispahard SL
 10dencehispahard SL
@@ -53,6 +61,9 @@ rhc domain show -l sscarano@gmail.com
 rhc app add-alias -a ideas --alias www.ideas-ba.com.ar -l sscarano@gmail.com -p xxxx
 
 rhc app add-alias -a ideas --alias ideas-ba.com.ar -l sscarano@gmail.com -p xxxx
+
+rhc alias add presentation www.cloudlibre.com.ar -l opensas@gmail.com
+rhc alias add presentation cloudlibre.com.ar -l opensas@gmail.com
 
 ideas @ http://ideas-jugar.rhcloud.com/
 =======================================
