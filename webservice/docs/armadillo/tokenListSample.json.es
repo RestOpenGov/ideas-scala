@@ -3,7 +3,11 @@ tokens: [
   {
     token: 'lunes',
     alias: ['lun', 'lune'],
-    tags: ['dia de la semana']
+    tags: ['dia de la semana'],
+    geo: {
+      lat: 15.34,
+      long: 45.23
+    }
   },
   {
     token: 'martes',

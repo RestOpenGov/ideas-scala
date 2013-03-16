@@ -52,6 +52,8 @@ function IdeaDetailCtrl($scope, $routeParams, $http, $USER) {
         $('#commentText').val('');
         $scope.comments.push(json);
         $scope.commentedMark = true;
+      },function(data, status, headers, config) {
+          alert('Ocurrió un error al querer dar de alta el comentario. Por favor intenta nuevamente.');
       });
     }
   };

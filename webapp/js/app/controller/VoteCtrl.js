@@ -59,7 +59,19 @@ function VoteCtrl($scope, $routeParams, $http, $USER) {
           };
             
         },function(data, status, headers, config) {
-           
+            var error = true;
+
+            angular.forEach(data, function(e, i){
+              if(e.errorCode == 1006) {
+                alert('Por favor iniciá sesión para subir tu idea.');
+                error = false;
+                break;
+              }
+            });
+
+            if(!error) {
+              alert('Ocurrió un error al querer votar. Por favor intenta nuevamente.');
+            }
         });
       }
 
