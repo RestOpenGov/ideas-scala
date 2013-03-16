@@ -1,11 +1,11 @@
-/*globals $,_*/
+/*globals $,_, angular, alert, SERVICE_ENDPOINT*/
 'use strict';
 function VoteCtrl($scope, $routeParams, $http, $USER) {
 
     $scope.init = function(){
       //do nothing
-    }
-  
+    };
+
     $scope.votePositive = function(){
 
       // Call Rest Post method
@@ -23,9 +23,9 @@ function VoteCtrl($scope, $routeParams, $http, $USER) {
 
     $scope.isIdea= function(){
       // if the entity selected was and a idea, there is no comment set.
-      return ($scope.comment === undefined) 
+      return ($scope.comment === undefined);
     };
-    
+
     // Vote main function
     $scope.vote = function(action){
       var url,type;
@@ -43,11 +43,11 @@ function VoteCtrl($scope, $routeParams, $http, $USER) {
         case 'idea':
           url = $scope.idea.id + '/' + action;
         break;
-      };
+      }
 
       if(url){
         var data = {author: {id: $USER.getId()} };
-        $scope.ideaAjaxCall('PUT',SERVICE_ENDPOINT + 'ideas/'+ url,data,function(json) {       
+        $scope.ideaAjaxCall('PUT',SERVICE_ENDPOINT + 'ideas/'+ url,data,function(json) {
 
           switch(type){
             case 'comment':
@@ -56,27 +56,26 @@ function VoteCtrl($scope, $routeParams, $http, $USER) {
             case 'idea':
               $scope.idea.votes = json.votes;
             break;
-          };
-            
+          }
+
         },function(data, status, headers, config) {
-            var error = true;
+          var errorMessage = 'Ocurrió un error al querer votar. Por favor intenta nuevamente.',
+              keepGoing = true;
 
-            angular.forEach(data, function(e, i){
+          angular.forEach(data, function(e, i) {
+            if (keepGoing) {
               if(e.errorCode == 1006) {
-                alert('Por favor iniciá sesión para subir tu idea.');
-                error = false;
-                break;
+                errorMessage = 'Por favor iniciá sesión para subir tu idea.';
+                keepGoing = false;
               }
-            });
-
-            if(!error) {
-              alert('Ocurrió un error al querer votar. Por favor intenta nuevamente.');
             }
+            alert(errorMessage);
+          });
         });
       }
 
     };
 
     $scope.init();
-    
+
 };

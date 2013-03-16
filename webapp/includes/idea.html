@@ -3,13 +3,13 @@
   <div class="row-fluid">
 
     <div class="span9 idea">
-      
+
       <div class="row-fluid">
         <div class="idea-header span3">
           <a class="label label-{{idea.type.name}}" href="/#/{{idea.type.name}}s">{{idea.type.name}}</a>
         </div>
         <div class="idea-header span9">
-          <h3><a href="/#/ideas/{{idea.id}}">{{idea.name}}</a></h3> 
+          <h3><a href="/#/ideas/{{idea.id}}">{{idea.name}}</a></h3>
         </div>
       </div>
 
@@ -20,12 +20,12 @@
         </div>
 
         <div class="span9 postinfo">
-          <h6 ng-show="idea.tags.length > 0"><i class="icon-tags" ></i>{{idea.tags.toString()}}</h6> 
+          <h6 ng-show="idea.tags.length > 0"><i class="icon-tags" ></i>{{idea.tags.toString()}}</h6>
           <h6>Fecha: {{ idea.created | date:'dd/MM/yyyy' }}</h6>
           <div class="ideaDescription" ng-bind-html-unsafe="idea.description"></div>
-          <h6 ng-show="idea.geos.length > 0"><i class="icon-globe" ></i>  
+          <h6 ng-show="idea.geos.length > 0"><i class="icon-globe" ></i>
             <img class="img-rounded" src="http://maps.google.com/maps/api/staticmap?center={{geo.lat}},{{geo.lng}}&amp;zoom=14&amp;size=100x100&amp;maptype=roadmap&amp;mark&amp;markers=color:red%7Ccolor:red%7Clabel:A%7C{{geo.lat}},{{geo.lng}}&amp;sensor=false" ng-repeat="geo in idea.geos"/><span></span>
-          </h6> 
+          </h6>
         </div>
 
       </div>
@@ -40,7 +40,7 @@
             <span class="avatar-container">
               <img class="avatar-image img-rounded" ng-src="{{idea.author.avatar}}" />
             </span>
-          </a>  
+          </a>
         </div>
         <div class="span6 avatar-image-container">
           <h4><a href="/#/user/{{idea.author.id}}">{{idea.author.name}}</a></h4>
